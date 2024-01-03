@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Mergeable : MonoBehaviour
+public abstract class Mergeable : Draggable
 {
     //해당 오브젝트의 단계. 초기 단계 - 0 / 2 단계 - 1 / 3단계 - 2 ...
     public int level;
@@ -21,39 +21,40 @@ public abstract class Mergeable : MonoBehaviour
     }
     
     // 실제로 합쳤을 때 실행될 메소드
-    private void OnMergeEnter()
+    private void OnMergeEnter(GameObject t1, GameObject t2)
     {
         initCheck();
-        OnMerge();
+        OnMerge(t1, t2);
     }
 
     // 합쳤을 때 동작할 내용 구현
-    protected abstract void OnMerge();
+    protected abstract void OnMerge(GameObject t1, GameObject t2);
 
-    public void OnMouseUp()
+    public virtual void OnMouseUp()
     {
-        var arr = new Collider2D[50];
-        if (Physics2D.OverlapCircleNonAlloc(transform.position, 1f, arr) > 0) 
-            foreach (var v in arr)
+        foreach (var v in Physics.OverlapSphere(transform.position, 5f))
+        {
+            try
             {
-                try
-                {
-                    var comp = v.GetComponent<Mergeable>();
+                var comp = v.GetComponent<Mergeable>();
 
-                    if (this.level == comp.level && !this.Equals(comp))
-                    {
-                        //TODO
-                        Debug.Log(true);
-                        OnMergeEnter();
-                        return;
-                    }
-
-                }
-                catch (Exception e)
+                if (this.level == comp.level && !this.Equals(comp))
                 {
-                    continue;
+                    Debug.Log(true);
+                    //TODO
+                    
+                    if (comp.transform.position.x is > 30 and < 80)
+                        if (comp.transform.position.z is > 0 and < 30)
+                            OnMergeEnter(this.gameObject, comp.gameObject);
+                    return;
                 }
+
             }
+            catch (Exception e)
+            {
+                continue;
+            }
+        }
         //this.transform.position = _defPos;
     }
 }

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//DoNotUsed.
 public class MouseDrag : Entity
 {
     Rigidbody rb;
@@ -17,7 +17,7 @@ public class MouseDrag : Entity
         
     }
 
-    private void OnMouseDown()
+    protected virtual void OnMouseDown()
     {
         selectCard = true;              // 카드 선택 상태 On
         transform.SetParent(null);      // 부모오브젝트에서 빠져나오기
@@ -25,7 +25,7 @@ public class MouseDrag : Entity
         transform.position = new Vector3(transform.position.x, 2f, transform.position.z);   // y축 2만큼 올리기
     }
 
-    void OnMouseDrag()
+    protected virtual void OnMouseDrag()
     {
         float distance = Camera.main.WorldToScreenPoint(transform.position).z;
 
@@ -36,7 +36,12 @@ public class MouseDrag : Entity
 
     }
 
-    private void OnMouseUp()
+    protected override void OnMerge(GameObject t1, GameObject t2)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void OnMouseUp()
     {
         rb.isKinematic = false;
     }

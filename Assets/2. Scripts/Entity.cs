@@ -2,44 +2,60 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Entity : MonoBehaviour
+[RequireComponent(typeof(Rigidbody))]
+public abstract class Entity : Mergeable
 {
     protected bool selectCard = false; 
+    
+    protected Rigidbody _rigid;
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
-        
+        _rigid = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
-    void Update()
-    {
-
+    protected void Update()
+    { 
+        
     }
 
     public virtual void InitEntity()
     {
-
+        Init(0);
     }
     public virtual void UpdateEntity()
     {
         
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        // ³»°¡ ¼±ÅÃÇÑ Ä«µå¶û Ãæµ¹ÇÑ ¹°Ã¼°¡ Ä«µåÀÌ°í, Ä«µå³¢¸® °¡±î¿ï °æ¿ì, ¼±ÅÃÇÑ Ä«µå À§Ä¡ Á¶Á¤
-        if (selectCard && collision.transform.CompareTag("Card") && Mathf.Abs(collision.transform.position.magnitude - transform.position.magnitude) < 3f)
-        {
-            //transform.position = new Vector3(collision.transform.position.x, transform.position.y, collision.transform.position.z - 3f);
-            //transform.SetParent(collision.transform);
-            //selectCard = false;
-        }
+    // private void OnCollisionEnter(Collision collision)
+    // {
+    //     // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½ï¿½ ï¿½æµ¹ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ Ä«ï¿½ï¿½ï¿½Ì°ï¿½, Ä«ï¿½å³¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
+    //     if (selectCard && collision.transform.CompareTag("Card") && Mathf.Abs(collision.transform.position.magnitude - transform.position.magnitude) < 3f)
+    //     {
+    //         //transform.position = new Vector3(collision.transform.position.x, transform.position.y, collision.transform.position.z - 3f);
+    //         //transform.SetParent(collision.transform);
+    //         //selectCard = false;
+    //     }
+    //
+    //     else if (collision.transform.CompareTag("Floor"))
+    //     {
+    //         selectCard = false;
+    //     }
+    // }
 
-        else if (collision.transform.CompareTag("Floor"))
-        {
-            selectCard = false;
-        }
+    protected override void OnMouseDown()
+    {
+        base.OnMouseDown();
+        _rigid.isKinematic = true;
+    }
+
+    public override void OnMouseUp()
+    {
+        base.OnMouseUp();
+        _rigid.isKinematic = false;
+        
     }
 
 }

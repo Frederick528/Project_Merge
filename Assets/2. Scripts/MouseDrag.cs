@@ -19,10 +19,10 @@ public class MouseDrag : Entity
 
     private void OnMouseDown()
     {
-        selectCard = true;              // Ä«µå ¼±ÅÃ »óÅÂ On
-        transform.SetParent(null);      // ºÎ¸ğ¿ÀºêÁ§Æ®¿¡¼­ ºüÁ®³ª¿À±â
-        rb.isKinematic = true;          // Áß·Â ¿µÇâ ¹× À§ ¿ÀºêÁ§Æ® ¹«°Ô ¿µÇâ ¾È ¹Şµµ·Ï ¼³Á¤
-        transform.position = new Vector3(transform.position.x, 2f, transform.position.z);   // yÃà 2¸¸Å­ ¿Ã¸®±â
+        selectCard = true;              // ì¹´ë“œ ì„ íƒ ìƒíƒœ On
+        transform.SetParent(null);      // ë¶€ëª¨ì˜¤ë¸Œì íŠ¸ì—ì„œ ë¹ ì ¸ë‚˜ì˜¤ê¸°
+        rb.isKinematic = true;          // ì¤‘ë ¥ ì˜í–¥ ë° ìœ„ ì˜¤ë¸Œì íŠ¸ ë¬´ê²Œ ì˜í–¥ ì•ˆ ë°›ë„ë¡ ì„¤ì •
+        transform.position = new Vector3(transform.position.x, 2f, transform.position.z);   // yì¶• 2ë§Œí¼ ì˜¬ë¦¬ê¸°
     }
 
     void OnMouseDrag()

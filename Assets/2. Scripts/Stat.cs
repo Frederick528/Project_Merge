@@ -35,7 +35,7 @@ public class Stat
         curThirst = maxThirst;
     }
 
-    public Stat SetUnitStatus(UnitCode unitCode)
+    public static Stat SetUnitStatus(UnitCode unitCode)
     {
         Stat stat = null;
 

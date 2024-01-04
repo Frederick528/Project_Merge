@@ -23,6 +23,14 @@ public class Stat
 
     }
 
+    /// <summary>
+    /// 플레이어와 같은 캐릭터
+    /// </summary>
+    /// <param name="unitCode"></param>
+    /// <param name="name">캐릭터 이름</param>
+    /// <param name="maxAp">행동력</param>
+    /// <param name="maxHunger">배고픔</param>
+    /// <param name="maxThirst">갈증</param>
     public Stat(UnitCode unitCode, string name, int maxAp, float maxHunger, float maxThirst)
     {
         this.unitCode = unitCode;
@@ -35,7 +43,13 @@ public class Stat
         curThirst = maxThirst;
     }
 
-    public Stat SetUnitStatus(UnitCode unitCode)
+    /// <summary>
+    /// Stat 셋팅
+    /// </summary>
+    /// <param name="unitCode">유닛코드(플레이어, 음식)</param>
+    /// <param name="maxExpirationDate">음식물의 유통기한(지정하지 않을 경우 1의 값을 가짐.)</param>
+    /// <returns>stat</returns>
+    public Stat SetUnitStatus(UnitCode unitCode, float maxExpirationDate = 1f)
     {
         Stat stat = null;
 

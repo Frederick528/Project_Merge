@@ -48,7 +48,7 @@ public class GameCore
         if (!IsDayTime)
         {
             #region GameOverTrigger
-                if (!(ModifyHunger(-1) || ModifyThirst(-1)))
+                if (!(ModifyHunger(-1) && ModifyThirst(-1)))
                     EndGame();
             #endregion
             

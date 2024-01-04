@@ -5,6 +5,17 @@ using UnityEngine;
 
 public class Card : Entity
 {
+    public enum CardType
+    {
+        Food,
+        Water,
+        Object1,
+        Object2,
+        Combination
+    }
+
+    public CardType cardType;
+
     private MeshRenderer renderer;
     // Start is called before the first frame update
     public void Init(int code)

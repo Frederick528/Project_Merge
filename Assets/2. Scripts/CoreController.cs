@@ -8,24 +8,31 @@ using UnityEngine;
 public class CoreController : MonoBehaviour
 {
     // Start is called before the first frame update
+    private GameCore _core;
     public TMP_Text text;
+
+    private void Awake()
+    {
+        _core ??= new GameCore();
+    }
+
     void Start()
     {
-        GameCore.InitGame();
+        _core.InitGame();
     }
 
     private void Update()
     {
-        text.text = GameCore.Stats.Hp + "";
+        //text.text = GameCore.Stats.Strave + "";
     }
 
     public void TurnChange()
     {
-        GameCore.TurnChange();
+        _core.TurnChange();
     }
 
     private void OnDestroy()
     {
-        GameCore.EndGame();
+        _core.EndGame();
     }
 }

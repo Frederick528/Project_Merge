@@ -6,21 +6,25 @@ using UnityEngine;
 
 public class GameCore
 {
-    public static Status Stats;
-    public static int TurnCnt;
+    //낮 밤 상관 없이 턴이 끝날 때 마다 턴 카운트가 오르며, 짝수 (0,2...)가 낮, 홀수가 밤.
+    private int _turnCnt;
     
-    private static bool _isGameStarted = true;
+    private bool _isGameStarted = true;
 
-    public static bool IsGameStarted = false;
+    public int TurnCnt => _turnCnt;
+    public bool IsGameStarted => _isGameStarted;
     
-    public static void InitGame()
+    //낮인지 밤인지 구분하기 위한 맴버
+    public bool IsDayTime => _turnCnt % 2 == 0 ? true : false;
+    
+    public void InitGame()
     {
         //Start Game
-        Stats = new Status() { Hp = 100 };
+        //Stats = new Status() { Strave = 100 };
         _isGameStarted = true;
     }
 
-    public static void EndGame()
+    public void EndGame()
     {
         //When the game ends, call this method.
         if (!_isGameStarted)
@@ -28,28 +32,16 @@ public class GameCore
         _isGameStarted = false;
     }
 
-    public static void TurnChange()
+    public void TurnChange()
     {
         if (!_isGameStarted)
             throw new Exception("The Game is not Started");
-        TurnCnt++;
+        _turnCnt++;
         
-        //TODO
-        if(Interlocked.Exchange(ref Stats.Hp, Stats.Hp -= 1) <= 0)
+        //if(Interlocked.Exchange(ref Stats.Strave, Stats.Strave -= 1) <= 0)
+        if(false)
             EndGame();
         
         Debug.Log($"Turn : {TurnCnt}");
-    }
-
-    public struct Status
-    {
-        public ushort param1;
-        public int param2;
-        public float param3;
-        public double param4;
-
-        public int Hp;
-
-
     }
 }

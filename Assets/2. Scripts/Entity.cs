@@ -9,7 +9,7 @@ public abstract class Entity : Mergeable
     
     protected Rigidbody _rigid;
     // Start is called before the first frame update
-    protected void Start()
+    protected void Awake()
     {
         _rigid = GetComponent<Rigidbody>();
     }

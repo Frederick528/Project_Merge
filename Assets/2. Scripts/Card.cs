@@ -5,9 +5,9 @@ using UnityEngine;
 public class Card : Entity
 {
     // Start is called before the first frame update
-    public void Init(int level)
+    public void Init(int code)
     {
-        base.Init(level);
+        base.Init(code);
         _rigid.isKinematic = false;
     }
     void Start()
@@ -20,6 +20,13 @@ public class Card : Entity
     void Update()
     {
         base.Update();
+    }
+
+    protected override void OnMouseDown()
+    {
+        base.OnMouseDown();
+        if (Input.GetMouseButtonUp(1))
+            Debug.Log(true);
     }
 
     protected override void OnMerge(GameObject t1, GameObject t2)

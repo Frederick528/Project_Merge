@@ -6,18 +6,14 @@ using UnityEngine.UI;
 
 public class SliderUI : MonoBehaviour
 {
-    public static PlayerCtrl playerCtrl;
+    PlayerCtrl playerCtrl;
     public Slider hungerSlider;
     public Slider thirstSlider;
     // Start is called before the first frame update
 
-    private void Awake()
-    {
-        playerCtrl = FindObjectOfType<PlayerCtrl>();
-    }
-
     void Start()
     {
+        playerCtrl = StatManager.instance.playerCtrl;
         hungerSlider.maxValue = playerCtrl.stat.maxHunger;
         thirstSlider.maxValue = playerCtrl.stat.maxThirst;
     }

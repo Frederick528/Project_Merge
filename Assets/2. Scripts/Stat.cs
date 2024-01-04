@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,9 +8,9 @@ public enum UnitCode
 }
 public class Stat
 {
-    public UnitCode unitCode { get; }   // ¹Ù²Ü ¼ö ¾ø°Ô get¸¸
+    public UnitCode unitCode { get; }   // ë°”ê¿€ ìˆ˜ ì—†ê²Œ getë§Œ
     public string name { get; set; }
-    public int maxAp { get; set; }    // Active Point (Çàµ¿·Â)
+    public int maxAp { get; set; }    // Active Point (í–‰ë™ë ¥)
     public int curAp { get; set; }
     public float maxHunger { get; set; }
     public float curHunger { get; set; }
@@ -42,7 +42,7 @@ public class Stat
         switch (unitCode)
         {
             case UnitCode.player:
-                stat = new Stat(unitCode, "ÇÃ·¹ÀÌ¾î", 10, 100f, 100f);
+                stat = new Stat(unitCode, "í”Œë ˆì´ì–´", 10, 100f, 100f);
                 break;
         }
         return stat;

@@ -20,10 +20,18 @@ public class CardManager : MonoBehaviour
         _ogCard ??= Resources.Load<GameObject>("Prefabs/Card");
 
         var cardInstance = Instantiate(_ogCard).GetComponent<Card>();
-        cardInstance.Init(100 + Random.Range(1, 5));
+        cardInstance.cardType = (Card.CardType)Random.Range(0, Enum.GetValues(typeof(Card.CardType)).Length);;
+        cardInstance.Init(0);
         Cards.Add(cardInstance);
             
         return cardInstance;
+    }
+    public static Card CreateCard(int level, int type )
+    {
+        var result = CreateCard();
+        result.cardType = (Card.CardType)type;
+        result.Init(level);
+        return result;
     }
     
     public static bool DestroyCard(IEnumerable<Card> targets)

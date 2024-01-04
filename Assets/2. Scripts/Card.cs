@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Card : Entity
 {
@@ -18,29 +19,32 @@ public class Card : Entity
 
     private MeshRenderer renderer;
     // Start is called before the first frame update
-    public void Init(int code)
+    public void Init(int level)
     {
-        base.Init(code);
+        base.Init(level);
         _rigid.isKinematic = false;
-        
 
-        switch (code)
+        switch (cardType)
         {
-            case 101:
-                GetComponent<MeshRenderer>().material = 
-                    Resources.Load<Material>("Prefabs/Materials/Purple");
-                break;
-            case 102:
-                GetComponent<MeshRenderer>().material = 
-                    Resources.Load<Material>("Prefabs/Materials/Red");
-                break;
-            case 103:
+            case CardType.Food:
                 GetComponent<MeshRenderer>().material = 
                     Resources.Load<Material>("Prefabs/Materials/DarkGreen");
                 break;
-            case 104:
+            case CardType.Water:
                 GetComponent<MeshRenderer>().material = 
                     Resources.Load<Material>("Prefabs/Materials/Blue");
+                break;
+            case CardType.Object1:
+                GetComponent<MeshRenderer>().material = 
+                    Resources.Load<Material>("Prefabs/Materials/Red");
+                break;
+            case CardType.Object2:
+                GetComponent<MeshRenderer>().material = 
+                    Resources.Load<Material>("Prefabs/Materials/Purple");
+                break;
+            case CardType.Combination:
+                GetComponent<MeshRenderer>().material = 
+                    Resources.Load<Material>("Prefabs/Materials/White");
                 break;
             default:
                 GetComponent<MeshRenderer>().material = 
@@ -65,16 +69,21 @@ public class Card : Entity
         if (Input.GetMouseButtonUp(1))
             Debug.Log(true);
     }
-
     protected override void OnMerge(GameObject t1, GameObject t2)
     {
-        CardManager.Areas ??= GameObject.FindGameObjectsWithTag("Merge");
+        var destroyTarget = new[] { t1.GetComponent<Card>(), t2.GetComponent<Card>() };
+
+        //병합 분기
+        if (destroyTarget[0].cardType == destroyTarget[1].cardType)
+        {
+            CardManager.Areas ??= GameObject.FindGameObjectsWithTag("Merge");
         
-        var cardInstance = CardManager.CreateCard();
-        CardManager.DestroyCard(new [] { t1.GetComponent<Card>(), t2.GetComponent<Card>() });
+            var cardInstance = CardManager.CreateCard(level + 1, (int)cardType);
+            CardManager.DestroyCard(destroyTarget);
         
-        //cardInstance.transform.localScale = Vector3.one;
-        cardInstance.transform.localPosition =
-          Vector3.up * 2f ;
+            //cardInstance.transform.localScale = Vector3.one;
+            cardInstance.transform.localPosition =
+                Vector3.up * 2f ;
+        }
     }
 }

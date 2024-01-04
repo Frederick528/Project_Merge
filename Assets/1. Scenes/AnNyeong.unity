@@ -154,7 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hungriness: {fileID: 1331108082}
   Thirst: {fileID: 865824742}
-  Turn: {fileID: 0}
+  Turn: {fileID: 1561483137}
   AP: {fileID: 1470101318}
 --- !u!4 &346739154
 Transform:
@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1972b4139e700bb428f8e513aa473181, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  code: 0
+  level: 0
 --- !u!54 &513492862
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2467,7 +2467,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c242588b51caec3458a22b134507e7a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  code: 0
+  level: 0
+  cardType: 0
 --- !u!54 &2066588472
 Rigidbody:
   m_ObjectHideFlags: 0

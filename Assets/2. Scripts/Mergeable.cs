@@ -7,12 +7,12 @@ using UnityEngine.Serialization;
 public abstract class Mergeable : Draggable
 {
     //음식 카드의 경우 100번대, 아닐 경우 200번대
-    public int code;
+    public int level;
     private bool _isInitialized = false;
 
     public void Init(int level)
     {
-        this.code = level;
+        this.level = level;
         _isInitialized = true;
     }
 

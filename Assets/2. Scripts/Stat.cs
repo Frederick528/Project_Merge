@@ -47,9 +47,8 @@ public class Stat
     /// Stat 셋팅
     /// </summary>
     /// <param name="unitCode">유닛코드(플레이어, 음식)</param>
-    /// <param name="maxExpirationDate">음식물의 유통기한(지정하지 않을 경우 1의 값을 가짐.)</param>
     /// <returns>stat</returns>
-    public Stat SetUnitStatus(UnitCode unitCode, float maxExpirationDate = 1f)
+    public static Stat SetUnitStatus(UnitCode unitCode)
     {
         Stat stat = null;
 

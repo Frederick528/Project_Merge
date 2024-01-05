@@ -137,7 +137,6 @@ public class Card : Entity
     protected override void OnMouseDrag()
     {
         float distance = Camera.main.WorldToScreenPoint(transform.position).z;
-        
         var mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 78);
         var crntPos = Camera.main.ScreenToWorldPoint(mousePos);
         if (this.transform.parent.TryGetComponent(out CardGroup cardGroup))
@@ -244,6 +243,12 @@ public class Card : Entity
                 cardGroup[0].RemoveCard(this);
                 targetParent.AddCardRange(destroyTarget);
             }
+            else
+            {
+                cardGroup[0].RemoveCard(this);
+                var emptyParent = createParent();
+                emptyParent.AddCardRange(destroyTarget);
+            }
             
         }
         else if (flag2)
@@ -267,7 +272,7 @@ public class Card : Entity
                 if (t2.transform.position.z > refZMin && t2.transform.position.z < refZMax)
                 {
                     //병합 분기
-                    if ((destroyTarget[0].cardType == destroyTarget[1].cardType) && (destroyTarget[0].level == destroyTarget[1].level))
+                    if ((destroyTarget[0].cardType == destroyTarget[1].cardType) && (destroyTarget[0].level == destroyTarget[1].level) && destroyTarget[0].level < MaxLevel)
                     {
 
                         var cardInstance = CardManager.CreateCard(level + 1, (int)cardType);

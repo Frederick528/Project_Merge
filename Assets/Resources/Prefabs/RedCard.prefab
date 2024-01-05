@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1332720945206129683}
   - component: {fileID: 3601811869624828276}
   - component: {fileID: 606166883621076963}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Decomposition Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 3067518396870574879}
   - component: {fileID: 1865786865378800636}
   - component: {fileID: 8343893278603655527}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Card Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,7 +212,9 @@ GameObject:
   - component: {fileID: 5776615504532998593}
   - component: {fileID: 3913640298496477847}
   - component: {fileID: 4606909521153682416}
-  m_Layer: 0
+  - component: {fileID: 2739316781191084476}
+  - component: {fileID: 1242867995359646055}
+  m_Layer: 6
   m_Name: RedCard
   m_TagString: Card
   m_Icon: {fileID: 0}
@@ -313,7 +315,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &4606909521153682416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,6 +331,36 @@ MonoBehaviour:
   level: 0
   _rigid: {fileID: 0}
   cardType: 0
+--- !u!114 &2739316781191084476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232989012911639070}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42a77950dfc4ec242acb2ae23fdf2979, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 5805075563076182531}
+  cardImage: {fileID: 0}
+  cardName: {fileID: 0}
+  cardText: {fileID: 0}
+  cardCanvasOn: 0
+--- !u!114 &1242867995359646055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232989012911639070}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2934d9d88843b5244be8cd0a97f97355, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 5805075563076182531}
 --- !u!1 &2073886101788670505
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,7 +372,7 @@ GameObject:
   - component: {fileID: 8229994233156026744}
   - component: {fileID: 3548911271498140940}
   - component: {fileID: 6446209534054748093}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Text (Legacy)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -420,7 +452,7 @@ GameObject:
   - component: {fileID: 1152013231378693879}
   - component: {fileID: 3338247275586912345}
   - component: {fileID: 3529833896478812692}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: 'Information Image '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -501,7 +533,7 @@ GameObject:
   - component: {fileID: 3888352369986302103}
   - component: {fileID: 6003532488057631774}
   - component: {fileID: 6943541560586092182}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: 'Use Button '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -623,7 +655,7 @@ GameObject:
   - component: {fileID: 2974044404899045813}
   - component: {fileID: 3300830206143325539}
   - component: {fileID: 8873119886980403742}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: 'X Button '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -756,7 +788,7 @@ GameObject:
   - component: {fileID: 2086016212334038197}
   - component: {fileID: 5195182545217517583}
   - component: {fileID: 7110549311859577833}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Card information
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -837,7 +869,7 @@ GameObject:
   - component: {fileID: 3632873154405598806}
   - component: {fileID: 4553220166794475880}
   - component: {fileID: 5122420341505295403}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -938,7 +970,7 @@ GameObject:
   - component: {fileID: 3065453884218536573}
   - component: {fileID: 3842527703119505524}
   - component: {fileID: 2273456119323776477}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: X
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1018,7 +1050,7 @@ GameObject:
   - component: {fileID: 7254365778455981484}
   - component: {fileID: 7259368881314260613}
   - component: {fileID: 2996707910516050532}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Text (Legacy)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -253,20 +253,28 @@ public class Card : Entity
         }
         else
         {
-            if (t2.transform.position.x is > 30 and < 80)
-            {       if (t2.transform.position.z is > 0 and < 30)
+            CardManager.Areas ??= GameObject.FindGameObjectsWithTag("Merge");
+            
+            Debug.Log(CardManager.Areas[0].name);
+
+            float refXMin = CardManager.Areas[0].transform.position.x - CardManager.Areas[0].transform.localScale.x / 2;
+            float refXMax = CardManager.Areas[0].transform.position.x + CardManager.Areas[0].transform.localScale.x / 2;
+            float refZMin = CardManager.Areas[0].transform.position.z - CardManager.Areas[0].transform.localScale.z / 2;
+            float refZMax = CardManager.Areas[0].transform.position.z + CardManager.Areas[0].transform.localScale.z / 2;
+            
+            if (t2.transform.position.x > refXMin && t2.transform.position.x < refXMax)
+            {    
+                if (t2.transform.position.z > refZMin && t2.transform.position.z < refZMax)
                 {
                     //병합 분기
                     if (destroyTarget[0].cardType == destroyTarget[1].cardType)
                     {
-                        CardManager.Areas ??= GameObject.FindGameObjectsWithTag("Merge");
 
                         var cardInstance = CardManager.CreateCard(level + 1, (int)cardType);
                         CardManager.DestroyCard(destroyTarget);
 
                         //cardInstance.transform.localScale = Vector3.one;
-                        cardInstance.transform.localPosition =
-                            Vector3.up * 2f;
+                        cardInstance.transform.position = CardManager.Areas[0].transform.position + Vector3.up * 2f;
                     }
 
                     Debug.Log("Merge Successed");

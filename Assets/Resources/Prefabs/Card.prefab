@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: eb123d92738eb55448c7b6d27390f102, type: 2}
+  - {fileID: 2100000, guid: 02c22186354a92c4e9cc464760cfb68e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -93,7 +93,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 201895649342784597}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 1db2f7c050dd74c40a07153e79057a1e, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -107,14 +107,14 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 201895649342784597}
   serializedVersion: 2
-  m_Mass: 100
+  m_Mass: 10000
   m_Drag: 0
   m_AngularDrag: 0
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!114 &201895649342784604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,4 +127,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c242588b51caec3458a22b134507e7a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  code: 0
+  level: 0
+  _rigid: {fileID: 0}
+  cardType: 0

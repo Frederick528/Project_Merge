@@ -22,7 +22,7 @@ public abstract class Mergeable : Draggable
     }
     
     // 실제로 합쳤을 때 실행될 메소드
-    private void OnMergeEnter(GameObject t1, GameObject t2)
+    protected void OnMergeEnter(GameObject t1, GameObject t2)
     {
         initCheck();
         OnMerge(t1, t2);
@@ -31,31 +31,5 @@ public abstract class Mergeable : Draggable
     // 합쳤을 때 동작할 내용 구현
     protected abstract void OnMerge(GameObject t1, GameObject t2);
 
-    public virtual void OnMouseUp()
-    {
-        foreach (var v in Physics.OverlapSphere(transform.position, 3f))
-        {
-            try
-            {
-                var comp = v.GetComponent<Mergeable>();
-
-                if (!this.Equals(comp))
-                {
-                    Debug.Log(true);
-                    //TODO
-                    
-                    if (comp.transform.position.x is > 30 and < 80)
-                        if (comp.transform.position.z is > 0 and < 30)
-                            OnMergeEnter(this.gameObject, comp.gameObject);
-                    return;
-                }
-
-            }
-            catch (Exception e)
-            {
-                continue;
-            }
-        }
-        //this.transform.position = _defPos;
-    }
+    public abstract void OnMouseUp();
 }

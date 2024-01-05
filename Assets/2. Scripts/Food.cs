@@ -7,13 +7,7 @@ public class Food : MonoBehaviour
     public float expirationDate;
     public float hunger;
     public float thirst;
-    // Start is called before the first frame update
-    void Start()
-    {
 
-    }
-
-    // Update is called once per frame
     void Update()
     {
 

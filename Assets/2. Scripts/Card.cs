@@ -274,7 +274,7 @@ public class Card : Entity
                         CardManager.DestroyCard(destroyTarget);
 
                         //cardInstance.transform.localScale = Vector3.one;
-                        cardInstance.transform.position = CardManager.Areas[0].transform.position + Vector3.up * 2f;
+                        cardInstance.transform.position = CardManager.Areas[1].transform.position + Vector3.up * 2f;
                     }
 
                     Debug.Log("Merge Successed");

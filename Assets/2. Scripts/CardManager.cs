@@ -24,7 +24,7 @@ public class CardManager : MonoBehaviour
     }
     public static Card CreateCard()
     {
-        _ogCard ??= Resources.Load<GameObject>("Prefabs/Card");
+        _ogCard ??= Resources.Load<GameObject>("Prefabs/RedCard");
 
         var cardInstance = Instantiate(_ogCard, Instance.transform).GetComponent<Card>();
         cardInstance.cardType = (Card.CardType)Random.Range(0, Enum.GetValues(typeof(Card.CardType)).Length);;

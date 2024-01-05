@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1332720945206129683}
   - component: {fileID: 3601811869624828276}
   - component: {fileID: 606166883621076963}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Decomposition Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 3067518396870574879}
   - component: {fileID: 1865786865378800636}
   - component: {fileID: 8343893278603655527}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Card Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -214,7 +214,7 @@ GameObject:
   - component: {fileID: 4606909521153682416}
   - component: {fileID: 2739316781191084476}
   - component: {fileID: 1242867995359646055}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RedCard
   m_TagString: Card
   m_Icon: {fileID: 0}
@@ -315,7 +315,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &4606909521153682416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,7 +369,7 @@ GameObject:
   - component: {fileID: 8229994233156026744}
   - component: {fileID: 3548911271498140940}
   - component: {fileID: 6446209534054748093}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Text (Legacy)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -449,7 +449,7 @@ GameObject:
   - component: {fileID: 1152013231378693879}
   - component: {fileID: 3338247275586912345}
   - component: {fileID: 3529833896478812692}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: 'Information Image '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -530,7 +530,7 @@ GameObject:
   - component: {fileID: 3888352369986302103}
   - component: {fileID: 6003532488057631774}
   - component: {fileID: 6943541560586092182}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: 'Use Button '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -652,7 +652,7 @@ GameObject:
   - component: {fileID: 2974044404899045813}
   - component: {fileID: 3300830206143325539}
   - component: {fileID: 8873119886980403742}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: 'X Button '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -785,7 +785,7 @@ GameObject:
   - component: {fileID: 2086016212334038197}
   - component: {fileID: 5195182545217517583}
   - component: {fileID: 7110549311859577833}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Card information
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -866,7 +866,7 @@ GameObject:
   - component: {fileID: 3632873154405598806}
   - component: {fileID: 4553220166794475880}
   - component: {fileID: 5122420341505295403}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -967,7 +967,7 @@ GameObject:
   - component: {fileID: 3065453884218536573}
   - component: {fileID: 3842527703119505524}
   - component: {fileID: 2273456119323776477}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: X
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1047,7 +1047,7 @@ GameObject:
   - component: {fileID: 7254365778455981484}
   - component: {fileID: 7259368881314260613}
   - component: {fileID: 2996707910516050532}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Text (Legacy)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

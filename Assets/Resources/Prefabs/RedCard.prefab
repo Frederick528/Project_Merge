@@ -228,7 +228,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1232989012911639070}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: -34.6, y: 40.9, z: -0}
   m_LocalScale: {x: 12, y: 0.1, z: 17}
   m_ConstrainProportionsScale: 0
@@ -236,7 +236,7 @@ Transform:
   - {fileID: 2470505196755637348}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!33 &4254618349014451101
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -344,6 +344,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 5805075563076182531}
+  cardImage: {fileID: 0}
+  cardName: {fileID: 0}
+  cardText: {fileID: 0}
+  cardCanvasOn: 0
 --- !u!114 &1242867995359646055
 MonoBehaviour:
   m_ObjectHideFlags: 0

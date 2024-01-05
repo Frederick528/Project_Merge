@@ -2,10 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class Mergeable : Draggable
 {
-    //해당 오브젝트의 단계. 초기 단계 - 0 / 2 단계 - 1 / 3단계 - 2 ...
+    //음식 카드의 경우 100번대, 아닐 경우 200번대
     public int level;
     private bool _isInitialized = false;
 
@@ -32,13 +33,13 @@ public abstract class Mergeable : Draggable
 
     public virtual void OnMouseUp()
     {
-        foreach (var v in Physics.OverlapSphere(transform.position, 5f))
+        foreach (var v in Physics.OverlapSphere(transform.position, 3f))
         {
             try
             {
                 var comp = v.GetComponent<Mergeable>();
 
-                if (this.level == comp.level && !this.Equals(comp))
+                if (!this.Equals(comp))
                 {
                     Debug.Log(true);
                     //TODO

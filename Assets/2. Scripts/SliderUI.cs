@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,9 +10,10 @@ public class SliderUI : MonoBehaviour
     public Slider hungerSlider;
     public Slider thirstSlider;
     // Start is called before the first frame update
+
     void Start()
     {
-        playerCtrl = FindObjectOfType<PlayerCtrl>();
+        playerCtrl = StatManager.instance.playerCtrl;
         hungerSlider.maxValue = playerCtrl.stat.maxHunger;
         thirstSlider.maxValue = playerCtrl.stat.maxThirst;
     }

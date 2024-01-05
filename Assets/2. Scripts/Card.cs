@@ -267,7 +267,7 @@ public class Card : Entity
                 if (t2.transform.position.z > refZMin && t2.transform.position.z < refZMax)
                 {
                     //병합 분기
-                    if (destroyTarget[0].cardType == destroyTarget[1].cardType)
+                    if ((destroyTarget[0].cardType == destroyTarget[1].cardType) && (destroyTarget[0].level == destroyTarget[1].level))
                     {
 
                         var cardInstance = CardManager.CreateCard(level + 1, (int)cardType);

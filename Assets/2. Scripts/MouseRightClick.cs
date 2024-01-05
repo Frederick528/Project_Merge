@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MouseRightClick : MonoBehaviour
 {
-    public Vector3 targetPosition;
+    //public Vector3 targetPosition;
     public GameObject canvas;
+    public Image cardImage;
+    public Text cardName;
+    public Text cardText;
+    public bool cardCanvasOn = false;
 
     void Update()
     {
@@ -16,9 +21,19 @@ public class MouseRightClick : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.collider.gameObject == gameObject)
+                if (hit.collider.gameObject.CompareTag("Card"))
                 {
-                    canvas.SetActive(!canvas.activeSelf);
+                    string card = $"{hit.collider.GetComponent<Card>().cardType}_{hit.collider.GetComponent<Card>().level}";
+
+                    Texture2D cardTexture = Resources.Load<Texture2D>($"Images/{card}");
+                    if (cardTexture != null)
+                    {
+                        cardImage.sprite = Sprite.Create(cardTexture, new Rect(0, 0, cardTexture.width, cardTexture.height), new Vector2(0.5f, 0.5f));
+                    }
+                    cardName.text = CardDIct.cardNameDict[card];
+                    cardText.text = CardDIct.cardTextDict[card];
+                    //cardCanvasOn = true;
+                    canvas.SetActive(true);
                 }
             } 
         }

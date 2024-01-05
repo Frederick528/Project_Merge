@@ -13,7 +13,7 @@ public class CoreController : MonoBehaviour
     private static GameCore _core;
     private static CoreController _instance;
 
-    public static bool IsDayTime => _core.IsDayTime;
+    public static bool IsNightTime => _core.IsNightTime;
     public TMP_Text Hungriness;
     public TMP_Text Thirst;
     public TMP_Text Turn;
@@ -83,5 +83,10 @@ public class CoreController : MonoBehaviour
     {
         ModifyAP(-1);
         CardManager.CreateCard();
+    }
+
+    public void SetDifficulty(ushort value)
+    {
+        _core.Difficulty = value;
     }
 }

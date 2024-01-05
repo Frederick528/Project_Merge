@@ -6,6 +6,10 @@ using UnityEngine;
 
 public class GameCore
 {
+    private enum TimeStatus
+    {
+        Morning, Day, Night, Dawn
+    }
     //낮 밤 상관 없이 턴이 끝날 때 마다 턴 카운트가 오르며, 짝수 (0,2...)가 낮, 홀수가 밤.
     private int _turnCnt;
     private bool _isGameStarted = true;
@@ -13,11 +17,12 @@ public class GameCore
     public int TurnCnt => _turnCnt;
     public bool IsGameStarted => _isGameStarted;
     public Stat Status => _status;
-    
+
+    public ushort Difficulty = 1;
     
     
     //낮인지 밤인지 구분하기 위한 맴버
-    public bool IsDayTime => _turnCnt % 2 == 0 ? true : false;
+    public bool IsNightTime => _turnCnt % 4 == (int)TimeStatus.Night ? true : false;
     
     public void InitGame()
     {
@@ -44,18 +49,21 @@ public class GameCore
             throw new Exception("The Game is not Started");
         _turnCnt++;
 
-        //밤일 경우
-        if (!IsDayTime)
+        //새벽 -> 아침인 상황에서
+        if (_turnCnt % 4 == (int)TimeStatus.Morning)
         {
             #region GameOverTrigger
-                if (!(ModifyHunger(-1) && ModifyThirst(-1)))
+                if (!(ModifyHunger(-5 * Difficulty) && ModifyThirst(-5 * Difficulty)))
                     EndGame();
             #endregion
             
             Debug.Log("It's Night Time");
         }
-        
-        _status.curAp = _status.maxAp;
+        //밤일 때
+        if(!IsNightTime)
+        {
+            _status.curAp = _status.maxAp;
+        }
         Debug.Log($"Turn : {TurnCnt}");
     }
 

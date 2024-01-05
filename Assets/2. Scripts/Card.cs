@@ -11,8 +11,8 @@ public class Card : Entity
     {
         Food,
         Water,
-        Object1,
-        Object2,
+        Wood,
+        Stone,
         Combination
     }
 
@@ -36,11 +36,11 @@ public class Card : Entity
                 GetComponent<MeshRenderer>().material = 
                     Resources.Load<Material>("Prefabs/Materials/Blue");
                 break;
-            case CardType.Object1:
+            case CardType.Wood:
                 GetComponent<MeshRenderer>().material = 
-                    Resources.Load<Material>("Prefabs/Materials/Red");
+                    Resources.Load<Material>($"Prefabs/Materials/Wood_{level}");
                 break;
-            case CardType.Object2:
+            case CardType.Stone:
                 GetComponent<MeshRenderer>().material = 
                     Resources.Load<Material>("Prefabs/Materials/Purple");
                 break;

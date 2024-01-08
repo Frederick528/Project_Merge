@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -36,7 +36,7 @@ public class MouseRightClick : MonoBehaviour
                     string cardID = $"{cardContents.cardType}_{cardContents.level}";
 
                     Texture2D cardTexture = Resources.Load<Texture2D>($"Images/{cardID}");
-                    if (cardTexture != null)    // ³ªÁß¿¡ if¹®Àº »©µµ µÉ °Í °°À½.
+                    if (cardTexture != null)    // ë‚˜ì¤‘ì— ifë¬¸ì€ ë¹¼ë„ ë  ê²ƒ ê°™ìŒ.
                     {
                         cardImage.sprite = Sprite.Create(cardTexture, new Rect(0, 0, cardTexture.width, cardTexture.height), new Vector2(0.5f, 0.5f));
                     }
@@ -49,8 +49,8 @@ public class MouseRightClick : MonoBehaviour
                         cardEatBtn.onClick.RemoveAllListeners();
                         cardEatBtn.onClick.AddListener(() =>
                         {
-                            stat.curHunger = ((stat.curHunger + 20) > stat.maxHunger) ? stat.maxHunger : stat.curHunger + 20;   //¿©±â °ª ºÒ·¯¿À±â(20)
-                            stat.curThirst = ((stat.curThirst + 10) > stat.maxThirst) ? stat.maxThirst : stat.curThirst + 10;   //¿©±â °ª ºÒ·¯¿À±â(10)
+                            stat.curHunger = ((stat.curHunger + 20) > stat.maxHunger) ? stat.maxHunger : stat.curHunger + 20;   //ì—¬ê¸° ê°’ ë¶ˆëŸ¬ì˜¤ê¸°(20)
+                            stat.curThirst = ((stat.curThirst + 10) > stat.maxThirst) ? stat.maxThirst : stat.curThirst + 10;   //ì—¬ê¸° ê°’ ë¶ˆëŸ¬ì˜¤ê¸°(10)
                             Destroy(hit.collider);
                             canvas.SetActive(false);
                         });

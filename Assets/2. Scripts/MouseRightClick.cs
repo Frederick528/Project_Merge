@@ -21,21 +21,27 @@ public class MouseRightClick : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.collider.gameObject.CompareTag("Card"))
-                {
-                    string card = $"{hit.collider.GetComponent<Card>().cardType}_{hit.collider.GetComponent<Card>().level}";
-
-                    Texture2D cardTexture = Resources.Load<Texture2D>($"Images/{card}");
-                    if (cardTexture != null)
-                    {
-                        cardImage.sprite = Sprite.Create(cardTexture, new Rect(0, 0, cardTexture.width, cardTexture.height), new Vector2(0.5f, 0.5f));
-                    }
-                    cardName.text = CardDIct.cardNameDict[card];
-                    cardText.text = CardDIct.cardTextDict[card];
-                    //cardCanvasOn = true;
-                    canvas.SetActive(true);
-                }
+                RayCastEvt(hit);
             } 
+        }
+    }
+
+    
+    private void RayCastEvt(RaycastHit hit)
+    {
+        if (hit.collider.gameObject.CompareTag("Card"))
+        {
+            string card = $"{hit.collider.GetComponent<Card>().cardType}_{hit.collider.GetComponent<Card>().level}";
+
+            Texture2D cardTexture = Resources.Load<Texture2D>($"Images/{card}");
+            if (cardTexture != null)
+            {
+                cardImage.sprite = Sprite.Create(cardTexture, new Rect(0, 0, cardTexture.width, cardTexture.height), new Vector2(0.5f, 0.5f));
+            }
+            cardName.text = CardDIct.cardNameDict[card];
+            cardText.text = CardDIct.cardTextDict[card];
+            //cardCanvasOn = true;
+            canvas.SetActive(true);
         }
     }
     //if (input.getmousebuttondown(1))

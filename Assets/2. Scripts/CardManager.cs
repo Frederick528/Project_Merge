@@ -40,6 +40,29 @@ public class CardManager : MonoBehaviour
         result.Init(level);
         return result;
     }
+
+    public static bool DestroyCard(Card target)
+    {
+        var result = true;
+        try
+        {
+            if (!target.transform.parent.TryGetComponent(out CardGroup cardGroup))
+            {
+                Cards.Remove(target);
+                Destroy(target.gameObject);
+            }
+            else
+            {
+                cardGroup.RemoveCard(target);
+            }
+        }
+        catch (Exception e)
+        {
+            result = false;
+        }
+
+        return result;
+    }
     
     public static bool DestroyCard(IEnumerable<Card> targets)
     {
@@ -62,6 +85,7 @@ public class CardManager : MonoBehaviour
 
         return result;
     }
+    
 
     private void OnDestroy()
     {

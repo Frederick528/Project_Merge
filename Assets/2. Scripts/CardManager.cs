@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 public class CardManager : MonoBehaviour
 {
-    public static List<Card> Cards = new ();
+    private static List<Card> _cards = new ();
     private static GameObject _ogCard;
     public static CardManager Instance;
     public static GameObject[] Areas; // 0 - Merge | 1 - Export
@@ -29,7 +29,7 @@ public class CardManager : MonoBehaviour
         var cardInstance = Instantiate(_ogCard, Instance.transform).GetComponent<Card>();
         cardInstance.cardType = (Card.CardType)Random.Range(0, Enum.GetValues(typeof(Card.CardType)).Length);;
         cardInstance.Init(0);
-        Cards.Add(cardInstance);
+        _cards.Add(cardInstance);
             
         return cardInstance;
     }
@@ -48,7 +48,7 @@ public class CardManager : MonoBehaviour
         {
             if (!target.transform.parent.TryGetComponent(out CardGroup cardGroup))
             {
-                Cards.Remove(target);
+                _cards.Remove(target);
                 Destroy(target.gameObject);
             }
             else
@@ -69,11 +69,11 @@ public class CardManager : MonoBehaviour
         var result = true;
         try
         {
-            var v = Cards.Where(targets.Contains);
+            var v = _cards.Where(targets.Contains);
             for (int i = 0; i < v.Count();)
             {
                 var c = v.ElementAt(i);
-                Cards.Remove(c);
+                _cards.Remove(c);
                 Destroy(c.gameObject);
             }
         }
@@ -84,6 +84,21 @@ public class CardManager : MonoBehaviour
         }
 
         return result;
+    }
+
+    public static void ExpirationDateCheck()
+    {
+        var deleteQueue = new Queue<Card>();
+        foreach (var card in _cards)
+        {
+            if (!card.Lapse())
+            {
+                deleteQueue.Enqueue(card);
+                Debug.Log("유통기한이 만료되어 파괴 되었습니다.");
+            }
+        }
+
+        DestroyCard(deleteQueue);
     }
     
 

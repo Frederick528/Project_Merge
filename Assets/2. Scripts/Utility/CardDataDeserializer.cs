@@ -13,7 +13,7 @@ public class CardDataDeserializer
 
     private static Dictionary<int, CardData> CreateDictionary()
     {
-        string fileName = "/9ac545a6202c9471.xlsx";
+        string fileName = "/0.2.xlsx";
         string filePath = Application.dataPath + fileName;
 
         Dictionary<int, CardData> cardDictionary = new Dictionary<int, CardData>();
@@ -26,16 +26,19 @@ public class CardDataDeserializer
 
                 for (int i = 0; i < table.Count; i++)
                 {
-                    for (int j = 1; j < table[i].Rows.Count; j++)
+                    for (int j = 2; j < table[i].Rows.Count; j++)
                     {
                         var data = new CardData ();
                         var row = table[i].Rows[j];
 
                         data.KR = row[1].ToString();
                         data.EN = row[2].ToString();
-                        Int32.TryParse(row[3].ToString(), out data.Date);
-                        Int32.TryParse(row[4].ToString(), out data.Hunger);
-                        Int32.TryParse(row[5].ToString(), out data.Thirst);
+                        if(Int32.TryParse(row[3].ToString(), out data.Date))
+                            data.Date = data.Date == 0 ? Int32.MaxValue : data.Date;
+                        if (!Int32.TryParse(row[4].ToString(), out data.Hunger))
+                            data.Hunger = Int32.MinValue;
+                        if (!Int32.TryParse(row[5].ToString(), out data.Hunger))
+                            data.Hunger = Int32.MinValue;
                         data.Descript = row[6].ToString();
                         data.Effect = row[7].ToString();
                         data.Info = row[8].ToString();

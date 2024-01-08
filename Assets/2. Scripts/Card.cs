@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class Card : Entity
@@ -22,40 +23,40 @@ public class Card : Entity
 
     public CardData Data => _data;
     public CardType cardType;
-    public int _id;
+    public int ID;
     // Start is called before the first frame update
     public void Init(int level)
     {
         base.Init(level);
 
-        _id = level;
+        ID = level;
         
         switch (cardType)
         {
             case CardType.Food:
                 GetComponent<MeshRenderer>().material = 
                     Resources.Load<Material>("Prefabs/Materials/DarkGreen");
-                _id += 1010;
+                ID += 1010;
                 break;
             case CardType.Water:
                 GetComponent<MeshRenderer>().material = 
                     Resources.Load<Material>("Prefabs/Materials/Blue");
-                _id += 1020;
+                ID += 1020;
                 break;
             case CardType.Wood:
                 GetComponent<MeshRenderer>().material = 
                     Resources.Load<Material>($"Prefabs/Materials/Wood_{level}");
-                _id += 2010;
+                ID += 2010;
                 break;
             case CardType.Stone:
                 GetComponent<MeshRenderer>().material = 
                     Resources.Load<Material>("Prefabs/Materials/Purple");
-                _id += 2020;
+                ID += 2020;
                 break;
             case CardType.Combination:
                 GetComponent<MeshRenderer>().material = 
                     Resources.Load<Material>("Prefabs/Materials/White");
-                _id = 3000;
+                ID = 3000;
                 break;
             default:
                 GetComponent<MeshRenderer>().material = 
@@ -63,9 +64,9 @@ public class Card : Entity
                 break;
         }
 
-        if (!CardDataDeserializer.TryGetData(_id, out _data))
+        if (!CardDataDeserializer.TryGetData(ID, out _data))
             Debug.Log("데이터를 불러오는 도중에 문제가 발생했습니다." +
-                      $"\n카드 ID : {_id}");
+                      $"\n카드 ID : {ID}");
 
         this.GetComponentInChildren<TMP_Text>().text = _data.KR;
     }
@@ -301,6 +302,17 @@ public class Card : Entity
             emptyParent.AddCardRange(destroyTarget);
 
         }
+    }
+
+    public bool Lapse()
+    {
+        var result = true;
+        
+        _data.Date -= 1;
+        if (_data.Date <= 0)
+            result = false;
+        
+        return result;
     }
 
     //카드 분해 기능

@@ -50,6 +50,10 @@ public class CoreController : MonoBehaviour
         {
             EncounterManager.Occur();
         }
+        else if (_core.IsMorning)
+        {
+            CardManager.ExpirationDateCheck();
+        }
     }
     private void OnDestroy()
     {

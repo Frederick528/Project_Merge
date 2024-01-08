@@ -37,8 +37,8 @@ public class CardDataDeserializer
                             data.Date = data.Date == 0 ? Int32.MaxValue : data.Date;
                         if (!Int32.TryParse(row[4].ToString(), out data.Hunger))
                             data.Hunger = Int32.MinValue;
-                        if (!Int32.TryParse(row[5].ToString(), out data.Hunger))
-                            data.Hunger = Int32.MinValue;
+                        if (!Int32.TryParse(row[5].ToString(), out data.Thirst))
+                            data.Thirst = Int32.MinValue;
                         data.Descript = row[6].ToString();
                         data.Effect = row[7].ToString();
                         data.Info = row[8].ToString();

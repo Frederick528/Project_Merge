@@ -45,24 +45,25 @@ public class MouseRightClick : MonoBehaviour
         if (hit.collider.gameObject.CompareTag("Card"))
         {
             Card cardContents = hit.collider.GetComponent<Card>();
-            string cardID = $"{cardContents.cardType}_{cardContents.level}";
+            CardDataDeserializer.TryGetData(cardContents.ID, out CardData cardData);
 
-            Texture2D cardTexture = Resources.Load<Texture2D>($"Images/{cardID}");
+            //string cardID = $"{cardContents.cardType}_{cardContents.level}";
+            Texture2D cardTexture = Resources.Load<Texture2D>($"Images/{/*cardID*/cardData.EN}");
             if (cardTexture != null)    // 나중에 if문은 빼도 될 것 같음.
             {
                 cardImage.sprite = Sprite.Create(cardTexture, new Rect(0, 0, cardTexture.width, cardTexture.height), new Vector2(0.5f, 0.5f));
             }
-            cardName.text = CardDIct.cardNameDict[cardID];
-            cardText.text = CardDIct.cardTextDict[cardID];
+            cardName.text = cardData.KR;
+            cardText.text = cardData.Info;
 
-            if (cardContents.cardType == Card.CardType.Food || cardContents.cardType == Card.CardType.Water)
+            if (cardContents.cardType == Card.CardType.Food || cardContents.cardType == Card.CardType.Water || cardContents.ID == 3000 || cardContents.ID == 3001)
             {
                 cardEatBtn.interactable = true;
                 cardEatBtn.onClick.RemoveAllListeners();
                 cardEatBtn.onClick.AddListener(() =>
                 {
-                    stat.curHunger = ((stat.curHunger + 20) > stat.maxHunger) ? stat.maxHunger : stat.curHunger + 20;   //여기 값 불러오기(20)
-                    stat.curThirst = ((stat.curThirst + 10) > stat.maxThirst) ? stat.maxThirst : stat.curThirst + 10;   //여기 값 불러오기(10)
+                    stat.curHunger = ((stat.curHunger + cardData.Hunger) > stat.maxHunger) ? stat.maxHunger : stat.curHunger + cardData.Hunger;
+                    stat.curThirst = ((stat.curThirst + cardData.Thirst) > stat.maxThirst) ? stat.maxThirst : stat.curThirst + cardData.Thirst;
                     Destroy(hit.collider);
 
                     CanvasClose();

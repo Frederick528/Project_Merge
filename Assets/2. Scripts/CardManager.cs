@@ -10,8 +10,10 @@ public class CardManager : MonoBehaviour
 {
     private static List<Card> _cards = new ();
     private static GameObject _ogCard;
+    
     public static CardManager Instance;
     public static GameObject[] Areas; // 0 - Merge | 1 - Export
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -40,6 +42,15 @@ public class CardManager : MonoBehaviour
         result.Init(level);
         return result;
     }
+
+    public static Card CreateCard(int ID)
+    {
+        var result = CreateCard();
+        result.Init(ID, out bool res);
+        return result;
+    }
+
+
 
     public static bool DestroyCard(Card target)
     {

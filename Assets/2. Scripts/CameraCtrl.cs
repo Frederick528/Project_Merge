@@ -1,20 +1,23 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class CameraCtrl : MonoBehaviour
 {
-    float moveSpeed = 1000f;
+    //float moveSpeed = 2000f;
     float zoomSpeed = 50f;
 
     //float height;
     //float width;
     [SerializeField]
     GameObject map;
-    Vector3 mapSize;
+    //Vector3 mapSize;
 
-    [SerializeField]
-    Vector3 center;
+    float screenUp = Screen.height * 0.9f;
+    float screenDown = Screen.height * 0.1f;
+    float screenRight = Screen.width * 0.9f;
+    float screenLeft = Screen.width * 0.1f;
 
     Camera mainCamera;
 
@@ -24,7 +27,7 @@ public class CameraCtrl : MonoBehaviour
         {85f, 45.66f}, {80f, 56.56f}, {75f, 66.69f},
         {70f, 76.16f}, {65f, 85.07f}, {60f,93.50f},
         {55f, 101.52f}, {50f, 109.18f}, {45f,116.53f},
-        {40f, 123.62f}, {35f, 130.49f}, {30f,137.17f},
+        {40f, 123.62f}, {35f, 130.49f}, {30f,137.17f}
     };
 
     Dictionary<float, float> confineZ = new Dictionary<float, float>()
@@ -33,21 +36,42 @@ public class CameraCtrl : MonoBehaviour
         {85f, 52.32f}, {80f, 58.44f}, {75f, 64.13f},
         {70f, 69.46f}, {65f, 74.469f}, {60f,79.20f},
         {55f, 83.71f}, {50f, 88.01f}, {45f,92.14f},
-        {40f, 96.13f}, {35f, 99.99f}, {30f,103.74f},
+        {40f, 96.13f}, {35f, 99.99f}, {30f,103.74f}
     };
 
     void Start()
     {
-        mapSize = new Vector3 (map.transform.localScale.x, map.transform.localScale.y, map.transform.localScale.z);
+        //mapSize = new Vector3 (map.transform.localScale.x, map.transform.localScale.y, map.transform.localScale.z);
 
         mainCamera = GetComponent<Camera>();
         //height = Camera.main.orthographicSize;
         //width = height * Screen.width / Screen.height;
+
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     void Update()
     {
+        CameraConfine();
+    }
+
+    void CameraConfine()
+    {
         Move();
+        Zoom();
+
+        //float lx = (mapSize.x - width) * 1/mainCamera.fieldOfView;
+        float lx = confineX[mainCamera.fieldOfView];
+        float clampX = Mathf.Clamp(transform.position.x, -lx, lx);
+
+        //float ly = mapSize.y - height;
+        //float clampY = Mathf.Clamp(transform.position.y, -ly + center.y, ly + center.y);
+
+        //float lz = (mapSize.z - height) * 1/mainCamera.fieldOfView;
+        float lz = confineZ[mainCamera.fieldOfView];
+        float clampz = Mathf.Clamp(transform.position.z, -lz, lz);
+
+        transform.position = new Vector3(clampX, transform.position.y, clampz);
     }
 
     private void Zoom()
@@ -77,31 +101,43 @@ public class CameraCtrl : MonoBehaviour
 
     private void Move()
     {
-        if (Input.GetMouseButton(1))
+        if (Input.mousePosition.y > screenUp)
         {
             Vector3 pos = transform.position;
-            pos.x += Input.GetAxis("Mouse X") * -moveSpeed; // ¸¶¿ì½º X À§Ä¡ * ÀÌµ¿ ½ºÇÇµå
-            pos.z += Input.GetAxis("Mouse Y") * -moveSpeed; // ¸¶¿ì½º Y À§Ä¡ * ÀÌµ¿ ½ºÇÇµå
-
+            pos.z += (Input.mousePosition.y - screenUp);
             transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime);
         }
-        Zoom();
-        //float lx = (mapSize.x - width) * 1/mainCamera.fieldOfView;
-        float lx = confineX[mainCamera.fieldOfView];
-        float clampX = Mathf.Clamp(transform.position.x, -lx + center.x, lx + center.x);
 
-        //float ly = mapSize.y - height;
-        //float clampY = Mathf.Clamp(transform.position.y, -ly + center.y, ly + center.y);
+        if (Input.mousePosition.y < screenDown)
+        {
+            Vector3 pos = transform.position;
+            pos.z -= (screenDown - Input.mousePosition.y);
+            transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime);
+        }
 
-        //float lz = (mapSize.z - height) * 1/mainCamera.fieldOfView;
-        float lz = confineZ[mainCamera.fieldOfView];
-        float clampz = Mathf.Clamp(transform.position.z, -lz + center.z, lz + center.z);
+        if (Input.mousePosition.x > screenRight)
+        {
+            Vector3 pos = transform.position;
+            pos.x += (Input.mousePosition.x - screenRight);
+            transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime);
+        }
 
-        transform.position = new Vector3(clampX, transform.position.y, clampz);
+        if (Input.mousePosition.x < screenLeft)
+        {
+            Vector3 pos = transform.position;
+            pos.x -= (screenLeft - Input.mousePosition.x);
+            transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime);
+        }
+
+
+        //if (Input.GetMouseButton(1))
+        //{
+        //    Vector3 pos = transform.position;
+        //    pos.x += Input.GetAxis("Mouse X") * -moveSpeed; // ë§ˆìš°ìŠ¤ X ìœ„ì¹˜ * ì´ë™ ìŠ¤í”¼ë“œ
+        //    pos.z += Input.GetAxis("Mouse Y") * -moveSpeed; // ë§ˆìš°ìŠ¤ Y ìœ„ì¹˜ * ì´ë™ ìŠ¤í”¼ë“œ
+
+        //    transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime);
+        //}
     }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(center, mapSize);
-    }
+
 }

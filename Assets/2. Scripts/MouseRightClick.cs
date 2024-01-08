@@ -7,6 +7,7 @@ public class MouseRightClick : MonoBehaviour
 {
     // 설정창매니저 역할(스크립트 이름 나중에 바꿔야할 듯)
     //public Vector3 targetPosition;
+    public static bool onRightClick;
     public GameObject canvas;
     public Image cardImage;
     public Text cardName;
@@ -36,7 +37,7 @@ public class MouseRightClick : MonoBehaviour
 
     public void CanvasClose()
     {
-        GameManager.instance.cardCanvasOn = false;
+        GameManager.cardCanvasOn = false;
         canvas.SetActive(false);
     }
     
@@ -44,8 +45,9 @@ public class MouseRightClick : MonoBehaviour
     {
         if (hit.collider.gameObject.CompareTag("Card"))
         {
+
             Card cardContents = hit.collider.GetComponent<Card>();
-            CardDataDeserializer.TryGetData(cardContents.ID, out CardData cardData);
+            CardData cardData = cardContents.Data;
 
             //string cardID = $"{cardContents.cardType}_{cardContents.level}";
             Texture2D cardTexture = Resources.Load<Texture2D>($"Images/{/*cardID*/cardData.EN}");
@@ -74,7 +76,7 @@ public class MouseRightClick : MonoBehaviour
                 cardEatBtn.interactable= false;
             }
 
-            GameManager.instance.cardCanvasOn = true;
+            GameManager.cardCanvasOn = true;
             canvas.SetActive(true);
         }
     }

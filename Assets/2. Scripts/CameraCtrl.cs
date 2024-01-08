@@ -51,7 +51,7 @@ public class CameraCtrl : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.instance.cardCanvasOn)
+        if (GameManager.cardCanvasOn)
             return;
         CameraConfine();
     }

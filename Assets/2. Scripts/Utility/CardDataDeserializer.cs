@@ -72,16 +72,6 @@ public class CardDataDeserializer
                 }
             }
         }
-
-        foreach (var i in CraftRules)
-        {
-            var str = "";
-            foreach (var c in i)
-            {
-                str += c + " ";
-            }
-            Debug.Log(str);
-        }
         
         return cardDictionary;
     }

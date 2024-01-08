@@ -128,6 +128,7 @@ public class Card : Entity
 
     public override void OnMouseUp()
     {
+        if (GameManager.cardCanvasOn) return;
         var result = Physics.OverlapSphere(transform.position, 5f);
         var flag = false;
         
@@ -278,6 +279,7 @@ public class Card : Entity
 
     protected override void OnMouseDrag()
     {
+        if (GameManager.cardCanvasOn) return;
         float distance = Camera.main.WorldToScreenPoint(transform.position).z;
         var mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 78);
         var crntPos = Camera.main.ScreenToWorldPoint(mousePos);
@@ -315,6 +317,7 @@ public class Card : Entity
     }
     protected override void OnMouseDown()
     {
+        if (GameManager.cardCanvasOn) return;
         base.OnMouseDown();
     }
 

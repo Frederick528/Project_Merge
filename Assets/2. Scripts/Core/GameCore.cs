@@ -75,8 +75,8 @@ public class GameCore
         var result = _status.curAp + amount > 0;
         if (result)
             _status.curAp += amount;
-        else
-            EndGame();
+        //else
+        //    EndGame();
         return result;
     }
     public bool ModifyHunger(int amount)

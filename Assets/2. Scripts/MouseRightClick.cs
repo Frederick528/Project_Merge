@@ -38,6 +38,7 @@ public class MouseRightClick : MonoBehaviour
     {
         GameManager.instance.cardCanvasOn = false;
         canvas.SetActive(false);
+    }
     
     private void RayCastEvt(RaycastHit hit)
     {
@@ -63,7 +64,8 @@ public class MouseRightClick : MonoBehaviour
                     stat.curHunger = ((stat.curHunger + 20) > stat.maxHunger) ? stat.maxHunger : stat.curHunger + 20;   //여기 값 불러오기(20)
                     stat.curThirst = ((stat.curThirst + 10) > stat.maxThirst) ? stat.maxThirst : stat.curThirst + 10;   //여기 값 불러오기(10)
                     Destroy(hit.collider);
-                    canvas.SetActive(false);
+
+                    CanvasClose();
                 });
             }
             else
@@ -71,7 +73,7 @@ public class MouseRightClick : MonoBehaviour
                 cardEatBtn.interactable= false;
             }
 
-            //cardCanvasOn = true;
+            GameManager.instance.cardCanvasOn = true;
             canvas.SetActive(true);
         }
     }

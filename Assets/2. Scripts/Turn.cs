@@ -23,13 +23,13 @@ public class Turn : MonoBehaviour
 
         if (count +4 > maxDays * 4) // 최대 일수를 초과하면 초기화
         {
-            count = 1;
+            count = 4;
         }
 
         if (count % 4 == 0)
         {
             Img_Renderer.sprite = morning;
-            DayText(); // 새벽에 DayText 업데이트
+            DayText(); // 새벽이 지나면 생존 일수 업데이트
         }
         else if (count % 4 == 1)
         {
@@ -50,7 +50,7 @@ public class Turn : MonoBehaviour
     {
         if (count % 4 == 0)
         {
-            Day.text = "생존 일수: " + (count / 4).ToString(); // 생존 일수 업데이트
+            Day.text = "생존 일수: " + (count / 4).ToString() + "일"; // 생존 일수 업데이트
         }
     }
 }

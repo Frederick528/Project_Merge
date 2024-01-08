@@ -7,9 +7,7 @@ public class RandomEvent : MonoBehaviour
     [SerializeField]
     GameObject incounter1, incounter2, incounter3;
 
-    static int Random_event; // static으로 변경
-
-    static List<GameObject> IncounterList = new List<GameObject>(); // static으로 변경
+    static List<GameObject> IncounterList = new List<GameObject>();
 
     private void Start()
     {
@@ -18,16 +16,14 @@ public class RandomEvent : MonoBehaviour
         IncounterList.Add(incounter3);
     }
 
-    public static void SpawnPlay() // static으로 변경
+    public static void SpawnPlay()
     {
         if (IncounterList.Count > 0)
         {
-            Random_event = Random.Range(0, IncounterList.Count);
-
-            GameObject selectedEvent = IncounterList[Random_event];
+            GameObject selectedEvent = IncounterList[0]; 
             selectedEvent.SetActive(true);
             Instantiate(selectedEvent);
-            IncounterList.Remove(selectedEvent);
+            IncounterList.RemoveAt(0); 
         }
     }
 }

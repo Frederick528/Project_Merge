@@ -180,6 +180,7 @@ MonoBehaviour:
   result1: {fileID: 716063084}
   result2: {fileID: 716063084}
   close: {fileID: 0}
+  turnbutton: {fileID: 0}
 --- !u!114 &20152233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,6 +332,7 @@ MonoBehaviour:
   result1: {fileID: 716063084}
   result2: {fileID: 1649252960}
   close: {fileID: 35326778}
+  turnbutton: {fileID: 1965480392}
 --- !u!114 &35326781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1084,7 +1086,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be5e9c740fad4fe4e9e7db29b0a60e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 1331108082}
+  Hungriness: {fileID: 0}
+  Thirst: {fileID: 0}
+  Turn: {fileID: 0}
+  AP: {fileID: 0}
 --- !u!4 &346739154
 Transform:
   m_ObjectHideFlags: 0
@@ -1336,6 +1341,7 @@ MonoBehaviour:
   result1: {fileID: 1489815164}
   result2: {fileID: 1489815164}
   close: {fileID: 0}
+  turnbutton: {fileID: 0}
 --- !u!114 &400356351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1487,6 +1493,7 @@ MonoBehaviour:
   result1: {fileID: 716063084}
   result2: {fileID: 1649252960}
   close: {fileID: 0}
+  turnbutton: {fileID: 0}
 --- !u!114 &412727318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1715,6 +1722,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: 0
+  _rigid: {fileID: 0}
 --- !u!54 &513492862
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3162,6 +3170,7 @@ MonoBehaviour:
   result1: {fileID: 339989209}
   result2: {fileID: 383015585}
   close: {fileID: 821149435}
+  turnbutton: {fileID: 1965480392}
 --- !u!1 &836828272
 GameObject:
   m_ObjectHideFlags: 0
@@ -3635,6 +3644,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: 0
+  _rigid: {fileID: 0}
+  cardType: 0
 --- !u!1 &945095819
 GameObject:
   m_ObjectHideFlags: 0
@@ -4019,6 +4030,7 @@ MonoBehaviour:
   result1: {fileID: 716063084}
   result2: {fileID: 1649252960}
   close: {fileID: 1014076980}
+  turnbutton: {fileID: 1965480392}
 --- !u!114 &1014076983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4384,6 +4396,7 @@ MonoBehaviour:
   result1: {fileID: 1489815164}
   result2: {fileID: 123175633}
   close: {fileID: 1151116471}
+  turnbutton: {fileID: 1965480392}
 --- !u!114 &1151116474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4844,6 +4857,7 @@ MonoBehaviour:
   result1: {fileID: 339989209}
   result2: {fileID: 383015585}
   close: {fileID: 1360266430}
+  turnbutton: {fileID: 1965480392}
 --- !u!1 &1431995417
 GameObject:
   m_ObjectHideFlags: 0
@@ -5053,6 +5067,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: 0
+  _rigid: {fileID: 0}
+  cardType: 0
 --- !u!1 &1489815164
 GameObject:
   m_ObjectHideFlags: 0
@@ -5306,6 +5322,7 @@ MonoBehaviour:
   result1: {fileID: 1489815164}
   result2: {fileID: 123175633}
   close: {fileID: 0}
+  turnbutton: {fileID: 0}
 --- !u!114 &1587286163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5687,6 +5704,7 @@ MonoBehaviour:
   result1: {fileID: 1489815164}
   result2: {fileID: 123175633}
   close: {fileID: 1693260885}
+  turnbutton: {fileID: 1965480392}
 --- !u!114 &1693260888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6273,6 +6291,7 @@ MonoBehaviour:
   result1: {fileID: 339989209}
   result2: {fileID: 339989209}
   close: {fileID: 0}
+  turnbutton: {fileID: 0}
 --- !u!1 &1847644678
 GameObject:
   m_ObjectHideFlags: 0
@@ -6915,6 +6934,7 @@ MonoBehaviour:
   result1: {fileID: 339989209}
   result2: {fileID: 383015585}
   close: {fileID: 0}
+  turnbutton: {fileID: 0}
 --- !u!1 &1936781308
 GameObject:
   m_ObjectHideFlags: 0
@@ -6987,7 +7007,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 507.5952, y: -229.11307}
+  m_AnchoredPosition: {x: 507.5952, y: -2}
   m_SizeDelta: {x: 85.8094, y: 60.7739}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1965480394
@@ -7079,7 +7099,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.24705882, g: 1, b: 0.7294118, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

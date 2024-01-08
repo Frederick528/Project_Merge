@@ -1,18 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MouseRightClick : MonoBehaviour
 {
+    // 설정창매니저 역할(스크립트 이름 나중에 바꿔야할 듯)
     //public Vector3 targetPosition;
     public GameObject canvas;
     public Image cardImage;
     public Text cardName;
     public Text cardText;
     public Button cardEatBtn;
-    //public bool cardCanvasOn = false;
 
     Stat stat;
 
@@ -35,6 +34,10 @@ public class MouseRightClick : MonoBehaviour
         }
     }
 
+    public void CanvasClose()
+    {
+        GameManager.instance.cardCanvasOn = false;
+        canvas.SetActive(false);
     
     private void RayCastEvt(RaycastHit hit)
     {

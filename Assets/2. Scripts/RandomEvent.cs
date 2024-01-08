@@ -7,9 +7,7 @@ public class RandomEvent : MonoBehaviour
     [SerializeField]
     GameObject incounter1, incounter2, incounter3;
 
-    int Random_event;
-
-    List<GameObject> IncounterList = new List<GameObject>();
+    static List<GameObject> IncounterList = new List<GameObject>();
 
     private void Start()
     {
@@ -18,42 +16,14 @@ public class RandomEvent : MonoBehaviour
         IncounterList.Add(incounter3);
     }
 
-    private void Update()
+    public static void SpawnPlay()
     {
-        SpawnPlay();
-    }
-
-    void SpawnPlay()
-    {
-        bool keydown = Input.GetKeyUp(KeyCode.Space);
-
-        if (keydown)
+        if (IncounterList.Count > 0)
         {
-            for (int i = 0; i < IncounterList.Count; i++)
-
-
-            {
-                Random_event = Random.Range(0, 3);
-
-                switch (Random_event)
-                {
-                    case 0:
-                        incounter1.SetActive(true);
-                        Instantiate(incounter1);
-                        IncounterList.Remove(incounter1);
-                        break;
-                    case 1:
-                        incounter2.SetActive(true);
-                        Instantiate(incounter2);
-                        IncounterList.Remove(incounter2);
-                        break;
-                    case 2:
-                        incounter3.SetActive(true);
-                        Instantiate(incounter3);
-                        IncounterList.Remove(incounter3);
-                        break;
-                }
-            }
+            GameObject selectedEvent = IncounterList[0]; 
+            selectedEvent.SetActive(true);
+            Instantiate(selectedEvent);
+            IncounterList.RemoveAt(0); 
         }
     }
 }

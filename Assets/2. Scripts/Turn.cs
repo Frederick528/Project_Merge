@@ -9,7 +9,7 @@ public class Turn : MonoBehaviour
     public SpriteRenderer Img_Renderer;
     public Sprite morning, lunch, dinner, night;
     public int count = 4;
-    public int maxDays = 31; // ÃÖ´ë »ıÁ¸ ÀÏ¼ö
+    public int maxDays = 31; // ìµœëŒ€ ìƒì¡´ ì¼ìˆ˜
 
     public void Update()
     {
@@ -20,7 +20,7 @@ public class Turn : MonoBehaviour
     {
         count += 1;
 
-        if (count > maxDays * 4) // ÃÖ´ë ÀÏ¼ö¸¦ ÃÊ°úÇÏ¸é ÃÊ±âÈ­
+        if (count > maxDays * 4) // ìµœëŒ€ ì¼ìˆ˜ë¥¼ ì´ˆê³¼í•˜ë©´ ì´ˆê¸°í™”
         {
             count = 1;
         }
@@ -28,7 +28,7 @@ public class Turn : MonoBehaviour
         if (count % 4 == 1)
         {
             Img_Renderer.sprite = morning;
-            DayText(); // »õº®¿¡ DayText ¾÷µ¥ÀÌÆ®
+            DayText(); // ìƒˆë²½ì— DayText ì—…ë°ì´íŠ¸
         }
         else if (count % 4 == 2)
         {
@@ -48,7 +48,7 @@ public class Turn : MonoBehaviour
     {
         if (count % 4 == 1)
         {
-            Day.text = "»ıÁ¸ ÀÏ¼ö: " + (count / 4).ToString(); // »ıÁ¸ ÀÏ¼ö ¾÷µ¥ÀÌÆ®
+            Day.text = "ìƒì¡´ ì¼ìˆ˜: " + (count / 4).ToString(); // ìƒì¡´ ì¼ìˆ˜ ì—…ë°ì´íŠ¸
         }
     }
 }

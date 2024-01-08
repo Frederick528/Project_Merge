@@ -45,6 +45,11 @@ public class CoreController : MonoBehaviour
     {
         _core.TurnChange();
         _instance.Turn.text = _core.TurnCnt + "";
+
+        if (_core.IsDawn)
+        {
+            EncounterManager.Occur();
+        }
     }
     private void OnDestroy()
     {

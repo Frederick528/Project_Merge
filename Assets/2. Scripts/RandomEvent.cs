@@ -7,6 +7,8 @@ public class RandomEvent : MonoBehaviour
     [SerializeField]
     GameObject incounter1, incounter2, incounter3;
 
+    static int Random_event;
+
     static List<GameObject> IncounterList = new List<GameObject>();
 
     private void Start()
@@ -20,10 +22,12 @@ public class RandomEvent : MonoBehaviour
     {
         if (IncounterList.Count > 0)
         {
-            GameObject selectedEvent = IncounterList[0]; 
+            Random_event = Random.Range(0, IncounterList.Count);
+
+            GameObject selectedEvent = IncounterList[Random_event];
             selectedEvent.SetActive(true);
             Instantiate(selectedEvent);
-            IncounterList.RemoveAt(0); 
+            IncounterList.Remove(selectedEvent);
         }
     }
 }

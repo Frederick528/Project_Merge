@@ -6,13 +6,12 @@ using UnityEngine.UI;
 public class Turn : MonoBehaviour
 {
     public Text Day;
-    public SpriteRenderer Img_Renderer;
-    public Sprite morning, lunch, dinner, night;
-    public int count = 4;
-    public int maxDays = 30; // 최대 생존 일수
-    
+    public Text Time;
+    public static int count = 4; // static으로 변경
+    public static int maxDays = 31; // static으로 변경
+    private static RandomEvent randomEvent; // static으로 변경
 
-    public void Update()
+    private void Update()
     {
         DayText();
     }
@@ -21,36 +20,36 @@ public class Turn : MonoBehaviour
     {
         count += 1;
 
-        if (count +4 > maxDays * 4) // 최대 일수를 초과하면 초기화
+        if (count > maxDays * 4)
         {
             count = 4;
         }
 
         if (count % 4 == 0)
         {
-            Img_Renderer.sprite = morning;
-            DayText(); // 새벽이 지나면 생존 일수 업데이트
+            Time.text = "아침".ToString();
+            DayText();
         }
         else if (count % 4 == 1)
         {
-            Img_Renderer.sprite = lunch;
+            Time.text = "점심".ToString();
         }
         else if (count % 4 == 2)
         {
-            Img_Renderer.sprite = dinner;
+            Time.text = "저녁".ToString();
         }
         else if (count % 4 == 3)
         {
-            Img_Renderer.sprite = night;
+            Time.text = "새벽".ToString();
             RandomEvent.SpawnPlay();
         }
     }
 
-    void DayText()
+    private void DayText()
     {
         if (count % 4 == 0)
         {
-            Day.text = "생존 일수: " + (count / 4).ToString() + "일"; // 생존 일수 업데이트
+            Day.text = "생존 일수: " + (count / 4).ToString();
         }
     }
 }

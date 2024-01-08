@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,10 +8,14 @@ public class PlayerCtrl : MonoBehaviour
     public Stat stat;
 
     // Start is called before the first frame update
+    private void Awake()
+    {
+        stat = Stat.SetUnitStatus(UnitCode.player);
+    }
+
     void Start()
     {
-        stat = new Stat();
-        stat = stat.SetUnitStatus(UnitCode.player);
+        
     }
 
     // Update is called once per frame

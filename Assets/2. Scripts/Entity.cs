@@ -1,15 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-[RequireComponent(typeof(Rigidbody))]
 public abstract class Entity : Mergeable
 {
     protected bool selectCard = false; 
     
-    protected Rigidbody _rigid;
+    public Rigidbody _rigid;
     // Start is called before the first frame update
-    protected void Start()
+    protected void Awake()
     {
         _rigid = GetComponent<Rigidbody>();
     }
@@ -53,9 +51,7 @@ public abstract class Entity : Mergeable
 
     public override void OnMouseUp()
     {
-        base.OnMouseUp();
         _rigid.isKinematic = false;
-        
     }
 
 }

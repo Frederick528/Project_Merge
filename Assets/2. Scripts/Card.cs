@@ -293,4 +293,12 @@ public class Card : Entity
 
         }
     }
+
+    //카드 분해 기능
+    protected void OnDecomposition()
+    {
+        CardManager.DestroyCard(this);
+        CardManager.CreateCard(this.level - 1, Random.Range(0, 5));
+        CardManager.CreateCard(this.level - 1, Random.Range(0, 5));
+    }
 }

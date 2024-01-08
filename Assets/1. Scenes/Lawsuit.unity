@@ -3119,6 +3119,7 @@ MonoBehaviour:
   level: 0
   _rigid: {fileID: 0}
   cardType: 0
+  _id: 0
 --- !u!54 &2066588472
 Rigidbody:
   m_ObjectHideFlags: 0

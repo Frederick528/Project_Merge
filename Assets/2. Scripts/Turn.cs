@@ -10,6 +10,7 @@ public class Turn : MonoBehaviour
     public static int count = 4; // static으로 변경
     public static int maxDays = 31; // static으로 변경
     private static RandomEvent randomEvent; // static으로 변경
+    public GameObject closebtn;
 
     private void Update()
     {
@@ -42,6 +43,7 @@ public class Turn : MonoBehaviour
         {
             Time.text = "새벽".ToString();
             RandomEvent.SpawnPlay();
+            closebtn.SetActive(true);
         }
     }
 
@@ -49,7 +51,7 @@ public class Turn : MonoBehaviour
     {
         if (count % 4 == 0)
         {
-            Day.text = "생존 일수: " + (count / 4).ToString();
+            Day.text = "생존 " + (count / 4).ToString() + "일차";
         }
     }
 }

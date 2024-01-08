@@ -260,8 +260,6 @@ public class Card : Entity
         {
             CardManager.Areas ??= GameObject.FindGameObjectsWithTag("Merge");
             
-            Debug.Log(CardManager.Areas[0].name);
-
             float refXMin = CardManager.Areas[0].transform.position.x - CardManager.Areas[0].transform.localScale.x / 2;
             float refXMax = CardManager.Areas[0].transform.position.x + CardManager.Areas[0].transform.localScale.x / 2;
             float refZMin = CardManager.Areas[0].transform.position.z - CardManager.Areas[0].transform.localScale.z / 2;
@@ -292,5 +290,13 @@ public class Card : Entity
             emptyParent.AddCardRange(destroyTarget);
 
         }
+    }
+
+    //카드 분해 기능
+    protected void OnDecomposition()
+    {
+        CardManager.DestroyCard(this);
+        CardManager.CreateCard(this.level - 1, Random.Range(0, 5));
+        CardManager.CreateCard(this.level - 1, Random.Range(0, 5));
     }
 }

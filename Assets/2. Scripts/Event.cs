@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Event : MonoBehaviour
 {
-    public GameObject incounter, result1, result2, close;
+    public GameObject incounter, result1, result2, close, turnbutton;
    public void Result1()
     {
         incounter.SetActive(false);
@@ -22,6 +22,6 @@ public class Event : MonoBehaviour
     {
         result1.SetActive(false);
         result2.SetActive(false);
-
+        turnbutton.SetActive(true);
     }
 }

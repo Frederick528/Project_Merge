@@ -9,7 +9,8 @@ public class Turn : MonoBehaviour
     public SpriteRenderer Img_Renderer;
     public Sprite morning, lunch, dinner, night;
     public int count = 4;
-    public int maxDays = 31; // ìµœëŒ€ ìƒì¡´ ì¼ìˆ˜
+    public int maxDays = 30; // ÃÖ´ë »ıÁ¸ ÀÏ¼ö
+    
 
     public void Update()
     {
@@ -20,35 +21,36 @@ public class Turn : MonoBehaviour
     {
         count += 1;
 
-        if (count > maxDays * 4) // ìµœëŒ€ ì¼ìˆ˜ë¥¼ ì´ˆê³¼í•˜ë©´ ì´ˆê¸°í™”
+        if (count +4 > maxDays * 4) // ÃÖ´ë ÀÏ¼ö¸¦ ÃÊ°úÇÏ¸é ÃÊ±âÈ­
         {
-            count = 1;
+            count = 4;
         }
 
-        if (count % 4 == 1)
+        if (count % 4 == 0)
         {
             Img_Renderer.sprite = morning;
-            DayText(); // ìƒˆë²½ì— DayText ì—…ë°ì´íŠ¸
+            DayText(); // »õº®ÀÌ Áö³ª¸é »ıÁ¸ ÀÏ¼ö ¾÷µ¥ÀÌÆ®
         }
-        else if (count % 4 == 2)
+        else if (count % 4 == 1)
         {
             Img_Renderer.sprite = lunch;
         }
-        else if (count % 4 == 3)
+        else if (count % 4 == 2)
         {
             Img_Renderer.sprite = dinner;
         }
-        else if (count % 4 == 0)
+        else if (count % 4 == 3)
         {
             Img_Renderer.sprite = night;
+            RandomEvent.SpawnPlay();
         }
     }
 
     void DayText()
     {
-        if (count % 4 == 1)
+        if (count % 4 == 0)
         {
-            Day.text = "ìƒì¡´ ì¼ìˆ˜: " + (count / 4).ToString(); // ìƒì¡´ ì¼ìˆ˜ ì—…ë°ì´íŠ¸
+            Day.text = "»ıÁ¸ ÀÏ¼ö: " + (count / 4).ToString() + "ÀÏ"; // »ıÁ¸ ÀÏ¼ö ¾÷µ¥ÀÌÆ®
         }
     }
 }

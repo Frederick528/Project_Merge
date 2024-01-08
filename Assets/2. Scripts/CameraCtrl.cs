@@ -13,8 +13,8 @@ public class CameraCtrl : MonoBehaviour
     GameObject map;
     //Vector3 mapSize;
 
-    float screenUp = Screen.height * 0.95f;
-    float screenDown = Screen.height * 0.05f;
+    float screenUp = Screen.height * 0.92f;
+    float screenDown = Screen.height * 0.08f;
     float screenRight = Screen.width * 0.95f;
     float screenLeft = Screen.width * 0.05f;
 

@@ -29,8 +29,15 @@ public abstract class Mergeable : Draggable
         OnMerge(t1, t2);
     }
 
+    // protected void OnMergeEnter(IEnumerable<Mergeable> mergeable)
+    // {
+    //     initCheck();
+    //     OnMerge(mergeable);
+    // }
+
     // 합쳤을 때 동작할 내용 구현
     protected abstract void OnMerge(GameObject t1, GameObject t2);
+    //protected abstract void OnMerge(IEnumerable<Mergeable> mergeable);
 
     public abstract void OnMouseUp();
 }

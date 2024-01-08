@@ -9,11 +9,14 @@ using UnityEngine;
 public class CardDataDeserializer
 {
     private static Dictionary<int, CardData> _dictionary = null;
+    private static List<int[]> _craftRules = new ();
+
+    public static List<int[]> CraftRules => _craftRules;
     // Start is called before the first frame update
 
     private static Dictionary<int, CardData> CreateDictionary()
     {
-        string fileName = "/0.2.xlsx";
+        string fileName = "/0.8.xlsx";
         string filePath = Application.dataPath + fileName;
 
         Dictionary<int, CardData> cardDictionary = new Dictionary<int, CardData>();
@@ -42,8 +45,24 @@ public class CardDataDeserializer
                         data.Descript = row[6].ToString();
                         data.Effect = row[7].ToString();
                         data.Info = row[8].ToString();
-                        data.Craft = row[9].ToString();
-                        data.CraftResult = row[10].ToString();
+                        
+                        if(row[9].ToString() != "null")
+                        {
+                            var v = row[9].ToString().Split("+".Trim());
+                            Array.Resize(ref v, v.Length + 1);
+                            v[^1] = row[10].ToString();
+                            
+                            var craft = new int[v.Length];
+                            for (int k = 0; k < v.Length; k++)
+                            {
+                                Int32.TryParse(v[k], out craft[k]);
+                            }
+
+                            if (!_craftRules.Contains(craft))
+                            {
+                                _craftRules.Add(craft);
+                            }
+                        }
                         data.CraftEffect = row[11].ToString();
                         
                         cardDictionary.Add(Convert.ToInt32(row[0].ToString()), data);
@@ -54,6 +73,16 @@ public class CardDataDeserializer
             }
         }
 
+        foreach (var i in CraftRules)
+        {
+            var str = "";
+            foreach (var c in i)
+            {
+                str += c + " ";
+            }
+            Debug.Log(str);
+        }
+        
         return cardDictionary;
     }
 
@@ -65,3 +94,4 @@ public class CardDataDeserializer
         return result;
     }
 }
+ 

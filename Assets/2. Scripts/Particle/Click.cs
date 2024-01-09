@@ -6,22 +6,10 @@ using UnityEngine;
 public class Click : MonoBehaviour
 {
     public Animator anim;
-    public RectTransform particleCanvas;
-    Vector2 particleCanvasSize;
+    // Start is called before the first frame update
 
-
-    private void Start()
+    void OnMouseDown()
     {
-        particleCanvasSize = particleCanvas.sizeDelta / 2;
-    }
-
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            gameObject.transform.localPosition = new Vector3(Input.mousePosition.x - particleCanvasSize.x, Input.mousePosition.y - particleCanvasSize.y, 0);
-            anim.Play("ClickAnimation", -1, 0);
-
-        }
+        anim.Play("ClickAnimation", -1, 0);
     }
 }

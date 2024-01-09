@@ -1,8 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class Card : Entity
@@ -16,108 +20,178 @@ public class Card : Entity
         Combination
     }
 
-    public CardType cardType;
-
-    private MeshRenderer renderer;
-
     private static CardGroup _tempGroup;
+    private CardData _data;
+
+    public CardData Data => _data;
+    public CardType cardType;
+    public int ID;
     // Start is called before the first frame update
     public void Init(int level)
     {
         base.Init(level);
 
+        ID = level;
+        
         switch (cardType)
         {
             case CardType.Food:
                 GetComponent<MeshRenderer>().material = 
                     Resources.Load<Material>("Prefabs/Materials/DarkGreen");
+                ID += 1010;
                 break;
             case CardType.Water:
                 GetComponent<MeshRenderer>().material = 
                     Resources.Load<Material>("Prefabs/Materials/Blue");
+                ID += 1020;
                 break;
             case CardType.Wood:
                 GetComponent<MeshRenderer>().material = 
                     Resources.Load<Material>($"Prefabs/Materials/Wood_{level}");
+                ID += 2010;
                 break;
             case CardType.Stone:
                 GetComponent<MeshRenderer>().material = 
                     Resources.Load<Material>("Prefabs/Materials/Purple");
+                ID += 2020;
                 break;
             case CardType.Combination:
                 GetComponent<MeshRenderer>().material = 
                     Resources.Load<Material>("Prefabs/Materials/White");
+                ID = 3000;
                 break;
             default:
                 GetComponent<MeshRenderer>().material = 
                     Resources.Load<Material>("Prefabs/Materials/Black");
                 break;
         }
-    }
-    void Start()
-    {
-        
-    }
 
+        if (!CardDataDeserializer.TryGetData(ID, out _data))
+            Debug.Log("데이터를 불러오는 도중에 문제가 발생했습니다." +
+                      $"\n카드 ID : {ID}");
+
+        this.GetComponentInChildren<TMP_Text>().text = _data.KR;
+    }
+    public void Init(int ID, out bool temp)
+    {
+        temp = true;
+        level = ID % 10;
+        
+        switch (ID / 10)
+        {
+            case 101:
+                GetComponent<MeshRenderer>().material = 
+                    Resources.Load<Material>("Prefabs/Materials/DarkGreen");
+                cardType = CardType.Food;
+                break;
+            case 102:
+                GetComponent<MeshRenderer>().material = 
+                    Resources.Load<Material>("Prefabs/Materials/Blue");
+                cardType = CardType.Water;
+                break;
+            case 201:
+                GetComponent<MeshRenderer>().material = 
+                    Resources.Load<Material>($"Prefabs/Materials/Wood_{level}");
+                cardType = CardType.Wood;
+                break;
+            case 202:
+                GetComponent<MeshRenderer>().material = 
+                    Resources.Load<Material>("Prefabs/Materials/Purple");
+                cardType = CardType.Stone;
+                break;
+            case 300:
+                GetComponent<MeshRenderer>().material = 
+                    Resources.Load<Material>("Prefabs/Materials/White");
+                cardType = CardType.Combination;
+                level = 5;
+                break;
+            default:
+                GetComponent<MeshRenderer>().material = 
+                    Resources.Load<Material>("Prefabs/Materials/Black");
+                break;
+        }
+        
+        if (!CardDataDeserializer.TryGetData(ID, out _data))
+            Debug.Log("데이터를 불러오는 도중에 문제가 발생했습니다." +
+                      $"\n카드 ID : {ID}");
+
+        this.GetComponentInChildren<TMP_Text>().text = _data.KR;
+    }
+    
     // Update is called once per frame
     void Update()
     {
         base.Update();
     }
 
+
     public override void OnMouseUp()
     {
+        if (GameManager.cardCanvasOn) return;
         var result = Physics.OverlapSphere(transform.position, 5f);
+        var flag = false;
         
-        if (result.Length > 2)
-            foreach (var v in result)
+        var mergeTarget = new List<Card>();
+        //리스트 복사
+        var craftRules = new List<int[]>(CardDataDeserializer.CraftRules);
+        mergeTarget.Add(this);
+        
+        for (int i = 0; i < result.Length; i++)
+        {
+            if (result[i].gameObject.Equals(this.gameObject))
+                continue;
+
+
+            if (!result[i].transform.parent.TryGetComponent(out CardGroup g11) || !this.transform.parent.TryGetComponent(out CardGroup g12))
             {
-                try
+                if (result[i].TryGetComponent(out Card card))
                 {
-                    if (v.TryGetComponent(out Mergeable comp))
+                    if (card.ID == this.ID)
                     {
-                        if (!this.Equals(comp))
+                        OnMergeEnter(this.gameObject, result[i].gameObject);
+                        return;
+                    }
+                    else
+                    {
+                        foreach (var rule in CardDataDeserializer.CraftRules)
                         {
-                            //TODO
-                            if (comp.transform.parent.TryGetComponent(out CardGroup g1))
+                            if (rule.Contains(this.ID) && rule.Contains(card.ID))
                             {
-                                if (transform.parent.TryGetComponent(out CardGroup g2))
+
+                                var str = "";
+                                foreach (var c in rule)
                                 {
-                                    //서로 다른 두 CardGroup 간의 결합
-                                    if (!g1.Equals(g2))
-                                    {
-                                        OnMergeEnter(this.gameObject, comp.gameObject);
-                                        return;
-                                    }
-                                    //서로 같은 CardGroup에 속해 있는 카드들 그냥 무시
-                                    else
-                                    {
-                                        continue;
-                                    }
+                                    str += c + " ";
                                 }
-                                //CardGroup을 빈 카드에 결합 시킴
-                                else
-                                {
-                                    OnMergeEnter(this.gameObject, comp.gameObject);
-                                    return;
-                                }
+
+                                Debug.Log(str);
+
+
+                                var cardInstance = CardManager.CreateCard(rule[^1]);
+                                CardManager.DestroyCard(new[] { this, card });
+
+                                //cardInstance.transform.localScale = Vector3.one;
+                                cardInstance.transform.position =
+                                    CardManager.Areas[1].transform.position + Vector3.up * 2f;
                             }
-                            //빈 카드 끼리의 결합
-                            else
-                            {
-                                OnMergeEnter(this.gameObject, comp.gameObject);
-                                return;
-                            }
-                        
                         }
                     }
-
-                }
-                catch
-                {
-                    continue;
                 }
             }
+            else
+            {
+                if(result[i].transform.parent.TryGetComponent(out CardGroup g1) && this.transform.parent.TryGetComponent(out CardGroup g2))
+                    if(g1.Equals(g2))
+                        continue;
+                if(result[i].TryGetComponent(out Card card))
+                {
+                    OnMergeEnter(this.gameObject, card.gameObject);
+                    return;
+                }
+                else
+                    continue;
+            }
+        }
         
         if (_tempGroup != null)
         {
@@ -125,17 +199,18 @@ public class Card : Entity
         }
         else if (transform.parent.TryGetComponent(out CardGroup cardGroup))
         {
-            if (cardGroup.Cards.IndexOf(this) == cardGroup.Count - 1)
+            if (this.Equals(cardGroup.Cards[^1]))
             {
                 cardGroup.RemoveCard(this);
             }
         }
-
+        
         this._rigid.isKinematic = false;
     }
 
     protected override void OnMouseDrag()
     {
+        if (GameManager.cardCanvasOn) return;
         float distance = Camera.main.WorldToScreenPoint(transform.position).z;
         var mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 78);
         var crntPos = Camera.main.ScreenToWorldPoint(mousePos);
@@ -173,6 +248,7 @@ public class Card : Entity
     }
     protected override void OnMouseDown()
     {
+        if (GameManager.cardCanvasOn) return;
         base.OnMouseDown();
     }
 
@@ -180,8 +256,6 @@ public class Card : Entity
 
     protected override void OnMerge(GameObject t1, GameObject t2)
     {
-        
-        Debug.Log("OnMerge");
         //t1 => 잡고 있던 카드 || t2 => 바닥에 있던 카드
         
         var destroyTarget = new[] { t2.GetComponent<Card>(), t1.GetComponent<Card>() };
@@ -260,8 +334,6 @@ public class Card : Entity
         {
             CardManager.Areas ??= GameObject.FindGameObjectsWithTag("Merge");
             
-            Debug.Log(CardManager.Areas[0].name);
-
             float refXMin = CardManager.Areas[0].transform.position.x - CardManager.Areas[0].transform.localScale.x / 2;
             float refXMax = CardManager.Areas[0].transform.position.x + CardManager.Areas[0].transform.localScale.x / 2;
             float refZMin = CardManager.Areas[0].transform.position.z - CardManager.Areas[0].transform.localScale.z / 2;
@@ -272,7 +344,7 @@ public class Card : Entity
                 if (t2.transform.position.z > refZMin && t2.transform.position.z < refZMax)
                 {
                     //병합 분기
-                    if ((destroyTarget[0].cardType == destroyTarget[1].cardType) && (destroyTarget[0].level == destroyTarget[1].level) && destroyTarget[0].level < MaxLevel)
+                    if (destroyTarget[0].ID == destroyTarget[1].ID)
                     {
 
                         var cardInstance = CardManager.CreateCard(level + 1, (int)cardType);
@@ -292,6 +364,54 @@ public class Card : Entity
             emptyParent.AddCardRange(destroyTarget);
 
         }
+    }
+    // protected override void OnMerge(IEnumerable<Mergeable> mergeable)
+    // {
+    //     CardManager.Areas ??= GameObject.FindGameObjectsWithTag("Merge");
+    //     var cards = new List<Card>((IEnumerable<Card>)mergeable);
+    //         
+    //     float refXMin = CardManager.Areas[0].transform.position.x - CardManager.Areas[0].transform.localScale.x / 2;
+    //     float refXMax = CardManager.Areas[0].transform.position.x + CardManager.Areas[0].transform.localScale.x / 2;
+    //     float refZMin = CardManager.Areas[0].transform.position.z - CardManager.Areas[0].transform.localScale.z / 2;
+    //     float refZMax = CardManager.Areas[0].transform.position.z + CardManager.Areas[0].transform.localScale.z / 2;
+    //         
+    //     if (cards[0].transform.position.x > refXMin && cards[0].transform.position.x < refXMax)
+    //     {    
+    //         if (cards[0].transform.position.z > refZMin && cards[0].transform.position.z < refZMax)
+    //         {
+    //             foreach (var card in cards)
+    //             {
+    //                 
+    //             }
+    //             
+    //             
+    //             //병합 분기
+    //             if ((destroyTarget[0].cardType == destroyTarget[1].cardType) && (destroyTarget[0].level == destroyTarget[1].level) && destroyTarget[0].level < MaxLevel)
+    //             {
+    //
+    //                 var cardInstance = CardManager.CreateCard(level + 1, (int)cardType);
+    //                 CardManager.DestroyCard(destroyTarget);
+    //
+    //                 //cardInstance.transform.localScale = Vector3.one;
+    //                 cardInstance.transform.position = CardManager.Areas[1].transform.position + Vector3.up * 2f;
+    //             }
+    //
+    //             Debug.Log("Merge Successed");
+    //             return;
+    //         }
+    //     }
+    // }
+
+
+    public bool Lapse()
+    {
+        var result = true;
+        
+        _data.Date -= 1;
+        if (_data.Date <= 0)
+            result = false;
+        
+        return result;
     }
 
     //카드 분해 기능

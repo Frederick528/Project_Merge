@@ -45,6 +45,15 @@ public class CoreController : MonoBehaviour
     {
         _core.TurnChange();
         _instance.Turn.text = _core.TurnCnt + "";
+
+        if (_core.IsDawn)
+        {
+            EncounterManager.Occur();
+        }
+        else if (_core.IsMorning)
+        {
+            CardManager.ExpirationDateCheck();
+        }
     }
     private void OnDestroy()
     {
@@ -81,8 +90,10 @@ public class CoreController : MonoBehaviour
 
     public void CreateCard()
     {
-        ModifyAP(-1);
-        CardManager.CreateCard();
+        if (ModifyAP(-1))
+            CardManager.CreateCard();
+        else
+            Debug.Log("AP가 부족합니다.");
     }
 
     public void SetDifficulty(ushort value)

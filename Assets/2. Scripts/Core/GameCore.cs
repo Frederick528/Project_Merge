@@ -22,7 +22,10 @@ public class GameCore
     
     
     //낮인지 밤인지 구분하기 위한 맴버
+    public bool IsMorning => _turnCnt % 4 == (int)TimeStatus.Morning ? true : false;
+    public bool IsDayTime => _turnCnt % 4 == (int)TimeStatus.Day ? true : false;
     public bool IsNightTime => _turnCnt % 4 == (int)TimeStatus.Night ? true : false;
+    public bool IsDawn => _turnCnt % 4 == (int)TimeStatus.Dawn ? true : false;
     
     public void InitGame()
     {
@@ -41,6 +44,8 @@ public class GameCore
         if (!_isGameStarted)
             throw new Exception("The Game is not Started");
         _isGameStarted = false;
+        
+        Debug.Log("게임 오버");
     }
 
     public void TurnChange()
@@ -50,7 +55,7 @@ public class GameCore
         _turnCnt++;
 
         //새벽 -> 아침인 상황에서
-        if (_turnCnt % 4 == (int)TimeStatus.Morning)
+        if (IsMorning)
         {
             #region GameOverTrigger
                 if (!(ModifyHunger(-5 * Difficulty) && ModifyThirst(-5 * Difficulty)))
@@ -69,11 +74,11 @@ public class GameCore
 
     public bool ModifyAP(int amount)
     {
-        var result = _status.curAp + amount > 0;
+        var result = _status.curAp + amount >= 0;
         if (result)
             _status.curAp += amount;
-        else
-            EndGame();
+        //else
+        //    EndGame();
         return result;
     }
     public bool ModifyHunger(int amount)

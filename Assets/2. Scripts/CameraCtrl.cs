@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public class CameraCtrl : MonoBehaviour
 {
@@ -14,10 +13,10 @@ public class CameraCtrl : MonoBehaviour
     GameObject map;
     //Vector3 mapSize;
 
-    float screenUp = Screen.height * 0.9f;
-    float screenDown = Screen.height * 0.1f;
-    float screenRight = Screen.width * 0.9f;
-    float screenLeft = Screen.width * 0.1f;
+    float screenUp = Screen.height * 0.92f;
+    float screenDown = Screen.height * 0.08f;
+    float screenRight = Screen.width * 0.95f;
+    float screenLeft = Screen.width * 0.05f;
 
     Camera mainCamera;
 
@@ -52,6 +51,8 @@ public class CameraCtrl : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.cardCanvasOn)
+            return;
         CameraConfine();
     }
 

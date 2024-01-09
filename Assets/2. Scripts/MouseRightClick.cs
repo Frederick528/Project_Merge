@@ -1,18 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MouseRightClick : MonoBehaviour
 {
+    // 설정창매니저 역할(스크립트 이름 나중에 바꿔야할 듯)
     //public Vector3 targetPosition;
+    public static bool onRightClick;
     public GameObject canvas;
     public Image cardImage;
     public Text cardName;
     public Text cardText;
     public Button cardEatBtn;
-    //public bool cardCanvasOn = false;
 
     Stat stat;
 
@@ -35,32 +35,40 @@ public class MouseRightClick : MonoBehaviour
         }
     }
 
+    public void CanvasClose()
+    {
+        GameManager.cardCanvasOn = false;
+        canvas.SetActive(false);
+    }
     
     private void RayCastEvt(RaycastHit hit)
     {
         if (hit.collider.gameObject.CompareTag("Card"))
         {
-            Card cardContents = hit.collider.GetComponent<Card>();
-            string cardID = $"{cardContents.cardType}_{cardContents.level}";
 
-            Texture2D cardTexture = Resources.Load<Texture2D>($"Images/{cardID}");
+            Card cardContents = hit.collider.GetComponent<Card>();
+            CardData cardData = cardContents.Data;
+
+            //string cardID = $"{cardContents.cardType}_{cardContents.level}";
+            Texture2D cardTexture = Resources.Load<Texture2D>($"Images/{/*cardID*/cardData.EN}");
             if (cardTexture != null)    // 나중에 if문은 빼도 될 것 같음.
             {
                 cardImage.sprite = Sprite.Create(cardTexture, new Rect(0, 0, cardTexture.width, cardTexture.height), new Vector2(0.5f, 0.5f));
             }
-            cardName.text = CardDIct.cardNameDict[cardID];
-            cardText.text = CardDIct.cardTextDict[cardID];
+            cardName.text = cardData.KR;
+            cardText.text = cardData.Info;
 
-            if (cardContents.cardType == Card.CardType.Food || cardContents.cardType == Card.CardType.Water)
+            if (cardContents.cardType == Card.CardType.Food || cardContents.cardType == Card.CardType.Water || cardContents.ID == 3000 || cardContents.ID == 3001)
             {
                 cardEatBtn.interactable = true;
                 cardEatBtn.onClick.RemoveAllListeners();
                 cardEatBtn.onClick.AddListener(() =>
                 {
-                    stat.curHunger = ((stat.curHunger + 20) > stat.maxHunger) ? stat.maxHunger : stat.curHunger + 20;   //여기 값 불러오기(20)
-                    stat.curThirst = ((stat.curThirst + 10) > stat.maxThirst) ? stat.maxThirst : stat.curThirst + 10;   //여기 값 불러오기(10)
+                    stat.curHunger = ((stat.curHunger + cardData.Hunger) > stat.maxHunger) ? stat.maxHunger : stat.curHunger + cardData.Hunger;
+                    stat.curThirst = ((stat.curThirst + cardData.Thirst) > stat.maxThirst) ? stat.maxThirst : stat.curThirst + cardData.Thirst;
                     Destroy(hit.collider);
-                    canvas.SetActive(false);
+
+                    CanvasClose();
                 });
             }
             else
@@ -68,7 +76,7 @@ public class MouseRightClick : MonoBehaviour
                 cardEatBtn.interactable= false;
             }
 
-            //cardCanvasOn = true;
+            GameManager.cardCanvasOn = true;
             canvas.SetActive(true);
         }
     }

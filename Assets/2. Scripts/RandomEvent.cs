@@ -33,6 +33,11 @@ public class RandomEvent : MonoBehaviour
 
     public static void SpawnPlay()
     {
+        if ((Turn.count / 4) % 5 == 0)
+        {
+            return;
+        }
+
         if (IncounterList.Count > 0)
         {
             Random_event = Random.Range(0, IncounterList.Count);

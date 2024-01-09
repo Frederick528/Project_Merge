@@ -13,10 +13,14 @@ public class CardGroup : MonoBehaviour
 
     public void AddCard(Card card)
     {
+        // if (Cards.Contains(card))
+        //     return;
         Cards.Add(card);
         card.transform.SetParent(this.transform);
         card.transform.localPosition = Vector3.zero;
         Sort();
+        
+        Debug.Log(true);
     }
     public void InsertCard(Card card)
     {
@@ -65,7 +69,7 @@ public class CardGroup : MonoBehaviour
     {
         for (int i = 0; i < Cards.Count; i++)
         {
-            Cards[i].transform.localPosition = ( Vector3.back * 2f + Vector3.up * 0.5f) * i  + Vector3.down * 0.5f;
+            Cards[i].transform.localPosition = (Vector3.back * 2f + Vector3.up * 0.5f) * i + Vector3.up * 0.5f;
             Cards[i].GetComponent<MeshRenderer>().material.renderQueue = _defRenderQueue + i;
             Cards[i]._rigid.isKinematic = false;
         }

@@ -90,8 +90,10 @@ public class CoreController : MonoBehaviour
 
     public void CreateCard()
     {
-        ModifyAP(-1);
-        CardManager.CreateCard();
+        if (ModifyAP(-1))
+            CardManager.CreateCard();
+        else
+            Debug.Log("AP가 부족합니다.");
     }
 
     public void SetDifficulty(ushort value)

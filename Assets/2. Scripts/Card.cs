@@ -75,6 +75,7 @@ public class Card : Entity
     public void Init(int ID, out bool temp)
     {
         temp = true;
+        this.ID = ID;
         level = ID % 10;
         
         switch (ID / 10)
@@ -127,7 +128,7 @@ public class Card : Entity
 
     public override void OnMouseUp()
     {
-        if (GameManager.cardCanvasOn) return;
+        if (GameManager.CardCanvasOn) return;
         var result = Physics.OverlapSphere(transform.position, 7f);
         var mergeTarget = new List<Card>();
         //리스트 복사
@@ -153,6 +154,7 @@ public class Card : Entity
                     {
                         if (rule.Contains(this.ID) && rule.Contains(card.ID))
                         {
+                            Debug.Log(rule[^1]);
                             var cardInstance = CardManager.CreateCard(rule[^1]);
                             CardManager.DestroyCard(new[] { this, card });
 
@@ -197,7 +199,7 @@ public class Card : Entity
 
     protected override void OnMouseDrag()
     {
-        if (GameManager.cardCanvasOn) return;
+        if (GameManager.CardCanvasOn) return;
         float distance = Camera.main.WorldToScreenPoint(transform.position).z;
         var mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 78);
         var crntPos = Camera.main.ScreenToWorldPoint(mousePos);
@@ -235,7 +237,7 @@ public class Card : Entity
     }
     protected override void OnMouseDown()
     {
-        if (GameManager.cardCanvasOn) return;
+        if (GameManager.CardCanvasOn) return;
 
         if (transform.parent.TryGetComponent(out CardGroup cardGroup))
         {

@@ -51,6 +51,7 @@ public class CardManager : MonoBehaviour
     {
         var result = CreateCard();
         result.Init(ID, out bool res);
+        result.ID = ID;
         return result;
     }
 

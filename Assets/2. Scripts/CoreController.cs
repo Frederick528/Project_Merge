@@ -46,11 +46,11 @@ public class CoreController : MonoBehaviour
         _core.TurnChange();
         _instance.Turn.text = _core.TurnCnt + "";
 
-        if (_core.IsDawn)
-        {
-            EncounterManager.Occur();
-        }
-        else if (_core.IsMorning)
+        //if (_core.IsDawn)
+        //{
+        //    EncounterManager.Occur();
+        //}
+        /*else */if (_core.IsMorning)
         {
             CardManager.ExpirationDateCheck();
         }

@@ -15,7 +15,7 @@ public class Bear : MonoBehaviour
     private Vector3 _targetPos = default;
     private float _spd;
     private bool _isMovable = true;
-    private int _hitPoint;
+    private int _hitPoint = 2;
     
     public Card Target = null;
     public int HitPoint => _hitPoint;
@@ -119,11 +119,11 @@ public class Bear : MonoBehaviour
         _anim.SetBool("Run Forward", false);
         if (Target != null)
         {
-            if (Target.TryGetComponent(out CardGroup cardGroup))
+            if (Target.transform.parent.TryGetComponent(out CardGroup cardGroup))
                 CardManager.DestroyCard(cardGroup.RemoveCard(Target));
+            else
+                CardManager.DestroyCard(Target);
         }
-        else
-            CardManager.DestroyCard(Target);
 
         Target = null;
 
@@ -142,12 +142,13 @@ public class Bear : MonoBehaviour
         {
             if (card.ID > 2000)
             {
-                if((this._hitPoint -= card.ID % 10 + 1) <= 0)
+                if((this._hitPoint -= card.ID % 10 + 1) < 0)
                 {
                     _isMovable = false;
                     _anim.SetBool("Run Forward", false);
                     _anim.SetBool("Idle", false);
-                    _anim.SetBool("Death", true);
+                    if(_anim.GetBool("Death"))
+                        _anim.SetBool("Death", true);
                     
                     Debug.Log($"Remain HitPoint : {HitPoint} ");
                 }

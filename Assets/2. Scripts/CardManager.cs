@@ -88,7 +88,6 @@ public class CardManager : MonoBehaviour
             var v = _cards.Where(targets.Contains);
             for (int i = 0; i < v.Count();)
             {
-                Debug.Log(i);
                 var c = v.ElementAt(i);
                 _cards.Remove(c);
                 Destroy(c.gameObject);
@@ -124,11 +123,11 @@ public class CardManager : MonoBehaviour
         {
             if (child.transform.TryGetComponent(out CardGroup cardGroup))
             {
-                Debug.Log(true);
+                if (cardGroup.Count == 0) Destroy(cardGroup.gameObject);
                 while (true)
                 {
-                    cardGroup.RemoveCard(0);
-                    if (cardGroup.Cards.Count <= 2)
+                    if (cardGroup.RemoveCard(0) == null) break;
+                    if (cardGroup.Count <= 2)
                     {
                         cardGroup.RemoveCard(0);
                         break;
@@ -159,7 +158,7 @@ public class CardManager : MonoBehaviour
                 
                 foreach (var card in v)
                 {
-                    if(!cardGroup.Cards.Contains(card))
+                    if(!cardGroup.Contains(card))
                         cardGroup.AddCard(card);
                 }
 
@@ -173,7 +172,8 @@ public class CardManager : MonoBehaviour
                 row += 1;
         }
     }
-    
+
+   
 
     private void OnDestroy()
     {

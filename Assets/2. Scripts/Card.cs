@@ -128,7 +128,7 @@ public class Card : Entity
     public override void OnMouseUp()
     {
         if (GameManager.cardCanvasOn) return;
-        var result = Physics.OverlapSphere(transform.position, 5f);
+        var result = Physics.OverlapSphere(transform.position, 7f);
         var flag = false;
         
         var mergeTarget = new List<Card>();
@@ -151,31 +151,20 @@ public class Card : Entity
                         OnMergeEnter(this.gameObject, result[i].gameObject);
                         return;
                     }
-                    else
+                    foreach (var rule in CardDataDeserializer.CraftRules)
                     {
-                        foreach (var rule in CardDataDeserializer.CraftRules)
+                        if (rule.Contains(this.ID) && rule.Contains(card.ID))
                         {
-                            if (rule.Contains(this.ID) && rule.Contains(card.ID))
-                            {
+                            var cardInstance = CardManager.CreateCard(rule[^1]);
+                            CardManager.DestroyCard(new[] { this, card });
 
-                                var str = "";
-                                foreach (var c in rule)
-                                {
-                                    str += c + " ";
-                                }
-
-                                Debug.Log(str);
-
-
-                                var cardInstance = CardManager.CreateCard(rule[^1]);
-                                CardManager.DestroyCard(new[] { this, card });
-
-                                //cardInstance.transform.localScale = Vector3.one;
-                                cardInstance.transform.position =
-                                    CardManager.Areas[1].transform.position + Vector3.up * 2f;
-                            }
+                            //cardInstance.transform.localScale = Vector3.one;
+                            cardInstance.transform.position =
+                                CardManager.Areas[1].transform.position + Vector3.up * 2f;
                         }
                     }
+                    OnMergeEnter(this.gameObject, result[i].gameObject);
+                    return;
                 }
             }
             else
@@ -249,6 +238,28 @@ public class Card : Entity
     protected override void OnMouseDown()
     {
         if (GameManager.cardCanvasOn) return;
+
+        if (transform.parent.TryGetComponent(out CardGroup cardGroup))
+        {
+            cardGroup.transform.position = new Vector3()
+            {
+                x = cardGroup.transform.position.x,
+                y = 3,
+                z = cardGroup.transform.position.z,
+
+            };
+        }
+        else
+        {
+            this.transform.position = new Vector3()
+            {
+                x = transform.position.x,
+                y = 3,
+                z = transform.position.z,
+
+            };
+        }
+        
         base.OnMouseDown();
     }
 

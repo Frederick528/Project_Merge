@@ -19,8 +19,6 @@ public class CardGroup : MonoBehaviour
         card.transform.SetParent(this.transform);
         card.transform.localPosition = Vector3.zero;
         Sort();
-        
-        Debug.Log(true);
     }
     public void InsertCard(Card card)
     {
@@ -62,6 +60,16 @@ public class CardGroup : MonoBehaviour
 
     public Card RemoveCard(int index)
     {
+        try
+        {
+            return RemoveCard(Cards[index]);
+
+        }
+        catch (Exception e)
+        {
+            Debug.Log(index);
+        }
+        
         return RemoveCard(Cards[index]);
     }
 
@@ -69,7 +77,7 @@ public class CardGroup : MonoBehaviour
     {
         for (int i = 0; i < Cards.Count; i++)
         {
-            Cards[i].transform.localPosition = (Vector3.back * 2f + Vector3.up * 0.5f) * i + Vector3.up * 0.5f;
+            Cards[i].transform.localPosition = (Vector3.back * 2f + Vector3.up * 0.5f) * i + Vector3.up * 0.3f;
             Cards[i].GetComponent<MeshRenderer>().material.renderQueue = _defRenderQueue + i;
             Cards[i]._rigid.isKinematic = false;
         }

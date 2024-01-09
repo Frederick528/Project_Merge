@@ -64,7 +64,7 @@ public class GameCore
             
             Debug.Log("It's Night Time");
         }
-        //밤일 때
+        //밤이 아닐 때
         if(!IsNightTime)
         {
             _status.curAp = _status.maxAp;
@@ -75,7 +75,7 @@ public class GameCore
     public bool ModifyAP(int amount)
     {
         var result = _status.curAp + amount >= 0;
-        if (result)
+        if (result)  
             _status.curAp += amount;
         //else
         //    EndGame();

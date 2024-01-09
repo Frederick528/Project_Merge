@@ -5,8 +5,15 @@ using UnityEngine;
 
 public class Event : MonoBehaviour
 {
-    public GameObject incounter, result1, result2, nextturn, closebtn, openbtn;
-   public void Result1()
+    public GameObject incounter,fixincounter, result1, result2,result3, nextturn, closebtn, openbtn;
+
+    public int i = 0;
+
+    void Update()
+    {
+        
+    }
+    public void Result1()
     {
         incounter.SetActive(false);
         result1.SetActive(true);
@@ -18,6 +25,12 @@ public class Event : MonoBehaviour
         result2.SetActive(true);
     }
 
+    public void Result3()
+    {
+        incounter.SetActive(false);
+        result3.SetActive(true);
+    }
+
     public void Close()
     {
         result1.SetActive(false);
@@ -25,19 +38,30 @@ public class Event : MonoBehaviour
         closebtn.SetActive(false);
     }
 
-    public void IncountetClose()
+    public void IncounterClose()
     {
         incounter.SetActive(false);
+        fixincounter.SetActive(false);
         nextturn.SetActive(false);
         closebtn.SetActive(false);
         openbtn.SetActive(true);
     }
 
-    public void IncountetOpen() 
+    public void IncounterOpen() 
     {
         incounter.SetActive(true);
+        fixincounter.SetActive(true);
         nextturn.SetActive(true);
         closebtn.SetActive(true);
         openbtn.SetActive(false);
     }
+
+    void NoQuestRoute()
+    {
+        incounter.SetActive(false);
+        result1.SetActive(true);
+        i += 5;
+    }
+
+    
 }

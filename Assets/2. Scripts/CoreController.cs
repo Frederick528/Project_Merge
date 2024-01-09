@@ -13,7 +13,7 @@ public class CoreController : MonoBehaviour
     private static GameCore _core;
     private static CoreController _instance;
 
-    public static bool IsDayTime => _core.IsDayTime;
+    public static bool IsNightTime => _core.IsNightTime;
     public TMP_Text Hungriness;
     public TMP_Text Thirst;
     public TMP_Text Turn;
@@ -45,6 +45,15 @@ public class CoreController : MonoBehaviour
     {
         _core.TurnChange();
         _instance.Turn.text = _core.TurnCnt + "";
+
+        //if (_core.IsDawn)
+        //{
+        //    EncounterManager.Occur();
+        //}
+        /*else */if (_core.IsMorning)
+        {
+            CardManager.ExpirationDateCheck();
+        }
     }
     private void OnDestroy()
     {
@@ -81,7 +90,14 @@ public class CoreController : MonoBehaviour
 
     public void CreateCard()
     {
-        ModifyAP(-1);
-        CardManager.CreateCard();
+        if (ModifyAP(-1))
+            CardManager.CreateCard();
+        else
+            Debug.Log("AP가 부족합니다.");
+    }
+
+    public void SetDifficulty(ushort value)
+    {
+        _core.Difficulty = value;
     }
 }

@@ -1,16 +1,25 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MouseRightClick : MonoBehaviour
 {
+    // 설정창매니저 역할(스크립트 이름 나중에 바꿔야할 듯)
     //public Vector3 targetPosition;
+    public static bool onRightClick;
     public GameObject canvas;
     public Image cardImage;
     public Text cardName;
     public Text cardText;
-    public bool cardCanvasOn = false;
+    public Button cardEatBtn;
+
+    Stat stat;
+
+    private void Start()
+    {
+        stat = StatManager.instance.playerCtrl.stat;
+    }
 
     void Update()
     {
@@ -21,21 +30,53 @@ public class MouseRightClick : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.collider.gameObject.CompareTag("Card"))
-                {
-                    string card = $"{hit.collider.GetComponent<Card>().cardType}_{hit.collider.GetComponent<Card>().level}";
-
-                    Texture2D cardTexture = Resources.Load<Texture2D>($"Images/{card}");
-                    if (cardTexture != null)
-                    {
-                        cardImage.sprite = Sprite.Create(cardTexture, new Rect(0, 0, cardTexture.width, cardTexture.height), new Vector2(0.5f, 0.5f));
-                    }
-                    cardName.text = CardDIct.cardNameDict[card];
-                    cardText.text = CardDIct.cardTextDict[card];
-                    //cardCanvasOn = true;
-                    canvas.SetActive(true);
-                }
+                RayCastEvt(hit);
             } 
+        }
+    }
+
+    public void CanvasClose()
+    {
+        GameManager.cardCanvasOn = false;
+        canvas.SetActive(false);
+    }
+    
+    private void RayCastEvt(RaycastHit hit)
+    {
+        if (hit.collider.gameObject.CompareTag("Card") && !GameManager.cardCanvasOn)
+        {
+            Card cardContents = hit.collider.GetComponent<Card>();
+            CardData cardData = cardContents.Data;
+
+            //string cardID = $"{cardContents.cardType}_{cardContents.level}";
+            Texture2D cardTexture = Resources.Load<Texture2D>($"Images/{/*cardID*/cardData.EN}");
+            if (cardTexture != null)    // 나중에 if문은 빼도 될 것 같음.
+            {
+                cardImage.sprite = Sprite.Create(cardTexture, new Rect(0, 0, cardTexture.width, cardTexture.height), new Vector2(0.5f, 0.5f));
+            }
+            cardName.text = cardData.KR;
+            cardText.text = cardData.Info;
+
+            if (cardContents.cardType == Card.CardType.Food || cardContents.cardType == Card.CardType.Water || cardContents.ID == 3000 || cardContents.ID == 3001)
+            {
+                cardEatBtn.interactable = true;
+                cardEatBtn.onClick.RemoveAllListeners();
+                cardEatBtn.onClick.AddListener(() =>
+                {
+                    stat.curHunger = ((stat.curHunger + cardData.Hunger) > stat.maxHunger) ? stat.maxHunger : stat.curHunger + cardData.Hunger;
+                    stat.curThirst = ((stat.curThirst + cardData.Thirst) > stat.maxThirst) ? stat.maxThirst : stat.curThirst + cardData.Thirst;
+                    Destroy(hit.collider);
+
+                    CanvasClose();
+                });
+            }
+            else
+            {
+                cardEatBtn.interactable= false;
+            }
+
+            GameManager.cardCanvasOn = true;
+            canvas.SetActive(true);
         }
     }
     //if (input.getmousebuttondown(1))

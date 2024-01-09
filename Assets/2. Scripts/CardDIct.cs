@@ -8,8 +8,8 @@ public class CardDIct : MonoBehaviour
     {
         {"Food_0", "Á¼½Ò"},
         {"Water_0", "hello"},
-        {"Object1_0", "ll"},
-        {"Object2_0", "dasl"},
+        {"Wood_0", "ll"},
+        {"Stone_0", "dasl"},
         {"Combination_0", "sdsdsss" }
 
     };
@@ -18,8 +18,8 @@ public class CardDIct : MonoBehaviour
     {
         {"Food_0", "¼³¸í"},
         {"Water_0", "hello"},
-        {"Object1_0", "ll"},
-        {"Object2_0", "dasl"},
+        {"Wood_0", "ll"},
+        {"Stone_0", "dasl"},
         {"Combination_0", "sdsdsss" }
 
     };

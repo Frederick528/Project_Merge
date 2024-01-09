@@ -3067,7 +3067,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e73d104ebaccb2408bd47df07f0c868, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardCanvasOn: 0
 --- !u!4 &1918549692
 Transform:
   m_ObjectHideFlags: 0

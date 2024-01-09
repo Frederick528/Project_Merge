@@ -43,9 +43,8 @@ public class MouseRightClick : MonoBehaviour
     
     private void RayCastEvt(RaycastHit hit)
     {
-        if (hit.collider.gameObject.CompareTag("Card"))
+        if (hit.collider.gameObject.CompareTag("Card") && !GameManager.cardCanvasOn)
         {
-
             Card cardContents = hit.collider.GetComponent<Card>();
             CardData cardData = cardContents.Data;
 

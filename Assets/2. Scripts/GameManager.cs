@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    public static bool cardCanvasOn = false;
+    public static bool cardCanvasOn = true;
 
     void Awake()
     {

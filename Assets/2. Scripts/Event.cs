@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Event : MonoBehaviour
 {
-    public GameObject incounter,fixincounter, result1, result2,result3, nextturn, closebtn, openbtn;
+    public GameObject incounter,fixincounter, result1, result2,result3, blockUI, closebtn, openbtn;
 
-    public int i = 0;
+    [SerializeField]
+    Button nextBtn;
 
-    void Update()
-    {
-        
-    }
+    public static int Quest = 0;
+
     public void Result1()
     {
         incounter.SetActive(false);
@@ -37,33 +37,38 @@ public class Event : MonoBehaviour
         result2.SetActive(false);
         if (result3 != null)
             result3.SetActive(false);
+        blockUI.SetActive(false);
         closebtn.SetActive(false);
+        GameManager.cardCanvasOn = false;
+        nextBtn.interactable = true;
     }
 
     public void IncounterClose()
     {
         incounter.SetActive(false);
         fixincounter.SetActive(false);
-        nextturn.SetActive(false);
+        blockUI.SetActive(false);
         closebtn.SetActive(false);
         openbtn.SetActive(true);
+        GameManager.cardCanvasOn = false;
     }
 
     public void IncounterOpen() 
     {
         incounter.SetActive(true);
         fixincounter.SetActive(true);
-        nextturn.SetActive(true);
+        blockUI.SetActive(true);
         closebtn.SetActive(true);
         openbtn.SetActive(false);
+        GameManager.cardCanvasOn = true;
     }
 
-    void NoQuestRoute()
+    public void NoQuest()
     {
         incounter.SetActive(false);
         result1.SetActive(true);
-        i += 5;
+        Quest += 1;
     }
 
-    
+
 }

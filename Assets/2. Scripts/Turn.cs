@@ -11,12 +11,15 @@ public class Turn : MonoBehaviour
     public static int maxDays = 31; // static으로 변경
     private static RandomEvent randomEvent; // static으로 변경
     public GameObject closebtn;
-    public GameObject fixincounter0, fixincounter1, fixincounter2, fixincounter3;
+    public GameObject fixincounter0, fixincounter1, fixincounter2, fixincounter3_1, fixincounter3_2;
+    [SerializeField]
+    GameObject blockUI;
+    [SerializeField]
+    Button nextBtn;
 
     private void Update()
     {
         DayText();
-        FixIncounter(); 
     }
 
     public void NextTurn()
@@ -44,7 +47,10 @@ public class Turn : MonoBehaviour
         else if (count % 4 == 3)
         {
             Time.text = "새벽".ToString();
-            RandomEvent.SpawnPlay();
+            FixIncounter();
+            GameManager.cardCanvasOn = true;
+            blockUI.SetActive(true);
+            nextBtn.interactable = false;
             closebtn.SetActive(true);
         }
     }
@@ -59,24 +65,33 @@ public class Turn : MonoBehaviour
 
     void FixIncounter()
     {
-        if (count == 4) //시작하자 마자
-        {
-            fixincounter0.SetActive(true);
-        }
+        //if (count == 4) //시작하자 마자
+        //{
+        //    fixincounter0.SetActive(true);
+        //}
 
-        if (count == 23) //5일차 새벽
+        /*else */if (count == 23) //5일차 새벽
         {
             fixincounter1.SetActive(true);
         }
 
-        if (count == 43) //10일차 새벽
+        else if (count == 43) //10일차 새벽
         {
             fixincounter2.SetActive(true);
         }
 
-        if (count == 63)
+        else if (count == 63 && Event.Quest == 0)
         {
-            fixincounter3.SetActive(true);
+            fixincounter3_1.SetActive(true);
+        }
+
+        else if (count == 63 && Event.Quest == 1)
+        {
+            fixincounter3_2.SetActive(true);
+        }
+        else
+        {
+            RandomEvent.SpawnPlay();
         }
     }
 }

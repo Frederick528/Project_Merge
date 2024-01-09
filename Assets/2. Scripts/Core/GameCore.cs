@@ -44,6 +44,8 @@ public class GameCore
         if (!_isGameStarted)
             throw new Exception("The Game is not Started");
         _isGameStarted = false;
+        
+        Debug.Log("게임 오버");
     }
 
     public void TurnChange()
@@ -72,7 +74,7 @@ public class GameCore
 
     public bool ModifyAP(int amount)
     {
-        var result = _status.curAp + amount > 0;
+        var result = _status.curAp + amount >= 0;
         if (result)
             _status.curAp += amount;
         //else

@@ -72,7 +72,6 @@ public class Card : Entity
 
         this.GetComponentInChildren<TMP_Text>().text = _data.KR;
     }
-
     public void Init(int ID, out bool temp)
     {
         temp = true;

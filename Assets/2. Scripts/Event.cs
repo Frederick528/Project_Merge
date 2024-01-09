@@ -35,6 +35,8 @@ public class Event : MonoBehaviour
     {
         result1.SetActive(false);
         result2.SetActive(false);
+        if (result3 != null)
+            result3.SetActive(false);
         closebtn.SetActive(false);
     }
 

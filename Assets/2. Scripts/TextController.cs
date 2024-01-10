@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,38 +10,38 @@ public class TextController : MonoBehaviour
     public Text myText, mytext2;
     public GameObject incounter, transparency, Character, select1, select2, select3, select4;
     int currentTextIndex, currentTextIndex1, currentTextIndex2, currentTextIndex3, currentTextIndex4, currentTextIndex5 = 0;
-    private string[] textArray1 = { "ºÎ½º·°. ºÎ½º·°.",
-                                   "¾îµð¼±°¡ ³ª¹µÀÙÀÌ Èçµé¸®´Â ¼Ò¸®°¡ µé·È´Ù.",
-                                   "ÀÌ°÷Àº ¾îµòÁöµµ ¸ð¸¦, ³ª°¥ ¼ö ¾ø´Â ½£ÀÌ´Ù.",
-                                   "±×·± °÷¿¡ ³ª´Â Áö±Ý È¥ÀÚ ³²°ÜÁ³´Ù." };
+    private string[] textArray1 = { "ë¶€ìŠ¤ëŸ­. ë¶€ìŠ¤ëŸ­.",
+                                   "ì–´ë””ì„ ê°€ ë‚˜ë­‡ìžŽì´ í”ë“¤ë¦¬ëŠ” ì†Œë¦¬ê°€ ë“¤ë ¸ë‹¤.",
+                                   "ì´ê³³ì€ ì–´ë”˜ì§€ë„ ëª¨ë¥¼, ë‚˜ê°ˆ ìˆ˜ ì—†ëŠ” ìˆ²ì´ë‹¤.",
+                                   "ê·¸ëŸ° ê³³ì— ë‚˜ëŠ” ì§€ê¸ˆ í˜¼ìž ë‚¨ê²¨ì¡Œë‹¤." };
 
     private string[] textArray2 = {"",
-                                    "±×·± »ý°¢ÀÌ ³» ¸Ó¸´¼ÓÀ» ¸Éµ¹ ¶§, ³» ÀÎ±âÃ´¿¡ ´©±º°¡ ´Ù°¡¿À´Â°Ô ´À²¸Á³´Ù.",
-                                    "ÀÌ»óÇÒ Á¤µµ·Î ±ä ¸Ó¸®Ä«¶ô¿¡, ÀÌ·± ½£¿¡¼­ »ì°íÀÖ´Ù°í º¸±âµµ Èûµç ±×·± ¿ÊÀ» ÀÔ°íÀÖ´Â ¿©ÀÎÀÌ ¾Õ¿¡ ÀÖ¾ú´Ù.",
-                                    "»ç¶÷ÀÎ°¡? ¾î¶»°Ô »ì¾ÆÀÖ´ÂÁö ¸ð¸£°Ú³×. ÀÏ´ÜÀº ¹Ý°¡¿ö.",
-                                    "¹Ï±â Èûµé°ÚÁö¸¸. ³ª´Â ¸¶³à¾ß." };
+                                    "ê·¸ëŸ° ìƒê°ì´ ë‚´ ë¨¸ë¦¿ì†ì„ ë§´ëŒ ë•Œ, ë‚´ ì¸ê¸°ì²™ì— ëˆ„êµ°ê°€ ë‹¤ê°€ì˜¤ëŠ”ê²Œ ëŠê»´ì¡Œë‹¤.",
+                                    "ì´ìƒí•  ì •ë„ë¡œ ê¸´ ë¨¸ë¦¬ì¹´ë½ì—, ì´ëŸ° ìˆ²ì—ì„œ ì‚´ê³ ìžˆë‹¤ê³  ë³´ê¸°ë„ íž˜ë“  ê·¸ëŸ° ì˜·ì„ ìž…ê³ ìžˆëŠ” ì—¬ì¸ì´ ì•žì— ìžˆì—ˆë‹¤.",
+                                    "ì‚¬ëžŒì¸ê°€? ì–´ë–»ê²Œ ì‚´ì•„ìžˆëŠ”ì§€ ëª¨ë¥´ê² ë„¤. ì¼ë‹¨ì€ ë°˜ê°€ì›Œ.",
+                                    "ë¯¿ê¸° íž˜ë“¤ê² ì§€ë§Œ. ë‚˜ëŠ” ë§ˆë…€ì•¼." };
 
     private string[] textArray3 = { "",
-                                    "¹¹ ¹Ïµç ¸»µç »ó°ü¾ø¾î.",
-                                    "³ª´Â ÀÌ ½£À» ÁöÅ°´Â ¸¶³à¾ß. ³Ê´Â ÀÌ ½£¿¡ ¹«´ÜÀ¸·Î µé¾î¿Â ¿ÜÁöÀÎÀÌ°í." };
+                                    "ë­ ë¯¿ë“  ë§ë“  ìƒê´€ì—†ì–´.",
+                                    "ë‚˜ëŠ” ì´ ìˆ²ì„ ì§€í‚¤ëŠ” ë§ˆë…€ì•¼. ë„ˆëŠ” ì´ ìˆ²ì— ë¬´ë‹¨ìœ¼ë¡œ ë“¤ì–´ì˜¨ ì™¸ì§€ì¸ì´ê³ ." };
 
     private string[] textArray4 = { "",
-                                    "º°°Å ¾Æ´Ï¾ß. 30ÀÏ. µü 30ÀÏÀ» ¿©±â¼­ »ì¾Æ¼­ »ì¾ÆÀÖ´Ù¸é.",
-                                    "±×¶§´Â ´Ù¸¥ °÷À¸·Î ³Ê¸¦ ¾È³»ÇØÁÙ°Ô.",
-                                    "±×³à´Â ±× ¸»°ú ÇÔ²² ÁÖ¸Ó´Ï µÚ¿¡¼­ È²±Ýºû »ç°ú¸¦ ³»°Ô °Ç³»¸ç »ç¶óÁ³´Ù.",
-                                    "³ª´Â È¥¶õ½º·¯¿î ¸¶À½À» ¾È°í »ç°ú¸¦ ¹Ù¶óº¸¾Ò´Ù.",
-                                    "ÀÌ ½£ÀÇ ¸¶³à°¡ ³ª¸¦ µ¹ºÁÁØ´Ù´Ï. ÀÌ°Ô ¹«½¼ÀÏÀÎ°É±î..",
-                                    "¸¶Ä§ ¹è°íÆÄ Á×±â Á÷ÀüÀÌ´Ù.. ÀÌ°É ¸Ô¾îµµ ±¦ÂúÀ»±î?"};
+                                    "ë³„ê±° ì•„ë‹ˆì•¼. 30ì¼. ë”± 30ì¼ì„ ì—¬ê¸°ì„œ ì‚´ì•„ì„œ ì‚´ì•„ìžˆë‹¤ë©´.",
+                                    "ê·¸ë•ŒëŠ” ë‹¤ë¥¸ ê³³ìœ¼ë¡œ ë„ˆë¥¼ ì•ˆë‚´í•´ì¤„ê²Œ.",
+                                    "ê·¸ë…€ëŠ” ê·¸ ë§ê³¼ í•¨ê»˜ ì£¼ë¨¸ë‹ˆ ë’¤ì—ì„œ í™©ê¸ˆë¹› ì‚¬ê³¼ë¥¼ ë‚´ê²Œ ê±´ë‚´ë©° ì‚¬ë¼ì¡Œë‹¤.",
+                                    "ë‚˜ëŠ” í˜¼ëž€ìŠ¤ëŸ¬ìš´ ë§ˆìŒì„ ì•ˆê³  ì‚¬ê³¼ë¥¼ ë°”ë¼ë³´ì•˜ë‹¤.",
+                                    "ì´ ìˆ²ì˜ ë§ˆë…€ê°€ ë‚˜ë¥¼ ëŒë´ì¤€ë‹¤ë‹ˆ. ì´ê²Œ ë¬´ìŠ¨ì¼ì¸ê±¸ê¹Œ..",
+                                    "ë§ˆì¹¨ ë°°ê³ íŒŒ ì£½ê¸° ì§ì „ì´ë‹¤.. ì´ê±¸ ë¨¹ì–´ë„ ê´œì°®ì„ê¹Œ?"};
 
 
 
     private string[] CharacterName1 = { "", "", "", "" };
-    private string[] CharacterName2 = { "", "", "", "???", "¸¶³à" };
-    private string[] CharacterName3 = { "", "¸¶³à", "¸¶³à" };
-    private string[] CharacterName4 = { "", "¸¶³à", "¸¶³à", "", "", "", "" };
+    private string[] CharacterName2 = { "", "", "", "???", "ë§ˆë…€" };
+    private string[] CharacterName3 = { "", "ë§ˆë…€", "ë§ˆë…€" };
+    private string[] CharacterName4 = { "", "ë§ˆë…€", "ë§ˆë…€", "", "", "", "" };
 
-    private string[] result1 = { "", "¾Æ»è.", "»ç°ú¸¦ ÇÑÀÔ º£¾î¸Ô¾ú´Ù.", "¹«¾ð°¡ ¸öÀÌ.. °Ç°­ÇØÁø °Í °°´Ù..!", "ÀÏ´ÜÀº ¹¹µç.. 30ÀÏÀ» ÇÑ¹ø ¹öÅßº¸ÀÚ.." };
-    private string[] result2 = { "", "±×·¡µµ ¹º°¡ ¸Ô±â°¡ Á» ±×·¸´Ù.", "ÀÏ´ÜÀº µé°í´Â ÀÖÀÚ", "ÀÏ´ÜÀº ¹¹µç.. 30ÀÏÀ» ÇÑ¹ø ¹öÅßº¸ÀÚ.." };
+    private string[] result1 = { "", "ì•„ì‚­.", "ì‚¬ê³¼ë¥¼ í•œìž… ë² ì–´ë¨¹ì—ˆë‹¤.", "ë¬´ì–¸ê°€ ëª¸ì´.. ê±´ê°•í•´ì§„ ê²ƒ ê°™ë‹¤..!", "ì¼ë‹¨ì€ ë­ë“ .. 30ì¼ì„ í•œë²ˆ ë²„í…¨ë³´ìž.." };
+    private string[] result2 = { "", "ê·¸ëž˜ë„ ë­”ê°€ ë¨¹ê¸°ê°€ ì¢€ ê·¸ë ‡ë‹¤.", "ì¼ë‹¨ì€ ë“¤ê³ ëŠ” ìžˆìž", "ì¼ë‹¨ì€ ë­ë“ .. 30ì¼ì„ í•œë²ˆ ë²„í…¨ë³´ìž.." };
 
 
     void Start()
@@ -86,7 +86,7 @@ public class TextController : MonoBehaviour
 
     void UpdateText(string[] textArray)
     {
-        // ¹è¿­ ±æÀÌ È®ÀÎ ÈÄ ¾÷µ¥ÀÌÆ®
+        // ë°°ì—´ ê¸¸ì´ í™•ì¸ í›„ ì—…ë°ì´íŠ¸
         if (currentTextIndex < textArray1.Length && isWaitingForInput)
         {
             myText.text = textArray1[currentTextIndex];
@@ -119,7 +119,7 @@ public class TextController : MonoBehaviour
 
     void UpdateText2(string[] textArray)
     {
-        // ¹è¿­ ±æÀÌ È®ÀÎ ÈÄ ¾÷µ¥ÀÌÆ®
+        // ë°°ì—´ ê¸¸ì´ í™•ì¸ í›„ ì—…ë°ì´íŠ¸
         if (currentTextIndex < CharacterName1.Length && isWaitingForInput)
         {
             mytext2.text = CharacterName1[currentTextIndex];
@@ -127,7 +127,7 @@ public class TextController : MonoBehaviour
         else if (currentTextIndex1 < CharacterName2.Length && isWaitingForInput)
         {
             mytext2.text = CharacterName2[currentTextIndex1];
-            if (mytext2.text == "¸¶³à" || mytext2.text == "???")
+            if (mytext2.text == "ë§ˆë…€" || mytext2.text == "???")
             {
                 Character.SetActive(true);
             }
@@ -139,7 +139,7 @@ public class TextController : MonoBehaviour
         else if (currentTextIndex2 < CharacterName3.Length && isWaitingForInput)
         {
             mytext2.text = CharacterName3[currentTextIndex2];
-            if (mytext2.text == "¸¶³à" || mytext2.text == "???")
+            if (mytext2.text == "ë§ˆë…€" || mytext2.text == "???")
             {
                 Character.SetActive(true);
             }
@@ -151,7 +151,7 @@ public class TextController : MonoBehaviour
         else if (currentTextIndex3 < CharacterName4.Length && isWaitingForInput)
         {
             mytext2.text = CharacterName4[currentTextIndex3];
-            if (mytext2.text == "¸¶³à" || mytext2.text == "???")
+            if (mytext2.text == "ë§ˆë…€" || mytext2.text == "???")
             {
                 Character.SetActive(true);
             }

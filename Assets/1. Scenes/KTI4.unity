@@ -3825,8 +3825,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 109.813545, y: -390.00702}
-  m_SizeDelta: {x: 1919, y: 376.038}
+  m_AnchoredPosition: {x: 132.999, y: -390.00702}
+  m_SizeDelta: {x: 2027.753, y: 376.038}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &542572545
 MonoBehaviour:
@@ -3846,6 +3846,7 @@ MonoBehaviour:
   mytext2: {fileID: 2077359880}
   incounter: {fileID: 1019347082}
   transparency: {fileID: 1706174954}
+  Character: {fileID: 1128873692}
   select1: {fileID: 1815671123}
   select2: {fileID: 1682486776}
   select3: {fileID: 695342123}
@@ -9473,7 +9474,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1128873693
 RectTransform:
   m_ObjectHideFlags: 0

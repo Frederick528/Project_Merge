@@ -244,8 +244,18 @@ public class Bear : MonoBehaviour
             BearManager.Instance.bearApear.gameObject.SetActive(false);
     }
 
-    public void Leave()
+    public bool Leave()
     {
-        Destroy(this.gameObject);
+        var result = true;
+        try
+        {
+            Destroy(this.gameObject);
+        }
+        catch (Exception e)
+        {
+            result = false;
+        }
+
+        return result;
     }
 }

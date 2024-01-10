@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 //relay between GameCore and UnityAPI
@@ -16,6 +18,7 @@ public class CoreController : MonoBehaviour
     public static int Date => _core.TurnCnt / 4;
 
     public static bool IsNightTime => _core.IsNightTime;
+    public GameObject Notice;
     public TMP_Text Hungriness;
     public TMP_Text Thirst;
     public TMP_Text Turn;
@@ -45,7 +48,20 @@ public class CoreController : MonoBehaviour
     }
     public static void TurnChange()
     {
-        _core.TurnChange();
+        if (!_core.TurnChange())
+        {
+            // 게임 오버
+            _instance.Notice = _instance.Notice.activeInHierarchy ? _instance.Notice : Instantiate(_instance.Notice);
+            _instance.Notice.SetActive(true);
+            var button = _instance.Notice.GetComponentInChildren<Button>();
+            button.onClick.AddListener(
+                () =>
+                {
+                    _core.InitGame();
+                    _instance.Notice.SetActive(false);
+                });
+
+        }
         _instance.Turn.text = _core.TurnCnt + "";
 
         //if (_core.IsDawn)

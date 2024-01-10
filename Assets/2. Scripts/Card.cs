@@ -36,29 +36,29 @@ public class Card : Entity
         switch (cardType)
         {
             case CardType.Food:
-                GetComponent<MeshRenderer>().material = 
-                    Resources.Load<Material>("Prefabs/Materials/DarkGreen");
                 ID += 1010;
+                GetComponent<MeshRenderer>().material = 
+                    Resources.Load<Material>($"Prefabs/Materials/Food/{ID}");
                 break;
             case CardType.Water:
-                GetComponent<MeshRenderer>().material = 
-                    Resources.Load<Material>("Prefabs/Materials/Blue");
                 ID += 1020;
+                GetComponent<MeshRenderer>().material = 
+                    Resources.Load<Material>($"Prefabs/Materials/Water/{ID}");
                 break;
             case CardType.Wood:
-                GetComponent<MeshRenderer>().material = 
-                    Resources.Load<Material>($"Prefabs/Materials/Wood_{level}");
                 ID += 2010;
+                GetComponent<MeshRenderer>().material = 
+                    Resources.Load<Material>($"Prefabs/Materials/Wood/{ID}");
                 break;
             case CardType.Stone:
-                GetComponent<MeshRenderer>().material = 
-                    Resources.Load<Material>("Prefabs/Materials/Purple");
                 ID += 2020;
+                GetComponent<MeshRenderer>().material = 
+                    Resources.Load<Material>($"Prefabs/Materials/Stone/{ID}");
                 break;
             case CardType.Combination:
-                GetComponent<MeshRenderer>().material = 
-                    Resources.Load<Material>("Prefabs/Materials/White");
                 ID = 3000;
+                GetComponent<MeshRenderer>().material = 
+                    Resources.Load<Material>($"Prefabs/Materials/Combination/{ID}");
                 break;
             default:
                 GetComponent<MeshRenderer>().material = 

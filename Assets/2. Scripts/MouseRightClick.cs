@@ -49,10 +49,9 @@ public class MouseRightClick : MonoBehaviour
             CardData cardData = cardContents.Data;
 
             //string cardID = $"{cardContents.cardType}_{cardContents.level}";
-            Texture2D cardTexture = Resources.Load<Texture2D>($"Images/{/*cardID*/cardData.EN}");
-            if (cardTexture != null)    // 나중에 if문은 빼도 될 것 같음.
+            if (Resources.Load<Sprite>($"Images/{cardContents.cardType}/{cardContents.ID}") != null)    // 나중에 if문은 빼야 함.
             {
-                cardImage.sprite = Sprite.Create(cardTexture, new Rect(0, 0, cardTexture.width, cardTexture.height), new Vector2(0.5f, 0.5f));
+                cardImage.sprite = Resources.Load<Sprite>($"Images/{cardContents.cardType}/{cardContents.ID}");
             }
             cardName.text = cardData.KR;
             cardText.text = cardData.Info;

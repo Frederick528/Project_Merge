@@ -82,27 +82,27 @@ public class Card : Entity
         {
             case 101:
                 GetComponent<MeshRenderer>().material = 
-                    Resources.Load<Material>("Prefabs/Materials/DarkGreen");
+                    Resources.Load<Material>($"Prefabs/Materials/Food/{ID}");
                 cardType = CardType.Food;
                 break;
             case 102:
                 GetComponent<MeshRenderer>().material = 
-                    Resources.Load<Material>("Prefabs/Materials/Blue");
+                    Resources.Load<Material>($"Prefabs/Materials/Water/{ID}");
                 cardType = CardType.Water;
                 break;
             case 201:
                 GetComponent<MeshRenderer>().material = 
-                    Resources.Load<Material>($"Prefabs/Materials/Wood_{level}");
+                    Resources.Load<Material>($"Prefabs/Materials/Wood/{ID}");
                 cardType = CardType.Wood;
                 break;
             case 202:
                 GetComponent<MeshRenderer>().material = 
-                    Resources.Load<Material>("Prefabs/Materials/Purple");
+                    Resources.Load<Material>($"Prefabs/Materials/Stone/{ID}");
                 cardType = CardType.Stone;
                 break;
             case 300:
                 GetComponent<MeshRenderer>().material = 
-                    Resources.Load<Material>("Prefabs/Materials/White");
+                    Resources.Load<Material>($"Prefabs/Materials/Combination/{ID}");
                 cardType = CardType.Combination;
                 level = 5;
                 break;

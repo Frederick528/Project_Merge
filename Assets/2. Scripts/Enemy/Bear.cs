@@ -15,10 +15,13 @@ public class Bear : MonoBehaviour
     private Vector3 _targetPos = default;
     private float _spd;
     private bool _isMovable = true;
-    private int _hitPoint = 2;
+    
+    [SerializeField]
+    private int _hitPoint = 1;
     
     public Card Target = null;
     public int HitPoint => _hitPoint;
+    public bool IsDead => _hitPoint <= 0;
     
     // Start is called before the first frame update
     void Awake()
@@ -32,6 +35,11 @@ public class Bear : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (IsDead)
+        {
+            OnDead();
+            return;
+        }
         try
         {
             _targetPos = new Vector3()
@@ -50,40 +58,94 @@ public class Bear : MonoBehaviour
         }
         catch (Exception e)
         {
-            return;
+            if (!IsDead)
+            {
+                _isMovable = true;
+            }
+            else
+            {
+                OnDead();
+                return;
+            }
+            
+            if (!SetTarget(out Target))
+            {
+                Debug.Log("추적할 대상이 없습니다.");
+                Debug.Log("곰들이 한심하다는 듯이 바라보고 있습니다...");
+                BearManager.BearLeave();
+            }
+            
+            if(!_anim.GetBool("Idle") && !IsDead)
+            {
+                _anim.SetBool("Idle", true);
+                _anim.SetBool("Run Forward", false);
+            }
+           
         }
     }
     
-    private void OnEnable()
+    public void Init()
     {
         StartCoroutine(SetTarget());
         StartCoroutine(AnimationController());
+
+        _hitPoint = CoreController.TurnCnt + 1;
     }
 
+    private bool SetTarget(out Card target)
+    {
+        if (HitPoint <= 0)
+        {
+            target = null;
+            return true;
+        }
+        var result = true;
+        var v =
+            from card in CardManager.Cards
+            where card.ID < 2000
+            orderby Vector3.Distance(this.transform.position, card.transform.position)
+            select card;
+
+        if (v.Any())
+            target = v.ElementAt(0);
+        else if (_isMovable)
+        {
+            target = null;
+            result = false;
+        }
+        else
+        {
+            target = null;
+        }
+        
+        return result;
+    }
     IEnumerator SetTarget()
     {
         while (true)
         {
-            var v =
-                from card in CardManager.Cards
-                where card.ID < 2000
-                orderby Vector3.Distance(this.transform.position, card.transform.position)
-                select card;
-            
-            
-            yield return new WaitForSeconds(0.3f);
+            if (IsDead)
+            {
+                yield break;
+            }
+            if (SetTarget(out Card target))
+            {
+                Target = target;
+            }
 
-            if (!v.Any()) continue;
-            Target = v.ElementAt(0);
-            
+            yield return new WaitForSeconds(0.3f);
         }
     }
-
     IEnumerator AnimationController()
     {
         _spd = Random.Range(8, 20) * 0.1f;
         while (true)
         {
+            if (IsDead)
+            {
+                OnDead();
+                break;
+            }
             if (Target == null)
             {
                 _anim.SetBool("Idle", true);
@@ -113,28 +175,42 @@ public class Bear : MonoBehaviour
     }
 
     
-    //Animation Event Method
+    //Animation Event Method ==================
     public void SetMovable()
     {
         _anim.SetBool("Run Forward", false);
+        
         if (Target != null)
         {
             if (Target.transform.parent.TryGetComponent(out CardGroup cardGroup))
                 CardManager.DestroyCard(cardGroup.RemoveCard(Target));
-            else
-                CardManager.DestroyCard(Target);
+            else if (!CardManager.DestroyCard(Target))
+            {
+                Debug.Log("Failed to Destroy Card");
+                _isMovable = true;
+                return;
+            }
         }
-
+        
+        Debug.Log("End Attack");
+        
         Target = null;
 
         var t = new Task(() =>
         {
             Thread.Sleep(1000);
-            _isMovable = true;
+            _isMovable = !IsDead;
         });
         
         t.Start();
     }
+
+    public void Die()
+    {
+        Destroy(this.gameObject);
+    }
+        
+    //=============================================
 
     private void OnCollisionEnter(Collision other)
     {
@@ -142,18 +218,31 @@ public class Bear : MonoBehaviour
         {
             if (card.ID > 2000)
             {
-                if((this._hitPoint -= card.ID % 10 + 1) < 0)
+                this._hitPoint -= card.ID % 10 + 1;
+                if(IsDead)
                 {
-                    _isMovable = false;
-                    _anim.SetBool("Run Forward", false);
-                    _anim.SetBool("Idle", false);
-                    if(_anim.GetBool("Death"))
-                        _anim.SetBool("Death", true);
-                    
-                    Debug.Log($"Remain HitPoint : {HitPoint} ");
+                    OnDead();
                 }
                 CardManager.DestroyCard(card);
             }
         }
+    }
+
+    private void OnDead()
+    {
+        _isMovable = false;
+        Target = null;
+        _anim.SetBool("Run Forward", false);
+        _anim.SetBool("Idle", false);
+        if (!_anim.GetBool("Death"))
+            _anim.SetBool("Death", true);
+        
+        if(BearManager.Instance.bearApear.gameObject.activeInHierarchy)
+            BearManager.Instance.bearApear.gameObject.SetActive(false);
+    }
+
+    public void Leave()
+    {
+        Destroy(this.gameObject);
     }
 }

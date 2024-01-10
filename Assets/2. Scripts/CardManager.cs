@@ -66,7 +66,6 @@ public class CardManager : MonoBehaviour
             {
                 _cards.Remove(target);
                 Destroy(target.gameObject);
-                GC.SuppressFinalize(target.gameObject);
             }
             else
             {

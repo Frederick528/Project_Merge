@@ -14,6 +14,7 @@ public class CoreController : MonoBehaviour
     private static CoreController _instance;
 
     public static bool IsNightTime => _core.IsNightTime;
+    public static int TurnCnt => _core.TurnCnt;
     public TMP_Text Hungriness;
     public TMP_Text Thirst;
     public TMP_Text Turn;
@@ -53,6 +54,18 @@ public class CoreController : MonoBehaviour
         /*else */if (_core.IsMorning)
         {
             CardManager.ExpirationDateCheck();
+        }
+
+        if (_core.IsDayTime)
+        {
+            if (Random.Range(0, 10) > 7)
+            {
+                BearManager.Dispense();
+            }
+        }
+        else
+        {
+            BearManager.BearLeave();
         }
     }
     private void OnDestroy()

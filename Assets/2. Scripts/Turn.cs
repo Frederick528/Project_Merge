@@ -7,9 +7,9 @@ public class Turn : MonoBehaviour
 {
     public Text Day;
     public Text Time;
-    public static int count = 4; // staticÀ¸·Î º¯°æ
-    public static int maxDays = 31; // staticÀ¸·Î º¯°æ
-    private static RandomEvent randomEvent; // staticÀ¸·Î º¯°æ
+    public static int count = 4; // staticìœ¼ë¡œ ë³€ê²½
+    public static int maxDays = 31; // staticìœ¼ë¡œ ë³€ê²½
+    private static RandomEvent randomEvent; // staticìœ¼ë¡œ ë³€ê²½
     public GameObject closebtn;
     public GameObject fixincounter0, fixincounter1, fixincounter2, fixincounter3_1, fixincounter3_2;
     [SerializeField]
@@ -33,22 +33,22 @@ public class Turn : MonoBehaviour
 
         if (count % 4 == 0)
         {
-            Time.text = "¾ÆÄ§".ToString();
+            Time.text = "ì•„ì¹¨".ToString();
             DayText();
         }
         else if (count % 4 == 1)
         {
-            Time.text = "Á¡½É".ToString();
+            Time.text = "ì ì‹¬".ToString();
         }
         else if (count % 4 == 2)
         {
-            Time.text = "Àú³á".ToString();
+            Time.text = "ì €ë…".ToString();
         }
         else if (count % 4 == 3)
         {
-            Time.text = "»õº®".ToString();
+            Time.text = "ìƒˆë²½".ToString();
             FixIncounter();
-            GameManager.cardCanvasOn = true;
+            GameManager.CardCanvasOn = true;
             blockUI.SetActive(true);
             nextBtn.interactable = false;
             closebtn.SetActive(true);
@@ -59,23 +59,23 @@ public class Turn : MonoBehaviour
     {
         if (count % 4 == 0)
         {
-            Day.text = "»ıÁ¸ " + (count / 4).ToString() + "ÀÏÂ÷";
+            Day.text = "ìƒì¡´ " + (count / 4).ToString() + "ì¼ì°¨";
         }
     }
 
     void FixIncounter()
     {
-        //if (count == 4) //½ÃÀÛÇÏÀÚ ¸¶ÀÚ
+        //if (count == 4) //ì‹œì‘í•˜ì ë§ˆì
         //{
         //    fixincounter0.SetActive(true);
         //}
 
-        /*else */if (count == 23) //5ÀÏÂ÷ »õº®
+        /*else */if (count == 23) //5ì¼ì°¨ ìƒˆë²½
         {
             fixincounter1.SetActive(true);
         }
 
-        else if (count == 43) //10ÀÏÂ÷ »õº®
+        else if (count == 43) //10ì¼ì°¨ ìƒˆë²½
         {
             fixincounter2.SetActive(true);
         }

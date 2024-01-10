@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -98,75 +98,198 @@ public class TextController : MonoBehaviour
 
     void UpdateText(string[] textArray)
     {
-        // �迭 ���� Ȯ�� �� ������Ʈ
-        if (currentTextIndex < textArray.Length)
+        // 배열 길이 확인 후 업데이트
+        if (currentTextIndex < textArray1.Length && isWaitingForInput)
         {
-            myText.text = textArray[currentTextIndex];
+            myText.text = textArray1[currentTextIndex];
         }
-        //else
-        //{
-        //    Debug.Log("�� �̻� �ؽ�Ʈ�� �����!");
-        //}
+        else if (currentTextIndex1 < textArray2.Length && isWaitingForInput)
+        {
+            myText.text = textArray2[currentTextIndex1];
+        }
+        else if (currentTextIndex2 < textArray3.Length && isWaitingForInput)
+        {
+            myText.text = textArray3[currentTextIndex2];
+        }
+        else if (currentTextIndex3 < textArray4.Length && isWaitingForInput)
+        {
+            myText.text = textArray4[currentTextIndex3];
+        }
+        else if (currentTextIndex4 < result1.Length && isWaitingForInput && bifurcation == 0)
+        {
+            myText.text = result1[currentTextIndex4];
+        }
+        else if (currentTextIndex5 < result2.Length && isWaitingForInput && bifurcation == 1)
+        {
+            myText.text = result2[currentTextIndex5];
+        }
+        else
+        {
+            Debug.Log("Not Text");
+        }
+    }
+
+    void UpdateText2(string[] textArray)
+    {
+        // 배열 길이 확인 후 업데이트
+        if (currentTextIndex < CharacterName1.Length && isWaitingForInput)
+        {
+            mytext2.text = CharacterName1[currentTextIndex];
+        }
+        else if (currentTextIndex1 < CharacterName2.Length && isWaitingForInput)
+        {
+            mytext2.text = CharacterName2[currentTextIndex1];
+            if (mytext2.text == "마녀" || mytext2.text == "???")
+            {
+                Character.SetActive(true);
+            }
+            else
+            {
+                Character.SetActive(false);
+            }
+        }
+        else if (currentTextIndex2 < CharacterName3.Length && isWaitingForInput)
+        {
+            mytext2.text = CharacterName3[currentTextIndex2];
+            if (mytext2.text == "마녀" || mytext2.text == "???")
+            {
+                Character.SetActive(true);
+            }
+            else
+            {
+                Character.SetActive(false);
+            }
+        }
+        else if (currentTextIndex3 < CharacterName4.Length && isWaitingForInput)
+        {
+            mytext2.text = CharacterName4[currentTextIndex3];
+            if (mytext2.text == "마녀" || mytext2.text == "???")
+            {
+                Character.SetActive(true);
+            }
+            else
+            {
+                Character.SetActive(false);
+            }
+        }
+        else
+        {
+            Debug.Log("Not Text");
+        }
     }
 
     void Incounter1()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput == true)
         {
             currentTextIndex++;
             if (currentTextIndex < textArray1.Length)
             {
-                print($"����: {textArray1.Length}");
-                print(currentTextIndex);
                 UpdateText(textArray1);
+                UpdateText2(CharacterName1);
             }
-            else
+            if (currentTextIndex >= textArray1.Length)
             {
-                ShowSelect();
+                transparency.SetActive(true);
+                select1.SetActive(true);
+                isWaitingForInput = false;
             }
         }
     }
 
-    public void IncounterSelect1()
+    public void Select1()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput == true)
         {
-            if (currentTextIndex < textArray2.Length)
+            currentTextIndex1++;
+            if (currentTextIndex1 < textArray2.Length)
             {
-                if (currentTextIndex < textArray2.Length)
-                {
-                    UpdateText(textArray2);
-                }
+                UpdateText(textArray2);
+                UpdateText2(CharacterName2);
             }
-            else
+            if (currentTextIndex1 >= textArray2.Length)
             {
-                Debug.Log("�� �̻� �ؽ�Ʈ�� �����!");
+                transparency.SetActive(true);
+                select2.SetActive(true);
+                isWaitingForInput = false;
             }
         }
     }
 
-    public void IncounterSelect2()
+    public void Select2()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput == true)
         {
-            if (currentTextIndex < textArray3.Length)
+            currentTextIndex2++;
+            if (currentTextIndex2 < textArray3.Length)
             {
-                if (currentTextIndex < textArray3.Length)
-                {
-                    UpdateText(textArray3);
-                }
+                UpdateText(textArray3);
+                UpdateText2(CharacterName3);
             }
-            else
+            if (currentTextIndex2 >= textArray3.Length)
             {
-                Debug.Log("�� �̻� �ؽ�Ʈ�� �����!");
+                transparency.SetActive(true);
+                select3.SetActive(true);
+                isWaitingForInput = false;
             }
         }
     }
-    void ShowSelect()
+
+    public void Select3()
     {
-        // ��ȭ�� ������ �� Select ���� ������Ʈ�� ���̵��� ����
-        Select.SetActive(true);
+        if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput == true)
+        {
+            currentTextIndex3++;
+            if (currentTextIndex3 < textArray4.Length)
+            {
+                UpdateText(textArray4);
+                UpdateText2(CharacterName4);
+            }
+            if (currentTextIndex3 >= textArray4.Length)
+            {
+                transparency.SetActive(true);
+                select4.SetActive(true);
+                isWaitingForInput = false;
+            }
+        }
+    }
+
+    public void Result1()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput == true && bifurcation == 0)
+        {
+            currentTextIndex4++;
+            if (currentTextIndex4 < result1.Length)
+            {
+                UpdateText(result1);
+            }
+            if (currentTextIndex4 >= result1.Length)
+            {
+                transparency.SetActive(true);
+                select4.SetActive(true);
+                isWaitingForInput = false;
+            }
+
+        }
+    }
+
+    public void Result2()
+    {
+        bifurcation = 1;
+        
+        if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput == true && bifurcation == 1)
+        {
+            currentTextIndex5++;
+            if (currentTextIndex5 < result2.Length)
+            {
+                UpdateText(result2);
+            }
+            if (currentTextIndex5 >= result2.Length)
+            {
+                transparency.SetActive(true);
+                select4.SetActive(true);
+                isWaitingForInput = false;
+            }
+        }
     }
 }
-
-

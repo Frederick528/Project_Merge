@@ -5,40 +5,107 @@ using UnityEngine.UI;
 
 public class TextController : MonoBehaviour
 {
-    public Text myText;
-    public GameObject Select;
-    private int currentTextIndex = 0;
-    private string[] textArray1 = { "´ç½ÅÀº ÀÌ°÷ÀÌ ¾îµğÀÎÁöµµ ¸ğ¸¥Ã¼ ½£¼Ó¿¡ Á¶³­ ´çÇß½À´Ï´Ù.",
-                                   "¿©±ä ¾îµğÁö ¶ó´Â »ı°¢µµ Àá½Ã, ½£¼Ó »çÀÌ¿¡¼­ ±ä ¸ğÀÚ¸¦ ¾²°í ÀÖ´Â ¿©¼ºÀÌ ³ªÅ¸³µ½À´Ï´Ù.",
-                                   "¡°»ç¶÷ÀÎ°¡? ¾î¶»°Ô »ì¾ÆÀÖ´ÂÁö ¸ğ¸£°Ú³×. ÀÏ´Ü ¹İ°¡¿ö. ³ª´Â ¸¶³à¾ß.",
-                                   "´ç½ÅÀº ¸¶³à°¡ ¾î¶»°Ô Á¸ÀçÇÏ³Ä°í ¹°¾îº¸°í ½Í¾úÁö¸¸ ¸¶³à´Â °è¼ÓÇØ¼­ ¸»À» ÀÌ¾î°¬½À´Ï´Ù.",
-                                   "¡°ÀÌ°Ç ¼±¹°ÀÌ¾ß. ³ª´Â ÂøÇÑ ¸¶³à´Ï±î. 30ÀÏ µÚ¿¡ ³×°¡ »ì¾ÆÀÖ´Ù¸é »ó°üÇÏÁö ¾Ê°Ú´Ù¸¸, ±× Àü¿¡ ³×°¡ Á×¾îÀÖ´Ù¸é ³× ½ÃÃ¼´Â ³»°¡ Àß ½áÁÖ°Ú¾î¡±",
-                                   "±×³à´Â ¼±¹°ÀÌ¶ó¸ç È²±İºû »ç°ú¸¦ °Å³»¸ç ÀÚ¸®¸¦ ¶°³³´Ï´Ù.",
-                                   "Á×Àº µÚ¿¡ Ã£¾Æ¿À´Â°Ô ¹«½¼ »ó°üÀÏ±î¿ä? ¸¶Ä§ ±¾¾î Á×À» °Í °°Àºµ¥.. ÀÌ »ç°ú¸¦ ¸Ô¾îµµ µÉ±î¿ä?"
-                                   };
-    private string[] textArray2 = { " ±× Áï½Ã ¹è°íÇÄ ¼öÄ¡¿Í °¥Áõ ¼öÄ¡°¡ 100±îÁö Âù´Ù.", };
-    private string[] textArray3 = { "È²±İ »ç°ú¸¦ Ä«µå·Î È¹µæÇÒ ¼ö ÀÖ´Ù. * È²±İ»ç°ú - À¯Åë±âÇÑ ¾øÀ½ , ¸ÔÀ¸¸é ½ºÅÈÀ» ¸ğµÎ ²Ë Âù´Ù.", };
+    public bool isWaitingForInput = true;
+    public int bifurcation = 0;
+    public Text myText, mytext2;
+    public GameObject incounter, transparency, Character, select1, select2, select3, select4;
+
+    [SerializeField]
+    Button nextBtn;
+    [SerializeField]
+    GameObject blockUI, closeBtn;
+
+    int currentTextIndex, currentTextIndex1, currentTextIndex2, currentTextIndex3, currentTextIndex4, currentTextIndex5 = 0;
+    private string[] textArray1 = { "ë¶€ìŠ¤ëŸ­. ë¶€ìŠ¤ëŸ­.",
+                                   "ì–´ë””ì„ ê°€ ë‚˜ë­‡ìì´ í”ë“¤ë¦¬ëŠ” ì†Œë¦¬ê°€ ë“¤ë ¸ë‹¤.",
+                                   "ì´ê³³ì€ ì–´ë”˜ì§€ë„ ëª¨ë¥¼, ë‚˜ê°ˆ ìˆ˜ ì—†ëŠ” ìˆ²ì´ë‹¤.",
+                                   "ê·¸ëŸ° ê³³ì— ë‚˜ëŠ” ì§€ê¸ˆ í˜¼ì ë‚¨ê²¨ì¡Œë‹¤." };
+
+    private string[] textArray2 = {"",
+                                    "ê·¸ëŸ° ìƒê°ì´ ë‚´ ë¨¸ë¦¿ì†ì„ ë§´ëŒ ë•Œ, ë‚´ ì¸ê¸°ì²™ì— ëˆ„êµ°ê°€ ë‹¤ê°€ì˜¤ëŠ”ê²Œ ëŠê»´ì¡Œë‹¤.",
+                                    "ì´ìƒí•  ì •ë„ë¡œ ê¸´ ë¨¸ë¦¬ì¹´ë½ì—, ì´ëŸ° ìˆ²ì—ì„œ ì‚´ê³ ìˆë‹¤ê³  ë³´ê¸°ë„ í˜ë“  ê·¸ëŸ° ì˜·ì„ ì…ê³ ìˆëŠ” ì—¬ì¸ì´ ì•ì— ìˆì—ˆë‹¤.",
+                                    "ì‚¬ëŒì¸ê°€? ì–´ë–»ê²Œ ì‚´ì•„ìˆëŠ”ì§€ ëª¨ë¥´ê² ë„¤. ì¼ë‹¨ì€ ë°˜ê°€ì›Œ.",
+                                    "ë¯¿ê¸° í˜ë“¤ê² ì§€ë§Œ. ë‚˜ëŠ” ë§ˆë…€ì•¼." };
+
+    private string[] textArray3 = { "",
+                                    "ë­ ë¯¿ë“  ë§ë“  ìƒê´€ì—†ì–´.",
+                                    "ë‚˜ëŠ” ì´ ìˆ²ì„ ì§€í‚¤ëŠ” ë§ˆë…€ì•¼. ë„ˆëŠ” ì´ ìˆ²ì— ë¬´ë‹¨ìœ¼ë¡œ ë“¤ì–´ì˜¨ ì™¸ì§€ì¸ì´ê³ ." };
+
+    private string[] textArray4 = { "",
+                                    "ë³„ê±° ì•„ë‹ˆì•¼. 30ì¼. ë”± 30ì¼ì„ ì—¬ê¸°ì„œ ì‚´ì•„ì„œ ì‚´ì•„ìˆë‹¤ë©´.",
+                                    "ê·¸ë•ŒëŠ” ë‹¤ë¥¸ ê³³ìœ¼ë¡œ ë„ˆë¥¼ ì•ˆë‚´í•´ì¤„ê²Œ.",
+                                    "ê·¸ë…€ëŠ” ê·¸ ë§ê³¼ í•¨ê»˜ ì£¼ë¨¸ë‹ˆ ë’¤ì—ì„œ í™©ê¸ˆë¹› ì‚¬ê³¼ë¥¼ ë‚´ê²Œ ê±´ë‚´ë©° ì‚¬ë¼ì¡Œë‹¤.",
+                                    "ë‚˜ëŠ” í˜¼ë€ìŠ¤ëŸ¬ìš´ ë§ˆìŒì„ ì•ˆê³  ì‚¬ê³¼ë¥¼ ë°”ë¼ë³´ì•˜ë‹¤.",
+                                    "ì´ ìˆ²ì˜ ë§ˆë…€ê°€ ë‚˜ë¥¼ ëŒë´ì¤€ë‹¤ë‹ˆ. ì´ê²Œ ë¬´ìŠ¨ì¼ì¸ê±¸ê¹Œ..",
+                                    "ë§ˆì¹¨ ë°°ê³ íŒŒ ì£½ê¸° ì§ì „ì´ë‹¤.. ì´ê±¸ ë¨¹ì–´ë„ ê´œì°®ì„ê¹Œ?"};
+
+
+
+    private string[] CharacterName1 = { "", "", "", "" };
+    private string[] CharacterName2 = { "", "", "", "???", "ë§ˆë…€" };
+    private string[] CharacterName3 = { "", "ë§ˆë…€", "ë§ˆë…€" };
+    private string[] CharacterName4 = { "", "ë§ˆë…€", "ë§ˆë…€", "", "", "", "" };
+
+    private string[] result1 = { "", "ì•„ì‚­.", "ì‚¬ê³¼ë¥¼ í•œì… ë² ì–´ë¨¹ì—ˆë‹¤.", "ë¬´ì–¸ê°€ ëª¸ì´.. ê±´ê°•í•´ì§„ ê²ƒ ê°™ë‹¤..!", "ì¼ë‹¨ì€ ë­ë“ .. 30ì¼ì„ í•œë²ˆ ë²„í…¨ë³´ì.." };
+    private string[] result2 = { "", "ê·¸ë˜ë„ ë­”ê°€ ë¨¹ê¸°ê°€ ì¢€ ê·¸ë ‡ë‹¤.", "ì¼ë‹¨ì€ ë“¤ê³ ëŠ” ìˆì", "ì¼ë‹¨ì€ ë­ë“ .. 30ì¼ì„ í•œë²ˆ ë²„í…¨ë³´ì.." };
+
 
     void Start()
     {
         myText.text = textArray1[0];
+        mytext2.text = CharacterName1[0];
+        nextBtn.interactable = false;
+        //closeBtn.SetActive(true);
     }
 
     void Update()
     {
-        Incounter1();
+        if (currentTextIndex < textArray1.Length)
+        {
+            Incounter1();
+        }
+        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 < textArray2.Length)
+        {
+            Select1();
+        }
+        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 >= textArray2.Length && currentTextIndex2 < textArray3.Length)
+        {
+            Select2();
+        }
+        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 >= textArray2.Length && currentTextIndex2 >= textArray3.Length && currentTextIndex3 < textArray4.Length)
+        {
+            Select3();
+        }
+        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 >= textArray2.Length && currentTextIndex2 >= textArray3.Length
+                 && currentTextIndex3 >= textArray4.Length && currentTextIndex4 < result1.Length && bifurcation == 0)
+        {
+            Result1();
+        }
+        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 >= textArray2.Length && currentTextIndex2 >= textArray3.Length
+                 && currentTextIndex3 >= textArray4.Length && currentTextIndex5 < result2.Length && bifurcation == 1)
+        {
+            Result2();
+        }
+        else 
+        {
+            incounter.SetActive(false);
+            nextBtn.interactable = true;
+            blockUI.SetActive(false);
+            //closeBtn.SetActive(false);
+            GameManager.CardCanvasOn = false;
+        }
     }
 
     void UpdateText(string[] textArray)
     {
-        // ¹è¿­ ±æÀÌ È®ÀÎ ÈÄ ¾÷µ¥ÀÌÆ®
+        // ï¿½è¿­ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
         if (currentTextIndex < textArray.Length)
         {
             myText.text = textArray[currentTextIndex];
         }
         //else
         //{
-        //    Debug.Log("´õ ÀÌ»ó ÅØ½ºÆ®°¡ ¾ø¾î¿ä!");
+        //    Debug.Log("ï¿½ï¿½ ï¿½Ì»ï¿½ ï¿½Ø½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½!");
         //}
     }
 
@@ -49,7 +116,7 @@ public class TextController : MonoBehaviour
             currentTextIndex++;
             if (currentTextIndex < textArray1.Length)
             {
-                print($"±æÀÌ: {textArray1.Length}");
+                print($"ï¿½ï¿½ï¿½ï¿½: {textArray1.Length}");
                 print(currentTextIndex);
                 UpdateText(textArray1);
             }
@@ -73,7 +140,7 @@ public class TextController : MonoBehaviour
             }
             else
             {
-                Debug.Log("´õ ÀÌ»ó ÅØ½ºÆ®°¡ ¾ø¾î¿ä!");
+                Debug.Log("ï¿½ï¿½ ï¿½Ì»ï¿½ ï¿½Ø½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½!");
             }
         }
     }
@@ -91,13 +158,13 @@ public class TextController : MonoBehaviour
             }
             else
             {
-                Debug.Log("´õ ÀÌ»ó ÅØ½ºÆ®°¡ ¾ø¾î¿ä!");
+                Debug.Log("ï¿½ï¿½ ï¿½Ì»ï¿½ ï¿½Ø½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½!");
             }
         }
     }
     void ShowSelect()
     {
-        // ´ëÈ­°¡ ³¡³µÀ» ¶§ Select °ÔÀÓ ¿ÀºêÁ§Æ®¸¦ º¸ÀÌµµ·Ï ¼³Á¤
+        // ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Select ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         Select.SetActive(true);
     }
 }

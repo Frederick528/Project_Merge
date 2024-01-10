@@ -8,7 +8,7 @@ public class TextController : MonoBehaviour
     public bool isWaitingForInput = true;
     public int bifurcation = 0;
     public Text myText, mytext2;
-    public GameObject incounter, select1, select2, select3, select4;
+    public GameObject incounter, transparency, select1, select2, select3, select4;
     int currentTextIndex, currentTextIndex1, currentTextIndex2, currentTextIndex3, currentTextIndex4, currentTextIndex5 = 0;
     private string[] textArray1 = { "부스럭. 부스럭.",
                                    "어디선가 나뭇잎이 흔들리는 소리가 들렸다.",
@@ -154,6 +154,7 @@ public class TextController : MonoBehaviour
             }
             if (currentTextIndex >= textArray1.Length)
             {
+                transparency.SetActive(true);
                 select1.SetActive(true);
                 isWaitingForInput = false;
             }
@@ -172,6 +173,7 @@ public class TextController : MonoBehaviour
             }
             if (currentTextIndex1 >= textArray2.Length)
             {
+                transparency.SetActive(true);
                 select2.SetActive(true);
                 isWaitingForInput = false;
             }
@@ -190,6 +192,7 @@ public class TextController : MonoBehaviour
             }
             if (currentTextIndex2 >= textArray3.Length)
             {
+                transparency.SetActive(true);
                 select3.SetActive(true);
                 isWaitingForInput = false;
             }
@@ -208,6 +211,7 @@ public class TextController : MonoBehaviour
             }
             if (currentTextIndex3 >= textArray4.Length)
             {
+                transparency.SetActive(true);
                 select4.SetActive(true);
                 isWaitingForInput = false;
             }
@@ -225,6 +229,7 @@ public class TextController : MonoBehaviour
             }
             if (currentTextIndex4 >= result1.Length)
             {
+                transparency.SetActive(true);
                 select4.SetActive(true);
                 isWaitingForInput = false;
             }
@@ -245,7 +250,7 @@ public class TextController : MonoBehaviour
             }
             if (currentTextIndex5 >= result2.Length)
             {
-                
+                transparency.SetActive(true);
                 select4.SetActive(true);
                 isWaitingForInput = false;
             }

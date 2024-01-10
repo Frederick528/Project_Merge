@@ -7,18 +7,19 @@ public class SelectBtn : MonoBehaviour
     public TextController textController; // TextController 스크립트 참조
     public GameObject selectBtn1, selectBtn2;
 
+
     public void Select1()
     {
-        Debug.Log("Button Clicked");
-        textController.Select1(); // TextController의 NextText 메서드 호출
+        textController.transparency.SetActive(false);
+        textController.Select1(); // TextController의 Select1 메서드 호출
         textController.isWaitingForInput = true;
         selectBtn1.SetActive(false);
     }
 
     public void Select2()
     {
-        Debug.Log("Button Clicked");
-        textController.Select2(); // TextController의 NextText 메서드 호출
+        textController.transparency.SetActive(false);
+        textController.Select2(); 
         textController.isWaitingForInput = true;
         selectBtn1.SetActive(false);
         selectBtn2.SetActive(false);
@@ -26,25 +27,27 @@ public class SelectBtn : MonoBehaviour
 
     public void Select3()
     {
-        Debug.Log("Button Clicked");
-        textController.Select3(); // TextController의 NextText 메서드 호출
+        textController.transparency.SetActive(false);
+        textController.Select3(); 
         textController.isWaitingForInput = true;
         selectBtn1.SetActive(false);
     }
 
     public void Result1()
     {
-        Debug.Log("Button Clicked");
-        textController.Result1(); // TextController의 NextText 메서드 호출
+        textController.transparency.SetActive(false);
+        textController.Result1(); 
         textController.isWaitingForInput = true;
+        textController.bifurcation = 0;
         selectBtn1.SetActive(false);
         selectBtn2.SetActive(false);
     }
 
     public void Result2()
     {
-        Debug.Log("Button Clicked");
-        textController.Result2(); // TextController의 NextText 메서드 호출
+        textController.transparency.SetActive(false);
+        textController.Result2();
+        textController.bifurcation = 1;
         textController.isWaitingForInput = true;
         selectBtn1.SetActive(false);
         selectBtn2.SetActive(false);

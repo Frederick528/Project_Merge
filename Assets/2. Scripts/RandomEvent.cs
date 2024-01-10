@@ -46,7 +46,6 @@ public class RandomEvent : MonoBehaviour
             selectedEvent.SetActive(true);
             var v = selectedEvent.GetComponentInChildren<RectTransform>();
 
-            print(selectedEvent.name.ToCharArray()[^2] + "");
             v.gameObject.SetActive(true);
             Instantiate(selectedEvent);
             //IncounterList.Remove(selectedEvent);

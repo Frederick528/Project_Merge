@@ -9,6 +9,12 @@ public class TextController : MonoBehaviour
     public int bifurcation = 0;
     public Text myText, mytext2;
     public GameObject incounter, transparency, Character, select1, select2, select3, select4;
+
+    [SerializeField]
+    Button nextBtn;
+    [SerializeField]
+    GameObject blockUI, closeBtn;
+
     int currentTextIndex, currentTextIndex1, currentTextIndex2, currentTextIndex3, currentTextIndex4, currentTextIndex5 = 0;
     private string[] textArray1 = { "부스럭. 부스럭.",
                                    "어디선가 나뭇잎이 흔들리는 소리가 들렸다.",
@@ -48,6 +54,8 @@ public class TextController : MonoBehaviour
     {
         myText.text = textArray1[0];
         mytext2.text = CharacterName1[0];
+        nextBtn.interactable = false;
+        //closeBtn.SetActive(true);
     }
 
     void Update()
@@ -81,6 +89,10 @@ public class TextController : MonoBehaviour
         else 
         {
             incounter.SetActive(false);
+            nextBtn.interactable = true;
+            blockUI.SetActive(false);
+            //closeBtn.SetActive(false);
+            GameManager.CardCanvasOn = false;
         }
     }
 

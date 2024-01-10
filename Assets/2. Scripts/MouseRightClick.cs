@@ -76,13 +76,21 @@ public class MouseRightClick : MonoBehaviour
                 cardEatBtn.interactable= false;
             }
 
-            cardDecompositionBtn.onClick.RemoveAllListeners();
-            cardDecompositionBtn.onClick.AddListener(() =>
+            if (cardContents.level == 0)
             {
-                print(cardContents.ID);
-                cardContents.OnDecomposition(out Card[] cards);
-                CanvasClose();
-            });
+                cardDecompositionBtn.interactable = false;
+            }
+            else
+            {
+                cardDecompositionBtn.interactable = true;
+                cardDecompositionBtn.onClick.RemoveAllListeners();
+                cardDecompositionBtn.onClick.AddListener(() =>
+                {
+                    print(cardContents.ID);
+                    cardContents.OnDecomposition(out Card[] cards);
+                    CanvasClose();
+                });
+            }
 
 
             GameManager.CardCanvasOn = true;

@@ -13,6 +13,8 @@ public class MouseRightClick : MonoBehaviour
     public Text cardName;
     public Text cardText;
     public Button cardEatBtn;
+    [SerializeField]
+    Button cardDecompositionBtn;
 
     Stat stat;
 
@@ -37,22 +39,21 @@ public class MouseRightClick : MonoBehaviour
 
     public void CanvasClose()
     {
-        GameManager.cardCanvasOn = false;
+        GameManager.CardCanvasOn = false;
         canvas.SetActive(false);
     }
     
     private void RayCastEvt(RaycastHit hit)
     {
-        if (hit.collider.gameObject.CompareTag("Card") && !GameManager.cardCanvasOn)
+        if (hit.collider.gameObject.CompareTag("Card") && !GameManager.CardCanvasOn)
         {
             Card cardContents = hit.collider.GetComponent<Card>();
             CardData cardData = cardContents.Data;
 
             //string cardID = $"{cardContents.cardType}_{cardContents.level}";
-            Texture2D cardTexture = Resources.Load<Texture2D>($"Images/{/*cardID*/cardData.EN}");
-            if (cardTexture != null)    // 나중에 if문은 빼도 될 것 같음.
+            if (Resources.Load<Sprite>($"Images/{cardContents.cardType}/{cardContents.ID}") != null)    // 나중에 if문은 빼야 함.
             {
-                cardImage.sprite = Sprite.Create(cardTexture, new Rect(0, 0, cardTexture.width, cardTexture.height), new Vector2(0.5f, 0.5f));
+                cardImage.sprite = Resources.Load<Sprite>($"Images/{cardContents.cardType}/{cardContents.ID}");
             }
             cardName.text = cardData.KR;
             cardText.text = cardData.Info;
@@ -65,7 +66,7 @@ public class MouseRightClick : MonoBehaviour
                 {
                     stat.curHunger = ((stat.curHunger + cardData.Hunger) > stat.maxHunger) ? stat.maxHunger : stat.curHunger + cardData.Hunger;
                     stat.curThirst = ((stat.curThirst + cardData.Thirst) > stat.maxThirst) ? stat.maxThirst : stat.curThirst + cardData.Thirst;
-                    Destroy(hit.collider);
+                    CardManager.DestroyCard(cardContents);
 
                     CanvasClose();
                 });
@@ -75,7 +76,16 @@ public class MouseRightClick : MonoBehaviour
                 cardEatBtn.interactable= false;
             }
 
-            GameManager.cardCanvasOn = true;
+            cardDecompositionBtn.onClick.RemoveAllListeners();
+            cardDecompositionBtn.onClick.AddListener(() =>
+            {
+                print(cardContents.ID);
+                cardContents.OnDecomposition(out Card[] cards);
+                CanvasClose();
+            });
+
+
+            GameManager.CardCanvasOn = true;
             canvas.SetActive(true);
         }
     }

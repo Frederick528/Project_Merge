@@ -64,7 +64,7 @@ public class MouseRightClick : MonoBehaviour
                 {
                     stat.curHunger = ((stat.curHunger + cardData.Hunger) > stat.maxHunger) ? stat.maxHunger : stat.curHunger + cardData.Hunger;
                     stat.curThirst = ((stat.curThirst + cardData.Thirst) > stat.maxThirst) ? stat.maxThirst : stat.curThirst + cardData.Thirst;
-                    Destroy(hit.collider);
+                    CardManager.DestroyCard(cardContents);
 
                     CanvasClose();
                 });

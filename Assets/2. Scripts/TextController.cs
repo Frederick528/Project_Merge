@@ -5,102 +5,250 @@ using UnityEngine.UI;
 
 public class TextController : MonoBehaviour
 {
-    public Text myText;
-    public GameObject Select;
-    private int currentTextIndex = 0;
-    private string[] textArray1 = { "당신은 이곳이 어디인지도 모른체 숲속에 조난 당했습니다.",
-                                   "여긴 어디지 라는 생각도 잠시, 숲속 사이에서 긴 모자를 쓰고 있는 여성이 나타났습니다.",
-                                   "“사람인가? 어떻게 살아있는지 모르겠네. 일단 반가워. 나는 마녀야.",
-                                   "당신은 마녀가 어떻게 존재하냐고 물어보고 싶었지만 마녀는 계속해서 말을 이어갔습니다.",
-                                   "“이건 선물이야. 나는 착한 마녀니까. 30일 뒤에 네가 살아있다면 상관하지 않겠다만, 그 전에 네가 죽어있다면 네 시체는 내가 잘 써주겠어”",
-                                   "그녀는 선물이라며 황금빛 사과를 거내며 자리를 떠납니다.",
-                                   "죽은 뒤에 찾아오는게 무슨 상관일까요? 마침 굶어 죽을 것 같은데.. 이 사과를 먹어도 될까요?"
-                                   };
-    private string[] textArray2 = { " 그 즉시 배고픔 수치와 갈증 수치가 100까지 찬다.", };
-    private string[] textArray3 = { "황금 사과를 카드로 획득할 수 있다. * 황금사과 - 유통기한 없음 , 먹으면 스탯을 모두 꽉 찬다.", };
+    public bool isWaitingForInput = true;
+    public int bifurcation = 0;
+    public Text myText, mytext2;
+    public GameObject incounter, select1, select2, select3, select4;
+    int currentTextIndex, currentTextIndex1, currentTextIndex2, currentTextIndex3, currentTextIndex4, currentTextIndex5 = 0;
+    private string[] textArray1 = { "부스럭. 부스럭.",
+                                   "어디선가 나뭇잎이 흔들리는 소리가 들렸다.",
+                                   "이곳은 어딘지도 모를, 나갈 수 없는 숲이다.",
+                                   "그런 곳에 나는 지금 혼자 남겨졌다." };
+
+    private string[] textArray2 = {"",
+                                    "그런 생각이 내 머릿속을 맴돌 때, 내 인기척에 누군가 다가오는게 느껴졌다.",
+                                    "이상할 정도로 긴 머리카락에, 이런 숲에서 살고있다고 보기도 힘든 그런 옷을 입고있는 여인이 앞에 있었다.",
+                                    "사람인가? 어떻게 살아있는지 모르겠네. 일단은 반가워.",
+                                    "믿기 힘들겠지만. 나는 마녀야." };
+
+    private string[] textArray3 = { "",
+                                    "뭐 믿든 말든 상관없어.",
+                                    "나는 이 숲을 지키는 마녀야. 너는 이 숲에 무단으로 들어온 외지인이고." };
+
+    private string[] textArray4 = { "",
+                                    "별거 아니야. 30일. 딱 30일을 여기서 살아서 살아있다면.",
+                                    "그때는 다른 곳으로 너를 안내해줄게.",
+                                    "그녀는 그 말과 함께 주머니 뒤에서 황금빛 사과를 내게 건내며 사라졌다.",
+                                    "나는 혼란스러운 마음을 안고 사과를 바라보았다.",
+                                    "이 숲의 마녀가 나를 돌봐준다니. 이게 무슨일인걸까..",
+                                    "마침 배고파 죽기 직전이다.. 이걸 먹어도 괜찮을까?"};
+
+
+
+    private string[] CharacterName1 = { "", "", "", "" };
+    private string[] CharacterName2 = { "", "", "", "???", "마녀" };
+    private string[] CharacterName3 = { "", "마녀", "마녀" };
+    private string[] CharacterName4 = { "", "마녀", "마녀", "", "", "", "" };
+
+    private string[] result1 = { "", "아삭.", "사과를 한입 베어먹었다.", "무언가 몸이.. 건강해진 것 같다..!", "일단은 뭐든.. 30일을 한번 버텨보자.." };
+    private string[] result2 = { "", "그래도 뭔가 먹기가 좀 그렇다.", "일단은 들고는 있자", "일단은 뭐든.. 30일을 한번 버텨보자.." };
+
 
     void Start()
     {
         myText.text = textArray1[0];
+        mytext2.text = CharacterName1[0];
     }
 
     void Update()
     {
-        Incounter1();
+        if (currentTextIndex < textArray1.Length)
+        {
+            Incounter1();
+        }
+        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 < textArray2.Length)
+        {
+            Select1();
+        }
+        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 >= textArray2.Length && currentTextIndex2 < textArray3.Length)
+        {
+            Select2();
+        }
+        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 >= textArray2.Length && currentTextIndex2 >= textArray3.Length && currentTextIndex3 < textArray4.Length)
+        {
+            Select3();
+        }
+        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 >= textArray2.Length && currentTextIndex2 >= textArray3.Length
+                 && currentTextIndex3 >= textArray4.Length && currentTextIndex4 < result1.Length && bifurcation == 0)
+        {
+            Result1();
+        }
+        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 >= textArray2.Length && currentTextIndex2 >= textArray3.Length
+                 && currentTextIndex3 >= textArray4.Length && currentTextIndex5 < result2.Length && bifurcation == 1)
+        {
+            Result2();
+        }
+        else 
+        {
+            incounter.SetActive(false);
+        }
     }
 
     void UpdateText(string[] textArray)
     {
         // 배열 길이 확인 후 업데이트
-        if (currentTextIndex < textArray.Length)
+        if (currentTextIndex < textArray1.Length && isWaitingForInput)
         {
-            myText.text = textArray[currentTextIndex];
+            myText.text = textArray1[currentTextIndex];
         }
-        //else
-        //{
-        //    Debug.Log("더 이상 텍스트가 없어요!");
-        //}
+        else if (currentTextIndex1 < textArray2.Length && isWaitingForInput)
+        {
+            myText.text = textArray2[currentTextIndex1];
+        }
+        else if (currentTextIndex2 < textArray3.Length && isWaitingForInput)
+        {
+            myText.text = textArray3[currentTextIndex2];
+        }
+        else if (currentTextIndex3 < textArray4.Length && isWaitingForInput)
+        {
+            myText.text = textArray4[currentTextIndex3];
+        }
+        else if (currentTextIndex4 < result1.Length && isWaitingForInput && bifurcation == 0)
+        {
+            myText.text = result1[currentTextIndex4];
+        }
+        else if (currentTextIndex5 < result2.Length && isWaitingForInput && bifurcation == 1)
+        {
+            myText.text = result2[currentTextIndex5];
+        }
+        else
+        {
+            Debug.Log("Not Text");
+        }
+    }
+
+    void UpdateText2(string[] textArray)
+    {
+        // 배열 길이 확인 후 업데이트
+        if (currentTextIndex < CharacterName1.Length && isWaitingForInput)
+        {
+            mytext2.text = CharacterName1[currentTextIndex];
+        }
+        else if (currentTextIndex1 < CharacterName2.Length && isWaitingForInput)
+        {
+            mytext2.text = CharacterName2[currentTextIndex1];
+        }
+        else if (currentTextIndex2 < CharacterName3.Length && isWaitingForInput)
+        {
+            mytext2.text = CharacterName3[currentTextIndex2];
+        }
+        else if (currentTextIndex3 < CharacterName4.Length && isWaitingForInput)
+        {
+            mytext2.text = CharacterName4[currentTextIndex3];
+        }
+        else
+        {
+            Debug.Log("Not Text");
+        }
     }
 
     void Incounter1()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput == true)
         {
             currentTextIndex++;
             if (currentTextIndex < textArray1.Length)
             {
-                print($"길이: {textArray1.Length}");
-                print(currentTextIndex);
                 UpdateText(textArray1);
+                UpdateText2(CharacterName1);
             }
-            else
+            if (currentTextIndex >= textArray1.Length)
             {
-                ShowSelect();
-                return;
+                select1.SetActive(true);
+                isWaitingForInput = false;
             }
         }
     }
 
-    public void IncounterSelect1()
+    public void Select1()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput == true)
         {
-            if (currentTextIndex < textArray2.Length)
+            currentTextIndex1++;
+            if (currentTextIndex1 < textArray2.Length)
             {
-                if (currentTextIndex < textArray2.Length)
-                {
-                    UpdateText(textArray2);
-                }
+                UpdateText(textArray2);
+                UpdateText2(CharacterName2);
             }
-            else
+            if (currentTextIndex1 >= textArray2.Length)
             {
-                Debug.Log("더 이상 텍스트가 없어요!");
+                select2.SetActive(true);
+                isWaitingForInput = false;
             }
         }
     }
 
-    public void IncounterSelect2()
+    public void Select2()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput == true)
         {
-            if (currentTextIndex < textArray3.Length)
+            currentTextIndex2++;
+            if (currentTextIndex2 < textArray3.Length)
             {
-                if (currentTextIndex < textArray3.Length)
-                {
-                    UpdateText(textArray3);
-                }
+                UpdateText(textArray3);
+                UpdateText2(CharacterName3);
             }
-            else
+            if (currentTextIndex2 >= textArray3.Length)
             {
-                Debug.Log("더 이상 텍스트가 없어요!");
+                select3.SetActive(true);
+                isWaitingForInput = false;
             }
         }
     }
-    void ShowSelect()
+
+    public void Select3()
     {
-        // 대화가 끝났을 때 Select 게임 오브젝트를 보이도록 설정
-        Select.SetActive(true);
+        if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput == true)
+        {
+            currentTextIndex3++;
+            if (currentTextIndex3 < textArray4.Length)
+            {
+                UpdateText(textArray4);
+                UpdateText2(CharacterName4);
+            }
+            if (currentTextIndex3 >= textArray4.Length)
+            {
+                select4.SetActive(true);
+                isWaitingForInput = false;
+            }
+        }
+    }
+
+    public void Result1()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput == true && bifurcation == 0)
+        {
+            currentTextIndex4++;
+            if (currentTextIndex4 < result1.Length)
+            {
+                UpdateText(result1);
+            }
+            if (currentTextIndex4 >= result1.Length)
+            {
+                select4.SetActive(true);
+                isWaitingForInput = false;
+            }
+
+        }
+    }
+
+    public void Result2()
+    {
+        bifurcation = 1;
+        
+        if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput == true && bifurcation == 1)
+        {
+            currentTextIndex5++;
+            if (currentTextIndex5 < result2.Length)
+            {
+                UpdateText(result2);
+            }
+            if (currentTextIndex5 >= result2.Length)
+            {
+                
+                select4.SetActive(true);
+                isWaitingForInput = false;
+            }
+        }
     }
 }
-
-

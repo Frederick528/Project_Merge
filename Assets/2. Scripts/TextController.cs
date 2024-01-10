@@ -8,7 +8,7 @@ public class TextController : MonoBehaviour
     public bool isWaitingForInput = true;
     public int bifurcation = 0;
     public Text myText, mytext2;
-    public GameObject incounter, transparency, select1, select2, select3, select4;
+    public GameObject incounter, transparency, Character, select1, select2, select3, select4;
     int currentTextIndex, currentTextIndex1, currentTextIndex2, currentTextIndex3, currentTextIndex4, currentTextIndex5 = 0;
     private string[] textArray1 = { "ï¿½Î½ï¿½ï¿½ï¿½. ï¿½Î½ï¿½ï¿½ï¿½.",
                                    "ï¿½ï¿½ð¼±°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½é¸®ï¿½ï¿½ ï¿½Ò¸ï¿½ï¿½ï¿½ ï¿½ï¿½È´ï¿½.",
@@ -127,14 +127,38 @@ public class TextController : MonoBehaviour
         else if (currentTextIndex1 < CharacterName2.Length && isWaitingForInput)
         {
             mytext2.text = CharacterName2[currentTextIndex1];
+            if (mytext2.text == "¸¶³à" || mytext2.text == "???")
+            {
+                Character.SetActive(true);
+            }
+            else
+            {
+                Character.SetActive(false);
+            }
         }
         else if (currentTextIndex2 < CharacterName3.Length && isWaitingForInput)
         {
             mytext2.text = CharacterName3[currentTextIndex2];
+            if (mytext2.text == "¸¶³à" || mytext2.text == "???")
+            {
+                Character.SetActive(true);
+            }
+            else
+            {
+                Character.SetActive(false);
+            }
         }
         else if (currentTextIndex3 < CharacterName4.Length && isWaitingForInput)
         {
             mytext2.text = CharacterName4[currentTextIndex3];
+            if (mytext2.text == "¸¶³à" || mytext2.text == "???")
+            {
+                Character.SetActive(true);
+            }
+            else
+            {
+                Character.SetActive(false);
+            }
         }
         else
         {

@@ -7,9 +7,9 @@ public class Turn : MonoBehaviour
 {
     public Text Day;
     public Text Time;
-    public static int count => CoreController.TurnCnt; // staticìœ¼ë¡œ ë³€ê²½
-    public static int maxDays = 31; // staticìœ¼ë¡œ ë³€ê²½
-    private static RandomEvent randomEvent; // staticìœ¼ë¡œ ë³€ê²½
+    public static int count = 4; // staticÀ¸·Î º¯°æ
+    public static int maxDays = 31; // staticÀ¸·Î º¯°æ
+    private static RandomEvent randomEvent; // staticÀ¸·Î º¯°æ
     public GameObject closebtn;
     public GameObject fixincounter0, fixincounter1, fixincounter2, fixincounter3_1, fixincounter3_2;
     [SerializeField]
@@ -24,29 +24,31 @@ public class Turn : MonoBehaviour
 
     public void NextTurn()
     {
+        count += 1;
+
         if (count > maxDays * 4)
         {
-            
+            count = 4;
         }
 
         if (count % 4 == 0)
         {
-            Time.text = "ì•„ì¹¨".ToString();
+            Time.text = "¾ÆÄ§".ToString();
             DayText();
         }
         else if (count % 4 == 1)
         {
-            Time.text = "ì ì‹¬".ToString();
+            Time.text = "Á¡½É".ToString();
         }
         else if (count % 4 == 2)
         {
-            Time.text = "ì €ë…".ToString();
+            Time.text = "Àú³á".ToString();
         }
         else if (count % 4 == 3)
         {
-            Time.text = "ìƒˆë²½".ToString();
+            Time.text = "»õº®".ToString();
             FixIncounter();
-            GameManager.CardCanvasOn = true;
+            GameManager.cardCanvasOn = true;
             blockUI.SetActive(true);
             nextBtn.interactable = false;
             closebtn.SetActive(true);
@@ -57,33 +59,33 @@ public class Turn : MonoBehaviour
     {
         if (count % 4 == 0)
         {
-            Day.text = "ìƒì¡´ " + ((count / 4)+1) + "ì¼ì°¨";
+            Day.text = "»ıÁ¸ " + (count / 4).ToString() + "ÀÏÂ÷";
         }
     }
 
     void FixIncounter()
     {
-        //if (count == 4) //ì‹œì‘í•˜ì ë§ˆì
+        //if (count == 4) //½ÃÀÛÇÏÀÚ ¸¶ÀÚ
         //{
         //    fixincounter0.SetActive(true);
         //}
 
-        /*else */if (CoreController.Date == 4) //5ì¼ì°¨ ìƒˆë²½
+        /*else */if (count == 23) //5ÀÏÂ÷ »õº®
         {
             fixincounter1.SetActive(true);
         }
 
-        else if (CoreController.Date == 9) //10ì¼ì°¨ ìƒˆë²½
+        else if (count == 43) //10ÀÏÂ÷ »õº®
         {
             fixincounter2.SetActive(true);
         }
 
-        else if (CoreController.Date == 14 && Event.Quest == 0)
+        else if (count == 63 && Event.Quest == 0)
         {
             fixincounter3_1.SetActive(true);
         }
 
-        else if (CoreController.Date == 14 && Event.Quest == 1)
+        else if (count == 63 && Event.Quest == 1)
         {
             fixincounter3_2.SetActive(true);
         }

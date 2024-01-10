@@ -14,7 +14,6 @@ public class CardManager : MonoBehaviour
     
     public static CardManager Instance;
     public static GameObject[] Areas; // 0 - Merge | 1 - Export | 2 - Sort
-    public static List<Card> Cards => _cards;
 
     // Start is called before the first frame update
     private void Awake()
@@ -31,7 +30,7 @@ public class CardManager : MonoBehaviour
         _ogCard ??= Resources.Load<GameObject>("Prefabs/RedCard");
 
         var cardInstance = Instantiate(_ogCard, Instance.transform).GetComponent<Card>();
-        cardInstance.cardType = (Card.CardType)Random.Range(0, Enum.GetValues(typeof(Card.CardType)).Length - 1);
+        cardInstance.cardType = (Card.CardType)Random.Range(0, Enum.GetValues(typeof(Card.CardType)).Length);;
         cardInstance.Init(0);
         _cards.Add(cardInstance);
         
@@ -51,7 +50,6 @@ public class CardManager : MonoBehaviour
     {
         var result = CreateCard();
         result.Init(ID, out bool res);
-        result.ID = ID;
         return result;
     }
 
@@ -66,6 +64,7 @@ public class CardManager : MonoBehaviour
             {
                 _cards.Remove(target);
                 Destroy(target.gameObject);
+                GC.SuppressFinalize(target.gameObject);
             }
             else
             {
@@ -74,7 +73,6 @@ public class CardManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            print(e);
             result = false;
         }
 
@@ -89,6 +87,7 @@ public class CardManager : MonoBehaviour
             var v = _cards.Where(targets.Contains);
             for (int i = 0; i < v.Count();)
             {
+                Debug.Log(i);
                 var c = v.ElementAt(i);
                 _cards.Remove(c);
                 Destroy(c.gameObject);
@@ -120,23 +119,6 @@ public class CardManager : MonoBehaviour
 
     public static void SortCard()
     {
-        foreach (Transform child in Instance.transform)
-        {
-            if (child.transform.TryGetComponent(out CardGroup cardGroup))
-            {
-                if (cardGroup.Count == 0) Destroy(cardGroup.gameObject);
-                while (true)
-                {
-                    if (cardGroup.RemoveCard(0) == null) break;
-                    if (cardGroup.Count <= 2)
-                    {
-                        cardGroup.RemoveCard(0);
-                        break;
-                    }
-                }
-            }
-        }
-        
         var idList = _cards.Select( x  => x.ID).Distinct().OrderBy(x => x);
         //var defPos = CardManager.Areas[2].transform.localPosition - Areas[2].transform.localScale / 3 ;
         var margin = Vector3.right * 15;
@@ -159,7 +141,7 @@ public class CardManager : MonoBehaviour
                 
                 foreach (var card in v)
                 {
-                    if(!cardGroup.Contains(card))
+                    if(!cardGroup.Cards.Contains(card))
                         cardGroup.AddCard(card);
                 }
 
@@ -168,13 +150,13 @@ public class CardManager : MonoBehaviour
             {
                 v.ElementAt(0).transform.position = margin * (i % 5) + Vector3.back * (row * 25)  +  Vector3.up;
             }
+            Debug.Log(row);
 
             if ((i + 1) % 5 == 0 && i != 0)
                 row += 1;
         }
     }
-
-   
+    
 
     private void OnDestroy()
     {

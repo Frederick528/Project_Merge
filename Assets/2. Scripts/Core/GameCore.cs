@@ -15,7 +15,6 @@ public class GameCore
     private bool _isGameStarted = true;
     private Stat _status;
     public int TurnCnt => _turnCnt;
-    public int Date => _turnCnt / 4;
     public bool IsGameStarted => _isGameStarted;
     public Stat Status => _status;
 
@@ -32,7 +31,6 @@ public class GameCore
     {
         //Start Game
         //It's Called on Start();
-        _turnCnt = 0;
         _isGameStarted = true;
         _status = StatManager.instance.playerCtrl.stat;
         
@@ -50,9 +48,8 @@ public class GameCore
         Debug.Log("게임 오버");
     }
 
-    public bool TurnChange()
+    public void TurnChange()
     {
-        var result = true;
         if (!_isGameStarted)
             throw new Exception("The Game is not Started");
         _turnCnt++;
@@ -62,28 +59,23 @@ public class GameCore
         {
             #region GameOverTrigger
                 if (!(ModifyHunger(-5 * Difficulty) && ModifyThirst(-5 * Difficulty)))
-                {
                     EndGame();
-                    result = false;
-                }
             #endregion
             
             Debug.Log("It's Night Time");
         }
-        //밤이 아닐 때
+        //밤일 때
         if(!IsNightTime)
         {
             _status.curAp = _status.maxAp;
         }
         Debug.Log($"Turn : {TurnCnt}");
-
-        return result;
     }
 
     public bool ModifyAP(int amount)
     {
         var result = _status.curAp + amount >= 0;
-        if (result)  
+        if (result)
             _status.curAp += amount;
         //else
         //    EndGame();

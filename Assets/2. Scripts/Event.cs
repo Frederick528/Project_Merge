@@ -15,19 +15,19 @@ public class Event : MonoBehaviour
 
     public void Result1()
     {
-        //incounter.SetActive(false);
+        incounter.SetActive(false);
         result1.SetActive(true);
     }
 
     public void Result2()
     { 
-        //incounter.SetActive(false);
+        incounter.SetActive(false);
         result2.SetActive(true);
     }
 
     public void Result3()
     {
-        //incounter.SetActive(false);
+        incounter.SetActive(false);
         result3.SetActive(true);
     }
 
@@ -39,10 +39,7 @@ public class Event : MonoBehaviour
             result3.SetActive(false);
         blockUI.SetActive(false);
         closebtn.SetActive(false);
-
-        transform.parent.parent.gameObject.SetActive(false);
-
-        GameManager.CardCanvasOn = false;
+        GameManager.cardCanvasOn = false;
         nextBtn.interactable = true;
     }
 
@@ -53,7 +50,7 @@ public class Event : MonoBehaviour
         blockUI.SetActive(false);
         closebtn.SetActive(false);
         openbtn.SetActive(true);
-        GameManager.CardCanvasOn = false;
+        GameManager.cardCanvasOn = false;
     }
 
     public void IncounterOpen() 
@@ -63,7 +60,7 @@ public class Event : MonoBehaviour
         blockUI.SetActive(true);
         closebtn.SetActive(true);
         openbtn.SetActive(false);
-        GameManager.CardCanvasOn = true;
+        GameManager.cardCanvasOn = true;
     }
 
     public void NoQuest()

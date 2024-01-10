@@ -6,30 +6,32 @@ using UnityEngine;
 
 public class CardGroup : MonoBehaviour
 {
-    private List<Card> _cards = new();
+    public List<Card> Cards = new();
 
     private static int _defRenderQueue = 2000;
-    public int Count => _cards.Count;
+    public int Count => Cards.Count;
 
     public void AddCard(Card card)
     {
         // if (Cards.Contains(card))
         //     return;
-        _cards.Add(card);
+        Cards.Add(card);
         card.transform.SetParent(this.transform);
         card.transform.localPosition = Vector3.zero;
         Sort();
+        
+        Debug.Log(true);
     }
     public void InsertCard(Card card)
     {
-        _cards.Insert(0, card);
+        Cards.Insert(0, card);
         card.transform.SetParent(this.transform);
         card.transform.localPosition = Vector3.zero;
         Sort();
     }
     public void AddCardRange(IEnumerable<Card> cards)
     {
-        _cards.AddRange(cards);
+        Cards.AddRange(cards);
         foreach (var card in cards)
         {
             card.transform.SetParent(this.transform);
@@ -39,14 +41,14 @@ public class CardGroup : MonoBehaviour
     }
     public Card RemoveCard(Card card)
     {
-        _cards.Remove(card);
+        Cards.Remove(card);
         card.transform.SetParent(CardManager.Instance.transform);
         card.GetComponent<MeshRenderer>().material.renderQueue = _defRenderQueue;
         
-        if(_cards.Count <= 1)
+        if(Cards.Count == 1)
         {
-            _cards[0].transform.SetParent(CardManager.Instance.transform);
-            _cards[0].GetComponent<MeshRenderer>().material.renderQueue = _defRenderQueue;
+            Cards[0].transform.SetParent(CardManager.Instance.transform);
+            Cards[0].GetComponent<MeshRenderer>().material.renderQueue = _defRenderQueue;
             Thread.MemoryBarrier();
             Destroy(this.gameObject);
         }
@@ -60,42 +62,16 @@ public class CardGroup : MonoBehaviour
 
     public Card RemoveCard(int index)
     {
-        try
-        {
-            return RemoveCard(_cards[index]);
-
-        }
-        catch (Exception e)
-        {
-            Debug.Log(index);
-        }
-        
-        return null;
+        return RemoveCard(Cards[index]);
     }
-    
-    public bool Contains(Card card)
-    {
-        return _cards.Contains(card);
-    }
-    
-    public int IndexOf(Card card)
-    {
-        return _cards.IndexOf(card);
-    }
-
-    public bool IsLastElement(Card card)
-    {
-        return card.Equals(_cards[^1]);
-    }
-
 
     public void Sort()
     {
-        for (int i = 0; i < _cards.Count; i++)
+        for (int i = 0; i < Cards.Count; i++)
         {
-            _cards[i].transform.localPosition = (Vector3.back * 2f + Vector3.up * 0.5f) * i + Vector3.up * 0.3f;
-            _cards[i].GetComponent<MeshRenderer>().material.renderQueue = _defRenderQueue + i;
-            _cards[i]._rigid.isKinematic = false;
+            Cards[i].transform.localPosition = (Vector3.back * 2f + Vector3.up * 0.5f) * i + Vector3.up * 0.5f;
+            Cards[i].GetComponent<MeshRenderer>().material.renderQueue = _defRenderQueue + i;
+            Cards[i]._rigid.isKinematic = false;
         }
     }
 }

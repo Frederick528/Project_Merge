@@ -17,6 +17,7 @@ public class StatManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        DontDestroyOnLoad(gameObject);
 
     }
     void Start()

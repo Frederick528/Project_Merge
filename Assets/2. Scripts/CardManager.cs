@@ -74,6 +74,7 @@ public class CardManager : MonoBehaviour
         }
         catch (Exception e)
         {
+            print(e);
             result = false;
         }
 

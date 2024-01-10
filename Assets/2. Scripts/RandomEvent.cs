@@ -10,7 +10,7 @@ public class RandomEvent : MonoBehaviour
                incounter11, incounter12, incounter13, incounter14, incounter15;
     static int Random_event;
 
-    static List<GameObject> IncounterList = new List<GameObject>();
+    static List<GameObject> IncounterList = new();
 
     private void Start()
     {
@@ -33,7 +33,7 @@ public class RandomEvent : MonoBehaviour
 
     public static void SpawnPlay()
     {
-        if ((Turn.count / 4) % 5 == 0)
+        if ((Turn.count > 5 && Turn.count < 79) && (Turn.count / 4) % 5 == 4)
         {
             return;
         }
@@ -44,8 +44,12 @@ public class RandomEvent : MonoBehaviour
 
             GameObject selectedEvent = IncounterList[Random_event];
             selectedEvent.SetActive(true);
+            var v = selectedEvent.GetComponentInChildren<RectTransform>();
+
+            print(selectedEvent.name.ToCharArray()[^2] + "");
+            v.gameObject.SetActive(true);
             Instantiate(selectedEvent);
-            IncounterList.Remove(selectedEvent);
+            //IncounterList.Remove(selectedEvent);
         }
     }
 }

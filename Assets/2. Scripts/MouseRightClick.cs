@@ -13,6 +13,8 @@ public class MouseRightClick : MonoBehaviour
     public Text cardName;
     public Text cardText;
     public Button cardEatBtn;
+    [SerializeField]
+    Button cardDecompositionBtn;
 
     Stat stat;
 
@@ -73,6 +75,15 @@ public class MouseRightClick : MonoBehaviour
             {
                 cardEatBtn.interactable= false;
             }
+
+            cardDecompositionBtn.onClick.RemoveAllListeners();
+            cardDecompositionBtn.onClick.AddListener(() =>
+            {
+                print(cardContents.ID);
+                cardContents.OnDecomposition(out Card[] cards);
+                CanvasClose();
+            });
+
 
             GameManager.CardCanvasOn = true;
             canvas.SetActive(true);

@@ -12,9 +12,10 @@ public class CoreController : MonoBehaviour
     // Start is called before the first frame update
     private static GameCore _core;
     private static CoreController _instance;
+    public static int TurnCnt => _core.TurnCnt;
+    public static int Date => _core.TurnCnt / 4;
 
     public static bool IsNightTime => _core.IsNightTime;
-    public static int TurnCnt => _core.TurnCnt;
     public TMP_Text Hungriness;
     public TMP_Text Thirst;
     public TMP_Text Turn;

@@ -15,6 +15,7 @@ public class GameCore
     private bool _isGameStarted = true;
     private Stat _status;
     public int TurnCnt => _turnCnt;
+    public int Date => _turnCnt / 4;
     public bool IsGameStarted => _isGameStarted;
     public Stat Status => _status;
 

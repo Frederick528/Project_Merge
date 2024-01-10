@@ -391,7 +391,7 @@ public class Card : Entity
     }
 
     //카드 분해 기능
-    protected void OnDecomposition(out Card[] createdCards)
+    public void OnDecomposition(out Card[] createdCards)
     {
         if (this.level == 0)
         {
@@ -402,9 +402,9 @@ public class Card : Entity
         CardManager.DestroyCard(this);
         
         var v = new Card [2];
-        v[0] = CardManager.CreateCard(this.level - 1, Random.Range(0, 5));
-        v[1] = CardManager.CreateCard(this.level - 1, Random.Range(0, 5));
+        v[0] = CardManager.CreateCard(this.level - 1, Random.Range(0, 4));
+        v[1] = CardManager.CreateCard(this.level - 1, Random.Range(0, 4));
         
-        createdCards = null;
+        createdCards = v;
     }
 }

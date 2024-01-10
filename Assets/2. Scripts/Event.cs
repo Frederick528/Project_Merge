@@ -15,19 +15,19 @@ public class Event : MonoBehaviour
 
     public void Result1()
     {
-        incounter.SetActive(false);
+        //incounter.SetActive(false);
         result1.SetActive(true);
     }
 
     public void Result2()
     { 
-        incounter.SetActive(false);
+        //incounter.SetActive(false);
         result2.SetActive(true);
     }
 
     public void Result3()
     {
-        incounter.SetActive(false);
+        //incounter.SetActive(false);
         result3.SetActive(true);
     }
 
@@ -39,6 +39,9 @@ public class Event : MonoBehaviour
             result3.SetActive(false);
         blockUI.SetActive(false);
         closebtn.SetActive(false);
+
+        transform.parent.parent.gameObject.SetActive(false);
+
         GameManager.CardCanvasOn = false;
         nextBtn.interactable = true;
     }

@@ -7,7 +7,7 @@ public class Turn : MonoBehaviour
 {
     public Text Day;
     public Text Time;
-    public static int count = 4; // static으로 변경
+    public static int count => CoreController.TurnCnt; // static으로 변경
     public static int maxDays = 31; // static으로 변경
     private static RandomEvent randomEvent; // static으로 변경
     public GameObject closebtn;
@@ -24,11 +24,9 @@ public class Turn : MonoBehaviour
 
     public void NextTurn()
     {
-        count += 1;
-
         if (count > maxDays * 4)
         {
-            count = 4;
+            
         }
 
         if (count % 4 == 0)
@@ -59,7 +57,7 @@ public class Turn : MonoBehaviour
     {
         if (count % 4 == 0)
         {
-            Day.text = "생존 " + (count / 4).ToString() + "일차";
+            Day.text = "생존 " + ((count / 4)+1) + "일차";
         }
     }
 
@@ -70,22 +68,22 @@ public class Turn : MonoBehaviour
         //    fixincounter0.SetActive(true);
         //}
 
-        /*else */if (count == 23) //5일차 새벽
+        /*else */if (CoreController.Date == 4) //5일차 새벽
         {
             fixincounter1.SetActive(true);
         }
 
-        else if (count == 43) //10일차 새벽
+        else if (CoreController.Date == 9) //10일차 새벽
         {
             fixincounter2.SetActive(true);
         }
 
-        else if (count == 63 && Event.Quest == 0)
+        else if (CoreController.Date == 14 && Event.Quest == 0)
         {
             fixincounter3_1.SetActive(true);
         }
 
-        else if (count == 63 && Event.Quest == 1)
+        else if (CoreController.Date == 14 && Event.Quest == 1)
         {
             fixincounter3_2.SetActive(true);
         }

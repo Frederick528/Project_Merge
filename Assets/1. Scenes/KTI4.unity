@@ -12320,7 +12320,6 @@ GameObject:
   - component: {fileID: 1589521416}
   - component: {fileID: 1589521415}
   - component: {fileID: 1589521414}
-  - component: {fileID: 1589521417}
   m_Layer: 5
   m_Name: SelectBtn2
   m_TagString: Untagged
@@ -12393,7 +12392,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1589521417}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: TextController, Assembly-CSharp
         m_MethodName: IncounterSelect2
         m_Mode: 1
@@ -12443,20 +12442,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1589521412}
   m_CullTransparentMesh: 1
---- !u!114 &1589521417
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1589521412}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4564b7d9f1f27fd498c29da13d0b756d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myText: {fileID: 335145266}
-  Select: {fileID: 1815671123}
 --- !u!1 &1601910643
 GameObject:
   m_ObjectHideFlags: 0
@@ -15958,7 +15943,6 @@ GameObject:
   - component: {fileID: 2123748303}
   - component: {fileID: 2123748302}
   - component: {fileID: 2123748301}
-  - component: {fileID: 2123748304}
   m_Layer: 5
   m_Name: SelectBtn1
   m_TagString: Untagged
@@ -16031,7 +16015,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2123748304}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: TextController, Assembly-CSharp
         m_MethodName: IncounterSelect1
         m_Mode: 1
@@ -16081,20 +16065,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2123748299}
   m_CullTransparentMesh: 1
---- !u!114 &2123748304
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2123748299}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4564b7d9f1f27fd498c29da13d0b756d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myText: {fileID: 335145266}
-  Select: {fileID: 1815671123}
 --- !u!1 &2126043440
 GameObject:
   m_ObjectHideFlags: 0

@@ -56,7 +56,6 @@ public class TextController : MonoBehaviour
             else
             {
                 ShowSelect();
-                return;
             }
         }
     }

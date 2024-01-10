@@ -40,12 +40,13 @@ public class CardGroup : MonoBehaviour
     public Card RemoveCard(Card card)
     {
         _cards.Remove(card);
-        card.transform.SetParent(CardManager.Instance.transform);
+        card.transform.SetParent(CardManager.Instance.transform, true);
         card.GetComponent<MeshRenderer>().material.renderQueue = _defRenderQueue;
         
         if(_cards.Count <= 1)
         {
-            _cards[0].transform.SetParent(CardManager.Instance.transform);
+            _cards[0].transform.SetParent(CardManager.Instance.transform, true);
+            _cards[0].transform.localPosition = _cards[0].transform.localPosition += Vector3.up * 1.5f;
             _cards[0].GetComponent<MeshRenderer>().material.renderQueue = _defRenderQueue;
             Thread.MemoryBarrier();
             Destroy(this.gameObject);
@@ -59,10 +60,9 @@ public class CardGroup : MonoBehaviour
     }
     public Card RemoveCard(Card card, bool autoDestroyCardGroup)
     {
-        Debug.Log(true);
         if (autoDestroyCardGroup) return RemoveCard(card);
         _cards.Remove(card);
-        card.transform.SetParent(CardManager.Instance.transform);
+        card.transform.SetParent(CardManager.Instance.transform, true);
         card.GetComponent<MeshRenderer>().material.renderQueue = _defRenderQueue;
         
         Sort();
@@ -74,7 +74,6 @@ public class CardGroup : MonoBehaviour
         try
         {
             return RemoveCard(_cards[index]);
-
         }
         catch (Exception e)
         {
@@ -104,9 +103,17 @@ public class CardGroup : MonoBehaviour
     {
         for (int i = 0; i < _cards.Count; i++)
         {
-            _cards[i].transform.localPosition = (Vector3.back * 2f + Vector3.up * 0.15f) * i;
-            _cards[i].GetComponent<MeshRenderer>().material.renderQueue = _defRenderQueue + i;
-            _cards[i]._rigid.isKinematic = false;
+            try
+            {
+                _cards[i].transform.localPosition = _cards[0].transform.localPosition +
+                                                    (Vector3.back * 2f + Vector3.up * 0.12f) * i + Vector3.up * 0.12f;
+                _cards[i].GetComponent<MeshRenderer>().material.renderQueue = _defRenderQueue + i;
+                _cards[i]._rigid.isKinematic = false;
+            }
+            catch
+            {
+                
+            }
         }
     }
 }

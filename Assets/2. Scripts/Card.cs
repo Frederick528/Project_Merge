@@ -118,7 +118,6 @@ public class Card : Entity
 
         this.GetComponentInChildren<TMP_Text>().text = _data.KR;
     }
-    
     // Update is called once per frame
     void Update()
     {
@@ -134,7 +133,7 @@ public class Card : Entity
         //리스트 복사
         var craftRules = new List<int[]>(CardDataDeserializer.CraftRules);
         mergeTarget.Add(this);
-        
+
         for (int i = 0; i < result.Length; i++)
         {
             if (result[i].gameObject.Equals(this.gameObject))
@@ -170,8 +169,15 @@ public class Card : Entity
             else
             {
                 if(result[i].transform.parent.TryGetComponent(out CardGroup g1) && this.transform.parent.TryGetComponent(out CardGroup g2))
-                    if(g1.Equals(g2))
+                {
+                    if (g1.Equals(g2))
                         continue;
+                    else
+                    {
+                        OnMergeEnter(this.gameObject, result[i].gameObject);
+                        return;
+                    }
+                }
                 if(result[i].TryGetComponent(out Card card))
                 {
                     OnMergeEnter(this.gameObject, card.gameObject);
@@ -192,17 +198,27 @@ public class Card : Entity
             {
                 cardGroup.RemoveCard(this);
             }
+            else
+            {
+                cardGroup.Sort();
+            }
         }
         
         this._rigid.isKinematic = false;
     }
-
     protected override void OnMouseDrag()
     {
         if (GameManager.CardCanvasOn) return;
         float distance = Camera.main.WorldToScreenPoint(transform.position).z;
         var mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 78);
-        var crntPos = Camera.main.ScreenToWorldPoint(mousePos);
+        var _temp = Camera.main.ScreenToWorldPoint(mousePos);
+        var crntPos = new Vector3()
+        {
+            x = _temp.x,
+            y = 3,
+            z = _temp.z 
+        };
+        
         if (this.transform.parent.TryGetComponent(out CardGroup cardGroup))
         {
             if(cardGroup.IndexOf(this) == 0)
@@ -251,6 +267,7 @@ public class Card : Entity
         }
         else
         {
+            Debug.Log(transform.parent.name);
             this.transform.position = new Vector3()
             {
                 x = transform.position.x,
@@ -262,8 +279,6 @@ public class Card : Entity
         
         base.OnMouseDown();
     }
-
-
 
     protected override void OnMerge(GameObject t1, GameObject t2)
     {
@@ -294,10 +309,16 @@ public class Card : Entity
             {
                 if (cardGroup[0].IndexOf(destroyTarget[1]) == 0)
                 {
+                    Debug.Log(true);
                     //카드 그룹 전체를 이동
-                    for (int i = 0; i < cardGroup[0].Count;)
+                    var removeTarget =
+                        (from card in cardGroup[0].Cards
+                            select card).ToArray();
+                    foreach (var card in removeTarget)
                     {
-                        cardGroup[1].AddCard(cardGroup[0].RemoveCard(i));
+                        cardGroup[0].RemoveCard(card, false);
+                        cardGroup[1].AddCard(card);
+                        Debug.Log(cardGroup[1].Count);
                     }
                 }
                 else

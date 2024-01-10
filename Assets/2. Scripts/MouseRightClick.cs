@@ -37,13 +37,13 @@ public class MouseRightClick : MonoBehaviour
 
     public void CanvasClose()
     {
-        GameManager.cardCanvasOn = false;
+        GameManager.CardCanvasOn = false;
         canvas.SetActive(false);
     }
     
     private void RayCastEvt(RaycastHit hit)
     {
-        if (hit.collider.gameObject.CompareTag("Card") && !GameManager.cardCanvasOn)
+        if (hit.collider.gameObject.CompareTag("Card") && !GameManager.CardCanvasOn)
         {
             Card cardContents = hit.collider.GetComponent<Card>();
             CardData cardData = cardContents.Data;
@@ -74,7 +74,7 @@ public class MouseRightClick : MonoBehaviour
                 cardEatBtn.interactable= false;
             }
 
-            GameManager.cardCanvasOn = true;
+            GameManager.CardCanvasOn = true;
             canvas.SetActive(true);
         }
     }

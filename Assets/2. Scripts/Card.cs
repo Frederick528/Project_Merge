@@ -36,29 +36,29 @@ public class Card : Entity
         switch (cardType)
         {
             case CardType.Food:
-                GetComponent<MeshRenderer>().material = 
-                    Resources.Load<Material>("Prefabs/Materials/DarkGreen");
                 ID += 1010;
+                GetComponent<MeshRenderer>().material = 
+                    Resources.Load<Material>($"Prefabs/Materials/Food/{ID}");
                 break;
             case CardType.Water:
-                GetComponent<MeshRenderer>().material = 
-                    Resources.Load<Material>("Prefabs/Materials/Blue");
                 ID += 1020;
+                GetComponent<MeshRenderer>().material = 
+                    Resources.Load<Material>($"Prefabs/Materials/Water/{ID}");
                 break;
             case CardType.Wood:
-                GetComponent<MeshRenderer>().material = 
-                    Resources.Load<Material>($"Prefabs/Materials/Wood_{level}");
                 ID += 2010;
+                GetComponent<MeshRenderer>().material = 
+                    Resources.Load<Material>($"Prefabs/Materials/Wood/{ID}");
                 break;
             case CardType.Stone:
-                GetComponent<MeshRenderer>().material = 
-                    Resources.Load<Material>("Prefabs/Materials/Purple");
                 ID += 2020;
+                GetComponent<MeshRenderer>().material = 
+                    Resources.Load<Material>($"Prefabs/Materials/Stone/{ID}");
                 break;
             case CardType.Combination:
-                GetComponent<MeshRenderer>().material = 
-                    Resources.Load<Material>("Prefabs/Materials/White");
                 ID = 3000;
+                GetComponent<MeshRenderer>().material = 
+                    Resources.Load<Material>($"Prefabs/Materials/Combination/{ID}");
                 break;
             default:
                 GetComponent<MeshRenderer>().material = 
@@ -391,10 +391,20 @@ public class Card : Entity
     }
 
     //카드 분해 기능
-    protected void OnDecomposition()
+    public void OnDecomposition(out Card[] createdCards)
     {
+        if (this.level == 0)
+        {
+            createdCards = null;
+            return;
+        }
+        
         CardManager.DestroyCard(this);
-        CardManager.CreateCard(this.level - 1, Random.Range(0, 5));
-        CardManager.CreateCard(this.level - 1, Random.Range(0, 5));
+        
+        var v = new Card [2];
+        v[0] = CardManager.CreateCard(this.level - 1, Random.Range(0, 4));
+        v[1] = CardManager.CreateCard(this.level - 1, Random.Range(0, 4));
+        
+        createdCards = v;
     }
 }

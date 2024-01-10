@@ -66,7 +66,6 @@ public class CardManager : MonoBehaviour
             {
                 _cards.Remove(target);
                 Destroy(target.gameObject);
-                GC.SuppressFinalize(target.gameObject);
             }
             else
             {
@@ -75,6 +74,7 @@ public class CardManager : MonoBehaviour
         }
         catch (Exception e)
         {
+            print(e);
             result = false;
         }
 

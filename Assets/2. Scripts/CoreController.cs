@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -19,19 +17,7 @@ public class CoreController : MonoBehaviour
     public static int TurnCnt => _core.TurnCnt;
     public static int Date => _core.TurnCnt / 4;
 
-    public static float Difficulty;
-
-    public static int bearFlag = 0;
-
-    public static bool IsDawn => _core.IsDawn;
-    public static bool IsMorning => _core.IsMorning;
-    public static bool IsDayTime => _core.IsDayTime;
     public static bool IsNightTime => _core.IsNightTime;
-
-    public static string Time => $"{_core.Date + 1} 일차 " + (IsDawn ? "새벽" : IsDayTime ? "점심" : IsMorning ? "아침" : "저녁") ;
-    
-    public Image Clock;
-    public Light Light;
     public GameObject Notice;
     public TMP_Text Hungriness;
     public TMP_Text Thirst;
@@ -42,8 +28,6 @@ public class CoreController : MonoBehaviour
     {
         _core ??= new GameCore();
         _instance ??= this;
-
-        
     }
 
     void Start()
@@ -54,10 +38,6 @@ public class CoreController : MonoBehaviour
         {
             CardManager.CreateCard();
         }
-
-        //세이브 파일이 없을 경우 새로 딕셔너리를 만들어 거기서 생성
-        
-        YamlDeserializer.saveData.Init();
     }
 
     private void Update()
@@ -68,34 +48,6 @@ public class CoreController : MonoBehaviour
     }
     public static void TurnChange()
     {
-        if(BearManager.Count > 0 )
-        {
-            Debug.Log("곰들이 아직 남아있습니다.");
-
-            var v = from c in CardManager.Cards
-                where c.ID is > 1999 and < 2999
-                select c;
-            
-            if(v.Count() == 0)
-            {
-                Debug.Log("하지만 공격 가능한 수단이 없습니다.");
-                
-                var foods = from c in CardManager.Cards
-                    where c.ID is < 1999 and > 999
-                    select c;
-
-                CardManager.DestroyCard(foods);
-                
-                Debug.Log("곰들이 남은 음식들을 모조리 먹어치웠습니다.");
-            }
-            else
-            {
-                Debug.Log("턴을 종료 할 수 없습니다.");
-                return;
-            }
-            
-        }
-        
         if (!_core.TurnChange())
         {
             // 게임 오버
@@ -112,28 +64,26 @@ public class CoreController : MonoBehaviour
         }
         _instance.Turn.text = _core.TurnCnt + "";
 
-        if (_core.IsDawn)
+        //if (_core.IsDawn)
+        //{
+        //    EncounterManager.Occur();
+        //}
+        /*else */if (_core.IsMorning)
         {
-            _core.Difficulty = (ushort)(1 * (Date+1));
-            Difficulty = _core.Difficulty;
-            //EncounterManager.Occur();
-        }
-        else if (_core.IsMorning)
-        {
-            _core.Difficulty = 0;
-            Difficulty = _core.Difficulty;
             CardManager.ExpirationDateCheck();
         }
+
         if (_core.IsDayTime)
         {
-            bearFlag = Random.Range(0, 10);
+            if (Random.Range(0, 10) > 7)
+            {
+                BearManager.Dispense();
+            }
         }
-        else if (_core.IsNightTime)
+        else
         {
             BearManager.BearLeave();
         }
-        
-        _instance.Clock.gameObject.SetActive(true);
     }
     private void OnDestroy()
     {

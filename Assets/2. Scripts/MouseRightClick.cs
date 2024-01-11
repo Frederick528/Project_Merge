@@ -75,6 +75,8 @@ public class MouseRightClick : MonoBehaviour
                     }
                     //Destroy(hit.collider.gameObject);
                     CanvasClose();
+                    EffectManager.instance.eatCardImg = cardImage.sprite;
+                    EffectManager.instance.cardContents = cardContents;
                     GameObject eatCard = Instantiate(Resources.Load<GameObject>("Prefabs/Effect/EatCardEffect"), effectUICanvas);
                     stat.curHunger = ((stat.curHunger + cardData.Hunger) > stat.maxHunger) ? stat.maxHunger : stat.curHunger + cardData.Hunger;
                     stat.curThirst = ((stat.curThirst + cardData.Thirst) > stat.maxThirst) ? stat.maxThirst : stat.curThirst + cardData.Thirst;

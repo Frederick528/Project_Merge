@@ -13,9 +13,10 @@ public class EffectManager : MonoBehaviour
     public Animator clickAnim;
     public GameObject clickEffect;
 
-    //[Header("먹기")]
-    //public Animator eatAnim;
-    //public RectTransform eatCard;
+    [HideInInspector]
+    public Sprite eatCardImg;
+    [HideInInspector]
+    public Card cardContents;
 
     private void Awake()
     {
@@ -42,21 +43,5 @@ public class EffectManager : MonoBehaviour
         clickEffect.transform.localPosition = new Vector3(Input.mousePosition.x - particleCanvasSize.x, Input.mousePosition.y - particleCanvasSize.y, 0);
         clickAnim.Play("ClickAnimation", -1, 0);
     }
-    //public IEnumerator EatCardEffect()
-    //{
-    //    Animator eatAnim = GetComponent<Animator>();
-    //    RectTransform eatCard = GetComponentsInChildren<RectTransform>()[1];
-    //    eatCard.transform.localPosition = new Vector3(0, -390, 0);
-    //    yield return new WaitForSeconds(0.5f);
-    //    eatAnim.Play("EatCardAnimation", -1, 0);
-    //    eatCard.transform.localPosition = new Vector3(0, -490, 0);
-    //    yield return new WaitForSeconds(0.5f);
-    //    eatAnim.Play("EatCardAnimation", -1, 0);
-    //    eatCard.transform.localPosition = new Vector3(0, -590, 0);
-    //    yield return new WaitForSeconds(0.5f);
-    //    eatAnim.Play("EatCardAnimation", -1, 0);
-    //    eatCard.transform.localPosition = new Vector3(0, -690, 0);
-    //    yield return new WaitForSeconds(0.5f);
-    //    Destroy(this.gameObject);
-    //}
+
 }

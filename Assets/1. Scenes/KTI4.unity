@@ -2914,6 +2914,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be5e9c740fad4fe4e9e7db29b0a60e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Clock: {fileID: 0}
+  Light: {fileID: 0}
   Notice: {fileID: 6290000357460944020, guid: aa6c5515d83a9ac48872aefd807e9b9b, type: 3}
   Hungriness: {fileID: 1331108082}
   Thirst: {fileID: 865824742}
@@ -3889,15 +3891,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95e496f21aac68e48bcf633d5179f419, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isWaitingForInput: 1
-  bifurcation: 0
-  myText: {fileID: 841684922}
-  incounter: {fileID: 1165549188}
-  select1: {fileID: 1109225604}
-  select2: {fileID: 576316029}
-  nextBtn: {fileID: 971129215}
-  blockUI: {fileID: 1022413568}
-  closeBtn: {fileID: 1949538636}
 --- !u!114 &463198252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5200,10 +5193,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textController: {fileID: 0}
-  incounter1: {fileID: 0}
-  incounter2: {fileID: 681741754}
-  incounter3: {fileID: 0}
-  selectBtn: {fileID: 243413577}
+  selectBtn1: {fileID: 0}
+  selectBtn2: {fileID: 0}
   quest: {fileID: 0}
 --- !u!114 &578931242
 MonoBehaviour:
@@ -6220,16 +6211,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb6b3630bf8bf1f4ebe91cd488f04fdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isWaitingForInput: 1
-  bifurcation: 0
-  myText: {fileID: 487948311}
-  incounter: {fileID: 73312889}
-  select1: {fileID: 243413577}
-  select2: {fileID: 1226082980}
-  select3: {fileID: 0}
-  nextBtn: {fileID: 971129215}
-  blockUI: {fileID: 1022413568}
-  closeBtn: {fileID: 1949538636}
 --- !u!114 &681741755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6702,10 +6683,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textController: {fileID: 1652964118}
-  incounter1: {fileID: 0}
-  incounter2: {fileID: 0}
-  incounter3: {fileID: 0}
-  selectBtn: {fileID: 784836970}
+  selectBtn1: {fileID: 0}
+  selectBtn2: {fileID: 0}
   quest: {fileID: 0}
 --- !u!114 &730594556
 MonoBehaviour:
@@ -6876,10 +6855,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textController: {fileID: 1652964118}
-  incounter1: {fileID: 0}
-  incounter2: {fileID: 0}
-  incounter3: {fileID: 0}
-  selectBtn: {fileID: 784836970}
+  selectBtn1: {fileID: 0}
+  selectBtn2: {fileID: 0}
   quest: {fileID: 0}
 --- !u!114 &732388398
 MonoBehaviour:
@@ -7029,10 +7006,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textController: {fileID: 1652964118}
-  incounter1: {fileID: 0}
-  incounter2: {fileID: 0}
-  incounter3: {fileID: 0}
-  selectBtn: {fileID: 273297561}
+  selectBtn1: {fileID: 0}
+  selectBtn2: {fileID: 0}
   quest: {fileID: 0}
 --- !u!114 &741881060
 MonoBehaviour:
@@ -7244,6 +7219,7 @@ MonoBehaviour:
   cardText: {fileID: 963738791}
   cardEatBtn: {fileID: 1935447797}
   cardDecompositionBtn: {fileID: 102742221}
+  effectUICanvas: {fileID: 0}
 --- !u!4 &763079680
 Transform:
   m_ObjectHideFlags: 0
@@ -7581,10 +7557,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textController: {fileID: 0}
-  incounter1: {fileID: 0}
-  incounter2: {fileID: 681741754}
-  incounter3: {fileID: 0}
-  selectBtn: {fileID: 1226082980}
+  selectBtn1: {fileID: 0}
+  selectBtn2: {fileID: 0}
   quest: {fileID: 0}
 --- !u!114 &781395484
 MonoBehaviour:
@@ -7728,7 +7702,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &787195090
 Transform:
   m_ObjectHideFlags: 0
@@ -8643,10 +8617,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textController: {fileID: 0}
-  incounter1: {fileID: 0}
-  incounter2: {fileID: 681741754}
-  incounter3: {fileID: 463198251}
-  selectBtn: {fileID: 576316029}
+  selectBtn1: {fileID: 0}
+  selectBtn2: {fileID: 0}
   quest: {fileID: 0}
 --- !u!114 &855500791
 MonoBehaviour:
@@ -9458,10 +9430,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textController: {fileID: 0}
-  incounter1: {fileID: 0}
-  incounter2: {fileID: 681741754}
-  incounter3: {fileID: 0}
-  selectBtn: {fileID: 1555085969}
+  selectBtn1: {fileID: 0}
+  selectBtn2: {fileID: 0}
   quest: {fileID: 0}
 --- !u!114 &957287787
 MonoBehaviour:
@@ -10268,10 +10238,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textController: {fileID: 0}
-  incounter1: {fileID: 0}
-  incounter2: {fileID: 0}
-  incounter3: {fileID: 0}
-  selectBtn: {fileID: 0}
+  selectBtn1: {fileID: 0}
+  selectBtn2: {fileID: 0}
   quest: {fileID: 1850566667}
 --- !u!1 &999071842
 GameObject:
@@ -11063,10 +11031,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textController: {fileID: 0}
-  incounter1: {fileID: 0}
-  incounter2: {fileID: 0}
-  incounter3: {fileID: 0}
-  selectBtn: {fileID: 0}
+  selectBtn1: {fileID: 0}
+  selectBtn2: {fileID: 0}
   quest: {fileID: 1850566667}
 --- !u!114 &1080374886
 MonoBehaviour:
@@ -11366,7 +11332,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1165549189
 Transform:
   m_ObjectHideFlags: 0
@@ -11438,10 +11404,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textController: {fileID: 0}
-  incounter1: {fileID: 0}
-  incounter2: {fileID: 681741754}
-  incounter3: {fileID: 0}
-  selectBtn: {fileID: 243413577}
+  selectBtn1: {fileID: 0}
+  selectBtn2: {fileID: 0}
   quest: {fileID: 0}
 --- !u!114 &1175081915
 MonoBehaviour:
@@ -11626,19 +11590,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b955d3fe12c64a4a9f9f8a8c3b675af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isWaitingForInput: 1
-  bifurcation: 0
-  myText: {fileID: 578890872}
-  mytext2: {fileID: 2006564063}
-  incounter: {fileID: 1765100768}
-  transparency: {fileID: 631468548}
-  Character: {fileID: 2017009355}
-  select1: {fileID: 1569790875}
-  canvasImage: {fileID: 2017009356}
-  fadeSpeed: 0.7
-  nextBtn: {fileID: 971129215}
-  blockUI: {fileID: 1022413568}
-  closeBtn: {fileID: 1949538636}
 --- !u!114 &1177843550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11887,10 +11838,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textController: {fileID: 0}
-  incounter1: {fileID: 0}
-  incounter2: {fileID: 0}
-  incounter3: {fileID: 463198251}
-  selectBtn: {fileID: 1109225604}
+  selectBtn1: {fileID: 0}
+  selectBtn2: {fileID: 0}
   quest: {fileID: 0}
 --- !u!114 &1207560805
 MonoBehaviour:
@@ -14644,10 +14593,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textController: {fileID: 0}
-  incounter1: {fileID: 0}
-  incounter2: {fileID: 0}
-  incounter3: {fileID: 0}
-  selectBtn: {fileID: 0}
+  selectBtn1: {fileID: 0}
+  selectBtn2: {fileID: 0}
   quest: {fileID: 1850566667}
 --- !u!1 &1488112754
 GameObject:
@@ -14797,10 +14744,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textController: {fileID: 0}
-  incounter1: {fileID: 0}
-  incounter2: {fileID: 0}
-  incounter3: {fileID: 0}
-  selectBtn: {fileID: 0}
+  selectBtn1: {fileID: 0}
+  selectBtn2: {fileID: 0}
   quest: {fileID: 1850566667}
 --- !u!1 &1488545704
 GameObject:
@@ -15232,10 +15177,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textController: {fileID: 0}
-  incounter1: {fileID: 1177843549}
-  incounter2: {fileID: 0}
-  incounter3: {fileID: 0}
-  selectBtn: {fileID: 1569790875}
+  selectBtn1: {fileID: 0}
+  selectBtn2: {fileID: 0}
   quest: {fileID: 0}
 --- !u!114 &1522429081
 MonoBehaviour:
@@ -16503,6 +16446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec2c3af2a4a9fde4fb40567de20a9d6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  newerCardEffect: {fileID: 0}
 --- !u!1 &1624734391
 GameObject:
   m_ObjectHideFlags: 0
@@ -16649,8 +16593,8 @@ MonoBehaviour:
   select2: {fileID: 784836970}
   select3: {fileID: 273297561}
   select4: {fileID: 1853109093}
-  canvasImage: {fileID: 1583185012}
-  fadeSpeed: 0.3
+  canvasImage: {fileID: 0}
+  fadeSpeed: 0.5
   nextBtn: {fileID: 971129215}
   blockUI: {fileID: 1022413568}
   closeBtn: {fileID: 1949538636}
@@ -16885,10 +16829,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textController: {fileID: 1652964118}
-  incounter1: {fileID: 0}
-  incounter2: {fileID: 0}
-  incounter3: {fileID: 0}
-  selectBtn: {fileID: 1853109093}
+  selectBtn1: {fileID: 0}
+  selectBtn2: {fileID: 0}
   quest: {fileID: 0}
 --- !u!114 &1705603569
 MonoBehaviour:
@@ -17289,6 +17231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bearApear: {fileID: 2314483676211848445, guid: 85e9060802cab5543b49dc9e0d21ce26, type: 3}
+  turnChanger: {fileID: 0}
 --- !u!1 &1765100768
 GameObject:
   m_ObjectHideFlags: 0
@@ -17631,10 +17574,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textController: {fileID: 0}
-  incounter1: {fileID: 0}
-  incounter2: {fileID: 0}
-  incounter3: {fileID: 0}
-  selectBtn: {fileID: 0}
+  selectBtn1: {fileID: 0}
+  selectBtn2: {fileID: 0}
   quest: {fileID: 1850566667}
 --- !u!114 &1824908831
 MonoBehaviour:
@@ -18743,7 +18684,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hungerSlider: {fileID: 547588914}
+  changeHungerSlider: {fileID: 0}
   thirstSlider: {fileID: 1304993045}
+  changeThirstSlider: {fileID: 0}
 --- !u!1 &1918549690
 GameObject:
   m_ObjectHideFlags: 0
@@ -19176,10 +19119,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textController: {fileID: 0}
-  incounter1: {fileID: 0}
-  incounter2: {fileID: 0}
-  incounter3: {fileID: 463198251}
-  selectBtn: {fileID: 1109225604}
+  selectBtn1: {fileID: 0}
+  selectBtn2: {fileID: 0}
   quest: {fileID: 0}
 --- !u!114 &1944498871
 MonoBehaviour:
@@ -19685,10 +19626,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textController: {fileID: 0}
-  incounter1: {fileID: 1177843549}
-  incounter2: {fileID: 0}
-  incounter3: {fileID: 0}
-  selectBtn: {fileID: 1569790875}
+  selectBtn1: {fileID: 0}
+  selectBtn2: {fileID: 0}
   quest: {fileID: 0}
 --- !u!114 &1988424339
 MonoBehaviour:
@@ -20033,10 +19972,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textController: {fileID: 0}
-  incounter1: {fileID: 0}
-  incounter2: {fileID: 0}
-  incounter3: {fileID: 0}
-  selectBtn: {fileID: 0}
+  selectBtn1: {fileID: 0}
+  selectBtn2: {fileID: 0}
   quest: {fileID: 1850566667}
 --- !u!1 &2006564061
 GameObject:
@@ -20342,10 +20279,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textController: {fileID: 0}
-  incounter1: {fileID: 0}
-  incounter2: {fileID: 0}
-  incounter3: {fileID: 0}
-  selectBtn: {fileID: 0}
+  selectBtn1: {fileID: 0}
+  selectBtn2: {fileID: 0}
   quest: {fileID: 1850566667}
 --- !u!1 &2026425000
 GameObject:
@@ -20806,10 +20741,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textController: {fileID: 1652964118}
-  incounter1: {fileID: 0}
-  incounter2: {fileID: 0}
-  incounter3: {fileID: 0}
-  selectBtn: {fileID: 1986601318}
+  selectBtn1: {fileID: 0}
+  selectBtn2: {fileID: 0}
   quest: {fileID: 0}
 --- !u!114 &2051960710
 MonoBehaviour:
@@ -21041,10 +20974,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textController: {fileID: 1652964118}
-  incounter1: {fileID: 0}
-  incounter2: {fileID: 0}
-  incounter3: {fileID: 0}
-  selectBtn: {fileID: 1853109093}
+  selectBtn1: {fileID: 0}
+  selectBtn2: {fileID: 0}
   quest: {fileID: 0}
 --- !u!114 &2066005267
 MonoBehaviour:

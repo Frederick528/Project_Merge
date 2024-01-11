@@ -5,7 +5,7 @@ using UnityEngine;
 public class RandomEvent : MonoBehaviour
 {
     [SerializeField]
-    GameObject incounter1, incounter2, incounter3, incounter4, incounter5, 
+    GameObject incounter1, incounter2, incounter3, incounter4, incounter5,
                incounter6, incounter7, incounter8, incounter9, incounter10,
                incounter11, incounter12, incounter13, incounter14, incounter15;
     static int Random_event;
@@ -18,7 +18,7 @@ public class RandomEvent : MonoBehaviour
         IncounterList.Add(incounter2);
         IncounterList.Add(incounter3);
         IncounterList.Add(incounter4);
-        IncounterList.Add(incounter5); 
+        IncounterList.Add(incounter5);
         IncounterList.Add(incounter6);
         IncounterList.Add(incounter7);
         IncounterList.Add(incounter8);
@@ -42,10 +42,13 @@ public class RandomEvent : MonoBehaviour
         {
             Random_event = Random.Range(0, IncounterList.Count);
 
+            Turn.inCounterNum = Random_event;
+
             GameObject selectedEvent = IncounterList[Random_event];
             selectedEvent.SetActive(true);
             var v = selectedEvent.GetComponentInChildren<RectTransform>();
 
+            print(selectedEvent.name.ToCharArray()[^2] + "");
             v.gameObject.SetActive(true);
             //Instantiate(selectedEvent);
             //IncounterList.Remove(selectedEvent);

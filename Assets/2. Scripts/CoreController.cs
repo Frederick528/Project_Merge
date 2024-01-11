@@ -19,6 +19,7 @@ public class CoreController : MonoBehaviour
     public static int Date => _core.TurnCnt / 4;
 
     public static bool IsNightTime => _core.IsNightTime;
+    public Light Light;
     public GameObject Notice;
     public TMP_Text Hungriness;
     public TMP_Text Thirst;
@@ -93,11 +94,11 @@ public class CoreController : MonoBehaviour
         }
         _instance.Turn.text = _core.TurnCnt + "";
 
-        //if (_core.IsDawn)
-        //{
-        //    EncounterManager.Occur();
-        //}
-        /*else */if (_core.IsMorning)
+        if (_core.IsDawn)
+        {
+            EncounterManager.Occur();
+        }
+        else if (_core.IsMorning)
         {
             CardManager.ExpirationDateCheck();
         }

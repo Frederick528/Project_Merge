@@ -63,9 +63,7 @@ public class MouseRightClick : MonoBehaviour
                     if (cardContents.transform.parent.TryGetComponent(out CardGroup cardGroup))
                         CardManager.DestroyCard(cardGroup.RemoveCard(cardContents));
                     else
-                    {
                         CardManager.DestroyCard(cardContents);
-                    }
                     //Destroy(hit.collider.gameObject);
                     CanvasClose();
                     EffectManager.instance.eatCardImg = cardImage.sprite;
@@ -88,8 +86,12 @@ public class MouseRightClick : MonoBehaviour
                 cardDecompositionBtn.onClick.RemoveAllListeners();
                 cardDecompositionBtn.onClick.AddListener(() =>
                 {
-                    print(cardContents.ID);
                     cardContents.OnDecomposition(out Card[] cards);
+                    CardManager.DestroyCard(cardContents);
+                    //if (cardContents.transform.parent.TryGetComponent(out CardGroup cardGroup))
+                    //    CardManager.DestroyCard(cardGroup.RemoveCard(cardContents));
+                    //else
+                    //    CardManager.DestroyCard(cardContents);
                     CanvasClose();
                 });
             }

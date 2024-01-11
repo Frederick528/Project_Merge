@@ -68,7 +68,9 @@ public class MouseRightClick : MonoBehaviour
                     if (cardContents.transform.parent.TryGetComponent(out CardGroup cardGroup))
                         CardManager.DestroyCard(cardGroup.RemoveCard(cardContents));
                     else
+                    {
                         CardManager.DestroyCard(cardContents);
+                    }
                     //Destroy(hit.collider.gameObject);
 =======
                     stat.curHunger = ((stat.curHunger + cardData.Hunger) > stat.maxHunger) ? stat.maxHunger : stat.curHunger + cardData.Hunger;
@@ -94,12 +96,8 @@ public class MouseRightClick : MonoBehaviour
                 cardDecompositionBtn.onClick.RemoveAllListeners();
                 cardDecompositionBtn.onClick.AddListener(() =>
                 {
+                    print(cardContents.ID);
                     cardContents.OnDecomposition(out Card[] cards);
-                    CardManager.DestroyCard(cardContents);
-                    //if (cardContents.transform.parent.TryGetComponent(out CardGroup cardGroup))
-                    //    CardManager.DestroyCard(cardGroup.RemoveCard(cardContents));
-                    //else
-                    //    CardManager.DestroyCard(cardContents);
                     CanvasClose();
                 });
             }

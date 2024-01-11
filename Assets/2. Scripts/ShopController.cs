@@ -10,8 +10,6 @@ public class ShopController : MonoBehaviour
     public TextMeshProUGUI goldText;
     public Button buyButton;
 
-    public GameObject curseBtn;
-
     [SerializeField]
     private int goldAmount = 0;
 
@@ -45,11 +43,6 @@ public class ShopController : MonoBehaviour
                 //ToggleShopUI(true);
                 return;
             }
-        }
-
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            curseBtn.SetActive(!curseBtn.activeSelf);
         }
     }
 

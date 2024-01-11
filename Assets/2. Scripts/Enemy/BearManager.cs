@@ -17,6 +17,7 @@ public class BearManager : MonoBehaviour
 
     public static List<Bear> Bears => _bears;
     public static BearManager Instance => _instance;
+    public static int Count => _bears.Count;
 
     public Canvas bearApear;
 
@@ -36,11 +37,6 @@ public class BearManager : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             Debug.Log("곰 출현!");
-            var bearInstance = Instantiate(_bearPrefab, Instance.transform).GetComponent<Bear>();
-            bearInstance.transform.position = Vector3.left * 160;
-            bearInstance.Init();
-            _crntBearRef = bearInstance;
-            _bears.Add(bearInstance);
         }
 
         // 프리팹이 생성 되어있는지 확인 후 안 되어 있으면 새로 생성
@@ -72,6 +68,12 @@ public class BearManager : MonoBehaviour
                     };
 
                     Instance.bearApear.gameObject.SetActive(false);
+                    
+                    var bearInstance = Instantiate(_bearPrefab, Instance.transform).GetComponent<Bear>();
+                    bearInstance.transform.position = Vector3.left * 160;
+                    bearInstance.Init();
+                    _crntBearRef = bearInstance;
+                    _bears.Add(bearInstance);
                 });
             }
         }

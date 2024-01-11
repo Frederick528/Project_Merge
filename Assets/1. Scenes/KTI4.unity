@@ -15235,10 +15235,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textController: {fileID: 0}
-  incounter1: {fileID: 0}
+  incounter1: {fileID: 1177843549}
   incounter2: {fileID: 0}
   incounter3: {fileID: 0}
-  selectBtn: {fileID: 0}
+  selectBtn: {fileID: 1569790875}
   quest: {fileID: 0}
 --- !u!114 &1522429081
 MonoBehaviour:
@@ -19692,10 +19692,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textController: {fileID: 0}
-  incounter1: {fileID: 0}
+  incounter1: {fileID: 1177843549}
   incounter2: {fileID: 0}
   incounter3: {fileID: 0}
-  selectBtn: {fileID: 0}
+  selectBtn: {fileID: 1569790875}
   quest: {fileID: 0}
 --- !u!114 &1988424339
 MonoBehaviour:
@@ -20163,7 +20163,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b8b8d2d91982ead45bc3e99c795109da, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b80c15cde219bf945a1cbdef8a4d24e1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

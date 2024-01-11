@@ -52,6 +52,17 @@ public class Quest : MonoBehaviour
             questText.text = "매일 새벽마다 다양한 사건이 일어납니다. " +
                              "플레이어의 선택지에 따라 좋은 일이 일어나거나 나쁜일이 일어날 수 있으니 신중하게 고르시길 바랍니다.";
         }
+        if (count == 6)
+        {
+            questText.text = "카드 뽑기 버튼을 누르면 행동력 1을 소모하고 1티어 재료 카드를 획득 할 수 있습니다." +
+                             "행동력이 0이 되면 카드를 뽑을 수 없습니다. ";
+        }
+
+        if (count == 7)
+        {
+            questText.text = "턴 넘기기 버튼을 누르면 순서대로 아침, 점심, 저녁, 새벽 순으로 변경되며 " +
+                             "새벽이 지나면 생존 일수가 1일 증가합니다";
+        }                      
     }
 
     public void Open_Q()
@@ -93,6 +104,18 @@ public class Quest : MonoBehaviour
     public void Click5 ()
     {
         count = 5;
+        Guide();
+    }
+
+    public void Click6()
+    {
+        count = 6;
+        Guide();
+    }
+
+    public void Click7()
+    {
+        count = 7;
         Guide();
     }
 }

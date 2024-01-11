@@ -37,11 +37,11 @@ public class YamlDeserializer
         T result = null;
         FileStream stream;
 
-        if (File.Exists(path) && saveData.dict != null)
+        if (File.Exists(path))
         {
             stream = File.OpenRead(path);
         }
-        else
+        else if (saveData.dict == null)
         {
             Debug.Log(true);
             saveData.dict = new Dictionary<int, bool>(
@@ -51,8 +51,12 @@ public class YamlDeserializer
                 
             
             Debug.Log(Application.persistentDataPath);
-            Serialize(path , saveData);
 
+            stream = File.Create(path);
+        }
+        else
+        {
+            Serialize(path , saveData);
             stream = File.OpenRead(path);
         }
 

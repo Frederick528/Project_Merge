@@ -13,7 +13,8 @@ public class FoodTimeOutManager : MonoBehaviour
     private void Awake()
     {
         Instance ??= this;
-        Used = Instantiate(new GameObject());
+        Used = new GameObject();
+        Used.transform.SetParent(this.transform);
     }
 
     public static void Show(Card Target)

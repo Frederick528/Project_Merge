@@ -78,6 +78,8 @@ public class Card : Entity
             Debug.Log("카드를 새로이 획득 했습니다!");
             YamlDeserializer.saveData.Modify(this.ID, true);
             YamlDeserializer.Serialize(PictorialData.defaultFilePath, YamlDeserializer.saveData);
+
+            Instantiate(CardManager.Instance.newerCardEffect, this.transform).transform.localPosition += Vector3.up * 2f;
         }
     }
     public void Init(int ID, out bool temp)
@@ -131,6 +133,8 @@ public class Card : Entity
             Debug.Log("카드를 새로이 획득 했습니다!");
             YamlDeserializer.saveData.Modify(this.ID, true);
             YamlDeserializer.Serialize(PictorialData.defaultFilePath, YamlDeserializer.saveData);
+            
+            Instantiate(CardManager.Instance.newerCardEffect, this.transform).transform.localPosition += Vector3.up * 2f;
         }
     }
     // Update is called once per frame

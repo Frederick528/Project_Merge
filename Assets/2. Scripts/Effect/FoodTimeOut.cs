@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class FoodTimeOut : MonoBehaviour
+public class FoodTimeOut : EffectBase
 {
-    public void AnimEvt()
+    public override void AnimEvt()
     {
         this.transform.parent.gameObject.SetActive(false);
         if (this.transform.parent.parent.Equals(FoodTimeOutManager.Instance.transform))

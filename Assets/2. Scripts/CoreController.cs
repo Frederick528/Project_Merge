@@ -112,10 +112,20 @@ public class CoreController : MonoBehaviour
         }
         _instance.Turn.text = _core.TurnCnt + "";
 
+        var lightAnim = _instance.Light.GetComponent<Animator>();
+        foreach (var param in lightAnim.parameters)
+        {
+            if(param.type == AnimatorControllerParameterType.Trigger)
+                lightAnim.ResetTrigger(param.name);
+        }
+        
         if (_core.IsDawn)
         {
             _core.Difficulty = (ushort)(1 * (Date+1));
             Difficulty = _core.Difficulty;
+            
+            
+            lightAnim.SetTrigger("Dawn");
             //EncounterManager.Occur();
         }
         else if (_core.IsMorning)
@@ -123,14 +133,20 @@ public class CoreController : MonoBehaviour
             _core.Difficulty = 0;
             Difficulty = _core.Difficulty;
             CardManager.ExpirationDateCheck();
+            
+            lightAnim.SetTrigger("Morning");
         }
         if (_core.IsDayTime)
         {
             bearFlag = Random.Range(0, 10);
+            
+            lightAnim.SetTrigger("DayTime");
         }
         else if (_core.IsNightTime)
         {
             BearManager.BearLeave();
+            
+            lightAnim.SetTrigger("Night");
         }
         
         _instance.Clock.gameObject.SetActive(true);

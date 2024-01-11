@@ -113,7 +113,7 @@ public class CoreController : MonoBehaviour
 
         if (_core.IsDayTime)
         {
-            if (Random.Range(0, 10) > 7)
+            if (Random.Range(0, 10) > 7 || _core.Date == 1)
             {
                 BearManager.Dispense();
             }

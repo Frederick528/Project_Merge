@@ -22,6 +22,7 @@ public class Card : Entity
 
     private static CardGroup _tempGroup;
     private CardData _data;
+    private Animator _anim;
 
     public CardData Data => _data;
     public CardType cardType;
@@ -71,6 +72,7 @@ public class Card : Entity
                       $"\n카드 ID : {ID}");
 
         this.GetComponentInChildren<TMP_Text>().text = _data.KR;
+        _anim = GetComponent<Animator>();
     }
     public void Init(int ID, out bool temp)
     {
@@ -174,7 +176,7 @@ public class Card : Entity
                 {
                     if (g1.Equals(g2))
                     {
-                        Debug.Log(true);
+                        
                         continue;
                     }
                     else
@@ -279,6 +281,8 @@ public class Card : Entity
 
             };
         }
+        
+        _anim.SetTrigger("Hold");
         
         base.OnMouseDown();
     }

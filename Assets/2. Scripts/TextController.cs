@@ -9,6 +9,8 @@ public class TextController : MonoBehaviour
     public int bifurcation = 0;
     public Text myText, mytext2;
     public GameObject incounter, transparency, Character, select1, select2, select3, select4;
+    public Image canvasImage;
+    public float fadeSpeed = 0.5f; // 투명도가 줄어드는 속도
 
     [SerializeField]
     Button nextBtn;
@@ -56,6 +58,15 @@ public class TextController : MonoBehaviour
         mytext2.text = CharacterName1[0];
         nextBtn.interactable = false;
         //closeBtn.SetActive(true);
+        if (canvasImage == null)
+        {
+            canvasImage = GetComponent<Image>();
+            if (canvasImage == null)
+            {
+                Debug.LogError("Image component not found.");
+                return;
+            }
+        }
     }
 
     void Update()
@@ -86,7 +97,7 @@ public class TextController : MonoBehaviour
         {
             Result2();
         }
-        else 
+        else
         {
             incounter.SetActive(false);
             nextBtn.interactable = true;
@@ -141,11 +152,11 @@ public class TextController : MonoBehaviour
             mytext2.text = CharacterName2[currentTextIndex1];
             if (mytext2.text == "마녀" || mytext2.text == "???")
             {
-                Character.SetActive(true);
+                StartCoroutine(FadeIn());
             }
             else
             {
-                Character.SetActive(false);
+                //Character.SetActive(false);
             }
         }
         else if (currentTextIndex2 < CharacterName3.Length && isWaitingForInput)
@@ -153,11 +164,11 @@ public class TextController : MonoBehaviour
             mytext2.text = CharacterName3[currentTextIndex2];
             if (mytext2.text == "마녀" || mytext2.text == "???")
             {
-                Character.SetActive(true);
+               // Character.SetActive(true);
             }
             else
             {
-                Character.SetActive(false);
+               // Character.SetActive(false);
             }
         }
         else if (currentTextIndex3 < CharacterName4.Length && isWaitingForInput)
@@ -165,11 +176,11 @@ public class TextController : MonoBehaviour
             mytext2.text = CharacterName4[currentTextIndex3];
             if (mytext2.text == "마녀" || mytext2.text == "???")
             {
-                Character.SetActive(true);
+               // Character.SetActive(true);
             }
             else
             {
-                Character.SetActive(false);
+                StartCoroutine(FadeOut());
             }
         }
         else
@@ -276,7 +287,7 @@ public class TextController : MonoBehaviour
     public void Result2()
     {
         bifurcation = 1;
-        
+
         if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput == true && bifurcation == 1)
         {
             currentTextIndex5++;
@@ -291,5 +302,33 @@ public class TextController : MonoBehaviour
                 isWaitingForInput = false;
             }
         }
+    }
+    IEnumerator FadeOut()
+    {
+        float currentAlpha = canvasImage.color.a;
+
+        while (currentAlpha > 0)
+        {
+            currentAlpha -= fadeSpeed * Time.deltaTime;
+            canvasImage.color = new Color(canvasImage.color.r, canvasImage.color.g, canvasImage.color.b, currentAlpha);
+
+            yield return null;
+        }
+    }
+    IEnumerator FadeIn()
+    {
+        float targetAlpha = 1f;
+
+        while (canvasImage.color.a < targetAlpha)
+        {
+            float currentAlpha = canvasImage.color.a;
+            currentAlpha += fadeSpeed * Time.deltaTime;
+            canvasImage.color = new Color(canvasImage.color.r, canvasImage.color.g, canvasImage.color.b, currentAlpha);
+
+            yield return null;
+        }
+
+        // 투명도가 1 이상으로 올라갔을 때의 처리
+        Debug.Log("Image faded in completely.");
     }
 }

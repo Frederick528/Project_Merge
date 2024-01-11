@@ -15,6 +15,8 @@ public class CardManager : MonoBehaviour
     public static CardManager Instance;
     public static GameObject[] Areas; // 0 - Merge | 1 - Export | 2 - Sort
     public static List<Card> Cards => _cards;
+    
+    public GameObject FoodTimeOutEffect;
 
     // Start is called before the first frame update
     private void Awake()

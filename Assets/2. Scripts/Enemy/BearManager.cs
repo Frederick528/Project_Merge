@@ -146,11 +146,11 @@ public class BearManager : MonoBehaviour
             {
                 btn = image.AddComponent<Button>();
             }
-
-            btn.onClick.RemoveAllListeners();
+            
             btn.onClick.AddListener(() =>
             {
                 onClickEvt();
+                btn.onClick.RemoveAllListeners();
             });
             
         }

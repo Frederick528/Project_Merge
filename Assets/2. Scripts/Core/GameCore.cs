@@ -23,10 +23,10 @@ public class GameCore
     
     
     //낮인지 밤인지 구분하기 위한 맴버
-    public bool IsMorning => _turnCnt % 4 == (int)TimeStatus.Morning ? true : false;
-    public bool IsDayTime => _turnCnt % 4 == (int)TimeStatus.Day ? true : false;
-    public bool IsNightTime => _turnCnt % 4 == (int)TimeStatus.Night ? true : false;
-    public bool IsDawn => _turnCnt % 4 == (int)TimeStatus.Dawn ? true : false;
+    public bool IsMorning => _turnCnt % 4 == (int)TimeStatus.Morning;
+    public bool IsDayTime => _turnCnt % 4 == (int)TimeStatus.Day;
+    public bool IsNightTime => _turnCnt % 4 == (int)TimeStatus.Night;
+    public bool IsDawn => _turnCnt % 4 == (int)TimeStatus.Dawn;
     
     public void InitGame()
     {

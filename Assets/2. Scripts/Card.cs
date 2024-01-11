@@ -22,6 +22,7 @@ public class Card : Entity
 
     private static CardGroup _tempGroup;
     private CardData _data;
+    private Animator _anim;
 
     public CardData Data => _data;
     public CardType cardType;
@@ -71,6 +72,13 @@ public class Card : Entity
                       $"\n카드 ID : {ID}");
 
         this.GetComponentInChildren<TMP_Text>().text = _data.KR;
+
+        if (!YamlDeserializer.saveData.GetValue(this.ID))
+        {
+            Debug.Log("카드를 새로이 획득 했습니다!");
+            YamlDeserializer.saveData.Modify(this.ID, true);
+            YamlDeserializer.Serialize(PictorialData.defaultFilePath, YamlDeserializer.saveData);
+        }
     }
     public void Init(int ID, out bool temp)
     {
@@ -117,6 +125,13 @@ public class Card : Entity
                       $"\n카드 ID : {ID}");
 
         this.GetComponentInChildren<TMP_Text>().text = _data.KR;
+        
+        if (!YamlDeserializer.saveData.GetValue(this.ID))
+        {
+            Debug.Log("카드를 새로이 획득 했습니다!");
+            YamlDeserializer.saveData.Modify(this.ID, true);
+            YamlDeserializer.Serialize(PictorialData.defaultFilePath, YamlDeserializer.saveData);
+        }
     }
     // Update is called once per frame
     void Update()
@@ -174,7 +189,7 @@ public class Card : Entity
                 {
                     if (g1.Equals(g2))
                     {
-                        Debug.Log(true);
+                        
                         continue;
                     }
                     else
@@ -279,7 +294,6 @@ public class Card : Entity
 
             };
         }
-        
         base.OnMouseDown();
     }
 

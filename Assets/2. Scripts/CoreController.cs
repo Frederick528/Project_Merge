@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -32,6 +33,8 @@ public class CoreController : MonoBehaviour
     {
         _core ??= new GameCore();
         _instance ??= this;
+
+        
     }
 
     void Start()
@@ -42,6 +45,10 @@ public class CoreController : MonoBehaviour
         {
             CardManager.CreateCard();
         }
+
+        //세이브 파일이 없을 경우 새로 딕셔너리를 만들어 거기서 생성
+        
+        YamlDeserializer.saveData.Init();
     }
 
     private void Update()
@@ -100,6 +107,7 @@ public class CoreController : MonoBehaviour
         {
             _core.Difficulty = (ushort)(1 * (Date+1));
             Difficulty = _core.Difficulty;
+            BearManager.Notice("새벽이 밝았습니다!");
             //EncounterManager.Occur();
         }
         else if (_core.IsMorning)
@@ -107,17 +115,23 @@ public class CoreController : MonoBehaviour
             _core.Difficulty = 0;
             Difficulty = _core.Difficulty;
             CardManager.ExpirationDateCheck();
+            BearManager.Notice("좋은 아침을 맞이하라!");
         }
 
         if (_core.IsDayTime)
         {
-            if (Random.Range(0, 10) > 7)
+            if (Random.Range(0, 10) > 3 || _core.Date == 1)
             {
                 BearManager.Dispense();
             }
+            else
+            {
+                BearManager.Notice("나잇타임... 데이타임!");
+            }
         }
-        else
+        else if (_core.IsNightTime)
         {
+            BearManager.Notice("황혼이 저뭅니다!");
             BearManager.BearLeave();
         }
     }

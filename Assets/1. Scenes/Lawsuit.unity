@@ -23556,7 +23556,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1153005577
 RectTransform:
   m_ObjectHideFlags: 0
@@ -35031,6 +35031,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bearApear: {fileID: 2314483676211848445, guid: 85e9060802cab5543b49dc9e0d21ce26, type: 3}
+  turnChanger: {fileID: 971129215}
 --- !u!1 &1781220952
 GameObject:
   m_ObjectHideFlags: 0
@@ -37798,7 +37799,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hungerSlider: {fileID: 547588914}
+  changeHungerSlider: {fileID: 0}
   thirstSlider: {fileID: 1304993045}
+  changeThirstSlider: {fileID: 0}
 --- !u!1 &1913695650
 GameObject:
   m_ObjectHideFlags: 0

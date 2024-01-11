@@ -2,25 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ShopController : MonoBehaviour
 {
     public GameObject shopUI;
-    public Text goldText;
+    public TextMeshProUGUI goldText;
     public Button buyButton;
 
+    [SerializeField]
     private int goldAmount = 0;
 
     void Start()
     {
         //shopUI.SetActive(false);
-        //UpdateGoldText();
+        UpdateGoldText();
         buyButton.onClick.AddListener(BuyItem);
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.G))
         {
             IncreaseGold(100);
         }
@@ -29,7 +31,7 @@ public class ShopController : MonoBehaviour
         {
             if (!GameManager.CardCanvasOn)
             {
-                GameManager.CardCanvasOn = true;
+                GameManager.CardCanvasOn = true;    
                 shopUI.SetActive(true);
                 //ToggleShopUI(true);
                 return;
@@ -57,7 +59,7 @@ public class ShopController : MonoBehaviour
 
     void UpdateGoldText()
     {
-        goldText.text = "Gold: " + goldAmount;
+        goldText.text = "Gold: " + goldAmount.ToString();
     }
 
     void BuyItem() 
@@ -66,10 +68,10 @@ public class ShopController : MonoBehaviour
         {
             goldAmount -= 50;
             UpdateGoldText();
-            Debug.Log("아이템을 구매하였습니다! 앙 기무띠");
+            Debug.Log("카드를 구매하였습니다.");
         }
         else
-        {
+        {   
             Debug.Log("골드가 충분하지 않습니다.");
         }
     }

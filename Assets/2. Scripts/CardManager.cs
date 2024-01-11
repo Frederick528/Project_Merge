@@ -31,27 +31,52 @@ public class CardManager : MonoBehaviour
     }
     public static Card CreateCard()
     {
-        _ogCard ??= Resources.Load<GameObject>("Prefabs/RedCard");
-
-        var cardInstance = Instantiate(_ogCard, Instance.transform).GetComponent<Card>();
-        cardInstance.cardType = (Card.CardType)Random.Range(0, Enum.GetValues(typeof(Card.CardType)).Length - 1);
-        cardInstance.Init(0);
-        _cards.Add(cardInstance);
-        
-        CameraCtrl.MoveToLerp(new Vector3()
+        return CreateCard(false);
+    }
+    
+    public static Card CreateCard(bool isOnMerge)
+    {
+        if(!isOnMerge)
         {
-            x = 0,
-            y = Camera.main.transform.position.y,
-            z = 80
-        }, 50);
+            _ogCard ??= Resources.Load<GameObject>("Prefabs/RedCard");
+
+            var cardInstance = Instantiate(_ogCard, Instance.transform).GetComponent<Card>();
+            cardInstance.cardType = (Card.CardType)Random.Range(0, Enum.GetValues(typeof(Card.CardType)).Length - 1);
+            cardInstance.Init(0);
+            _cards.Add(cardInstance);
+
+            CameraCtrl.MoveToLerp(new Vector3()
+            {
+                x = 0,
+                y = Camera.main.transform.position.y,
+                z = 80
+            }, 50);
         
-        //SortCard();
-        
-        return cardInstance;
+            return cardInstance;
+        }
+        else
+        {
+            _ogCard ??= Resources.Load<GameObject>("Prefabs/RedCard");
+
+            var cardInstance = Instantiate(_ogCard, Instance.transform).GetComponent<Card>();
+            cardInstance.cardType = (Card.CardType)Random.Range(0, Enum.GetValues(typeof(Card.CardType)).Length - 1);
+            cardInstance.Init(0);
+            _cards.Add(cardInstance);
+            
+            return cardInstance;
+        }
     }
     public static Card CreateCard(int level, int type )
     {
         var result = CreateCard();
+        result.cardType = (Card.CardType)type;
+        result.Init(level);
+        return result;
+    }
+    public static Card CreateCard(int level, int type, bool isOnMerge )
+    {
+        if (!isOnMerge) return CreateCard(level, type);
+        var result = CreateCard(true);
         result.cardType = (Card.CardType)type;
         result.Init(level);
         return result;

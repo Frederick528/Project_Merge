@@ -17,6 +17,7 @@ public class BearManager : MonoBehaviour
 
     public static List<Bear> Bears => _bears;
     public static BearManager Instance => _instance;
+    public static int Count => _bears.Count;
 
     public Canvas bearApear;
 

@@ -46,6 +46,8 @@ public class GameCore
         if (!_isGameStarted)
             throw new Exception("The Game is not Started");
         _isGameStarted = false;
+
+        CardManager.DestroyCard(CardManager.Cards);
         
         Debug.Log("게임 오버");
     }

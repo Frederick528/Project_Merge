@@ -3893,13 +3893,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isWaitingForInput: 1
   bifurcation: 0
-  myText: {fileID: 0}
-  incounter: {fileID: 0}
-  select1: {fileID: 0}
-  select2: {fileID: 0}
-  nextBtn: {fileID: 0}
-  blockUI: {fileID: 0}
-  closeBtn: {fileID: 0}
+  myText: {fileID: 841684922}
+  incounter: {fileID: 1165549188}
+  select1: {fileID: 1109225604}
+  select2: {fileID: 576316029}
+  nextBtn: {fileID: 971129215}
+  blockUI: {fileID: 1022413568}
+  closeBtn: {fileID: 1949538636}
 --- !u!114 &463198252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5203,9 +5203,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textController: {fileID: 0}
   incounter1: {fileID: 0}
-  incounter2: {fileID: 0}
+  incounter2: {fileID: 681741754}
   incounter3: {fileID: 0}
-  selectBtn: {fileID: 0}
+  selectBtn: {fileID: 243413577}
   quest: {fileID: 0}
 --- !u!114 &578931242
 MonoBehaviour:
@@ -6224,14 +6224,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isWaitingForInput: 1
   bifurcation: 0
-  myText: {fileID: 0}
-  incounter: {fileID: 0}
-  select1: {fileID: 0}
-  select2: {fileID: 0}
-  select3: {fileID: 0}
-  nextBtn: {fileID: 0}
-  blockUI: {fileID: 0}
-  closeBtn: {fileID: 0}
+  myText: {fileID: 487948311}
+  incounter: {fileID: 73312889}
+  select1: {fileID: 243413577}
+  select2: {fileID: 1226082980}
+  select3: {fileID: 1555085969}
+  nextBtn: {fileID: 971129215}
+  blockUI: {fileID: 1022413568}
+  closeBtn: {fileID: 1949538636}
 --- !u!114 &681741755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7585,9 +7585,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textController: {fileID: 0}
   incounter1: {fileID: 0}
-  incounter2: {fileID: 0}
+  incounter2: {fileID: 681741754}
   incounter3: {fileID: 0}
-  selectBtn: {fileID: 0}
+  selectBtn: {fileID: 1226082980}
   quest: {fileID: 0}
 --- !u!114 &781395484
 MonoBehaviour:
@@ -7731,7 +7731,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &787195090
 Transform:
   m_ObjectHideFlags: 0
@@ -8648,8 +8648,8 @@ MonoBehaviour:
   textController: {fileID: 0}
   incounter1: {fileID: 0}
   incounter2: {fileID: 0}
-  incounter3: {fileID: 0}
-  selectBtn: {fileID: 0}
+  incounter3: {fileID: 463198251}
+  selectBtn: {fileID: 576316029}
   quest: {fileID: 0}
 --- !u!114 &855500791
 MonoBehaviour:
@@ -9462,9 +9462,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textController: {fileID: 0}
   incounter1: {fileID: 0}
-  incounter2: {fileID: 0}
+  incounter2: {fileID: 681741754}
   incounter3: {fileID: 0}
-  selectBtn: {fileID: 0}
+  selectBtn: {fileID: 1555085969}
   quest: {fileID: 0}
 --- !u!114 &957287787
 MonoBehaviour:
@@ -11442,9 +11442,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textController: {fileID: 0}
   incounter1: {fileID: 0}
-  incounter2: {fileID: 0}
+  incounter2: {fileID: 681741754}
   incounter3: {fileID: 0}
-  selectBtn: {fileID: 0}
+  selectBtn: {fileID: 243413577}
   quest: {fileID: 0}
 --- !u!114 &1175081915
 MonoBehaviour:
@@ -11631,17 +11631,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isWaitingForInput: 1
   bifurcation: 0
-  myText: {fileID: 0}
-  mytext2: {fileID: 0}
-  incounter: {fileID: 0}
-  transparency: {fileID: 0}
-  Character: {fileID: 0}
-  select1: {fileID: 0}
-  canvasImage: {fileID: 0}
-  fadeSpeed: 0.5
-  nextBtn: {fileID: 0}
-  blockUI: {fileID: 0}
-  closeBtn: {fileID: 0}
+  myText: {fileID: 578890872}
+  mytext2: {fileID: 2006564063}
+  incounter: {fileID: 1765100768}
+  transparency: {fileID: 631468548}
+  Character: {fileID: 2017009355}
+  select1: {fileID: 1569790875}
+  canvasImage: {fileID: 2017009356}
+  fadeSpeed: 0.7
+  nextBtn: {fileID: 971129215}
+  blockUI: {fileID: 1022413568}
+  closeBtn: {fileID: 1949538636}
 --- !u!114 &1177843550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11892,8 +11892,8 @@ MonoBehaviour:
   textController: {fileID: 0}
   incounter1: {fileID: 0}
   incounter2: {fileID: 0}
-  incounter3: {fileID: 0}
-  selectBtn: {fileID: 0}
+  incounter3: {fileID: 463198251}
+  selectBtn: {fileID: 1109225604}
   quest: {fileID: 0}
 --- !u!114 &1207560805
 MonoBehaviour:
@@ -16653,8 +16653,8 @@ MonoBehaviour:
   select2: {fileID: 784836970}
   select3: {fileID: 273297561}
   select4: {fileID: 1853109093}
-  canvasImage: {fileID: 0}
-  fadeSpeed: 0.5
+  canvasImage: {fileID: 1583185012}
+  fadeSpeed: 0.3
   nextBtn: {fileID: 971129215}
   blockUI: {fileID: 1022413568}
   closeBtn: {fileID: 1949538636}
@@ -17309,7 +17309,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1765100769
 Transform:
   m_ObjectHideFlags: 0
@@ -19185,8 +19185,8 @@ MonoBehaviour:
   textController: {fileID: 0}
   incounter1: {fileID: 0}
   incounter2: {fileID: 0}
-  incounter3: {fileID: 0}
-  selectBtn: {fileID: 0}
+  incounter3: {fileID: 463198251}
+  selectBtn: {fileID: 1109225604}
   quest: {fileID: 0}
 --- !u!114 &1944498871
 MonoBehaviour:
@@ -20163,7 +20163,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b80c15cde219bf945a1cbdef8a4d24e1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b8b8d2d91982ead45bc3e99c795109da, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

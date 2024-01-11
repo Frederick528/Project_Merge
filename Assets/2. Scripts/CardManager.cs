@@ -38,6 +38,13 @@ public class CardManager : MonoBehaviour
         cardInstance.Init(0);
         _cards.Add(cardInstance);
         
+        CameraCtrl.MoveToLerp(new Vector3()
+        {
+            x = 0,
+            y = Camera.main.transform.position.y,
+            z = 80
+        }, 50);
+        
         //SortCard();
         
         return cardInstance;
@@ -139,10 +146,22 @@ public class CardManager : MonoBehaviour
             }
         }
         
+        
         var idList = _cards.Select( x  => x.ID).Distinct().OrderBy(x => x);
         //var defPos = CardManager.Areas[2].transform.localPosition - Areas[2].transform.localScale / 3 ;
         var margin = Vector3.right * 15;
         var row = 0;
+        
+        var targetPos = margin * 2 + Vector3.up;
+        targetPos = new Vector3()
+        {
+            x = targetPos.x,
+            y = Camera.main.transform.position.y,
+            z = targetPos.z
+        };
+        
+        CameraCtrl.MoveToLerp(targetPos, 50);
+        
         for (var i = 0 ; i < idList.Count(); i++)
         {
             var id = idList.ElementAt(i);

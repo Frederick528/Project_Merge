@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -34,10 +35,7 @@ public class BearManager : MonoBehaviour
             
         _bearPrefab ??= Resources.Load<GameObject>("Prefabs/Enemy/Bear");
         
-        for (int i = 0; i < count; i++)
-        {
-            Debug.Log("곰 출현!");
-        }
+        
 
         // 프리팹이 생성 되어있는지 확인 후 안 되어 있으면 새로 생성
         Instance.bearApear =
@@ -60,6 +58,17 @@ public class BearManager : MonoBehaviour
                 
                 comp.onClick.AddListener(() =>
                 {
+                    for (int i = 0; i < count; i++)
+                    {
+                        var bearInstance = Instantiate(_bearPrefab, Instance.transform).GetComponent<Bear>();
+                        bearInstance.transform.position = Vector3.left * 160;
+                        bearInstance.Init();
+                        _crntBearRef = bearInstance;
+                        _bears.Add(bearInstance);
+                        
+                        Debug.Log("곰 출현!");
+                    }
+                    
                     Camera.main.transform.position = new Vector3()
                     {
                         x = _crntBearRef.transform.position.x,
@@ -69,11 +78,7 @@ public class BearManager : MonoBehaviour
 
                     Instance.bearApear.gameObject.SetActive(false);
                     
-                    var bearInstance = Instantiate(_bearPrefab, Instance.transform).GetComponent<Bear>();
-                    bearInstance.transform.position = Vector3.left * 160;
-                    bearInstance.Init();
-                    _crntBearRef = bearInstance;
-                    _bears.Add(bearInstance);
+                    
                 });
             }
         }
@@ -110,6 +115,38 @@ public class BearManager : MonoBehaviour
         catch (Exception e)
         {
             Debug.Log(e);
+        }
+    }
+
+    public static void Notice(string msg)
+    {
+        Instance.bearApear =
+            !Instance.bearApear.gameObject.activeInHierarchy ?
+                Instantiate(Instance.bearApear).GetComponent<Canvas>() :
+                Instance.bearApear;
+        
+        Instance.bearApear.gameObject.SetActive(true);
+
+        foreach (Transform child in Instance.bearApear.transform)
+        {
+            if (child.TryGetComponent(out TMP_Text textField))
+                textField.text = msg;
+            else if (child.TryGetComponent(out Image image))
+            {
+                if (child.TryGetComponent(out Button btn))
+                {
+                    btn.onClick.RemoveAllListeners();
+                }
+                else
+                {
+                    btn = child.AddComponent<Button>();
+                }
+                
+                btn.onClick.AddListener(() =>
+                {
+                    Instance.bearApear.gameObject.SetActive(false);
+                });
+            }
         }
     }
 }

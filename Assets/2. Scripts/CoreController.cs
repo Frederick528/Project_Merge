@@ -18,6 +18,8 @@ public class CoreController : MonoBehaviour
     public static int TurnCnt => _core.TurnCnt;
     public static int Date => _core.TurnCnt / 4;
 
+    public static float Difficulty;
+
     public static bool IsNightTime => _core.IsNightTime;
     public Light Light;
     public GameObject Notice;
@@ -96,10 +98,14 @@ public class CoreController : MonoBehaviour
 
         if (_core.IsDawn)
         {
-            EncounterManager.Occur();
+            _core.Difficulty = (ushort)(1 * (Date+1));
+            Difficulty = _core.Difficulty;
+            //EncounterManager.Occur();
         }
         else if (_core.IsMorning)
         {
+            _core.Difficulty = 0;
+            Difficulty = _core.Difficulty;
             CardManager.ExpirationDateCheck();
         }
 

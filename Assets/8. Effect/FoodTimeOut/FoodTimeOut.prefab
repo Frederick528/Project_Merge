@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 5962389223138961756}
   - component: {fileID: 5962389223138961757}
   - component: {fileID: 5962389223138961754}
+  - component: {fileID: 1465344638940332282}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -106,6 +107,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1465344638940332282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5962389223138961755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb3624401a1438083e77de6efd7afa5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5962389223575022878
 GameObject:
   m_ObjectHideFlags: 0
@@ -117,8 +130,9 @@ GameObject:
   - component: {fileID: 5962389223575022849}
   - component: {fileID: 5962389223575022851}
   - component: {fileID: 5962389223575022848}
+  - component: {fileID: 5706172466979355755}
   m_Layer: 0
-  m_Name: Square (1)
+  m_Name: Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -212,6 +226,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5706172466979355755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5962389223575022878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb3624401a1438083e77de6efd7afa5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5962389223814409919
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,8 +283,9 @@ GameObject:
   - component: {fileID: 5962389223871155258}
   - component: {fileID: 5962389223871155260}
   - component: {fileID: 5962389223871155261}
+  - component: {fileID: 8816485261455594390}
   m_Layer: 0
-  m_Name: FoodTimeOut
+  m_Name: Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -352,3 +379,15 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8816485261455594390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5962389223871155259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb3624401a1438083e77de6efd7afa5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

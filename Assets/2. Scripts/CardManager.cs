@@ -113,11 +113,10 @@ public class CardManager : MonoBehaviour
             if (!card.Lapse())
             {
                 deleteQueue.Enqueue(card);
+                FoodTimeOutManager.Show(card);
                 Debug.Log("유통기한이 만료되어 파괴 되었습니다.");
             }
         }
-
-        DestroyCard(deleteQueue);
     }
 
     public static void SortCard()

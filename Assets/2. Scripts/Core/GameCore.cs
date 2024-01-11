@@ -19,7 +19,7 @@ public class GameCore
     public bool IsGameStarted => _isGameStarted;
     public Stat Status => _status;
 
-    public ushort Difficulty = 1;
+    public ushort Difficulty = 0;
     
     
     //낮인지 밤인지 구분하기 위한 맴버
@@ -63,7 +63,7 @@ public class GameCore
         if (IsMorning)
         {
             #region GameOverTrigger
-                if (!(ModifyHunger(-5 * Difficulty) && ModifyThirst(-5 * Difficulty)))
+                if (!(ModifyHunger(-1 * Difficulty) && ModifyThirst(-1 * Difficulty)))
                 {
                     EndGame();
                     result = false;

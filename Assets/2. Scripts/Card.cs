@@ -408,7 +408,8 @@ public class Card : Entity
                     if ((destroyTarget[0].ID == destroyTarget[1].ID) && destroyTarget[0].ID < 3000)
                     {
 
-                        var cardInstance = CardManager.CreateCard(level + 1, (int)cardType);
+                        var cardInstance = CardManager.CreateCard(level + 1, (int)cardType, true);
+                        Destroy(cardInstance.GetComponent<Animator>());
                         CardManager.DestroyCard(destroyTarget);
 
                         //cardInstance.transform.localScale = Vector3.one;

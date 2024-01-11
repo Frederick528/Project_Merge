@@ -11083,21 +11083,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b41c8937081165468f0c3a3564cdd4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  incounter1: {fileID: 0}
-  incounter2: {fileID: 0}
-  incounter3: {fileID: 0}
-  incounter4: {fileID: 0}
-  incounter5: {fileID: 0}
-  incounter6: {fileID: 0}
-  incounter7: {fileID: 0}
-  incounter8: {fileID: 0}
-  incounter9: {fileID: 0}
-  incounter10: {fileID: 0}
-  incounter11: {fileID: 0}
-  incounter12: {fileID: 0}
-  incounter13: {fileID: 0}
-  incounter14: {fileID: 0}
-  incounter15: {fileID: 0}
+  incounter1: {fileID: 2106481143}
+  incounter2: {fileID: 2106481143}
+  incounter3: {fileID: 2106481143}
+  incounter4: {fileID: 2106481143}
+  incounter5: {fileID: 2106481143}
+  incounter6: {fileID: 20314354}
+  incounter7: {fileID: 20314354}
+  incounter8: {fileID: 20314354}
+  incounter9: {fileID: 20314354}
+  incounter10: {fileID: 20314354}
+  incounter11: {fileID: 135258214}
+  incounter12: {fileID: 135258214}
+  incounter13: {fileID: 135258214}
+  incounter14: {fileID: 135258214}
+  incounter15: {fileID: 135258214}
 --- !u!4 &968088449
 Transform:
   m_ObjectHideFlags: 0
@@ -11150,12 +11150,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Day: {fileID: 319306495}
   Time: {fileID: 1580413369}
-  closebtn: {fileID: 0}
-  fixincounter0: {fileID: 0}
-  fixincounter1: {fileID: 0}
-  fixincounter2: {fileID: 0}
-  fixincounter3_1: {fileID: 0}
-  fixincounter3_2: {fileID: 0}
+  closebtn: {fileID: 1207350718}
+  fixincounter0: {fileID: 1642924873}
+  fixincounter1: {fileID: 367628804}
+  fixincounter2: {fileID: 1397853625}
+  fixincounter3_1: {fileID: 1497690477}
+  fixincounter3_2: {fileID: 1516380285}
   blockUI: {fileID: 1022413568}
   nextBtn: {fileID: 971129215}
 --- !u!114 &971129215
@@ -13067,10 +13067,10 @@ MonoBehaviour:
   result1: {fileID: 0}
   result2: {fileID: 0}
   result3: {fileID: 0}
-  blockUI: {fileID: 0}
+  blockUI: {fileID: 1022413568}
   closebtn: {fileID: 1207350718}
   openbtn: {fileID: 1500117467}
-  nextBtn: {fileID: 0}
+  nextBtn: {fileID: 971129215}
 --- !u!114 &1207350721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16179,10 +16179,10 @@ MonoBehaviour:
   result1: {fileID: 0}
   result2: {fileID: 0}
   result3: {fileID: 0}
-  blockUI: {fileID: 0}
+  blockUI: {fileID: 1022413568}
   closebtn: {fileID: 1207350718}
   openbtn: {fileID: 1500117467}
-  nextBtn: {fileID: 0}
+  nextBtn: {fileID: 971129215}
 --- !u!114 &1500117469
 MonoBehaviour:
   m_ObjectHideFlags: 0

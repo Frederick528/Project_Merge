@@ -48,11 +48,7 @@ public class Turn : MonoBehaviour
         else if (count % 4 == 3)
         {
             Time.text = "새벽".ToString();
-            FixIncounter();
-            GameManager.CardCanvasOn = true;
-            blockUI.SetActive(true);
-            nextBtn.interactable = false;
-            closebtn.SetActive(true);
+            InCounter();
         }
     }
 
@@ -99,5 +95,14 @@ public class Turn : MonoBehaviour
             RandomEvent.SpawnPlay();
             //inCounterNum = RandomEvent.
         }
+    }
+
+    void InCounter()
+    {
+        FixIncounter();
+        GameManager.CardCanvasOn = true;
+        blockUI.SetActive(true);
+        nextBtn.interactable = false;
+        closebtn.SetActive(true);
     }
 }

@@ -21,7 +21,16 @@ public class CoreController : MonoBehaviour
 
     public static float Difficulty;
 
+    public static int bearFlag = 0;
+
+    public static bool IsDawn => _core.IsDawn;
+    public static bool IsMorning => _core.IsMorning;
+    public static bool IsDayTime => _core.IsDayTime;
     public static bool IsNightTime => _core.IsNightTime;
+
+    public static string Time => $"{_core.Date + 1} 일차 " + (IsDawn ? "새벽" : IsDayTime ? "점심" : IsMorning ? "아침" : "저녁") ;
+    
+    public Image Clock;
     public Light Light;
     public GameObject Notice;
     public TMP_Text Hungriness;
@@ -107,7 +116,6 @@ public class CoreController : MonoBehaviour
         {
             _core.Difficulty = (ushort)(1 * (Date+1));
             Difficulty = _core.Difficulty;
-            BearManager.Notice("새벽이 밝았습니다!");
             //EncounterManager.Occur();
         }
         else if (_core.IsMorning)
@@ -115,25 +123,17 @@ public class CoreController : MonoBehaviour
             _core.Difficulty = 0;
             Difficulty = _core.Difficulty;
             CardManager.ExpirationDateCheck();
-            BearManager.Notice("좋은 아침을 맞이하라!");
         }
-
         if (_core.IsDayTime)
         {
-            if (Random.Range(0, 10) > 3 || _core.Date == 1)
-            {
-                BearManager.Dispense();
-            }
-            else
-            {
-                BearManager.Notice("나잇타임... 데이타임!");
-            }
+            bearFlag = Random.Range(0, 10);
         }
         else if (_core.IsNightTime)
         {
-            BearManager.Notice("황혼이 저뭅니다!");
             BearManager.BearLeave();
         }
+        
+        _instance.Clock.gameObject.SetActive(true);
     }
     private void OnDestroy()
     {

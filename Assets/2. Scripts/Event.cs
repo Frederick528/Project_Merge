@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Event : MonoBehaviour
 {
-    public GameObject incounter,fixincounter, result1, result2,result3, blockUI, closebtn, openbtn;
+    public GameObject incounter, fixincounter, result1, result2, result3, blockUI, closebtn, openbtn;
 
     [SerializeField]
     Button nextBtn;
@@ -20,7 +20,7 @@ public class Event : MonoBehaviour
     }
 
     public void Result2()
-    { 
+    {
         //incounter.SetActive(false);
         result2.SetActive(true);
     }
@@ -56,7 +56,7 @@ public class Event : MonoBehaviour
         GameManager.CardCanvasOn = false;
     }
 
-    public void IncounterOpen() 
+    public void IncounterOpen()
     {
         incounter.SetActive(true);
         fixincounter.SetActive(true);

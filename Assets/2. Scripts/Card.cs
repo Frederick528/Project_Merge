@@ -32,7 +32,6 @@ public class Card : Entity
     private void OnEnable()
     {
         var a = this.GetComponent<Animator>();
-        a.SetTrigger("Enter");
         //Destroy(a);
     }
 
@@ -445,6 +444,10 @@ public class Card : Entity
     {
         var a = this.GetComponent<Animator>();
         Destroy(a);
+        
+        Debug.Log(transform.position.x);
+        Debug.Log(transform.position.y);
+        Debug.Log(transform.position.z);
     }
 
     //카드 분해 기능

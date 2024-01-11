@@ -61,18 +61,27 @@ public class CameraCtrl : MonoBehaviour
         Move();
         Zoom();
 
+        if (CoroutineInstance != null) return;
+        
         //float lx = (mapSize.x - width) * 1/mainCamera.fieldOfView;
-        float lx = confineX[mainCamera.fieldOfView];
-        float clampX = Mathf.Clamp(transform.position.x, -lx, lx);
+        try
+        {
+            float lx = confineX[mainCamera.fieldOfView];
+            float clampX = Mathf.Clamp(transform.position.x, -lx, lx);
 
-        //float ly = mapSize.y - height;
-        //float clampY = Mathf.Clamp(transform.position.y, -ly + center.y, ly + center.y);
+            //float ly = mapSize.y - height;
+            //float clampY = Mathf.Clamp(transform.position.y, -ly + center.y, ly + center.y);
 
-        //float lz = (mapSize.z - height) * 1/mainCamera.fieldOfView;
-        float lz = confineZ[mainCamera.fieldOfView];
-        float clampz = Mathf.Clamp(transform.position.z, -lz, lz);
+            //float lz = (mapSize.z - height) * 1/mainCamera.fieldOfView;
+            float lz = confineZ[mainCamera.fieldOfView];
+            float clampz = Mathf.Clamp(transform.position.z, -lz, lz);
 
-        transform.position = new Vector3(clampX, transform.position.y, clampz);
+            transform.position = new Vector3(clampX, transform.position.y, clampz);
+        }
+        catch
+        {
+            return;
+        }
     }
 
     private void Zoom()
@@ -139,6 +148,37 @@ public class CameraCtrl : MonoBehaviour
 
         //    transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime);
         //}
+    }
+
+    public static Coroutine CoroutineInstance;
+
+    public static void MoveToLerp(Vector3 targetPos, int fieldOfView)
+    {
+        if (CoroutineInstance == null && Vector3.Distance(Camera.main.transform.position, targetPos) >= 1f)
+            CoroutineInstance = GameManager.Instance.StartCoroutine(MoveTo(targetPos, fieldOfView));
+    }
+    
+    static IEnumerator MoveTo(Vector3 targetPos, int fieldOfView)
+    {
+        while (true)
+        {
+            Camera.main.transform.position =
+                Vector3.Lerp(Camera.main.transform.position, targetPos, 0.4f);
+            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, fieldOfView, 0.4f); 
+
+            if (Vector3.Distance(Camera.main.transform.position, targetPos) <= 1f)
+            {
+                Camera.main.transform.position = targetPos;
+                Camera.main.fieldOfView = fieldOfView;
+                CoroutineInstance = null;
+                break;
+            }
+
+            yield return new WaitForSeconds(0.02f);
+        }
+
+        CoroutineInstance = null;
+        yield return null;
     }
 
 }

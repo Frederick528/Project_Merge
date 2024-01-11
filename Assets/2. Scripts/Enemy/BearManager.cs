@@ -58,12 +58,12 @@ public class BearManager : MonoBehaviour
                     Debug.Log("곰 출현!");
                 }
                 
-                Camera.main.transform.position = new Vector3()
+                CameraCtrl.MoveToLerp(new Vector3()
                 {
                     x = _crntBearRef.transform.position.x,
                     y = Camera.main.transform.position.y,
                     z = _crntBearRef.transform.position.z
-                };
+                }, 50);
 
                 global::Notice.Dispose();
 

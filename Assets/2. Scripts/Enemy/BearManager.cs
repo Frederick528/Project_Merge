@@ -2,11 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using IEnumerable = System.Collections.IEnumerable;
@@ -17,23 +14,16 @@ public class BearManager : MonoBehaviour
     private static List<Bear> _bears = new ();
     private static BearManager _instance;
     private static Bear _crntBearRef;
-    private static bool notice; 
 
     public static List<Bear> Bears => _bears;
     public static BearManager Instance => _instance;
-    public static Button _turnSkip;
-
-    public static int Count => _bears.Count;
-    
 
     public Canvas bearApear;
-    public Button turnChanger;
 
     private void Awake()
     {
         _bearPrefab ??= Resources.Load<GameObject>("Prefabs/Enemy/Bear");
         _instance ??= this;
-        _turnSkip = turnChanger;
     }
 
     public static void Dispense(int count)
@@ -41,37 +31,52 @@ public class BearManager : MonoBehaviour
         if (Instance.Equals(null))
             throw new Exception("BearManager 가 없습니다.");
             
-        global::Notice.isImportant = true;
         _bearPrefab ??= Resources.Load<GameObject>("Prefabs/Enemy/Bear");
         
-        var flag = Notice("곰이 나타났다!\n\n파란 카드를 사용해 막아보자",
-            () =>
+        for (int i = 0; i < count; i++)
+        {
+            Debug.Log("곰 출현!");
+            var bearInstance = Instantiate(_bearPrefab, Instance.transform).GetComponent<Bear>();
+            bearInstance.transform.position = Vector3.left * 160;
+            bearInstance.Init();
+            _crntBearRef = bearInstance;
+            _bears.Add(bearInstance);
+        }
+
+        // 프리팹이 생성 되어있는지 확인 후 안 되어 있으면 새로 생성
+        Instance.bearApear =
+            !Instance.bearApear.gameObject.activeInHierarchy ?
+                Instantiate(Instance.bearApear).GetComponent<Canvas>() :
+                Instance.bearApear;
+        
+        foreach (Transform child in Instance.bearApear.transform)
+        {
+            if (child.TryGetComponent(out Image image))
             {
-                for (int i = 0; i < count; i++)
+                if (child.TryGetComponent(out Button comp))
                 {
-                    var bearInstance = Instantiate(_bearPrefab, Instance.transform).GetComponent<Bear>();
-                    bearInstance.transform.position = Vector3.left * 160;
-                    bearInstance.Init();
-                    _crntBearRef = bearInstance;
-                    _bears.Add(bearInstance);
-                    
-                    Debug.Log("곰 출현!");
+                    comp.onClick.RemoveAllListeners();
+                }
+                else
+                {
+                    comp = image.AddComponent<Button>();
                 }
                 
-                Camera.main.transform.position = new Vector3()
+                comp.onClick.AddListener(() =>
                 {
-                    x = _crntBearRef.transform.position.x,
-                    y = Camera.main.transform.position.y,
-                    z = _crntBearRef.transform.position.z
-                };
+                    Camera.main.transform.position = new Vector3()
+                    {
+                        x = _crntBearRef.transform.position.x,
+                        y = Camera.main.transform.position.y,
+                        z = _crntBearRef.transform.position.z
+                    };
 
-                global::Notice.Dispose();
-
+                    Instance.bearApear.gameObject.SetActive(false);
+                });
             }
-        );
+        }
         
-        if(!flag)
-            Debug.Log("Failed to Notice");
+        Instance.bearApear.gameObject.SetActive(true);
     }
 
     public static void Dispense()
@@ -105,6 +110,7 @@ public class BearManager : MonoBehaviour
             Debug.Log(e);
         }
     }
+<<<<<<< HEAD
 
     public static bool Notice(string msg)
     {
@@ -146,11 +152,11 @@ public class BearManager : MonoBehaviour
             {
                 btn = image.AddComponent<Button>();
             }
-            
+
+            btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(() =>
             {
                 onClickEvt();
-                btn.onClick.RemoveAllListeners();
             });
             
         }
@@ -175,4 +181,6 @@ public class BearManager : MonoBehaviour
             
         }
     }
+=======
+>>>>>>> parent of ece03ec (Merge branch 'main' into Taein)
 }

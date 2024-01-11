@@ -8,9 +8,7 @@ public class SliderUI : MonoBehaviour
 {
     PlayerCtrl playerCtrl;
     public Slider hungerSlider;
-    public Slider changeHungerSlider;
     public Slider thirstSlider;
-    public Slider changeThirstSlider;
     // Start is called before the first frame update
 
     void Start()
@@ -23,22 +21,7 @@ public class SliderUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        try
-        {
-            hungerSlider.value = playerCtrl.stat.curHunger;
-            thirstSlider.value = playerCtrl.stat.curThirst;
-            changeHungerSlider.value = playerCtrl.stat.curHunger - CoreController.Difficulty;
-            changeThirstSlider.value = playerCtrl.stat.curThirst - CoreController.Difficulty;
-        }
-        catch
-        {
-            return;
-        }
-        finally
-        {
-            hungerSlider.value = playerCtrl.stat.curHunger;
-            thirstSlider.value = playerCtrl.stat.curThirst;
-            
-        }
+        hungerSlider.value = playerCtrl.stat.curHunger;
+        thirstSlider.value = playerCtrl.stat.curThirst;
     }
 }

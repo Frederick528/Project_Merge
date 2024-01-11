@@ -16,8 +16,12 @@ public class MouseRightClick : MonoBehaviour
     [SerializeField]
     Button cardDecompositionBtn;
 
-    [SerializeField]
-    Transform effectUICanvas;
+    Stat stat;
+
+    private void Start()
+    {
+        stat = StatManager.instance.playerCtrl.stat;
+    }
 
     void Update()
     {
@@ -60,15 +64,21 @@ public class MouseRightClick : MonoBehaviour
                 cardEatBtn.onClick.RemoveAllListeners();
                 cardEatBtn.onClick.AddListener(() =>
                 {
+<<<<<<< HEAD
                     if (cardContents.transform.parent.TryGetComponent(out CardGroup cardGroup))
                         CardManager.DestroyCard(cardGroup.RemoveCard(cardContents));
                     else
+                    {
                         CardManager.DestroyCard(cardContents);
+                    }
                     //Destroy(hit.collider.gameObject);
+=======
+                    stat.curHunger = ((stat.curHunger + cardData.Hunger) > stat.maxHunger) ? stat.maxHunger : stat.curHunger + cardData.Hunger;
+                    stat.curThirst = ((stat.curThirst + cardData.Thirst) > stat.maxThirst) ? stat.maxThirst : stat.curThirst + cardData.Thirst;
+                    CardManager.DestroyCard(cardContents);
+
+>>>>>>> parent of ece03ec (Merge branch 'main' into Taein)
                     CanvasClose();
-                    EffectManager.instance.eatCardImg = cardImage.sprite;
-                    EffectManager.instance.cardContents = cardContents;
-                    GameObject eatCard = Instantiate(Resources.Load<GameObject>("Prefabs/Effect/EatCardEffect"), effectUICanvas);
                 });
             }
             else
@@ -86,12 +96,8 @@ public class MouseRightClick : MonoBehaviour
                 cardDecompositionBtn.onClick.RemoveAllListeners();
                 cardDecompositionBtn.onClick.AddListener(() =>
                 {
+                    print(cardContents.ID);
                     cardContents.OnDecomposition(out Card[] cards);
-                    CardManager.DestroyCard(cardContents);
-                    //if (cardContents.transform.parent.TryGetComponent(out CardGroup cardGroup))
-                    //    CardManager.DestroyCard(cardGroup.RemoveCard(cardContents));
-                    //else
-                    //    CardManager.DestroyCard(cardContents);
                     CanvasClose();
                 });
             }
@@ -101,12 +107,6 @@ public class MouseRightClick : MonoBehaviour
             canvas.SetActive(true);
         }
     }
-
-    //IEnumerator EatCard()
-    //{
-
-    //}
-
     //if (input.getmousebuttondown(1))
     //{
 
@@ -121,12 +121,12 @@ public class MouseRightClick : MonoBehaviour
     //        moveobjecttotargetposition(hit.transform.gameobject);
     //    }
     //}
+}
     //void MoveObjectToTargetPosition(GameObject objToMove)
     //{
     //    objToMove.transform.position = targetPosition;
         
     //}
-}
 
 
 

@@ -13,7 +13,7 @@ public class Bear : MonoBehaviour
     private Animator _anim;
     private Rigidbody _rigid;
     private Vector3 _targetPos = default;
-    private float _spd = 3260f;
+    private float _spd;
     private bool _isMovable = true;
     
     [SerializeField]
@@ -48,15 +48,12 @@ public class Bear : MonoBehaviour
                 y = 0,
                 z = Target.transform.position.z,
             };
-
-            transform.LookAt(_targetPos); 
             
             if (_isMovable)
             {
-               //this.transform.LookAt(Vector3.Lerp(this.transform.position, ));
+                this.transform.LookAt(_targetPos);
                 if (Vector3.Distance(this.transform.position, _targetPos) > 10f)
-                    transform.position = Vector3.MoveTowards(this.transform.position, _targetPos,
-                        Time.deltaTime * _spd * 20);
+                    transform.position = Vector3.MoveTowards(this.transform.position, _targetPos, 0.05f * _spd);
             }
         }
         catch (Exception e)
@@ -92,8 +89,7 @@ public class Bear : MonoBehaviour
         StartCoroutine(SetTarget());
         StartCoroutine(AnimationController());
 
-        //_hitPoint = CoreController.TurnCnt + 1;
-        _hitPoint = 1;
+        _hitPoint = CoreController.TurnCnt + 1;
     }
 
     private bool SetTarget(out Card target)
@@ -208,15 +204,17 @@ public class Bear : MonoBehaviour
         
         t.Start();
     }
+
     public void Die()
     {
         Destroy(this.gameObject);
     }
+        
     //=============================================
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.TryGetComponent(out Card card) && other.transform.position.y > this.transform.position.y + 0.3f)
+        if (other.gameObject.TryGetComponent(out Card card) && other.transform.position.y > this.transform.position.y + 0.2f)
         {
             if (card.ID > 2000)
             {
@@ -228,11 +226,6 @@ public class Bear : MonoBehaviour
                 CardManager.DestroyCard(card);
             }
         }
-    }
-
-    private void OnDestroy()
-    {
-        BearManager.RemoveBear(this);
     }
 
     private void OnDead()
@@ -248,18 +241,8 @@ public class Bear : MonoBehaviour
             BearManager.Instance.bearApear.gameObject.SetActive(false);
     }
 
-    public bool Leave()
+    public void Leave()
     {
-        var result = true;
-        try
-        {
-            Destroy(this.gameObject);
-        }
-        catch (Exception e)
-        {
-            result = false;
-        }
-
-        return result;
+        Destroy(this.gameObject);
     }
 }

@@ -28,6 +28,14 @@ public class Card : Entity
     public CardType cardType;
     public int ID;
     // Start is called before the first frame update
+
+    private void OnEnable()
+    {
+        var a = this.GetComponent<Animator>();
+        a.SetTrigger("Enter");
+        //Destroy(a);
+    }
+
     public void Init(int level)
     {
         base.Init(level);
@@ -339,7 +347,8 @@ public class Card : Entity
                         cardGroup[0].RemoveCard(card, false);
                         cardGroup[1].AddCard(card);
                     }
-                    Destroy(cardGroup[0]);
+                    Debug.Log(true);
+                    Destroy(cardGroup[0].gameObject);
                 }
                 else
                 {
@@ -396,7 +405,6 @@ public class Card : Entity
             {    
                 if (t2.transform.position.z > refZMin && t2.transform.position.z < refZMax)
                 {
-                    Debug.Log(true);
                     //병합 분기
                     if ((destroyTarget[0].ID == destroyTarget[1].ID) && destroyTarget[0].ID < 3000)
                     {
@@ -431,6 +439,12 @@ public class Card : Entity
             result = false;
         
         return result;
+    }
+
+    public void AnimEvt()
+    {
+        var a = this.GetComponent<Animator>();
+        Destroy(a);
     }
 
     //카드 분해 기능

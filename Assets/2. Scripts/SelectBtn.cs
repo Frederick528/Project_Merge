@@ -6,6 +6,7 @@ public class SelectBtn : MonoBehaviour
 {
     public TextController textController; // TextController 스크립트 참조
     public GameObject selectBtn1, selectBtn2;
+    public Quest quest;
 
 
     public void Select1()
@@ -51,5 +52,26 @@ public class SelectBtn : MonoBehaviour
         textController.isWaitingForInput = true;
         selectBtn1.SetActive(false);
         selectBtn2.SetActive(false);
+    }
+
+    public void Guied1() 
+    {
+        quest.Click1();
+    }
+    public void Guied2()
+    {
+        quest.Click2();
+    }
+    public void Guied3()
+    {
+        quest.Click3();
+    }
+    public void Guied4()
+    { 
+        quest.Click4();
+    }
+    public void Guied5()
+    {
+        quest.Click5();
     }
 }

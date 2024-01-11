@@ -19,14 +19,14 @@ public class GameCore
     public bool IsGameStarted => _isGameStarted;
     public Stat Status => _status;
 
-    public ushort Difficulty = 1;
+    public ushort Difficulty = 0;
     
     
     //낮인지 밤인지 구분하기 위한 맴버
-    public bool IsMorning => _turnCnt % 4 == (int)TimeStatus.Morning ? true : false;
-    public bool IsDayTime => _turnCnt % 4 == (int)TimeStatus.Day ? true : false;
-    public bool IsNightTime => _turnCnt % 4 == (int)TimeStatus.Night ? true : false;
-    public bool IsDawn => _turnCnt % 4 == (int)TimeStatus.Dawn ? true : false;
+    public bool IsMorning => _turnCnt % 4 == (int)TimeStatus.Morning;
+    public bool IsDayTime => _turnCnt % 4 == (int)TimeStatus.Day;
+    public bool IsNightTime => _turnCnt % 4 == (int)TimeStatus.Night;
+    public bool IsDawn => _turnCnt % 4 == (int)TimeStatus.Dawn;
     
     public void InitGame()
     {
@@ -46,6 +46,8 @@ public class GameCore
         if (!_isGameStarted)
             throw new Exception("The Game is not Started");
         _isGameStarted = false;
+
+        CardManager.DestroyCard(CardManager.Cards);
         
         Debug.Log("게임 오버");
     }
@@ -61,7 +63,7 @@ public class GameCore
         if (IsMorning)
         {
             #region GameOverTrigger
-                if (!(ModifyHunger(-5 * Difficulty) && ModifyThirst(-5 * Difficulty)))
+                if (!(ModifyHunger(-1 * Difficulty) && ModifyThirst(-1 * Difficulty)))
                 {
                     EndGame();
                     result = false;

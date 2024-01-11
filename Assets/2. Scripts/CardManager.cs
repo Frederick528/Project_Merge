@@ -15,6 +15,8 @@ public class CardManager : MonoBehaviour
     public static CardManager Instance;
     public static GameObject[] Areas; // 0 - Merge | 1 - Export | 2 - Sort
     public static List<Card> Cards => _cards;
+    
+    public GameObject FoodTimeOutEffect;
 
     // Start is called before the first frame update
     private void Awake()
@@ -111,11 +113,10 @@ public class CardManager : MonoBehaviour
             if (!card.Lapse())
             {
                 deleteQueue.Enqueue(card);
+                FoodTimeOutManager.Show(card);
                 Debug.Log("유통기한이 만료되어 파괴 되었습니다.");
             }
         }
-
-        DestroyCard(deleteQueue);
     }
 
     public static void SortCard()

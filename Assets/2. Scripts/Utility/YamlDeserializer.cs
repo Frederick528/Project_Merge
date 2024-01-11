@@ -51,8 +51,29 @@ public class YamlDeserializer
                 
             
             Debug.Log(Application.persistentDataPath);
+            Debug.Log(saveData.dict.Count);
 
-            stream = File.Create(path);
+            Serialize(path , saveData);
+            stream = File.OpenRead(path);
+            
+        }
+        else if (saveData.dict.Count == 0)
+        {
+            Debug.Log(true);
+            var v =
+                from key in CardDataDeserializer.Keys
+                select new KeyValuePair<int, bool>(key, false);
+            
+            foreach (var keyValuePair in v)
+            {
+                saveData.dict.Add(keyValuePair.Key, keyValuePair.Value);
+            }
+                
+            
+            Debug.Log(Application.persistentDataPath);
+
+            Serialize(path , saveData);
+            stream = File.OpenRead(path);
         }
         else
         {

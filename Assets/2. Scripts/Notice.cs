@@ -11,6 +11,7 @@ public class Notice : MonoBehaviour
 
     public GameObject Siren;
     
+    
     private void OnEnable()
     {
         _anim ??= GetComponent<Animator>();

@@ -228,6 +228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Siren: {fileID: 1910292285689442112}
+  Clock: {fileID: 0}
 --- !u!95 &5549781717070864052
 Animator:
   serializedVersion: 5

@@ -32,6 +32,7 @@ public class Card : Entity
     private void OnEnable()
     {
         var a = this.GetComponent<Animator>();
+        CardManager.Instance.sortBtn.interactable = false;
         //Destroy(a);
     }
 
@@ -444,11 +445,8 @@ public class Card : Entity
     public void AnimEvt()
     {
         var a = this.GetComponent<Animator>();
+        CardManager.Instance.sortBtn.interactable = true;
         Destroy(a);
-        
-        Debug.Log(transform.position.x);
-        Debug.Log(transform.position.y);
-        Debug.Log(transform.position.z);
     }
 
     //카드 분해 기능
@@ -467,5 +465,27 @@ public class Card : Entity
         v[1] = CardManager.CreateCard(this.level - 1, Random.Range(0, 4));
         
         createdCards = v;
+    }
+
+    public static void MoveToLerp(GameObject targetObj, Vector3 targetPos)
+    {
+        GameManager.Instance.StartCoroutine(Move(targetObj, targetPos));
+    }
+    static IEnumerator Move(GameObject targetObj, Vector3 targetPos)
+    {
+        while (true)
+        {
+            targetObj.transform.position =
+                Vector3.Lerp(targetObj.transform.position, targetPos, 0.4f); 
+
+            if (Vector3.Distance(targetObj.transform.position, targetPos) <= 1f)
+            {
+                targetObj.transform.position = targetPos;
+                break;
+            }
+
+            yield return new WaitForSeconds(0.02f);
+        }
+        yield return null;
     }
 }

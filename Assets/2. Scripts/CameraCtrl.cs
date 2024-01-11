@@ -111,6 +111,7 @@ public class CameraCtrl : MonoBehaviour
 
     private void Move()
     {
+        if (CoroutineInstance != null) return;
         if (Input.mousePosition.y > screenUp)
         {
             Vector3 pos = transform.position;
@@ -158,6 +159,12 @@ public class CameraCtrl : MonoBehaviour
             CoroutineInstance = GameManager.Instance.StartCoroutine(MoveTo(targetPos, fieldOfView));
     }
     
+    public static void MoveToFollow(Transform targetTransform, int fieldOfView)
+    {
+        if (CoroutineInstance == null && Vector3.Distance(Camera.main.transform.position, targetTransform.position) >= 1f)
+            CoroutineInstance = GameManager.Instance.StartCoroutine(MoveTo(targetTransform, fieldOfView));
+    }
+    
     static IEnumerator MoveTo(Vector3 targetPos, int fieldOfView)
     {
         while (true)
@@ -174,6 +181,40 @@ public class CameraCtrl : MonoBehaviour
                 break;
             }
 
+            yield return new WaitForSeconds(0.02f);
+        }
+
+        CoroutineInstance = null;
+        yield return null;
+    }
+    static IEnumerator MoveTo(Transform targetTransform, int fieldOfView)
+    {
+        BearManager.Instance.bearInfo.gameObject.SetActive(true);
+        while (true)
+        {
+            try
+            {
+                var targetPos = new Vector3()
+                {
+                    x = targetTransform.position.x,
+                    y = Camera.main.transform.position.y,
+                    z = targetTransform.position.z
+                };
+                Camera.main.transform.position =
+                    Vector3.Lerp(Camera.main.transform.position, targetPos, 0.4f);
+                Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, fieldOfView, 0.4f);
+
+                if (Input.GetMouseButton(1))
+                {
+                    BearManager.Instance.bearInfo.gameObject.SetActive(false);
+                    CoroutineInstance = null;
+                    break;
+                }
+            }
+            catch
+            {
+                break;
+            }
             yield return new WaitForSeconds(0.02f);
         }
 

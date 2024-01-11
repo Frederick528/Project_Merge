@@ -36362,6 +36362,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bearApear: {fileID: 2314483676211848445, guid: 85e9060802cab5543b49dc9e0d21ce26, type: 3}
+  bearInfo: {fileID: 0}
   turnChanger: {fileID: 971129215}
 --- !u!1 &1781220952
 GameObject:

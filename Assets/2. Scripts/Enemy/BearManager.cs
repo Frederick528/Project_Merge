@@ -27,6 +27,7 @@ public class BearManager : MonoBehaviour
     
 
     public Canvas bearApear;
+    public Canvas bearInfo;
     public Button turnChanger;
 
     private void Awake()
@@ -34,6 +35,11 @@ public class BearManager : MonoBehaviour
         _bearPrefab ??= Resources.Load<GameObject>("Prefabs/Enemy/Bear");
         _instance ??= this;
         _turnSkip = turnChanger;
+
+        var v = Resources.Load<GameObject>("Prefabs/Enemy/Canvas");
+        v = Instantiate(v);
+        v.SetActive(false);
+        bearInfo = v.GetComponent<Canvas>();
     }
 
     public static void Dispense(int count)
@@ -57,13 +63,8 @@ public class BearManager : MonoBehaviour
                     
                     Debug.Log("곰 출현!");
                 }
-                
-                CameraCtrl.MoveToLerp(new Vector3()
-                {
-                    x = _crntBearRef.transform.position.x,
-                    y = Camera.main.transform.position.y,
-                    z = _crntBearRef.transform.position.z
-                }, 50);
+               
+                CameraCtrl.MoveToFollow(_crntBearRef.transform, 50);
 
                 global::Notice.Dispose();
 

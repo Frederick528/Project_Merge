@@ -16,6 +16,7 @@ public class Clock : MonoBehaviour
     {
         GetComponentInChildren<TMP_Text>().text = CoreController.Time ;
         anim ??= GetComponent<Animator>();
+        BearManager._turnSkip.interactable = false;
         
         if (CoreController.IsDawn)
         {

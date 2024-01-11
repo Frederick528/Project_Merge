@@ -6,6 +6,7 @@ using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class CardManager : MonoBehaviour
@@ -16,6 +17,7 @@ public class CardManager : MonoBehaviour
     public static CardManager Instance;
     public static GameObject[] Areas; // 0 - Merge | 1 - Export | 2 - Sort
     public static List<Card> Cards => _cards;
+    public Button sortBtn;
 
     public GameObject newerCardEffect;
 
@@ -23,6 +25,7 @@ public class CardManager : MonoBehaviour
     private void Awake()
     {
         Instance ??= this;
+        sortBtn = GameObject.Find("Sort").GetComponent<Button>();
     }
 
     void Start()
@@ -162,9 +165,12 @@ public class CardManager : MonoBehaviour
                 while (true)
                 {
                     if (cardGroup.RemoveCard(0) == null) break;
-                    if (cardGroup.Count <= 2)
+                    if (cardGroup.Count <= 2 )
                     {
-                        cardGroup.RemoveCard(0);
+                        if(cardGroup.Count == 0)
+                            Destroy(cardGroup);
+                        else
+                            cardGroup.RemoveCard(0);
                         break;
                     }
                 }
@@ -190,6 +196,7 @@ public class CardManager : MonoBehaviour
         for (var i = 0 ; i < idList.Count(); i++)
         {
             var id = idList.ElementAt(i);
+            var tPos =  margin * (i % 5) + Vector3.back * (row * 25) + Vector3.up;
             var v = _cards.Where(x => x.ID == id).Select(x => x);
             //2장 이상 있을 때 
             if (v.Count() != 1)
@@ -201,7 +208,7 @@ public class CardManager : MonoBehaviour
                     cardGroup = temp.AddComponent<CardGroup>();
                 }
                 
-                cardGroup.transform.position = margin * (i % 5) + Vector3.back * (row * 25) + Vector3.up;
+                Card.MoveToLerp(cardGroup.gameObject, tPos);
                 
                 foreach (var card in v)
                 {
@@ -212,7 +219,8 @@ public class CardManager : MonoBehaviour
             }
             else
             {
-                v.ElementAt(0).transform.position = margin * (i % 5) + Vector3.back * (row * 25)  +  Vector3.up;
+                
+                Card.MoveToLerp(v.ElementAt(0).gameObject, tPos);
             }
 
             if ((i + 1) % 5 == 0 && i != 0)

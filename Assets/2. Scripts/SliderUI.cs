@@ -23,9 +23,22 @@ public class SliderUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        hungerSlider.value = playerCtrl.stat.curHunger;
-        changeHungerSlider.value = playerCtrl.stat.curHunger - CoreController.Difficulty;
-        thirstSlider.value = playerCtrl.stat.curThirst;
-        changeThirstSlider.value = playerCtrl.stat.curThirst - CoreController.Difficulty;
+        try
+        {
+            hungerSlider.value = playerCtrl.stat.curHunger;
+            thirstSlider.value = playerCtrl.stat.curThirst;
+            changeHungerSlider.value = playerCtrl.stat.curHunger - CoreController.Difficulty;
+            changeThirstSlider.value = playerCtrl.stat.curThirst - CoreController.Difficulty;
+        }
+        catch
+        {
+            return;
+        }
+        finally
+        {
+            hungerSlider.value = playerCtrl.stat.curHunger;
+            thirstSlider.value = playerCtrl.stat.curThirst;
+            
+        }
     }
 }

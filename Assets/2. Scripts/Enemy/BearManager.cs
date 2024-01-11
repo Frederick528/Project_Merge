@@ -2,9 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using IEnumerable = System.Collections.IEnumerable;
@@ -15,6 +17,7 @@ public class BearManager : MonoBehaviour
     private static List<Bear> _bears = new ();
     private static BearManager _instance;
     private static Bear _crntBearRef;
+    private static bool notice; 
 
     public static List<Bear> Bears => _bears;
     public static BearManager Instance => _instance;
@@ -35,53 +38,30 @@ public class BearManager : MonoBehaviour
             
         _bearPrefab ??= Resources.Load<GameObject>("Prefabs/Enemy/Bear");
         
-        
-
-        // 프리팹이 생성 되어있는지 확인 후 안 되어 있으면 새로 생성
-        Instance.bearApear =
-            !Instance.bearApear.gameObject.activeInHierarchy ?
-                Instantiate(Instance.bearApear).GetComponent<Canvas>() :
-                Instance.bearApear;
-        
-        foreach (Transform child in Instance.bearApear.transform)
+        Notice("곰이 나타났다!\n\n파란 카드를 사용해 막아보자", () =>
         {
-            if (child.TryGetComponent(out Image image))
+            for (int i = 0; i < count; i++)
             {
-                if (child.TryGetComponent(out Button comp))
-                {
-                    comp.onClick.RemoveAllListeners();
-                }
-                else
-                {
-                    comp = image.AddComponent<Button>();
-                }
+                var bearInstance = Instantiate(_bearPrefab, Instance.transform).GetComponent<Bear>();
+                bearInstance.transform.position = Vector3.left * 160;
+                bearInstance.Init();
+                _crntBearRef = bearInstance;
+                _bears.Add(bearInstance);
                 
-                comp.onClick.AddListener(() =>
-                {
-                    for (int i = 0; i < count; i++)
-                    {
-                        var bearInstance = Instantiate(_bearPrefab, Instance.transform).GetComponent<Bear>();
-                        bearInstance.transform.position = Vector3.left * 160;
-                        bearInstance.Init();
-                        _crntBearRef = bearInstance;
-                        _bears.Add(bearInstance);
-                        
-                        Debug.Log("곰 출현!");
-                    }
-                    
-                    Camera.main.transform.position = new Vector3()
-                    {
-                        x = _crntBearRef.transform.position.x,
-                        y = Camera.main.transform.position.y,
-                        z = _crntBearRef.transform.position.z
-                    };
-
-                    Instance.bearApear.gameObject.SetActive(false);
-                    
-                    
-                });
+                Debug.Log("곰 출현!");
             }
-        }
+            
+            Camera.main.transform.position = new Vector3()
+            {
+                x = _crntBearRef.transform.position.x,
+                y = Camera.main.transform.position.y,
+                z = _crntBearRef.transform.position.z
+            };
+
+            global::Notice.Dispose();
+
+
+        });
         
         Instance.bearApear.gameObject.SetActive(true);
     }
@@ -118,35 +98,49 @@ public class BearManager : MonoBehaviour
         }
     }
 
-    public static void Notice(string msg)
+    public static bool Notice(string msg)
     {
-        Instance.bearApear =
-            !Instance.bearApear.gameObject.activeInHierarchy ?
-                Instantiate(Instance.bearApear).GetComponent<Canvas>() :
-                Instance.bearApear;
+        return Notice(msg, () => { global::Notice.Dispose(); });
+    }
+    
+    
+    public static bool Notice(string msg, Action onClickEvt)
+    {
+        if (notice) return false;
+        notice = true;
+        var result = true;
         
-        Instance.bearApear.gameObject.SetActive(true);
-
-        foreach (Transform child in Instance.bearApear.transform)
+        if (Instance.bearApear.gameObject is { activeInHierarchy: false, activeSelf: true } )
         {
-            if (child.TryGetComponent(out TMP_Text textField))
-                textField.text = msg;
-            else if (child.TryGetComponent(out Image image))
-            {
-                if (child.TryGetComponent(out Button btn))
-                {
-                    btn.onClick.RemoveAllListeners();
-                }
-                else
-                {
-                    btn = child.AddComponent<Button>();
-                }
-                
-                btn.onClick.AddListener(() =>
-                {
-                    Instance.bearApear.gameObject.SetActive(false);
-                });
-            }
+            Instance.bearApear =
+                Instantiate(Instance.bearApear).GetComponent<Canvas>();
         }
+        
+        try
+        {
+            var textField = Instance.bearApear.GetComponentInChildren<TMP_Text>();
+            var image = Instance.bearApear.GetComponentInChildren<Image>();
+            textField.text = msg;
+
+            if (!image.TryGetComponent(out Button btn))
+            {
+                btn = image.AddComponent<Button>();
+            }
+
+            btn.onClick.RemoveAllListeners();
+            btn.onClick.AddListener(new UnityAction(onClickEvt));
+        }
+        catch (Exception e)
+        {
+            result = false;
+            Debug.Log(e);
+        }
+        
+        if (!Instance.bearApear.gameObject.activeSelf)
+        {
+            Instance.bearApear.gameObject.SetActive(true);
+        }
+        notice = false;
+        return result;
     }
 }

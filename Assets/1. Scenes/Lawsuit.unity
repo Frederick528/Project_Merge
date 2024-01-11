@@ -37798,7 +37798,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hungerSlider: {fileID: 547588914}
+  changeHungerSlider: {fileID: 0}
   thirstSlider: {fileID: 1304993045}
+  changeThirstSlider: {fileID: 0}
 --- !u!1 &1913695650
 GameObject:
   m_ObjectHideFlags: 0

@@ -404,6 +404,8 @@ public class Card : Entity
                         cardInstance.transform.position = CardManager.Areas[1].transform.position + Vector3.up * 2f;
                         
                         Debug.Log("Merge Successed");
+
+                        EffectManager.instance.MergeEffect();
                         return;
                     }
                 }

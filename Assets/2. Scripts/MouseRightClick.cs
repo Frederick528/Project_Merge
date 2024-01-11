@@ -19,13 +19,6 @@ public class MouseRightClick : MonoBehaviour
     [SerializeField]
     Transform effectUICanvas;
 
-    Stat stat;
-
-    private void Start()
-    {
-        stat = StatManager.instance.playerCtrl.stat;
-    }
-
     void Update()
     {
         if (Input.GetMouseButtonDown(1))
@@ -78,8 +71,6 @@ public class MouseRightClick : MonoBehaviour
                     EffectManager.instance.eatCardImg = cardImage.sprite;
                     EffectManager.instance.cardContents = cardContents;
                     GameObject eatCard = Instantiate(Resources.Load<GameObject>("Prefabs/Effect/EatCardEffect"), effectUICanvas);
-                    stat.curHunger = ((stat.curHunger + cardData.Hunger) > stat.maxHunger) ? stat.maxHunger : stat.curHunger + cardData.Hunger;
-                    stat.curThirst = ((stat.curThirst + cardData.Thirst) > stat.maxThirst) ? stat.maxThirst : stat.curThirst + cardData.Thirst;
                 });
             }
             else

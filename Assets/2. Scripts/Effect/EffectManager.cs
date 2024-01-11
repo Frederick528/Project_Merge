@@ -18,6 +18,10 @@ public class EffectManager : MonoBehaviour
     [HideInInspector]
     public Card cardContents;
 
+    [Header("합성")]
+    public Animator mergeAnim;
+    public GameObject mergeEffect;
+
     private void Awake()
     {
         instance ??= this;
@@ -42,6 +46,12 @@ public class EffectManager : MonoBehaviour
     {
         clickEffect.transform.localPosition = new Vector3(Input.mousePosition.x - particleCanvasSize.x, Input.mousePosition.y - particleCanvasSize.y, 0);
         clickAnim.Play("ClickAnimation", -1, 0);
+    }
+
+    public void MergeEffect()
+    {
+        mergeEffect.SetActive(true);
+        mergeAnim.Play("MergeAnimation", -1, 0);
     }
 
 }

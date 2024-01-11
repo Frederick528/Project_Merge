@@ -1,23 +1,32 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class FoodTimeOutManager
+public class FoodTimeOutManager : MonoBehaviour
 {
-    public static readonly Queue<GameObject> EffectQueue = new ();
-    public static GameObject source;
+    public static Queue<GameObject> EffectQueue = new ();
+    public static Queue<Card> DestroyQueue = new();
+    public static FoodTimeOutManager Instance;
+    public static GameObject Used;
+    public GameObject source;
+
+    private void Awake()
+    {
+        Instance ??= this;
+        Used = Instantiate(new GameObject());
+    }
 
     public static void Show(Card Target)
     {
         GameObject o;
         if (EffectQueue.Count == 0)
-            o = GameObject.Instantiate(source);
+            o = Instantiate(Instance.source);
         else
             o = EffectQueue.Dequeue();
 
-
+        o.transform.parent = Used.transform;
         o.transform.position = Target.transform.position += Vector3.up * 1;
+        DestroyQueue.Enqueue(Target);
         o.SetActive(true);
-        //if (o.TryGetComponent())
     }
 }

@@ -42,6 +42,8 @@ public class RandomEvent : MonoBehaviour
         {
             Random_event = Random.Range(0, IncounterList.Count);
 
+            Turn.inCounterNum = Random_event;
+
             GameObject selectedEvent = IncounterList[Random_event];
             selectedEvent.SetActive(true);
             var v = selectedEvent.GetComponentInChildren<RectTransform>();

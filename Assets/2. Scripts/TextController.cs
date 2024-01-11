@@ -305,10 +305,11 @@ public class TextController : MonoBehaviour
     }
     IEnumerator FadeOut()
     {
-        float currentAlpha = canvasImage.color.a;
+        float targetAlpha = 0f;
 
-        while (currentAlpha > 0)
+        while (canvasImage.color.a >= targetAlpha)
         {
+            float currentAlpha = canvasImage.color.a;
             currentAlpha -= fadeSpeed * Time.deltaTime;
             canvasImage.color = new Color(canvasImage.color.r, canvasImage.color.g, canvasImage.color.b, currentAlpha);
 

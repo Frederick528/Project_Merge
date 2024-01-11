@@ -121,7 +121,7 @@ public class CoreController : MonoBehaviour
         
         if (_core.IsDawn)
         {
-            _core.Difficulty = (ushort)(1 * (Date+1));
+            _core.Difficulty = (ushort)(Mathf.Log10(Date + 2) * 10 + 10);
             Difficulty = _core.Difficulty;
             
             

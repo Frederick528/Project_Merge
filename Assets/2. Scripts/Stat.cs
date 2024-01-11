@@ -55,7 +55,7 @@ public class Stat
         switch (unitCode)
         {
             case UnitCode.player:
-                stat = new Stat(unitCode, "플레이어", 10, 100f, 100f);
+                stat = new Stat(unitCode, "플레이어", 5, 100f, 100f);
                 break;
         }
         return stat;

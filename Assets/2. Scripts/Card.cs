@@ -23,7 +23,7 @@ public class Card : Entity
     private static CardGroup _tempGroup;
     private CardData _data;
     private Animator _anim;
-
+    
     public CardData Data => _data;
     public CardType cardType;
     public int ID;

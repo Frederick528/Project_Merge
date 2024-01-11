@@ -447,10 +447,6 @@ public class Card : Entity
         var a = this.GetComponent<Animator>();
         CardManager.Instance.sortBtn.interactable = true;
         Destroy(a);
-<<<<<<< Updated upstream
-=======
-        
->>>>>>> Stashed changes
     }
 
     //카드 분해 기능

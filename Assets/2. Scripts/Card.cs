@@ -22,7 +22,8 @@ public class Card : Entity
 
     private static CardGroup _tempGroup;
     private CardData _data;
-
+    private Animator _anim;
+    
     public CardData Data => _data;
     public CardType cardType;
     public int ID;
@@ -71,6 +72,13 @@ public class Card : Entity
                       $"\n카드 ID : {ID}");
 
         this.GetComponentInChildren<TMP_Text>().text = _data.KR;
+
+        if (!YamlDeserializer.saveData.GetValue(this.ID))
+        {
+            Debug.Log("카드를 새로이 획득 했습니다!");
+            YamlDeserializer.saveData.Modify(this.ID, true);
+            YamlDeserializer.Serialize(PictorialData.defaultFilePath, YamlDeserializer.saveData);
+        }
     }
     public void Init(int ID, out bool temp)
     {
@@ -81,7 +89,7 @@ public class Card : Entity
         switch (ID / 10)
         {
             case 101:
-                GetComponent<MeshRenderer>().material = 
+                GetComponent<MeshRenderer>().material =
                     Resources.Load<Material>($"Prefabs/Materials/Food/{ID}");
                 cardType = CardType.Food;
                 break;
@@ -117,8 +125,14 @@ public class Card : Entity
                       $"\n카드 ID : {ID}");
 
         this.GetComponentInChildren<TMP_Text>().text = _data.KR;
+        
+        if (!YamlDeserializer.saveData.GetValue(this.ID))
+        {
+            Debug.Log("카드를 새로이 획득 했습니다!");
+            YamlDeserializer.saveData.Modify(this.ID, true);
+            YamlDeserializer.Serialize(PictorialData.defaultFilePath, YamlDeserializer.saveData);
+        }
     }
-    
     // Update is called once per frame
     void Update()
     {
@@ -128,13 +142,15 @@ public class Card : Entity
 
     public override void OnMouseUp()
     {
+        _tempGroup = null;
+        
         if (GameManager.CardCanvasOn) return;
         var result = Physics.OverlapSphere(transform.position, 7f);
         var mergeTarget = new List<Card>();
         //리스트 복사
         var craftRules = new List<int[]>(CardDataDeserializer.CraftRules);
         mergeTarget.Add(this);
-        
+
         for (int i = 0; i < result.Length; i++)
         {
             if (result[i].gameObject.Equals(this.gameObject))
@@ -170,8 +186,18 @@ public class Card : Entity
             else
             {
                 if(result[i].transform.parent.TryGetComponent(out CardGroup g1) && this.transform.parent.TryGetComponent(out CardGroup g2))
-                    if(g1.Equals(g2))
+                {
+                    if (g1.Equals(g2))
+                    {
+                        
                         continue;
+                    }
+                    else
+                    {
+                        OnMergeEnter(this.gameObject, result[i].gameObject);
+                        return;
+                    }
+                }
                 if(result[i].TryGetComponent(out Card card))
                 {
                     OnMergeEnter(this.gameObject, card.gameObject);
@@ -192,41 +218,51 @@ public class Card : Entity
             {
                 cardGroup.RemoveCard(this);
             }
+            else
+            {
+                cardGroup.Sort();
+            }
         }
         
         this._rigid.isKinematic = false;
     }
-
     protected override void OnMouseDrag()
     {
         if (GameManager.CardCanvasOn) return;
         float distance = Camera.main.WorldToScreenPoint(transform.position).z;
         var mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 78);
-        var crntPos = Camera.main.ScreenToWorldPoint(mousePos);
+        var _temp = Camera.main.ScreenToWorldPoint(mousePos);
+        var crntPos = new Vector3()
+        {
+            x = _temp.x,
+            y = 6,
+            z = _temp.z 
+        };
+        
         if (this.transform.parent.TryGetComponent(out CardGroup cardGroup))
         {
             if(cardGroup.IndexOf(this) == 0)
+            {
                 cardGroup.transform.position = crntPos;
+            }
             
             else if (cardGroup.IndexOf(this) == cardGroup.Count - 1)
                 this.transform.position = crntPos;
 
             else
             {
+                
                 if (_tempGroup == null)
                 {
                     var temp = new GameObject("CardGroup");
-                    temp.transform.SetParent(CardManager.Instance.transform);
+                    temp.transform.SetParent(CardManager.Instance.transform, true);
                     _tempGroup = temp.AddComponent<CardGroup>();
                     for (int i = cardGroup.IndexOf(this); i < cardGroup.Count;)
                     {
                         var c = cardGroup.RemoveCard(i);
                         _tempGroup.AddCard(c);
                     }
-                }
-                else
-                {
-                    _tempGroup.transform.position = crntPos;
+                    cardGroup.Sort();
                 }
             }
         }
@@ -246,7 +282,6 @@ public class Card : Entity
                 x = cardGroup.transform.position.x,
                 y = 3,
                 z = cardGroup.transform.position.z,
-
             };
         }
         else
@@ -259,11 +294,8 @@ public class Card : Entity
 
             };
         }
-        
         base.OnMouseDown();
     }
-
-
 
     protected override void OnMerge(GameObject t1, GameObject t2)
     {
@@ -295,14 +327,18 @@ public class Card : Entity
                 if (cardGroup[0].IndexOf(destroyTarget[1]) == 0)
                 {
                     //카드 그룹 전체를 이동
-                    for (int i = 0; i < cardGroup[0].Count;)
+                    var removeTarget =
+                        (from card in cardGroup[0].Cards
+                            select card).ToArray();
+                    foreach (var card in removeTarget)
                     {
-                        cardGroup[1].AddCard(cardGroup[0].RemoveCard(i));
+                        cardGroup[0].RemoveCard(card, false);
+                        cardGroup[1].AddCard(card);
                     }
+                    Destroy(cardGroup[0]);
                 }
                 else
                 {
-                    Debug.Log(true);
                     //한 장만 이동
                     cardGroup[0].RemoveCard(this);
                     cardGroup[1].AddCard(this);
@@ -347,17 +383,18 @@ public class Card : Entity
         {
             CardManager.Areas ??= GameObject.FindGameObjectsWithTag("Merge");
             
-            float refXMin = CardManager.Areas[0].transform.position.x - CardManager.Areas[0].transform.lossyScale.x / 2;
-            float refXMax = CardManager.Areas[0].transform.position.x + CardManager.Areas[0].transform.lossyScale.x / 2;
-            float refZMin = CardManager.Areas[0].transform.position.z - CardManager.Areas[0].transform.lossyScale.z / 2;
-            float refZMax = CardManager.Areas[0].transform.position.z + CardManager.Areas[0].transform.lossyScale.z / 2;
+            float refXMin = CardManager.Areas[0].transform.position.x - CardManager.Areas[0].transform.lossyScale.x / 1.8f;
+            float refXMax = CardManager.Areas[0].transform.position.x + CardManager.Areas[0].transform.lossyScale.x / 1.8f;
+            float refZMin = CardManager.Areas[0].transform.position.z - CardManager.Areas[0].transform.lossyScale.z / 1.8f;
+            float refZMax = CardManager.Areas[0].transform.position.z + CardManager.Areas[0].transform.lossyScale.z / 1.8f;
             
             if (t2.transform.position.x > refXMin && t2.transform.position.x < refXMax)
             {    
                 if (t2.transform.position.z > refZMin && t2.transform.position.z < refZMax)
                 {
+                    Debug.Log(true);
                     //병합 분기
-                    if (destroyTarget[0].ID == destroyTarget[1].ID)
+                    if ((destroyTarget[0].ID == destroyTarget[1].ID) && destroyTarget[0].ID < 3000)
                     {
 
                         var cardInstance = CardManager.CreateCard(level + 1, (int)cardType);
@@ -365,10 +402,12 @@ public class Card : Entity
 
                         //cardInstance.transform.localScale = Vector3.one;
                         cardInstance.transform.position = CardManager.Areas[1].transform.position + Vector3.up * 2f;
-                    }
+                        
+                        Debug.Log("Merge Successed");
 
-                    Debug.Log("Merge Successed");
-                    return;
+                        EffectManager.instance.MergeEffect();
+                        return;
+                    }
                 }
             }
             

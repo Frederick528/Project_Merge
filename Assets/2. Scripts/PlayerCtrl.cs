@@ -26,10 +26,5 @@ public class PlayerCtrl : MonoBehaviour
             stat.curHunger -= 10f;
             stat.curThirst -= 10f;
         }
-
-        if (stat.curHunger <= 0 || stat.curThirst <= 0)
-        {
-            
-        }
     }
 }

@@ -57,6 +57,8 @@ public class BearManager : MonoBehaviour
                     
                     Debug.Log("곰 출현!");
                 }
+
+                Camera.main.fieldOfView = 50;
                 
                 Camera.main.transform.position = new Vector3()
                 {

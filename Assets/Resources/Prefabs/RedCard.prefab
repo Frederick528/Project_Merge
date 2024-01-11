@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4606909521153682416}
   - component: {fileID: 1242867995359646055}
   - component: {fileID: 2739316781191084476}
+  - component: {fileID: 1436223697233597204}
   m_Layer: 6
   m_Name: RedCard
   m_TagString: Card
@@ -167,6 +168,28 @@ MonoBehaviour:
   cardText: {fileID: 0}
   cardEatBtn: {fileID: 0}
   cardDecompositionBtn: {fileID: 0}
+  effectUICanvas: {fileID: 0}
+--- !u!95 &1436223697233597204
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232989012911639070}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2474129079388897354
 GameObject:
   m_ObjectHideFlags: 0

@@ -92,7 +92,8 @@ public class Bear : MonoBehaviour
         StartCoroutine(SetTarget());
         StartCoroutine(AnimationController());
 
-        _hitPoint = CoreController.TurnCnt + 1;
+        //_hitPoint = CoreController.TurnCnt + 1;
+        _hitPoint = 1;
     }
 
     private bool SetTarget(out Card target)
@@ -207,12 +208,10 @@ public class Bear : MonoBehaviour
         
         t.Start();
     }
-
     public void Die()
     {
         Destroy(this.gameObject);
     }
-        
     //=============================================
 
     private void OnCollisionEnter(Collision other)
@@ -229,6 +228,11 @@ public class Bear : MonoBehaviour
                 CardManager.DestroyCard(card);
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        BearManager.RemoveBear(this);
     }
 
     private void OnDead()

@@ -72,7 +72,13 @@ public class Card : Entity
                       $"\n카드 ID : {ID}");
 
         this.GetComponentInChildren<TMP_Text>().text = _data.KR;
-        _anim = GetComponent<Animator>();
+
+        if (!YamlDeserializer.saveData.GetValue(this.ID))
+        {
+            Debug.Log("카드를 새로이 획득 했습니다!");
+            YamlDeserializer.saveData.Modify(this.ID, true);
+            YamlDeserializer.Serialize(PictorialData.defaultFilePath, YamlDeserializer.saveData);
+        }
     }
     public void Init(int ID, out bool temp)
     {
@@ -119,6 +125,13 @@ public class Card : Entity
                       $"\n카드 ID : {ID}");
 
         this.GetComponentInChildren<TMP_Text>().text = _data.KR;
+        
+        if (!YamlDeserializer.saveData.GetValue(this.ID))
+        {
+            Debug.Log("카드를 새로이 획득 했습니다!");
+            YamlDeserializer.saveData.Modify(this.ID, true);
+            YamlDeserializer.Serialize(PictorialData.defaultFilePath, YamlDeserializer.saveData);
+        }
     }
     // Update is called once per frame
     void Update()
@@ -281,9 +294,6 @@ public class Card : Entity
 
             };
         }
-        
-        _anim.SetTrigger("Hold");
-        
         base.OnMouseDown();
     }
 

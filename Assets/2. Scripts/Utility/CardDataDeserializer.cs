@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using ExcelDataReader;
 using UnityEngine;
@@ -12,6 +13,8 @@ public class CardDataDeserializer
     private static List<int[]> _craftRules = new ();
 
     public static List<int[]> CraftRules => _craftRules;
+
+    public static int[] Keys => _dictionary.Keys.ToArray();
     // Start is called before the first frame update
 
     private static Dictionary<int, CardData> CreateDictionary()

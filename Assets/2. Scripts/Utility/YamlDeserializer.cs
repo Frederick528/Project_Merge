@@ -7,7 +7,8 @@ using YamlDotNet.Serialization;
 
 public class YamlDeserializer
 {
-    public void Serialize<T>(string path, T value)
+    public static PictorialData saveData = new ();
+    public static void Serialize<T>(string path, T value)
     {
         var builder = new SerializerBuilder().Build();
 
@@ -31,25 +32,38 @@ public class YamlDeserializer
         stream.Dispose();
     }
     
-    public T DeSerialize<T>(string path) where T : class 
+    public static T DeSerialize<T>(string path) where T : Dictionary<object, object>
     {
         T result = null;
-        var builder = new DeserializerBuilder().Build();
-
         FileStream stream;
 
-        if (File.Exists(path))
+        if (File.Exists(path) && saveData.dict != null)
         {
             stream = File.OpenRead(path);
         }
         else
         {
-            throw new Exception($"파일이 존재 하지 않습니다 :  { path }");
+            Debug.Log(true);
+            saveData.dict = new Dictionary<int, bool>(
+                from key in CardDataDeserializer.Keys
+                select new KeyValuePair<int, bool>(key, false)
+            );
+                
+            
+            Debug.Log(Application.persistentDataPath);
+            Serialize(path , saveData);
+
+            stream = File.OpenRead(path);
         }
 
+        Deserializer deserializer = new Deserializer();
+        
         using (var reader = new StreamReader(stream))
         {
-            result = builder.Deserialize(reader, typeof(T)) as T;
+            //첫줄 제거
+            //Debug.Log();
+            reader.ReadLine();
+            result  = deserializer.Deserialize(reader) as T;
         }
         
         stream.Dispose();
@@ -60,7 +74,17 @@ public class YamlDeserializer
 
 public struct PictorialData
 {
+    public static string defaultFilePath = Application.persistentDataPath + "/Pictorial.yaml";
     public Dictionary<int, bool> dict;
+
+    public void Init()
+    {
+        var v = YamlDeserializer.DeSerialize<Dictionary<object, object>>(defaultFilePath);
+        var x = from row in v
+            select new KeyValuePair<int, bool>
+                (Convert.ToInt32(row.Key), row.Value.ToString().ToLower() == "true");
+        dict = new Dictionary<int, bool>(x);
+    }
     
     public void Add(int key, bool value)
     {
@@ -87,5 +111,15 @@ public struct PictorialData
             dict[key] = value;
         
         return result;
+    }
+
+    public bool GetValue(int key)
+    {
+        if(dict == null)
+            Init();
+        if (!dict.Keys.Contains(key))
+            throw new Exception($"키에 해당하는 값이 없습니다. : {key}");
+
+        return dict[key];
     }
 }

@@ -7,23 +7,28 @@ public class Notice : MonoBehaviour
 
     private static Animator _anim;
 
+    public static bool isImportant = false;
+
+    public GameObject Siren;
+    
     private void OnEnable()
     {
         _anim ??= GetComponent<Animator>();
         _anim.SetTrigger("FadeIn");
+        
+        Siren.SetActive(isImportant);
+        
     }
 
     public static void Dispose()
     {
-        var v = _anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
-        if (v <= 0 && v >= 1 )
-            _anim.ResetTrigger("FadeIn");
+        _anim.ResetTrigger("FadeIn");
         _anim.SetTrigger("FadeOut");
     }
 
     public void EndFadeOut()
     {
-        Debug.Log(true);
         BearManager.Instance.bearApear.gameObject.SetActive(false);
+        BearManager._turnSkip.interactable = true;
     }
 }

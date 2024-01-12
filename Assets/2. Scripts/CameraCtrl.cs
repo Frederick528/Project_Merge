@@ -213,6 +213,8 @@ public class CameraCtrl : MonoBehaviour
             }
             catch
             {
+                BearManager.Instance.bearInfo.gameObject.SetActive(false);
+                CoroutineInstance = null;
                 break;
             }
             yield return new WaitForSeconds(0.02f);

@@ -29,7 +29,7 @@ public class R_Incounter3 : MonoBehaviour
     void Start()
     {
         myText.text = textArray1[0];
-        nextBtn.interactable = false;
+        //nextBtn.interactable = false;
         //closeBtn.SetActive(true);    
     }
 
@@ -54,7 +54,7 @@ public class R_Incounter3 : MonoBehaviour
         else
         {
             incounter.SetActive(false);
-            nextBtn.interactable = false;
+            Turn.Instance.nextBtn.interactable = true;
             blockUI.SetActive(false);
             closeBtn.SetActive(false);
             GameManager.CardCanvasOn = false;

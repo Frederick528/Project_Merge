@@ -34,8 +34,6 @@
         {
             myText.text = textArray1[0];
             mytext2.text = CharacterName1[0];
-
-            nextBtn.interactable = false;
             if (canvasImage == null)
                 {
                     canvasImage = GetComponent<Image>();
@@ -65,7 +63,7 @@
             else
             {
                 incounter.SetActive(false);
-                nextBtn.interactable = true;
+                Turn.Instance.nextBtn.interactable = true;
                 blockUI.SetActive(false);
                 closeBtn.SetActive(false);
                 GameManager.CardCanvasOn = false;

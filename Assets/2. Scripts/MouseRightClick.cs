@@ -49,7 +49,11 @@ public class MouseRightClick : MonoBehaviour
     {
         if (hit.collider.gameObject.CompareTag("Card") && !GameManager.CardCanvasOn)
         {
-            Card cardContents = hit.collider.GetComponent<Card>();
+            if(!hit.collider.TryGetComponent(out Card cardContents))
+            {
+                Debug.Log("카드 컴포넌트가 없습니다.");
+                return;
+            }
             CardData cardData = cardContents.Data;
 
             //string cardID = $"{cardContents.cardType}_{cardContents.level}";

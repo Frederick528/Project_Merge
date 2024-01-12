@@ -1,12 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
+using UniRx;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -18,9 +13,6 @@ public class CoreController : MonoBehaviour
     private static CoreController _instance;
     public static int TurnCnt => _core.TurnCnt;
     public static int Date => _core.TurnCnt / 4;
-
-    public static float Difficulty;
-
     public static int bearFlag = 0;
 
     public static bool IsDawn => _core.IsDawn;
@@ -29,26 +21,37 @@ public class CoreController : MonoBehaviour
     public static bool IsNightTime => _core.IsNightTime;
 
     public static string Time => $"{_core.Date + 1} 일차 " + (IsDawn ? "새벽" : IsDayTime ? "점심" : IsMorning ? "아침" : "저녁") ;
-    
+
+    public StatUI StatUICanvas;
     public Image Clock;
     public Light Light;
     public GameObject Notice;
-    public TMP_Text Hungriness;
-    public TMP_Text Thirst;
     public TMP_Text Turn;
-    public TMP_Text AP;
+
+    #region ReactiveProperty
+    public static readonly ReactiveProperty<float> Difficulty = new ();
+    
+    private static readonly ReactiveProperty<int> _hunger = new ();
+    private static readonly ReactiveProperty<int> _thirst = new ();
+    private static readonly ReactiveProperty<int> _ap = new();
+    #endregion
 
     private void Awake()
     {
         _core ??= new GameCore();
         _instance ??= this;
 
-        
+        if (StatUICanvas.gameObject is { activeSelf: true, activeInHierarchy: false })
+        {
+            StatUICanvas = Instantiate(StatUICanvas);
+            StatUICanvas.gameObject.SetActive(false);
+        }
     }
 
     void Start()
     {
         _core.InitGame();
+        _ap.Value = _core.Status.curAp;
         Turn.text = _core.TurnCnt + "";
         for (int i = 0; i < 2; i++)
         {
@@ -56,18 +59,53 @@ public class CoreController : MonoBehaviour
         }
 
         //세이브 파일이 없을 경우 새로 딕셔너리를 만들어 거기서 생성
-        
         YamlDeserializer.saveData.Init();
+        
+        Difficulty.Subscribe(x =>
+        {
+            Debug.Log(true);
+            if (x == 0) return;
+                StatUICanvas.gameObject.SetActive(true);
+            _core.Difficulty = (ushort)x;
+            StatUICanvas.statUI.Hunger[1].fillAmount += x/ _core.Status.maxHunger;
+            StatUICanvas.statUI.Thirst[1].fillAmount += x/ _core.Status.maxThirst;
+        });
+        _hunger.Subscribe(x =>
+        {
+            if (x != 0)
+                StatUICanvas.gameObject.SetActive(true);
+            Debug.Log(true);
+            var v = (_core.Status.maxHunger - x) / _core.Status.maxHunger;
+            StatUICanvas.statUI.Hunger[0].fillAmount = v;
+            StatUICanvas.statUI.Texts[0].text = _core.Status.curHunger + "";
+        });
+        _thirst.Subscribe(x =>
+        {
+            if (x != 0)
+                StatUICanvas.gameObject.SetActive(true);
+            StatUICanvas.statUI.Thirst[0].fillAmount =
+               (_core.Status.maxHunger - x) / _core.Status.maxHunger;
+            StatUICanvas.statUI.Texts[1].text = _core.Status.curThirst + "";
+        });
+        _ap.Subscribe(x =>
+        {
+            // if (x != 0)
+            //     StatUICanvas.gameObject.SetActive(true);
+            //
+            StatUICanvas.statUI.Texts[2].text = 
+                $"[  {x} / {_core.Status.maxAp}  ]";
+        });
     }
 
     private void Update()
     {
-        Hungriness.text = _core.Status.curHunger + "";
-        Thirst.text = _core.Status.curThirst + "";
-        AP.text = _core.Status.curAp + "";
     }
     public static void TurnChange()
     {
+        if (_instance.StatUICanvas.gameObject.activeSelf)
+        {
+            _instance.StatUICanvas.Exit();
+        }
         if(BearManager.Count > 0 )
         {
             Debug.Log("곰들이 아직 남아있습니다.");
@@ -108,7 +146,7 @@ public class CoreController : MonoBehaviour
                     _core.InitGame();
                     _instance.Notice.SetActive(false);
                 });
-
+            return;
         }
         _instance.Turn.text = _core.TurnCnt + "";
 
@@ -121,8 +159,7 @@ public class CoreController : MonoBehaviour
         
         if (_core.IsDawn)
         {
-            _core.Difficulty = (ushort)(Mathf.Log10(Date + 2) * 10 + 10);
-            Difficulty = _core.Difficulty;
+            Difficulty.Value = (Mathf.Log10(Date + 2) * 10 + 10);
             
             
             lightAnim.SetTrigger("Dawn");
@@ -131,7 +168,7 @@ public class CoreController : MonoBehaviour
         else if (_core.IsMorning)
         {
             _core.Difficulty = 0;
-            Difficulty = _core.Difficulty;
+            Difficulty.Value = _core.Difficulty;
             CardManager.ExpirationDateCheck();
             
             lightAnim.SetTrigger("Morning");
@@ -148,7 +185,10 @@ public class CoreController : MonoBehaviour
             
             lightAnim.SetTrigger("Night");
         }
-        
+
+        _hunger.Value = (int)_core.Status.curHunger;
+        _thirst.Value = (int)_core.Status.curThirst;
+        _ap.Value = _core.Status.curAp;
         _instance.Clock.gameObject.SetActive(true);
     }
     private void OnDestroy()
@@ -164,7 +204,10 @@ public class CoreController : MonoBehaviour
         }
         public static bool ModifyAP(int amount)
         {
-            return _core.ModifyAP(amount);
+            var result = _core.ModifyAP(amount);
+            if(result)
+                _ap.Value += amount;
+            return result;
         }
         public static bool ModifyHunger()
         {
@@ -172,7 +215,11 @@ public class CoreController : MonoBehaviour
         }
         public static bool ModifyHunger(int amount)
         {
-            return _core.ModifyHunger(amount);
+            var result = _core.ModifyHunger(amount);
+            if (result)
+                _hunger.Value += amount;
+            Debug.Log(_hunger.Value);
+            return result;
         }
         public static bool ModifyThirst()
         {
@@ -180,7 +227,11 @@ public class CoreController : MonoBehaviour
         }
         public static bool ModifyThirst(int amount)
         {
-            return _core.ModifyThirst(amount);
+            var result = _core.ModifyThirst(amount);
+            if (result)
+                _thirst.Value += amount;
+            Debug.Log(_thirst.Value);
+            return result;
         }
     #endregion
 

@@ -22,10 +22,10 @@ public class R_Incounter2 : MonoBehaviour
 
 
     private string[] result1 = { "", "나는 지금 고기가 땡긴다. ", "그러니 나는 이 다람쥐를 잡아야한다..!", "나는 빠르게 손을 뻗어 다람쥐를…", "꽈악" };
-    private string[] result1_1 = { "", "다람쥐는 엄청난 속도로 다가오던 내 손을 물고 도망갔다.", "다람쥐에게 독이라도 있던건지, 몸에 힘이 빠진다.." };
+    private string[] result1_a = { "", "다람쥐는 엄청난 속도로 다가오던 내 손을 물고 도망갔다.", "다람쥐에게 독이라도 있던건지, 몸에 힘이 빠진다.." };
     private string[] result2 = { "", "나는 조심히 움직여 다람쥐에게 인사했다.", "다람쥐는 내 반응이 무엇을 의미하는지 아는 것 같다.!", "다람쥐는 새 손으로 올라와 들고있던 열매를 내게 주었다.",
                                 "나는 그걸 조심히 입에 넣었다." };
-    private string[] result2_1 = { "", "몸에 힘이 도는 것 같다!" };
+    private string[] result2_a = { "", "몸에 힘이 도는 것 같다!" };
 
     void Start()
     {
@@ -48,11 +48,11 @@ public class R_Incounter2 : MonoBehaviour
         {
             Result2();
         }
-        else if (currentTextIndex >= textArray1.Length && currentTextIndex2 < result1.Length && bifurcation == 0 && currentTextIndex4 < result1_1.Length)
+        else if (currentTextIndex >= textArray1.Length && currentTextIndex2 >= result1.Length && bifurcation == 0 && currentTextIndex4 < result1_a.Length)
         {
             Select2();
         }
-        else if (currentTextIndex >= textArray1.Length && currentTextIndex3 < result2.Length && bifurcation == 1 && currentTextIndex5 < result2_1.Length)
+        else if (currentTextIndex >= textArray1.Length && currentTextIndex3 >= result2.Length && bifurcation == 1 && currentTextIndex5 < result2_a.Length)
         {
             Select3();
         }
@@ -134,16 +134,15 @@ public class R_Incounter2 : MonoBehaviour
 
     public void Select2()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput && bifurcation == 0)
+        if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput == true && bifurcation == 0)
         {
             currentTextIndex4++;
-            if (currentTextIndex4 < result1_1.Length)
+            if (currentTextIndex4 < result1_a.Length)
             {
-                UpdateText(result1_1, currentTextIndex4);
+                UpdateText(result1_a, currentTextIndex4);
             }
-            if (currentTextIndex4 >= result1_1.Length)
+            if (currentTextIndex4 >= result1_a.Length)
             {
-                select2.SetActive(true);  // UI 요소 활성화
                 isWaitingForInput = false;
             }
         }
@@ -151,16 +150,15 @@ public class R_Incounter2 : MonoBehaviour
 
     public void Select3()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput && bifurcation == 1)
+        if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput== true && bifurcation == 1)
         {
             currentTextIndex5++;
-            if (currentTextIndex5 < result2_1.Length)
+            if (currentTextIndex5 < result2_a.Length)
             {
-                UpdateText(result2_1, currentTextIndex5);
+                UpdateText(result2_a, currentTextIndex5);
             }
-            if (currentTextIndex5 >= result2_1.Length)
+            if (currentTextIndex5 >= result2_a.Length)
             {
-                select3.SetActive(true);  // UI 요소 활성화
                 isWaitingForInput = false;
             }
         }

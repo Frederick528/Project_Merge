@@ -16,7 +16,7 @@ public class R_Incounter4 : MonoBehaviour
     [SerializeField]
     GameObject blockUI, closeBtn;
 
-    int currentTextIndex, currentTextIndex2, currentTextIndex3, currentTextIndex4, currentTextIndex5 = 0;
+    int currentTextIndex, currentTextIndex2, currentTextIndex3, currentTextIndex5 = 0;
 
     private string[] textArray1 = { "가만히 작업하고 있던 날. 하늘에서 어떤 편지가 내려왔다.",
                                    "마녀. 라고 적혀있다. 아무것도 안적혀있는 종이에 마법으로 글씨가 보이기 시작했다."};
@@ -31,7 +31,7 @@ public class R_Incounter4 : MonoBehaviour
     {
         myText.text = textArray1[0];
         nextBtn.interactable = false;
-        //closeBtn.SetActive(true);    
+        closeBtn.SetActive(true);    
     }
 
     void Update()
@@ -44,11 +44,11 @@ public class R_Incounter4 : MonoBehaviour
         {
             Incounter2();
         }
-        else if (currentTextIndex >= textArray1.Length && currentTextIndex5 < textArray2.Length && currentTextIndex2 < result1.Length && bifurcation == 0)
+        else if (currentTextIndex >= textArray1.Length && currentTextIndex5 >= textArray2.Length && currentTextIndex2 < result1.Length && bifurcation == 0)
         {
             Result1();
         }
-        else if (currentTextIndex >= textArray1.Length && currentTextIndex5 < textArray2.Length && currentTextIndex3 < result2.Length && bifurcation == 1)
+        else if (currentTextIndex >= textArray1.Length && currentTextIndex5 >= textArray2.Length && currentTextIndex3 < result2.Length && bifurcation == 1)
         {
             Result2();
         }
@@ -79,12 +79,12 @@ public class R_Incounter4 : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput)
         {
-            currentTextIndex5++;
-            if (currentTextIndex5 < textArray1.Length)
+            currentTextIndex++;
+            if (currentTextIndex < textArray1.Length)
             {
                 UpdateText(textArray1, currentTextIndex);
             }
-            if (currentTextIndex5 >= textArray1.Length)
+            if (currentTextIndex >= textArray1.Length)
             {
                 select1.SetActive(true);
                 isWaitingForInput = false;

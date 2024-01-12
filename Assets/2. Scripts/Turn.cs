@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Turn : MonoBehaviour
 {
+    public static Turn Instance;
     public Text Day;
     public Text Time;
     public static int count => CoreController.TurnCnt; // static으로 변경
@@ -15,10 +16,15 @@ public class Turn : MonoBehaviour
     private static RandomEvent randomEvent; // static으로 변경
     public GameObject closebtn;
     public GameObject fixincounter0, fixincounter1, fixincounter2, fixincounter3_1, fixincounter3_2;
-    [SerializeField]
-    GameObject blockUI;
-    [SerializeField]
-    Button nextBtn;
+
+    public GameObject blockUI;
+
+    public Button nextBtn;
+
+    private void Awake()
+    {
+        Instance ??= this;
+    }
 
     private void Update()
     {
@@ -48,7 +54,6 @@ public class Turn : MonoBehaviour
         else if (count % 4 == 3)
         {
             Time.text = "새벽".ToString();
-            InCounter();
         }
     }
 
@@ -97,8 +102,9 @@ public class Turn : MonoBehaviour
         }
     }
 
-    void InCounter()
+    public IEnumerator Encounter()
     {
+        yield return new WaitForSeconds(1f);
         FixIncounter();
         GameManager.CardCanvasOn = true;
         blockUI.SetActive(true);

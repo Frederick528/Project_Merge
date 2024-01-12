@@ -34,17 +34,17 @@
         {
             myText.text = textArray1[0];
             mytext2.text = CharacterName1[0];
+
             nextBtn.interactable = false;
-            //closeBtn.SetActive(true);
             if (canvasImage == null)
-            {
-                canvasImage = GetComponent<Image>();
-                if (canvasImage == null)
                 {
-                    Debug.LogError("Image component not found.");
-                    return;
+                    canvasImage = GetComponent<Image>();
+                    if (canvasImage == null)
+                    {
+                        Debug.LogError("Image component not found.");
+                        return;
+                    }
                 }
-            }
         }
 
         void Update()
@@ -67,7 +67,7 @@
                 incounter.SetActive(false);
                 nextBtn.interactable = true;
                 blockUI.SetActive(false);
-                //closeBtn.SetActive(false);
+                closeBtn.SetActive(false);
                 GameManager.CardCanvasOn = false;
             }
         }

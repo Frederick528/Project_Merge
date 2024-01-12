@@ -898,7 +898,7 @@ GameObject:
   - component: {fileID: 130078212}
   - component: {fileID: 130078216}
   m_Layer: 7
-  m_Name: Quest Open
+  m_Name: Guide Open
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7032,7 +7032,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &719330664
 Transform:
   m_ObjectHideFlags: 0
@@ -8193,7 +8193,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &787195090
 Transform:
   m_ObjectHideFlags: 0
@@ -12733,7 +12733,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1263216733
 Transform:
   m_ObjectHideFlags: 0
@@ -13308,11 +13308,11 @@ MonoBehaviour:
   bifurcation: 0
   myText: {fileID: 723490893}
   incounter: {fileID: 719330663}
-  select1: {fileID: 0}
-  select2: {fileID: 0}
-  nextBtn: {fileID: 0}
-  blockUI: {fileID: 0}
-  closeBtn: {fileID: 0}
+  select1: {fileID: 1229611120}
+  select2: {fileID: 1567672419}
+  nextBtn: {fileID: 971129215}
+  blockUI: {fileID: 1022413568}
+  closeBtn: {fileID: 1949538636}
 --- !u!114 &1329004524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14103,10 +14103,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b41c8937081165468f0c3a3564cdd4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  incounter1: {fileID: 0}
-  incounter2: {fileID: 0}
-  incounter3: {fileID: 0}
-  incounter4: {fileID: 0}
+  incounter1: {fileID: 1765100768}
+  incounter2: {fileID: 73312889}
+  incounter3: {fileID: 1165549188}
+  incounter4: {fileID: 719330663}
   incounter5: {fileID: 0}
   incounter6: {fileID: 0}
   incounter7: {fileID: 0}

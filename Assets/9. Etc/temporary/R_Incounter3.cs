@@ -54,9 +54,9 @@ public class R_Incounter3 : MonoBehaviour
         else
         {
             incounter.SetActive(false);
-            nextBtn.interactable = true;
+            nextBtn.interactable = false;
             blockUI.SetActive(false);
-            //closeBtn.SetActive(false);
+            closeBtn.SetActive(false);
             GameManager.CardCanvasOn = false;
         }
     }

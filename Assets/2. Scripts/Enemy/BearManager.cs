@@ -32,7 +32,7 @@ public class BearManager : MonoBehaviour
 
     private void Awake()
     {
-        _bearPrefab ??= Resources.Load<GameObject>("Prefabs/Enemy/Bear");
+        _bearPrefab ??= Resources.LoadAsync("Prefabs/Enemy/Bear").asset as GameObject;
         _instance ??= this;
         _turnSkip = turnChanger;
 

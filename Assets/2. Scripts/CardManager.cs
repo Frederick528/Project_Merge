@@ -166,14 +166,17 @@ public class CardManager : MonoBehaviour
                 if (cardGroup.Count == 0) Destroy(cardGroup.gameObject);
                 while (true)
                 {
-                    if (cardGroup.RemoveCard(0) == null) break;
                     if (cardGroup.Count <= 2 )
                     {
-                        if(cardGroup.Count == 0)
+                        if(cardGroup.Count <= 0)
                             Destroy(cardGroup);
                         else
                             cardGroup.RemoveCard(0);
                         break;
+                    }
+                    else
+                    {
+                        cardGroup.RemoveCard(0);
                     }
                 }
             }

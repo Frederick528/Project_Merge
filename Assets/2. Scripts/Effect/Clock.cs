@@ -57,7 +57,7 @@ public class Clock : MonoBehaviour
         }
         if (CoreController.IsDayTime)
         {
-            if ( CoreController.bearFlag > 3)
+            if ( CoreController.bearFlag > 0)
             {
                 BearManager.Dispense();
             }

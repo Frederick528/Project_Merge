@@ -167,47 +167,62 @@ public class Card : Entity
         {
             if (result[i].gameObject.Equals(this.gameObject))
                 continue;
-
-
-            if (!result[i].transform.parent.TryGetComponent(out CardGroup g11) || !this.transform.parent.TryGetComponent(out CardGroup g12))
+            
+            if (result[i].transform.parent.TryGetComponent(out CardGroup group))
             {
-                if (result[i].TryGetComponent(out Card card))
+                using (null)
                 {
-                    if (card.ID == this.ID)
+                    foreach (var _card in group.Cards)
                     {
-                        OnMergeEnter(this.gameObject, result[i].gameObject);
-                        return;
-                    }
-                    foreach (var rule in CardDataDeserializer.CraftRules)
-                    {
-                        if (rule.Contains(this.ID) && rule.Contains(card.ID))
+                        Debug.Log(_card.ID + " " + this.ID);
+                        if (_card.ID == this.ID)
                         {
-                            Debug.Log(rule[^1]);
-                            var cardInstance = CardManager.CreateCard(rule[^1]);
-                            CardManager.DestroyCard(new[] { this, card });
+                            OnMergeEnter(this.gameObject, _card.gameObject);
+                            return;
+                        }
+                        foreach (var rule in CardDataDeserializer.CraftRules)
+                        {
+                            if (rule.Contains(this.ID) && rule.Contains(_card.ID))
+                            {
+                                Debug.Log(rule[^1]);
+                                var cardInstance = CardManager.CreateCard(rule[^1]);
+                                CardManager.DestroyCard(new[] { this, _card });
 
-                            //cardInstance.transform.localScale = Vector3.one;
-                            cardInstance.transform.position =
-                                CardManager.Areas[1].transform.position + Vector3.up * 2f;
+                                //cardInstance.transform.localScale = Vector3.one;
+                                cardInstance.transform.position =
+                                    CardManager.Areas[1].transform.position + Vector3.up * 2f;
+                            
+                                OnMergeEnter(this.gameObject, _card.gameObject);
+                                return;
+                            }
                         }
                     }
-                    OnMergeEnter(this.gameObject, result[i].gameObject);
-                    return;
                 }
+                return;
             }
-            else
+            
+            if (result[i].TryGetComponent(out Card card))
             {
-                if(result[i].transform.parent.TryGetComponent(out CardGroup g1) && this.transform.parent.TryGetComponent(out CardGroup g2))
+                if (card.ID == this.ID)
                 {
                     OnMergeEnter(this.gameObject, result[i].gameObject);
-                }
-                if(result[i].TryGetComponent(out Card card))
-                {
-                    OnMergeEnter(this.gameObject, card.gameObject);
                     return;
                 }
-                else
-                    continue;
+                foreach (var rule in CardDataDeserializer.CraftRules)
+                {
+                    if (rule.Contains(this.ID) && rule.Contains(card.ID))
+                    {
+                        Debug.Log(rule[^1]);
+                        var cardInstance = CardManager.CreateCard(rule[^1]);
+                        CardManager.DestroyCard(new[] { this, card });
+
+                        //cardInstance.transform.localScale = Vector3.one;
+                        cardInstance.transform.position =
+                            CardManager.Areas[1].transform.position + Vector3.up * 2f;
+                    }
+                }
+                OnMergeEnter(this.gameObject, result[i].gameObject);
+                return;
             }
         }
         
@@ -303,7 +318,7 @@ public class Card : Entity
     protected override void OnMerge(GameObject t1, GameObject t2)
     {
         //t1 => 잡고 있던 카드 || t2 => 바닥에 있던 카드
-        
+        CardManager.Instance.sortBtn.interactable = true;
         var destroyTarget = new[] { t2.GetComponent<Card>(), t1.GetComponent<Card>() };
         var cardGroup = new CardGroup[2];
         var flag1 =  t1.transform.parent.TryGetComponent(out cardGroup[0]);
@@ -333,32 +348,46 @@ public class Card : Entity
         {    
             if (t2.transform.position.z > refZMin && t2.transform.position.z < refZMax)
             {
+                if (t1.transform.parent.Equals(t2.transform.parent))
                 //병합 분기
-                if (t1.TryGetComponent(out CardGroup g1) && t2.TryGetComponent(out CardGroup g2))
                 {
-                    if (g1.Equals(g2))
+                    if (t1.transform.parent.TryGetComponent(out CardGroup g1))
                     {
                         if (g1.IndexOf(this) != 0) return;
-                        
+
                         Debug.Log(g1.IndexOf(this));
-                        
+
                         var IDList = g1.Cards.Select(x => x.ID);
 
-                        foreach (var ID in IDList)
+                        for (int idx = 0; idx < IDList.Count(); idx++)
                         {
-                            var row = g1.Cards.Where(x => x.ID == ID).Select(x => x).ToList();
+                            var _id = IDList.ElementAt(idx);
+                            var row = g1.Cards.Where(x => x.ID == _id).Select(x => x).ToList();
                             if (row.Count() % 2 == 1)
                             {
+                                g1.RemoveCard(row[^1]);
                                 row.Remove(row[^1]);
                             }
 
                             for (int i = 0; i < row.Count();)
                             {
-                                OnMergeEnter(row[0].gameObject, row[1].gameObject);
+                                //0번 삭제
+                                var v = g1.RemoveCard(row[0]);
+                                var cardInstance = CardManager.CreateCard(v.level + 1, (int)this.cardType, true);
+                                cardInstance.TryGetComponent(out Animator anim);
+                                Destroy(anim);
+                                cardInstance.transform.position = CardManager.Areas[1].transform.position + Vector3.up * 2;
+                                
+                                CardManager.DestroyCard(v);
+                                CardManager.DestroyCard(g1.RemoveCard(row[1]));
+                                
                                 row.Remove(row[0]);
-                                row.Remove(row[1]);
+                                //1번 -> 0번 
+                                //다시 0번 삭제
+                                row.Remove(row[0]);
                             }
                         }
+
                     }
                 }
                 else
@@ -374,6 +403,7 @@ public class Card : Entity
                         cardInstance.transform.position = CardManager.Areas[1].transform.position + Vector3.up * 2f;
                         
                         Debug.Log("Merge Successed");
+                        CardManager.Instance.sortBtn.interactable = true;
 
                         EffectManager.instance.MergeEffect();
                         return;
@@ -496,15 +526,21 @@ public class Card : Entity
     {
         while (true)
         {
-            targetObj.transform.position =
-                Vector3.Lerp(targetObj.transform.position, targetPos, 0.4f); 
-
-            if (Vector3.Distance(targetObj.transform.position, targetPos) <= 1f)
+            try
             {
-                targetObj.transform.position = targetPos;
+                targetObj.transform.position =
+                    Vector3.Lerp(targetObj.transform.position, targetPos, 0.4f);
+
+                if (Vector3.Distance(targetObj.transform.position, targetPos) <= 1f)
+                {
+                    targetObj.transform.position = targetPos;
+                    break;
+                }
+            }
+            catch
+            {
                 break;
             }
-
             yield return new WaitForSeconds(0.02f);
         }
         yield return null;

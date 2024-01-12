@@ -107,7 +107,9 @@ public class CardManager : MonoBehaviour
             }
             else
             {
-                cardGroup.RemoveCard(target);
+                var v = cardGroup.RemoveCard(target);
+                Cards.Remove(v);
+                Destroy(v.gameObject);  
             }
         }
         catch (Exception e)
@@ -143,12 +145,12 @@ public class CardManager : MonoBehaviour
 
     public static void ExpirationDateCheck()
     {
-        var deleteQueue = new Queue<Card>();
+        //var deleteQueue = new Queue<Card>();
         foreach (var card in _cards)
         {
             if (!card.Lapse())
             {
-                deleteQueue.Enqueue(card);
+                //deleteQueue.Enqueue(card);
                 FoodTimeOutManager.Show(card);
                 Debug.Log("유통기한이 만료되어 파괴 되었습니다.");
             }

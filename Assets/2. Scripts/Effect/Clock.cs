@@ -49,7 +49,13 @@ public class Clock : MonoBehaviour
         
         if (CoreController.IsDawn)
         {
-            BearManager.Notice("새벽이 밝았습니다!");
+            BearManager.Notice("새벽이 밝았습니다!", () =>
+            {
+                Notice.Dispose();
+
+                GameManager.Instance.StartCoroutine(Turn.Instance.Encounter());
+                
+            });
         }
         if (CoreController.IsMorning)
         {

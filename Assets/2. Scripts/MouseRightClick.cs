@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class MouseRightClick : MonoBehaviour
 {
@@ -10,14 +11,19 @@ public class MouseRightClick : MonoBehaviour
     public static bool onRightClick;
     public GameObject canvas;
     public Image cardImage;
-    public Text cardName;
-    public Text cardText;
+    public TextMeshProUGUI cardName;
+    public TextMeshProUGUI cardText;
     public Button cardEatBtn;
     [SerializeField]
     Button cardDecompositionBtn;
 
     [SerializeField]
     Transform effectUICanvas;
+
+    [SerializeField]
+    GameObject cardEatInfo;
+    [SerializeField]
+    TextMeshProUGUI eatInfoText;
 
     void Update()
     {
@@ -56,6 +62,8 @@ public class MouseRightClick : MonoBehaviour
 
             if (cardContents.cardType == Card.CardType.Food || cardContents.cardType == Card.CardType.Water || cardContents.ID == 3000 || cardContents.ID == 3001)
             {
+                eatInfoText.text = $"<#AB6F40>음식 섭취량:<b></color> <#000000>{cardData.Hunger}</color></b>\n<#009BFF>수분 섭취량:</color> <b><#000000>{cardData.Thirst}</color></b>";
+                cardEatInfo.SetActive(true);
                 cardEatBtn.interactable = true;
                 cardEatBtn.onClick.RemoveAllListeners();
                 cardEatBtn.onClick.AddListener(() =>
@@ -73,6 +81,7 @@ public class MouseRightClick : MonoBehaviour
             }
             else
             {
+                cardEatInfo.SetActive(false);
                 cardEatBtn.interactable= false;
             }
 

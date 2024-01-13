@@ -258,6 +258,7 @@ MonoBehaviour:
   incounter1: {fileID: 963998843}
   incounter2: {fileID: 0}
   incounter3: {fileID: 0}
+  incounter4: {fileID: 0}
   selectBtn: {fileID: 401098766}
   quest: {fileID: 0}
 --- !u!114 &5388451
@@ -579,6 +580,7 @@ MonoBehaviour:
   incounter1: {fileID: 0}
   incounter2: {fileID: 0}
   incounter3: {fileID: 0}
+  incounter4: {fileID: 0}
   selectBtn: {fileID: 0}
   quest: {fileID: 1529060800}
 --- !u!114 &30279792
@@ -1044,6 +1046,7 @@ MonoBehaviour:
   incounter1: {fileID: 0}
   incounter2: {fileID: 0}
   incounter3: {fileID: 0}
+  incounter4: {fileID: 0}
   selectBtn: {fileID: 0}
   quest: {fileID: 1529060800}
 --- !u!114 &77666393
@@ -2317,6 +2320,7 @@ MonoBehaviour:
   clickEffect: {fileID: 1464636474}
   eatCardImg: {fileID: 0}
   cardContents: {fileID: 0}
+  eatEffect: {fileID: 4093443996590237240, guid: 62f83de5a8a2dee45a1bc61df05eedf2, type: 3}
   mergeAnim: {fileID: 598860522}
   mergeEffect: {fileID: 598860518}
 --- !u!1 &246205520
@@ -2903,6 +2907,7 @@ MonoBehaviour:
   incounter1: {fileID: 0}
   incounter2: {fileID: 0}
   incounter3: {fileID: 0}
+  incounter4: {fileID: 0}
   selectBtn: {fileID: 0}
   quest: {fileID: 1529060800}
 --- !u!114 &313915843
@@ -3056,6 +3061,7 @@ MonoBehaviour:
   incounter1: {fileID: 0}
   incounter2: {fileID: 0}
   incounter3: {fileID: 0}
+  incounter4: {fileID: 0}
   selectBtn: {fileID: 0}
   quest: {fileID: 1529060800}
 --- !u!114 &314747450
@@ -3610,13 +3616,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be5e9c740fad4fe4e9e7db29b0a60e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StatUICanvas: {fileID: 1138920814816187962, guid: 78260b429a517074782ea813953577b4, type: 3}
   Clock: {fileID: 446868046}
   Light: {fileID: 1421811051}
   Notice: {fileID: 6290000357460944020, guid: aa6c5515d83a9ac48872aefd807e9b9b, type: 3}
-  Hungriness: {fileID: 1331108082}
-  Thirst: {fileID: 865824742}
   Turn: {fileID: 1561483137}
-  AP: {fileID: 1470101318}
 --- !u!4 &346739154
 Transform:
   m_ObjectHideFlags: 0
@@ -3689,6 +3693,7 @@ MonoBehaviour:
   incounter1: {fileID: 0}
   incounter2: {fileID: 1167643347}
   incounter3: {fileID: 0}
+  incounter4: {fileID: 0}
   selectBtn: {fileID: 1902001260}
   quest: {fileID: 0}
 --- !u!114 &362932901
@@ -6288,6 +6293,7 @@ MonoBehaviour:
   incounter1: {fileID: 0}
   incounter2: {fileID: 0}
   incounter3: {fileID: 0}
+  incounter4: {fileID: 0}
   selectBtn: {fileID: 0}
   quest: {fileID: 1529060800}
 --- !u!114 &573260898
@@ -6899,6 +6905,7 @@ MonoBehaviour:
   incounter1: {fileID: 0}
   incounter2: {fileID: 0}
   incounter3: {fileID: 0}
+  incounter4: {fileID: 0}
   selectBtn: {fileID: 568299770}
   quest: {fileID: 0}
 --- !u!114 &626570593
@@ -7646,6 +7653,7 @@ MonoBehaviour:
   incounter1: {fileID: 963998843}
   incounter2: {fileID: 0}
   incounter3: {fileID: 0}
+  incounter4: {fileID: 0}
   selectBtn: {fileID: 401098766}
   quest: {fileID: 0}
 --- !u!114 &699964712
@@ -9702,6 +9710,7 @@ MonoBehaviour:
   incounter1: {fileID: 0}
   incounter2: {fileID: 1167643347}
   incounter3: {fileID: 0}
+  incounter4: {fileID: 0}
   selectBtn: {fileID: 694606958}
   quest: {fileID: 0}
 --- !u!114 &850005044
@@ -10528,6 +10537,7 @@ MonoBehaviour:
   incounter1: {fileID: 0}
   incounter2: {fileID: 0}
   incounter3: {fileID: 1507991835}
+  incounter4: {fileID: 0}
   selectBtn: {fileID: 1097921128}
   quest: {fileID: 0}
 --- !u!114 &903419789
@@ -11545,6 +11555,7 @@ MonoBehaviour:
   incounter1: {fileID: 0}
   incounter2: {fileID: 0}
   incounter3: {fileID: 1507991835}
+  incounter4: {fileID: 0}
   selectBtn: {fileID: 1097921128}
   quest: {fileID: 0}
 --- !u!114 &978187812
@@ -12260,6 +12271,7 @@ MonoBehaviour:
   incounter1: {fileID: 0}
   incounter2: {fileID: 0}
   incounter3: {fileID: 0}
+  incounter4: {fileID: 0}
   selectBtn: {fileID: 2038477922}
   quest: {fileID: 0}
 --- !u!114 &1061772505
@@ -16470,6 +16482,7 @@ MonoBehaviour:
   incounter1: {fileID: 0}
   incounter2: {fileID: 1167643347}
   incounter3: {fileID: 0}
+  incounter4: {fileID: 0}
   selectBtn: {fileID: 1587354379}
   quest: {fileID: 0}
 --- !u!114 &1488393515
@@ -17811,6 +17824,7 @@ MonoBehaviour:
   incounter1: {fileID: 0}
   incounter2: {fileID: 0}
   incounter3: {fileID: 1507991835}
+  incounter4: {fileID: 0}
   selectBtn: {fileID: 2074996781}
   quest: {fileID: 0}
 --- !u!114 &1571511598
@@ -18236,6 +18250,7 @@ MonoBehaviour:
   incounter1: {fileID: 0}
   incounter2: {fileID: 0}
   incounter3: {fileID: 0}
+  incounter4: {fileID: 0}
   selectBtn: {fileID: 568299770}
   quest: {fileID: 0}
 --- !u!114 &1604092870
@@ -18389,6 +18404,7 @@ MonoBehaviour:
   incounter1: {fileID: 0}
   incounter2: {fileID: 0}
   incounter3: {fileID: 0}
+  incounter4: {fileID: 0}
   selectBtn: {fileID: 19321984}
   quest: {fileID: 0}
 --- !u!114 &1604619167
@@ -19047,6 +19063,7 @@ MonoBehaviour:
   incounter1: {fileID: 0}
   incounter2: {fileID: 0}
   incounter3: {fileID: 0}
+  incounter4: {fileID: 0}
   selectBtn: {fileID: 0}
   quest: {fileID: 1529060800}
 --- !u!114 &1693479744
@@ -19432,6 +19449,7 @@ MonoBehaviour:
   incounter1: {fileID: 0}
   incounter2: {fileID: 0}
   incounter3: {fileID: 0}
+  incounter4: {fileID: 0}
   selectBtn: {fileID: 2038477922}
   quest: {fileID: 0}
 --- !u!114 &1716155336
@@ -19665,6 +19683,7 @@ MonoBehaviour:
   incounter1: {fileID: 0}
   incounter2: {fileID: 0}
   incounter3: {fileID: 0}
+  incounter4: {fileID: 0}
   selectBtn: {fileID: 0}
   quest: {fileID: 1529060800}
 --- !u!114 &1728223069
@@ -20927,6 +20946,7 @@ MonoBehaviour:
   incounter1: {fileID: 0}
   incounter2: {fileID: 0}
   incounter3: {fileID: 0}
+  incounter4: {fileID: 0}
   selectBtn: {fileID: 2021606467}
   quest: {fileID: 0}
 --- !u!114 &1827060669
@@ -21781,10 +21801,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8d0601ca7c69414fb5bd1fba5b10ee0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hungerSlider: {fileID: 547588914}
-  changeHungerSlider: {fileID: 221506895}
-  thirstSlider: {fileID: 1304993045}
-  changeThirstSlider: {fileID: 677630360}
+  statUI:
+    Texts: []
+    Hunger: []
+    Thirst: []
+    Background: {fileID: 0}
 --- !u!1 &1916269168
 GameObject:
   m_ObjectHideFlags: 0
@@ -23664,6 +23685,7 @@ MonoBehaviour:
   incounter1: {fileID: 0}
   incounter2: {fileID: 1167643347}
   incounter3: {fileID: 0}
+  incounter4: {fileID: 0}
   selectBtn: {fileID: 694606958}
   quest: {fileID: 0}
 --- !u!114 &2088174542

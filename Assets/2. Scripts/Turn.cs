@@ -104,7 +104,7 @@ public class Turn : MonoBehaviour
 
     public IEnumerator Encounter()
     {
-        yield return new WaitForSeconds(1.1f);
+        yield return new WaitForSeconds(0.51f);
         GameManager.CardCanvasOn = true;
         blockUI.SetActive(true);
         nextBtn.interactable = false;

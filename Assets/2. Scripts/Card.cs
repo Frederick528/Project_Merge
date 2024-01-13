@@ -355,8 +355,6 @@ public class Card : Entity
                     {
                         if (g1.IndexOf(this) != 0) return;
 
-                        Debug.Log(g1.IndexOf(this));
-
                         var IDList = g1.Cards.Select(x => x.ID);
 
                         for (int idx = 0; idx < IDList.Count(); idx++)
@@ -389,7 +387,28 @@ public class Card : Entity
                         }
 
                     }
+                    else
+                    {
+                        if ((destroyTarget[0].ID == destroyTarget[1].ID) && destroyTarget[0].ID < 3000)
+                        {
+
+                            var cardInstance = CardManager.CreateCard(level + 1, (int)cardType, true);
+                            Destroy(cardInstance.GetComponent<Animator>());
+                            CardManager.DestroyCard(destroyTarget);
+
+                            //cardInstance.transform.localScale = Vector3.one;
+                            cardInstance.transform.position = CardManager.Areas[1].transform.position + Vector3.up * 2f;
+                        
+                            Debug.Log("Merge Successed");
+                            CardManager.Instance.sortBtn.interactable = true;
+
+                            EffectManager.instance.MergeEffect();
+                            return;
+                        }
+                    }
+                    
                 }
+                
                 else
                 {
                     if ((destroyTarget[0].ID == destroyTarget[1].ID) && destroyTarget[0].ID < 3000)
@@ -409,6 +428,7 @@ public class Card : Entity
                         return;
                     }
                 }
+                
             }
         }
         

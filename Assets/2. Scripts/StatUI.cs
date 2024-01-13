@@ -16,7 +16,9 @@ public class StatUI : EffectBase
     public StatUIGroup statUI;
 
     private Animator _anim;
-    private bool _status;
+    private bool _status = true; // true 표시 / false 비표시
+
+    private bool _isClickable = true;
     // Start is called before the first frame update
 
     private void OnEnable()
@@ -26,7 +28,8 @@ public class StatUI : EffectBase
             btn = statUI.Background.gameObject.AddComponent<Button>();
             btn.onClick.AddListener(() =>
             {
-                if (!_status)
+                if (!_isClickable) return;
+                if (_status)
                 {
                     Exit();
                 }
@@ -35,7 +38,6 @@ public class StatUI : EffectBase
                     Enter();
                 }
                 //btn.onClick.RemoveAllListeners();
-                _status = !_status;
             });
         }
         
@@ -66,17 +68,30 @@ public class StatUI : EffectBase
 
     public void Enter()
     {
-        _anim ??= this.GetComponent<Animator>();
-        _anim.SetTrigger("Enter");
+        _isClickable = false;
+        if (!_status)
+        {
+            _anim ??= this.GetComponent<Animator>();
+            _anim.SetTrigger("Enter");
+        }
+        
+        _status = true;
     }
     public void Exit()
     {
-        _anim ??= this.GetComponent<Animator>();
-        _anim.SetTrigger("Exit");
+        _isClickable = false;
+        //비표시 중일 때 애니메이션 재생 x
+        if (_status)
+        {
+            _anim ??= this.GetComponent<Animator>();
+            _anim.SetTrigger("Exit");
+        }
+        _status = false;
     }
 
     public override void AnimEvt()
     {
+        _isClickable = true;
         //base.AnimEvt();
     }
 

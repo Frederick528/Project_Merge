@@ -35,7 +35,9 @@ public class CardManager : MonoBehaviour
     }
     public static Card CreateCard()
     {
-        return CreateCard(false);
+        var v = CreateCard(false);
+        CreateQueue.Enqueue(v);
+        return v;
     }
     
     public static Card CreateCard(bool isOnMerge)
@@ -55,9 +57,7 @@ public class CardManager : MonoBehaviour
                 y = Camera.main.transform.position.y,
                 z = 80
             }, 50);
-            
-            CreateQueue.Enqueue(cardInstance);
-        
+
             return cardInstance;
         }
         else
@@ -69,8 +69,6 @@ public class CardManager : MonoBehaviour
             cardInstance.Init(0);
             _cards.Add(cardInstance);
 
-            CreateQueue.Enqueue(cardInstance);
-            
             return cardInstance;
         }
     }

@@ -63,7 +63,6 @@ public class CoreController : MonoBehaviour
         
         Difficulty.Subscribe(x =>
         {
-            Debug.Log(true);
             if (x == 0) return;
                 StatUICanvas.gameObject.SetActive(true);
             _core.Difficulty = (ushort)x;
@@ -74,7 +73,6 @@ public class CoreController : MonoBehaviour
         {
             if (x != 0)
                 StatUICanvas.gameObject.SetActive(true);
-            Debug.Log(true);
             var v = (_core.Status.maxHunger - x) / _core.Status.maxHunger;
             StatUICanvas.statUI.Hunger[0].fillAmount = v;
             StatUICanvas.statUI.Texts[0].text = _core.Status.curHunger + "";

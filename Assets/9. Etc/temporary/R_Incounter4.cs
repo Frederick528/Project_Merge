@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class R_Incounter3 : MonoBehaviour
+public class R_Incounter4 : MonoBehaviour
 {
     public bool isWaitingForInput = true;
     public int bifurcation = 0;
@@ -16,21 +16,22 @@ public class R_Incounter3 : MonoBehaviour
     [SerializeField]
     GameObject blockUI, closeBtn;
 
-    int currentTextIndex, currentTextIndex2, currentTextIndex3, currentTextIndex4 = 0;
+    int currentTextIndex, currentTextIndex2, currentTextIndex3, currentTextIndex5 = 0;
 
-    private string[] textArray1 = { "자원을 구하기 위해 숲속을 탐험하던 중. 오래된 상자를 발견했다.",
-                                   "이끼가 많이 덮여있고, 오랜 시간 동안 건들지 않은 상자인 것 같다."};
-    private string[] result1 = { "", "나는 침을 삼키고 상자를 열었다.", "안에는 작은 반지가 하나 있었다.", "나는 그 반지를 조심히 들었고.., "};
-    private string[] result2 = { "", "마법이 있는 세상에 아무 상자나 열면 안될 것 같다.", "함정일 수도 있으니.. 그냥 두고가자."};
-
-    private string[] result1_a = {"", "무언가 따뜻한 느낌이 내 몸을 멤돌았다." };
-
+    private string[] textArray1 = { "가만히 작업하고 있던 날. 하늘에서 어떤 편지가 내려왔다.",
+                                   "마녀. 라고 적혀있다. 아무것도 안적혀있는 종이에 마법으로 글씨가 보이기 시작했다."};
+    private string[] textArray2 = {"","문제를 하나 낼게 안맞출 수는 없고, 맞추면 상이 있고 틀리면 벌이있을꺼야! 즐겨줘!",
+                                   "덜어내면 덜어낼 수록 점점 커지는 것은?"};
+    private string[] result1 = { "", "나는 편지를 보고 \"구멍\" 이라고 대답했다.", "\"정답이야, 이걸 맞추다니. 재미없네.\"", "\"아무튼 약속한 상이야.\"","배고픔 10 증가", 
+                                 "몸이 든든해지는게 느껴진다.", "저주였으면 어떤 효과였을지 조금 무서워진다…." };
+    private string[] result2 = { "", "나는 편지를 보고 \"사랑\" 이라고 대답했다.", "\"사랑? 사랑이라.. 그것도 나쁘지 않네… 답은 아니지만!\"", 
+                                 "\"하지만 그래도 대답은 마음에 들었으니, 약간의 저주만 줄게!\"","배고픔 10 감소","몸이 약해지는 것 같다..","마음에 들었으면 한번만 봐주지.." };
 
     void Start()
     {
         myText.text = textArray1[0];
         //nextBtn.interactable = false;
-        //closeBtn.SetActive(true);    
+        closeBtn.SetActive(true);    
     }
 
     void Update()
@@ -39,24 +40,24 @@ public class R_Incounter3 : MonoBehaviour
         {
             Incounter1();
         }
-        else if (currentTextIndex >= textArray1.Length && currentTextIndex2 < result1.Length && bifurcation == 0)
+        else if (currentTextIndex >= textArray1.Length && currentTextIndex5 < textArray2.Length)
+        {
+            Incounter2();
+        }
+        else if (currentTextIndex >= textArray1.Length && currentTextIndex5 >= textArray2.Length && currentTextIndex2 < result1.Length && bifurcation == 0)
         {
             Result1();
         }
-        else if (currentTextIndex >= textArray1.Length && currentTextIndex3 < result2.Length && bifurcation == 1)
+        else if (currentTextIndex >= textArray1.Length && currentTextIndex5 >= textArray2.Length && currentTextIndex3 < result2.Length && bifurcation == 1)
         {
             Result2();
-        }
-        else if (currentTextIndex >= textArray1.Length && currentTextIndex2 >= result1.Length && bifurcation == 0 && currentTextIndex4 < result1_a.Length)
-        {
-            Select1();
         }
         else
         {
             incounter.SetActive(false);
             Turn.Instance.nextBtn.interactable = true;
             blockUI.SetActive(false);
-            closeBtn.SetActive(false);
+            //closeBtn.SetActive(false);
             GameManager.CardCanvasOn = false;
         }
     }
@@ -90,6 +91,22 @@ public class R_Incounter3 : MonoBehaviour
             }
         }
     }
+    public void Incounter2()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput)
+        {
+            currentTextIndex5++;
+            if (currentTextIndex5 < textArray2.Length)
+            {
+                UpdateText(textArray2, currentTextIndex5);
+            }
+            if (currentTextIndex5 >= textArray2.Length)
+            {
+                select2.SetActive(true);
+                isWaitingForInput = false;
+            }
+        }
+    }
 
     public void Result1()
     {
@@ -102,7 +119,6 @@ public class R_Incounter3 : MonoBehaviour
             }
             if (currentTextIndex2 >= result1.Length)
             {
-                select2.SetActive(true);
                 isWaitingForInput = false;
             }
         }
@@ -120,22 +136,6 @@ public class R_Incounter3 : MonoBehaviour
                 UpdateText(result2, currentTextIndex3);
             }
             if (currentTextIndex3 >= result2.Length)
-            {
-                isWaitingForInput = false;
-            }
-        }
-    }
-
-    public void Select1()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput == true && bifurcation == 0)
-        {
-            currentTextIndex4++;
-            if (currentTextIndex4 < result1_a.Length)
-            {
-                UpdateText(result1_a, currentTextIndex4);
-            }
-            if (currentTextIndex4 >= result1_a.Length)
             {
                 isWaitingForInput = false;
             }

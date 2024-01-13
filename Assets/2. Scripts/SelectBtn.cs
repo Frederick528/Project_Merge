@@ -8,6 +8,7 @@ public class SelectBtn : MonoBehaviour
     public R_Incounter1 incounter1;
     public R_Incounter2 incounter2;
     public R_Incounter3 incounter3;
+    public R_Incounter4 incounter4; 
     public GameObject selectBtn;
     public Quest quest;
 
@@ -123,6 +124,26 @@ public class SelectBtn : MonoBehaviour
         selectBtn.SetActive(false);
     }
 
+    public void R4_Select()
+    {
+        incounter4.Incounter2(); // TextController의 Select1 메서드 호출
+        incounter4.isWaitingForInput = true;
+        selectBtn.SetActive(false);
+    }
+    public void R4_Result1()
+    {
+        incounter4.Result1();
+        incounter4.isWaitingForInput = true;
+        incounter4.bifurcation = 0;
+        selectBtn.SetActive(false);
+    }
+
+    public void R4_Result2()
+    {
+        incounter4.Result2(); // TextController의 Select1 메서드 호출
+        incounter4.isWaitingForInput = true;
+        selectBtn.SetActive(false);
+    }
 
     public void Guied1()
     {

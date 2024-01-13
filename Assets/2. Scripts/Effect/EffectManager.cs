@@ -13,10 +13,12 @@ public class EffectManager : MonoBehaviour
     public Animator clickAnim;
     public GameObject clickEffect;
 
+    [Header("먹기")]
     [HideInInspector]
     public Sprite eatCardImg;
     [HideInInspector]
     public Card cardContents;
+    public GameObject eatEffect;
 
     [Header("합성")]
     public Animator mergeAnim;

@@ -80,7 +80,7 @@ public class MouseRightClick : MonoBehaviour
                     CanvasClose();
                     EffectManager.instance.eatCardImg = cardImage.sprite;
                     EffectManager.instance.cardContents = cardContents;
-                    GameObject eatCard = Instantiate(Resources.Load<GameObject>("Prefabs/Effect/EatCardEffect"), effectUICanvas);
+                    GameObject eatCard = Instantiate(EffectManager.instance.eatEffect, effectUICanvas);
                 });
             }
             else

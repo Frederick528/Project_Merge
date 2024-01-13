@@ -202,7 +202,8 @@ public class CameraCtrl : MonoBehaviour
                 };
                 Camera.main.transform.position =
                     Vector3.Lerp(Camera.main.transform.position, targetPos, 0.4f);
-                Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, fieldOfView, 0.4f);
+                //Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, fieldOfView, 0.4f);
+                Camera.main.fieldOfView = fieldOfView;
 
                 if (Input.GetMouseButton(1))
                 {

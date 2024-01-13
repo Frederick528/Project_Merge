@@ -17,6 +17,7 @@ public class CardManager : MonoBehaviour
     public static CardManager Instance;
     public static GameObject[] Areas; // 0 - Merge | 1 - Export | 2 - Sort
     public static List<Card> Cards => _cards;
+    public static Queue<Card> CreateQueue = new ();
     public Button sortBtn;
 
     public GameObject newerCardEffect;
@@ -54,6 +55,8 @@ public class CardManager : MonoBehaviour
                 y = Camera.main.transform.position.y,
                 z = 80
             }, 50);
+            
+            CreateQueue.Enqueue(cardInstance);
         
             return cardInstance;
         }
@@ -65,6 +68,8 @@ public class CardManager : MonoBehaviour
             cardInstance.cardType = (Card.CardType)Random.Range(0, Enum.GetValues(typeof(Card.CardType)).Length - 1);
             cardInstance.Init(0);
             _cards.Add(cardInstance);
+
+            CreateQueue.Enqueue(cardInstance);
             
             return cardInstance;
         }

@@ -496,7 +496,9 @@ public class Card : Entity
     public void AnimEvt()
     {
         var a = this.GetComponent<Animator>();
-        CardManager.Instance.sortBtn.interactable = true;
+        CardManager.CreateQueue.Dequeue();
+        CardManager.Instance.sortBtn.interactable =
+            CardManager.CreateQueue.Count == 0;
         Destroy(a);
     }
 

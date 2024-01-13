@@ -16,6 +16,7 @@ public class StatUI : EffectBase
     public StatUIGroup statUI;
 
     private Animator _anim;
+    private bool _status;
     // Start is called before the first frame update
 
     private void OnEnable()
@@ -23,13 +24,22 @@ public class StatUI : EffectBase
         if (!statUI.Background.TryGetComponent(out Button btn))
         {
             btn = statUI.Background.gameObject.AddComponent<Button>();
+            btn.onClick.AddListener(() =>
+            {
+                if (!_status)
+                {
+                    Exit();
+                }
+                else
+                {
+                    Enter();
+                }
+                //btn.onClick.RemoveAllListeners();
+                _status = !_status;
+            });
         }
         
-        btn.onClick.AddListener(() =>
-        {
-            Exit();
-            btn.onClick.RemoveAllListeners();
-        });
+        
     }
 
     // Update is called once per frame
@@ -54,10 +64,20 @@ public class StatUI : EffectBase
         }
     }
 
+    public void Enter()
+    {
+        _anim ??= this.GetComponent<Animator>();
+        _anim.SetTrigger("Enter");
+    }
     public void Exit()
     {
         _anim ??= this.GetComponent<Animator>();
         _anim.SetTrigger("Exit");
+    }
+
+    public override void AnimEvt()
+    {
+        //base.AnimEvt();
     }
 
     [Serializable]

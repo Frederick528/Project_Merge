@@ -3610,13 +3610,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be5e9c740fad4fe4e9e7db29b0a60e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StatUICanvas: {fileID: 1138920814816187962, guid: 78260b429a517074782ea813953577b4, type: 3}
   Clock: {fileID: 446868046}
   Light: {fileID: 1421811051}
   Notice: {fileID: 6290000357460944020, guid: aa6c5515d83a9ac48872aefd807e9b9b, type: 3}
-  Hungriness: {fileID: 1331108082}
-  Thirst: {fileID: 865824742}
   Turn: {fileID: 1561483137}
-  AP: {fileID: 1470101318}
 --- !u!4 &346739154
 Transform:
   m_ObjectHideFlags: 0
@@ -21781,10 +21779,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8d0601ca7c69414fb5bd1fba5b10ee0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hungerSlider: {fileID: 547588914}
-  changeHungerSlider: {fileID: 221506895}
-  thirstSlider: {fileID: 1304993045}
-  changeThirstSlider: {fileID: 677630360}
+  statUI:
+    Texts: []
+    Hunger: []
+    Thirst: []
 --- !u!1 &1916269168
 GameObject:
   m_ObjectHideFlags: 0

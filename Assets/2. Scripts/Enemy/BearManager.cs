@@ -134,7 +134,6 @@ public class BearManager : MonoBehaviour
         else if (!Instance.bearApear.gameObject.activeSelf)
         {
             Instance.bearApear.gameObject.SetActive(true);
-            Debug.Log(true);
         }
         
         try

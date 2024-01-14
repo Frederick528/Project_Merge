@@ -198,7 +198,7 @@ public class Card : Entity
                         }
                     }
                 }
-                return;
+                //return;
             }
             
             if (result[i].TryGetComponent(out Card card))

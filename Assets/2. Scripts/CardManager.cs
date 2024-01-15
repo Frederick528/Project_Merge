@@ -42,11 +42,12 @@ public class CardManager : MonoBehaviour
     
     public static Card CreateCard(bool isOnMerge)
     {
+        Card cardInstance;
         if(!isOnMerge)
         {
             _ogCard ??= Resources.Load<GameObject>("Prefabs/RedCard");
 
-            var cardInstance = Instantiate(_ogCard, Instance.transform).GetComponent<Card>();
+            cardInstance = Instantiate(_ogCard, Instance.transform).GetComponent<Card>();
             cardInstance.cardType = (Card.CardType)Random.Range(0, Enum.GetValues(typeof(Card.CardType)).Length - 1);
             cardInstance.Init(0);
             _cards.Add(cardInstance);
@@ -57,20 +58,18 @@ public class CardManager : MonoBehaviour
                 y = Camera.main.transform.position.y,
                 z = 80
             }, 50);
-
-            return cardInstance;
         }
         else
         {
             _ogCard ??= Resources.Load<GameObject>("Prefabs/RedCard");
 
-            var cardInstance = Instantiate(_ogCard, Instance.transform).GetComponent<Card>();
+            cardInstance = Instantiate(_ogCard, Instance.transform).GetComponent<Card>();
             cardInstance.cardType = (Card.CardType)Random.Range(0, Enum.GetValues(typeof(Card.CardType)).Length - 1);
             cardInstance.Init(0);
             _cards.Add(cardInstance);
 
-            return cardInstance;
         }
+        return cardInstance;
     }
     public static Card CreateCard(int level, int type )
     {
@@ -133,7 +132,12 @@ public class CardManager : MonoBehaviour
             for (int i = 0; i < v.Count();)
             {
                 var c = v.ElementAt(i);
+                if (c.transform.parent.TryGetComponent(out CardGroup group))
+                {
+                    group.RemoveCard(c);
+                }
                 _cards.Remove(c);
+                
                 Destroy(c.gameObject);
             }
         }

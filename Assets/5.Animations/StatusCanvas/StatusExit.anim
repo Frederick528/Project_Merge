@@ -121,3 +121,10 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 1
+    functionName: AnimEvt
+    data: 
+    objectReferenceParameter: {fileID: 1138920814816187967, guid: 78260b429a517074782ea813953577b4, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

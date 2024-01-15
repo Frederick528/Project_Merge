@@ -19,7 +19,7 @@ public class CardDataDeserializer
 
     private static Dictionary<int, CardData> CreateDictionary()
     {
-        string fileName = "/0.8.xlsx";
+        string fileName = "/1.0.xlsx";
         string filePath = Application.dataPath + fileName;
 
         Dictionary<int, CardData> cardDictionary = new Dictionary<int, CardData>();
@@ -36,7 +36,7 @@ public class CardDataDeserializer
                     {
                         var data = new CardData ();
                         var row = table[i].Rows[j];
-
+                        
                         data.KR = row[1].ToString();
                         data.EN = row[2].ToString();
                         if(Int32.TryParse(row[3].ToString(), out data.Date))

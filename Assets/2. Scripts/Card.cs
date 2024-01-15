@@ -81,14 +81,8 @@ public class Card : Entity
 
         this.GetComponentInChildren<TMP_Text>().text = _data.KR;
 
-        if (!YamlDeserializer.saveData.GetValue(this.ID))
-        {
-            Debug.Log("카드를 새로이 획득 했습니다!");
-            YamlDeserializer.saveData.Modify(this.ID, true);
-            YamlDeserializer.Serialize(PictorialData.defaultFilePath, YamlDeserializer.saveData);
+       InitCheck();
 
-            Instantiate(CardManager.Instance.newerCardEffect, this.transform).transform.localPosition += Vector3.up * 2f;
-        }
     }
     public void Init(int ID, out bool temp)
     {
@@ -136,14 +130,32 @@ public class Card : Entity
 
         this.GetComponentInChildren<TMP_Text>().text = _data.KR;
         
+        InitCheck();    
+    }
+
+    private void InitCheck()
+    {
         if (!YamlDeserializer.saveData.GetValue(this.ID))
         {
             Debug.Log("카드를 새로이 획득 했습니다!");
             YamlDeserializer.saveData.Modify(this.ID, true);
             YamlDeserializer.Serialize(PictorialData.defaultFilePath, YamlDeserializer.saveData);
-            
+
             Instantiate(CardManager.Instance.newerCardEffect, this.transform).transform.localPosition += Vector3.up * 2f;
         }
+        
+        var v = from card in CardManager.Cards
+            where card.ID % 10 == this.ID % 10
+            select card;
+        
+        Debug.Log(ID);
+        if (v.Count() >= 8 && !YamlDeserializer.saveData.GetValueFromLimit(this.ID % 10))
+        {
+            Debug.Log(true);
+            YamlDeserializer.saveData.ModifyLimit(this.ID % 10, true);
+            YamlDeserializer.Serialize(PictorialData.defaultFilePath, YamlDeserializer.saveData);
+        }
+        
     }
     // Update is called once per frame
     void Update()
@@ -198,7 +210,7 @@ public class Card : Entity
                         }
                     }
                 }
-                return;
+                //return;
             }
             
             if (result[i].TryGetComponent(out Card card))
@@ -360,7 +372,9 @@ public class Card : Entity
                         for (int idx = 0; idx < IDList.Count(); idx++)
                         {
                             var _id = IDList.ElementAt(idx);
-                            var row = g1.Cards.Where(x => x.ID == _id).Select(x => x).ToList();
+                            var row = g1.Cards
+                                .Where(x => x.ID == _id && YamlDeserializer.saveData.GetValueFromLimit(x.ID % 10))
+                                .Select(x => x).ToList();
                             if (row.Count() % 2 == 1)
                             {
                                 g1.RemoveCard(row[^1]);
@@ -371,7 +385,8 @@ public class Card : Entity
                             {
                                 //0번 삭제
                                 var v = g1.RemoveCard(row[0]);
-                                var cardInstance = CardManager.CreateCard(v.level + 1, (int)this.cardType, true);
+                                Debug.Log(_id + " " + v.ID );
+                                var cardInstance = CardManager.CreateCard(v.level + 1, (int)v.cardType, true);
                                 cardInstance.TryGetComponent(out Animator anim);
                                 Destroy(anim);
                                 cardInstance.transform.position = CardManager.Areas[1].transform.position + Vector3.up * 2;
@@ -386,23 +401,34 @@ public class Card : Entity
                             }
                         }
 
+                        CardManager.Instance.sortBtn.interactable = true;
                     }
                     else
                     {
                         if ((destroyTarget[0].ID == destroyTarget[1].ID) && destroyTarget[0].ID < 3000)
                         {
+                            if(YamlDeserializer.saveData.GetValueFromLimit(ID % 10))
+                            {
+                                var cardInstance = CardManager.CreateCard(level + 1, (int)cardType, true);
+                                Destroy(cardInstance.GetComponent<Animator>());
+                                CardManager.DestroyCard(destroyTarget);
 
-                            var cardInstance = CardManager.CreateCard(level + 1, (int)cardType, true);
-                            Destroy(cardInstance.GetComponent<Animator>());
-                            CardManager.DestroyCard(destroyTarget);
+                                //cardInstance.transform.localScale = Vector3.one;
+                                cardInstance.transform.position =
+                                    CardManager.Areas[1].transform.position + Vector3.up * 2f;
 
-                            //cardInstance.transform.localScale = Vector3.one;
-                            cardInstance.transform.position = CardManager.Areas[1].transform.position + Vector3.up * 2f;
-                        
-                            Debug.Log("Merge Successed");
-                            CardManager.Instance.sortBtn.interactable = true;
+                                Debug.Log("Merge Successed");
+                                CardManager.Instance.sortBtn.interactable = true;
 
-                            EffectManager.instance.MergeEffect();
+                                EffectManager.instance.MergeEffect();
+                            }
+                            else
+                            {
+                                _rigid.isKinematic = false;
+                                if (this.transform.parent.TryGetComponent(out CardGroup group))
+                                    group.RemoveCard(this);
+                                Debug.Log(true);
+                            }
                             return;
                         }
                     }
@@ -413,18 +439,26 @@ public class Card : Entity
                 {
                     if ((destroyTarget[0].ID == destroyTarget[1].ID) && destroyTarget[0].ID < 3000)
                     {
+                        if(YamlDeserializer.saveData.GetValueFromLimit(ID % 10))
+                        {
+                            var cardInstance = CardManager.CreateCard(level + 1, (int)cardType, true);
+                            Destroy(cardInstance.GetComponent<Animator>());
+                            CardManager.DestroyCard(destroyTarget);
 
-                        var cardInstance = CardManager.CreateCard(level + 1, (int)cardType, true);
-                        Destroy(cardInstance.GetComponent<Animator>());
-                        CardManager.DestroyCard(destroyTarget);
+                            //cardInstance.transform.localScale = Vector3.one;
+                            cardInstance.transform.position = CardManager.Areas[1].transform.position + Vector3.up * 2f;
 
-                        //cardInstance.transform.localScale = Vector3.one;
-                        cardInstance.transform.position = CardManager.Areas[1].transform.position + Vector3.up * 2f;
-                        
-                        Debug.Log("Merge Successed");
-                        CardManager.Instance.sortBtn.interactable = true;
+                            Debug.Log("Merge Successed");
+                            CardManager.Instance.sortBtn.interactable = true;
 
-                        EffectManager.instance.MergeEffect();
+                            EffectManager.instance.MergeEffect();
+                        }
+                        else
+                        {
+                            _rigid.isKinematic = false;
+                            if (this.transform.parent.TryGetComponent(out CardGroup group))
+                                group.RemoveCard(this);
+                        }
                         return;
                     }
                 }
@@ -449,7 +483,6 @@ public class Card : Entity
                         cardGroup[0].RemoveCard(card, false);
                         cardGroup[1].AddCard(card);
                     }
-                    Debug.Log(true);
                     Destroy(cardGroup[0].gameObject);
                 }
                 else

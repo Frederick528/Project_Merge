@@ -35,7 +35,7 @@ public class P_Incounter2 : MonoBehaviour
 
     private string[] CharacterName1 = { "???"};
     private string[] CharacterName2 = { "", "", "", "", "마녀" };
-    private string[] CharacterName3 = { "", "", "" };
+    private string[] CharacterName3 = { "", "마녀", "" };
 
     private string[] result1 = { "", "마녀가 지팡이를 휘두르자, 속이 든든해진게 느껴진다." };
     private string[] result2 = { "", "마녀가 지팡이를 휘두르자, 몸이 가벼워진게 느껴진다. " };

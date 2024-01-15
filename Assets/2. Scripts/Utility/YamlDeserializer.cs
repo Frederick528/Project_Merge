@@ -47,6 +47,14 @@ public class YamlDeserializer
             if(saveData.dict != null)
             {
                 saveData.dict.Clear();
+                var v =
+                    from key in CardDataDeserializer.Keys
+                    select new KeyValuePair<int, bool>(key, false);
+            
+                foreach (var keyValuePair in v)
+                {
+                    saveData.dict.Add(keyValuePair.Key, keyValuePair.Value);
+                }
             }
             else
             {
@@ -55,14 +63,7 @@ public class YamlDeserializer
                     select new KeyValuePair<int, bool>(key, false)
                 );
             }
-            var v =
-                from key in CardDataDeserializer.Keys
-                select new KeyValuePair<int, bool>(key, false);
             
-            foreach (var keyValuePair in v)
-            {
-                saveData.dict.Add(keyValuePair.Key, keyValuePair.Value);
-            }
             Serialize(path , saveData);
 #endif
             

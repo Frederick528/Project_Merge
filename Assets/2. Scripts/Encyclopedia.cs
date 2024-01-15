@@ -31,7 +31,7 @@ public class Encyclopedia : MonoBehaviour
                 {
                     Destroy(Q.Dequeue().gameObject);
                 }
-                
+
                 var v = Instantiate(structure.row);
                 foreach (var keyValueFair in YamlDeserializer.saveData.dict)
                 {
@@ -51,7 +51,10 @@ public class Encyclopedia : MonoBehaviour
                     
                     if (v.transform.childCount >= 6)
                     {
-                        v.transform.SetParent(structure.content.transform);
+                        var tfm = v.GetComponent<RectTransform>();
+                        tfm.SetParent(structure.content.transform, true);
+                        tfm.position = Vector3.zero;
+                        tfm.localScale = Vector3.one;
                         v.SetActive(true);
                         v = Instantiate(structure.row);
                     }

@@ -81,6 +81,8 @@ public class MouseRightClick : MonoBehaviour
             cardEatBtn.onClick.RemoveAllListeners();
             cardEatBtn.onClick.AddListener(() =>
             {
+                CoreController.ModifyHunger(cardContents.Data.Hunger);
+                CoreController.ModifyHunger(cardContents.Data.Thirst);
                 if (cardContents.transform.parent.TryGetComponent(out CardGroup cardGroup))
                     CardManager.DestroyCard(cardGroup.RemoveCard(cardContents));
                 else

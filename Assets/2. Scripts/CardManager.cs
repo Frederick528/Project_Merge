@@ -69,18 +69,6 @@ public class CardManager : MonoBehaviour
             _cards.Add(cardInstance);
 
         }
-
-        var v = from card in _cards
-            where card.ID % 10 == cardInstance.ID % 10
-            select card;
-        
-        if (v.Count() >= 8 && !YamlDeserializer.saveData.GetValueFromLimit(cardInstance.ID % 10))
-        {
-            Debug.Log(true);
-            YamlDeserializer.saveData.ModifyLimit(cardInstance.ID % 10, true);
-            YamlDeserializer.Serialize(PictorialData.defaultFilePath, YamlDeserializer.saveData);
-        }
-        
         return cardInstance;
     }
     public static Card CreateCard(int level, int type )
@@ -144,7 +132,12 @@ public class CardManager : MonoBehaviour
             for (int i = 0; i < v.Count();)
             {
                 var c = v.ElementAt(i);
+                if (c.transform.parent.TryGetComponent(out CardGroup group))
+                {
+                    group.RemoveCard(c);
+                }
                 _cards.Remove(c);
+                
                 Destroy(c.gameObject);
             }
         }

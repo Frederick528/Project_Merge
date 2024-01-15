@@ -14,9 +14,14 @@ public class UnityChanController : Draggable
     private Camera _mainCam;
     private Animator _anim;
     private bool _isMouseDown = false;
+    private float[] curTime = new [] {0f, 0f};
+    
+    [SerializeField] private float period = 1f;
 
     public Transform eyeLine;
     public Transform lookPos;
+    public AnimationCurve curve;
+    public AnimationCurve curveStanding;
 
     private void Awake()
     {
@@ -43,10 +48,13 @@ public class UnityChanController : Draggable
             z = lookPos.position.z,
         }, targetPos, 0.4f));
         
-        if (_isMouseDown) return;
+        if (_isMouseDown)
+        {
+            return;
+        }
         if (_rigid.velocity.magnitude > 0.0001f)
         {
-            if (Physics.Raycast(transform.position, Vector3.down, 1))
+            if (Physics.Raycast(transform.position, Vector3.down, 1.5f))
             {
                 _anim.SetTrigger("Land");
             }
@@ -57,26 +65,43 @@ public class UnityChanController : Draggable
         var distance = Vector3.Distance(this.transform.position, targetPos);
         if ( distance > 4f * Mathf.Log(v * 2.8f, 2))
         {
-            var p = Vector3.Lerp(this.transform.position, targetPos, 0.005f * Mathf.Log(v * 2.8f, 2));
+            var p = Vector3.zero;
+            if (curTime[1] < 0.4f)
+            {
+                p = Vector3.Lerp(this.transform.position, targetPos, 0.1f * curveStanding.Evaluate(curTime[1]));
+            }
+            else
+            {
+                 p = Vector3.Lerp(this.transform.position, targetPos, 0.005f * Mathf.Log(v * 2.8f, 2));
+            }
+            curTime[1] += Time.deltaTime;
+            curTime[0] -= curTime[0];
+
+            
+           
             var temp = (this.transform.position - p).magnitude > 0 ? (this.transform.position - p).magnitude : 0;
-            //Debug.Log(temp);
-            _anim.SetFloat("MoveSpd", temp / 1.5f);
-                //Mathf.Lerp(_anim.GetFloat("MoveSpd"), temp, 0.1f));
+            var f = curve.Evaluate(temp / 1.5f);
+            _anim.SetFloat("MoveSpd", f);
             _rigid.MovePosition(p);
             
             if (Vector3.Distance(_iKController.lookAtObj.transform.position, eyeLine.position) > 0.01f)
                 _iKController.lookAtObj.transform.position =
-                    Vector3.Lerp(_iKController.lookAtObj.transform.position, eyeLine.position, 0.4f);
+                    Vector3.Lerp(_iKController.lookAtObj.transform.position, eyeLine.position, f * 0.4f);
         }
         else
         {
+            curTime[0] += Time.deltaTime;
+            if (curTime[0] > period)
+                curTime[0] -= curTime[0];
+            curTime[1] -= curTime[1];
+            
             var f= _anim.GetFloat("MoveSpd");
             if(f > 0.001f)
                 _anim.SetFloat("MoveSpd", 
                     Mathf.Lerp(f, 0 , 0.2f));
             
             _iKController.lookAtObj.transform.position =
-                Vector3.Lerp(_iKController.lookAtObj.transform.position, target, 0.01f);
+                Vector3.Lerp(_iKController.lookAtObj.transform.position, target, 0.1f * curveStanding.Evaluate(curTime[0]));
         }
     }
     

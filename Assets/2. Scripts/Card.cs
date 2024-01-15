@@ -81,14 +81,8 @@ public class Card : Entity
 
         this.GetComponentInChildren<TMP_Text>().text = _data.KR;
 
-        if (!YamlDeserializer.saveData.GetValue(this.ID))
-        {
-            Debug.Log("카드를 새로이 획득 했습니다!");
-            YamlDeserializer.saveData.Modify(this.ID, true);
-            YamlDeserializer.Serialize(PictorialData.defaultFilePath, YamlDeserializer.saveData);
+       InitCheck();
 
-            Instantiate(CardManager.Instance.newerCardEffect, this.transform).transform.localPosition += Vector3.up * 2f;
-        }
     }
     public void Init(int ID, out bool temp)
     {
@@ -136,14 +130,32 @@ public class Card : Entity
 
         this.GetComponentInChildren<TMP_Text>().text = _data.KR;
         
+        InitCheck();    
+    }
+
+    private void InitCheck()
+    {
         if (!YamlDeserializer.saveData.GetValue(this.ID))
         {
             Debug.Log("카드를 새로이 획득 했습니다!");
             YamlDeserializer.saveData.Modify(this.ID, true);
             YamlDeserializer.Serialize(PictorialData.defaultFilePath, YamlDeserializer.saveData);
-            
+
             Instantiate(CardManager.Instance.newerCardEffect, this.transform).transform.localPosition += Vector3.up * 2f;
         }
+        
+        var v = from card in CardManager.Cards
+            where card.ID % 10 == this.ID % 10
+            select card;
+        
+        Debug.Log(ID);
+        if (v.Count() >= 8 && !YamlDeserializer.saveData.GetValueFromLimit(this.ID % 10))
+        {
+            Debug.Log(true);
+            YamlDeserializer.saveData.ModifyLimit(this.ID % 10, true);
+            YamlDeserializer.Serialize(PictorialData.defaultFilePath, YamlDeserializer.saveData);
+        }
+        
     }
     // Update is called once per frame
     void Update()
@@ -410,6 +422,13 @@ public class Card : Entity
 
                                 EffectManager.instance.MergeEffect();
                             }
+                            else
+                            {
+                                _rigid.isKinematic = false;
+                                if (this.transform.parent.TryGetComponent(out CardGroup group))
+                                    group.RemoveCard(this);
+                                Debug.Log(true);
+                            }
                             return;
                         }
                     }
@@ -433,6 +452,12 @@ public class Card : Entity
                             CardManager.Instance.sortBtn.interactable = true;
 
                             EffectManager.instance.MergeEffect();
+                        }
+                        else
+                        {
+                            _rigid.isKinematic = false;
+                            if (this.transform.parent.TryGetComponent(out CardGroup group))
+                                group.RemoveCard(this);
                         }
                         return;
                     }

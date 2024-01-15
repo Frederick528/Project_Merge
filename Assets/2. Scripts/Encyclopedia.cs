@@ -43,7 +43,6 @@ public class Encyclopedia : MonoBehaviour
                     btn.onClick.AddListener(() =>
                     {
                         if (GameManager.CardCanvasOn) return;
-                        Debug.Log(keyValueFair.Key);
                         MouseRightClick.Instance.ShowCardInfo(keyValueFair.Key);
                     });
 

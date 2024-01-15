@@ -168,7 +168,6 @@ public struct PictorialData
         
         //var v = YamlDeserializer.DeSerialize<Dictionary<object, object>>(defaultFilePath);
         var v = YamlDeserializer.DeSerialize(defaultFilePath);
-        Debug.Log(v.Count);
         // var x = from row in v
         //     select new KeyValuePair<int, bool>
         //         (Convert.ToInt32(row.Key), row.Value.ToString().ToLower() == "true");

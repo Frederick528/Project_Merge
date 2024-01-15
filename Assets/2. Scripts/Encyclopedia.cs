@@ -59,6 +59,13 @@ public class Encyclopedia : MonoBehaviour
                         v = Instantiate(structure.row);
                     }
                 }
+                
+                var tf = v.GetComponent<RectTransform>();
+                tf.SetParent(structure.content.transform, true);
+                tf.localPosition = Vector3.zero;
+                tf.localScale = Vector3.one;
+                v.SetActive(true);
+                v = Instantiate(structure.row);
             }
         });
     }

@@ -177,6 +177,7 @@ public class Card : Entity
                         Debug.Log(_card.ID + " " + this.ID);
                         if (_card.ID == this.ID)
                         {
+                            Debug.Log(true);
                             OnMergeEnter(this.gameObject, _card.gameObject);
                             return;
                         }
@@ -371,7 +372,8 @@ public class Card : Entity
                             {
                                 //0번 삭제
                                 var v = g1.RemoveCard(row[0]);
-                                var cardInstance = CardManager.CreateCard(v.level + 1, (int)this.cardType, true);
+                                Debug.Log(_id + " " + v.ID );
+                                var cardInstance = CardManager.CreateCard(v.level + 1, (int)v.cardType, true);
                                 cardInstance.TryGetComponent(out Animator anim);
                                 Destroy(anim);
                                 cardInstance.transform.position = CardManager.Areas[1].transform.position + Vector3.up * 2;
@@ -386,6 +388,7 @@ public class Card : Entity
                             }
                         }
 
+                        CardManager.Instance.sortBtn.interactable = true;
                     }
                     else
                     {
@@ -449,7 +452,6 @@ public class Card : Entity
                         cardGroup[0].RemoveCard(card, false);
                         cardGroup[1].AddCard(card);
                     }
-                    Debug.Log(true);
                     Destroy(cardGroup[0].gameObject);
                 }
                 else

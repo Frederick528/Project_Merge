@@ -6,6 +6,7 @@ public class SelectBtn : MonoBehaviour
 {
     public TextController textController; // TextController 스크립트 참조
     public P_Incounter2 p_Incounter2;
+    public P_Incounter3 p_Incounter3;
     public R_Incounter1 incounter1;
     public R_Incounter2 incounter2;
     public R_Incounter3 incounter3;
@@ -83,7 +84,31 @@ public class SelectBtn : MonoBehaviour
         selectBtn.SetActive(false);
     }
 
-    public void R1_Result1()
+    public void P_Select2_1()
+    {
+        p_Incounter3.transparency.SetActive(false);
+        p_Incounter3.Incounter1(); 
+        p_Incounter3.isWaitingForInput = true;
+        selectBtn.SetActive(false);
+    }
+    public void P_Result2_1()
+    {
+        p_Incounter3.transparency.SetActive(false);
+        p_Incounter3.Result1();
+        p_Incounter3.isWaitingForInput = true;
+        p_Incounter3.bifurcation = 0;
+        p_Incounter3.bifurcation15 = 0;
+        selectBtn.SetActive(false);
+    }
+    public void P_Result2_2()
+    {
+        p_Incounter3.transparency.SetActive(false);
+        p_Incounter3.isWaitingForInput = true;
+        p_Incounter3.bifurcation = 1;
+        p_Incounter3.bifurcation15 = 1;
+        selectBtn.SetActive(false);
+    }
+    public void R1_Result2_2()
     {
         incounter1.transparency.SetActive(false);
         incounter1.Result1();

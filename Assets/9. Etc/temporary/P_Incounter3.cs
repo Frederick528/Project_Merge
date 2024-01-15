@@ -1,55 +1,43 @@
-ï»¿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TextController : MonoBehaviour
+public class P_Incounter3 : MonoBehaviour
 {
     public bool isWaitingForInput = true;
     public int bifurcation = 0;
     public Text myText, mytext2;
-    public GameObject incounter, transparency, Character, select1, select2, select3, select4;
+    public GameObject incounter, transparency, Character, select1, select2;
     public Image canvasImage;
-    public float fadeSpeed = 0.5f; // íˆ¬ëª…ë„ê°€ ì¤„ì–´ë“œëŠ” ì†ë„
+    public float fadeSpeed = 0.5f; // Åõ¸íµµ°¡ ÁÙ¾îµå´Â ¼Óµµ
+    public int bifurcation15 = 0;
 
     [SerializeField]
     Button nextBtn;
     [SerializeField]
     GameObject blockUI, closeBtn;
 
-    int currentTextIndex, currentTextIndex1, currentTextIndex2, currentTextIndex3, currentTextIndex4, currentTextIndex5 = 0;
-    private string[] textArray1 = { "ë¶€ìŠ¤ëŸ­. ë¶€ìŠ¤ëŸ­.",
-                                   "ì–´ë””ì„ ê°€ ë‚˜ë­‡ìì´ í”ë“¤ë¦¬ëŠ” ì†Œë¦¬ê°€ ë“¤ë ¸ë‹¤.",
-                                   "ì´ê³³ì€ ì–´ë”˜ì§€ë„ ëª¨ë¥¼, ë‚˜ê°ˆ ìˆ˜ ì—†ëŠ” ìˆ²ì´ë‹¤.",
-                                   "ê·¸ëŸ° ê³³ì— ë‚˜ëŠ” ì§€ê¸ˆ í˜¼ì ë‚¨ê²¨ì¡Œë‹¤." };
+    int currentTextIndex, currentTextIndex1, currentTextIndex4, currentTextIndex5 = 0;
+    private string[] textArray1 = { "ÀÌ°÷¿¡ Á¶³­´çÇÑÁö 10ÀÏÂ÷. ",
+                                    "ÀÌ ½Ã°£´ë¸é Ç×»ó Ã£¾Æ¿À´Â »ç¶÷ÀÌ ÇÏ³ª ÀÖ´Ù.",
+                                    "¾È³ç? ¾ù, ÀÌ¹Ì ¿Ã ÁÙ ¾Ë°í ÀÖ¾ú±¸³ª",
+                                    "³ª´Â ±×³à°¡ ¿Ã ÁÙ ¾Ë°í ¹Ì¸® ÀÇÀÚ¸¦ ÇÏ³ª ¸¸µé¾î³ù´Ù."};
 
     private string[] textArray2 = {"",
-                                    "ê·¸ëŸ° ìƒê°ì´ ë‚´ ë¨¸ë¦¿ì†ì„ ë§´ëŒ ë•Œ, ë‚´ ì¸ê¸°ì²™ì— ëˆ„êµ°ê°€ ë‹¤ê°€ì˜¤ëŠ”ê²Œ ëŠê»´ì¡Œë‹¤.",
-                                    "ì´ìƒí•  ì •ë„ë¡œ ê¸´ ë¨¸ë¦¬ì¹´ë½ì—, ì´ëŸ° ìˆ²ì—ì„œ ì‚´ê³ ìˆë‹¤ê³  ë³´ê¸°ë„ í˜ë“  ê·¸ëŸ° ì˜·ì„ ì…ê³ ìˆëŠ” ì—¬ì¸ì´ ì•ì— ìˆì—ˆë‹¤.",
-                                    "ì‚¬ëŒì¸ê°€? ì–´ë–»ê²Œ ì‚´ì•„ìˆëŠ”ì§€ ëª¨ë¥´ê² ë„¤. ì¼ë‹¨ì€ ë°˜ê°€ì›Œ.",
-                                    "ë¯¿ê¸° í˜ë“¤ê² ì§€ë§Œ. ë‚˜ëŠ” ë§ˆë…€ì•¼." };
+                                    "\"¿À´ÃÀº ³× µµ¿òÀÌ ÇÊ¿äÇØ¼­ Ã£¾Æ¿Ô¾î.\"",
+                                    "¸¶³à´Â ÀÚ½Å È¥ÀÚ¼­ ¸¸µé±â ±î´Ù·Î¿î ¹°Ç°À» ÁÖ¹®Çß´Ù.",
+                                    "´Ù¸ñÀû ¸ñ°øµµ±¸·Î, ÀÚ½Å¿¡°Ô ²À ÇÊ¿äÇÑ ¹°°ÇÀÌ¶ó°í ÇÑ´Ù..",
+                                    "\"¸¸µé¾îÁÖ¸é ¶Ç ¸¶¹ı °É¾îÁÙ°Ô!! Á¦¹ß!!\"",
+                                    "¶Ç ÀÌ»óÇÑ ¸¶¹ıÀÏÁöµµ ¸ğ¸¥´Ù.."};
 
-    private string[] textArray3 = { "",
-                                    "ë­ ë¯¿ë“  ë§ë“  ìƒê´€ì—†ì–´.",
-                                    "ë‚˜ëŠ” ì´ ìˆ²ì„ ì§€í‚¤ëŠ” ë§ˆë…€ì•¼. ë„ˆëŠ” ì´ ìˆ²ì— ë¬´ë‹¨ìœ¼ë¡œ ë“¤ì–´ì˜¨ ì™¸ì§€ì¸ì´ê³ ." };
+    private string[] CharacterName1 = { "", "", "¸¶³à", "" };
+    private string[] CharacterName2 = { "", "¸¶³à", "", "", "¸¶³à", "" };
+    private string[] R_CharacterName1 = { "", "¸¶³à", "", "" };
+    private string[] R_CharacterName2 = { "", "¸¶³à", "", "", "" };
 
-    private string[] textArray4 = { "",
-                                    "ë³„ê±° ì•„ë‹ˆì•¼. 30ì¼. ë”± 30ì¼ì„ ì—¬ê¸°ì„œ ì‚´ì•„ì„œ ì‚´ì•„ìˆë‹¤ë©´.",
-                                    "ê·¸ë•ŒëŠ” ë‹¤ë¥¸ ê³³ìœ¼ë¡œ ë„ˆë¥¼ ì•ˆë‚´í•´ì¤„ê²Œ.",
-                                    "ê·¸ë…€ëŠ” ê·¸ ë§ê³¼ í•¨ê»˜ ì£¼ë¨¸ë‹ˆ ë’¤ì—ì„œ í™©ê¸ˆë¹› ì‚¬ê³¼ë¥¼ ë‚´ê²Œ ê±´ë‚´ë©° ì‚¬ë¼ì¡Œë‹¤.",
-                                    "ë‚˜ëŠ” í˜¼ë€ìŠ¤ëŸ¬ìš´ ë§ˆìŒì„ ì•ˆê³  ì‚¬ê³¼ë¥¼ ë°”ë¼ë³´ì•˜ë‹¤.",
-                                    "ì´ ìˆ²ì˜ ë§ˆë…€ê°€ ë‚˜ë¥¼ ëŒë´ì¤€ë‹¤ë‹ˆ. ì´ê²Œ ë¬´ìŠ¨ì¼ì¸ê±¸ê¹Œ..",
-                                    "ë§ˆì¹¨ ë°°ê³ íŒŒ ì£½ê¸° ì§ì „ì´ë‹¤.. ì´ê±¸ ë¨¹ì–´ë„ ê´œì°®ì„ê¹Œ?"};
-
-
-
-    private string[] CharacterName1 = { "", "", "", "" };
-    private string[] CharacterName2 = { "", "", "", "???", "ë§ˆë…€" };
-    private string[] CharacterName3 = { "", "ë§ˆë…€", "ë§ˆë…€" };
-    private string[] CharacterName4 = { "", "ë§ˆë…€", "ë§ˆë…€", "", "", "", "" };
-
-    private string[] result1 = { "", "ì•„ì‚­.", "ì‚¬ê³¼ë¥¼ í•œì… ë² ì–´ë¨¹ì—ˆë‹¤.", "ë¬´ì–¸ê°€ ëª¸ì´.. ê±´ê°•í•´ì§„ ê²ƒ ê°™ë‹¤..!", "ì¼ë‹¨ì€ ë­ë“ .. 30ì¼ì„ í•œë²ˆ ë²„í…¨ë³´ì.." };
-    private string[] result2 = { "", "ê·¸ë˜ë„ ë­”ê°€ ë¨¹ê¸°ê°€ ì¢€ ê·¸ë ‡ë‹¤.", "ì¼ë‹¨ì€ ë“¤ê³ ëŠ” ìˆì", "ì¼ë‹¨ì€ ë­ë“ .. 30ì¼ì„ í•œë²ˆ ë²„í…¨ë³´ì.." };
+    private string[] result1 = { "", "\"Á¤¸»·Î °í¸¶¿ö!! 5ÀÏ µÚ¿¡ ¿Ã°Ô!!\"", "±×³à´Â ±×·¸°Ô ´Ù½Ã ½£À¸·Î µé¾î°¬´Ù.", "¼±±İ ¹ŞÀ»²¬ ±×·¨³ª.." };
+    private string[] result2 = { "", "\"±×·¡ ³ªµµ ´õ·¯¿ö¼­ ¾È¹Ş´Â´Ù!!\"", "¸¶³à´Â ÁöÆÎÀÌ¸¦ Å©°Ô Èçµé´õ´Ï, ÀÌÀ¹°í ¸¶¹ıÀ» ½è´Ù.", "±× ¹æÇâÀº ³» ÂÊÀÌ¾ú´Ù..", "¸öÀÌ ¾öÃ»³ª°Ô ¹«°Å¿öÁ³´Ù..!!" };
 
 
     void Start()
@@ -79,17 +67,13 @@ public class TextController : MonoBehaviour
         {
             Select1();
         }
-        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 >= textArray2.Length && currentTextIndex2 < textArray3.Length)
-        {
-            Select2();
-        }
-        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 >= textArray2.Length && currentTextIndex2 >= textArray3.Length
-                 && currentTextIndex3 >= textArray4.Length && currentTextIndex4 < result1.Length && bifurcation == 0)
+        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 >= textArray2.Length
+                 && currentTextIndex4 < result1.Length && bifurcation == 0)
         {
             Result1();
         }
-        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 >= textArray2.Length && currentTextIndex2 >= textArray3.Length
-                 && currentTextIndex3 >= textArray4.Length && currentTextIndex5 < result2.Length && bifurcation == 1)
+        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 >= textArray2.Length
+                && currentTextIndex5 < result2.Length && bifurcation == 1)
         {
             Result2();
         }
@@ -105,7 +89,7 @@ public class TextController : MonoBehaviour
 
     void UpdateText(string[] textArray)
     {
-        // ë°°ì—´ ê¸¸ì´ í™•ì¸ í›„ ì—…ë°ì´íŠ¸
+        // ¹è¿­ ±æÀÌ È®ÀÎ ÈÄ ¾÷µ¥ÀÌÆ®
         if (currentTextIndex < textArray1.Length && isWaitingForInput)
         {
             myText.text = textArray1[currentTextIndex];
@@ -113,14 +97,6 @@ public class TextController : MonoBehaviour
         else if (currentTextIndex1 < textArray2.Length && isWaitingForInput)
         {
             myText.text = textArray2[currentTextIndex1];
-        }
-        else if (currentTextIndex2 < textArray3.Length && isWaitingForInput)
-        {
-            myText.text = textArray3[currentTextIndex2];
-        }
-        else if (currentTextIndex3 < textArray4.Length && isWaitingForInput)
-        {
-            myText.text = textArray4[currentTextIndex3];
         }
         else if (currentTextIndex4 < result1.Length && isWaitingForInput && bifurcation == 0)
         {
@@ -138,43 +114,34 @@ public class TextController : MonoBehaviour
 
     void UpdateText2(string[] textArray)
     {
-        // ë°°ì—´ ê¸¸ì´ í™•ì¸ í›„ ì—…ë°ì´íŠ¸
+        // ¹è¿­ ±æÀÌ È®ÀÎ ÈÄ ¾÷µ¥ÀÌÆ®
         if (currentTextIndex < CharacterName1.Length && isWaitingForInput)
         {
             mytext2.text = CharacterName1[currentTextIndex];
+            if (mytext2.text == "¸¶³à" )
+            {
+                StartCoroutine(FadeIn());
+            }
         }
         else if (currentTextIndex1 < CharacterName2.Length && isWaitingForInput)
         {
             mytext2.text = CharacterName2[currentTextIndex1];
-            if (mytext2.text == "ë§ˆë…€" || mytext2.text == "???")
-            {
-                StartCoroutine(FadeIn());
-            }
-            else
-            {
-                //Character.SetActive(false);
-            }
         }
-        else if (currentTextIndex2 < CharacterName3.Length && isWaitingForInput)
+
+        else if (currentTextIndex4 < R_CharacterName1.Length && isWaitingForInput && bifurcation == 0)
         {
-            mytext2.text = CharacterName3[currentTextIndex2];
-            if (mytext2.text == "ë§ˆë…€" || mytext2.text == "???")
+            mytext2.text = R_CharacterName1[currentTextIndex4];
+            if (mytext2.text != "¸¶³à")
             {
-                // Character.SetActive(true);
+                StartCoroutine(FadeOut());
             }
-            else
-            {
-                // Character.SetActive(false);
-            }
+
         }
-        else if (currentTextIndex3 < CharacterName4.Length && isWaitingForInput)
+       
+        else if (currentTextIndex5 < R_CharacterName2.Length && isWaitingForInput && bifurcation == 1)
         {
-            mytext2.text = CharacterName4[currentTextIndex3];
-            if (mytext2.text == "ë§ˆë…€" || mytext2.text == "???")
-            {
-                // Character.SetActive(true);
-            }
-            else
+            mytext2.text = R_CharacterName2[currentTextIndex5];
+            if (mytext2.text != "¸¶³à")
             {
                 StartCoroutine(FadeOut());
             }
@@ -185,7 +152,7 @@ public class TextController : MonoBehaviour
         }
     }
 
-    void Incounter1()
+    public void Incounter1()
     {
         if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput == true)
         {
@@ -223,24 +190,6 @@ public class TextController : MonoBehaviour
         }
     }
 
-    public void Select2()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput == true)
-        {
-            currentTextIndex2++;
-            if (currentTextIndex2 < textArray3.Length)
-            {
-                UpdateText(textArray3);
-                UpdateText2(CharacterName3);
-            }
-            if (currentTextIndex2 >= textArray3.Length)
-            {
-                transparency.SetActive(true);
-                select3.SetActive(true);
-                isWaitingForInput = false;
-            }
-        }
-    }
 
     public void Result1()
     {
@@ -250,16 +199,16 @@ public class TextController : MonoBehaviour
             if (currentTextIndex4 < result1.Length)
             {
                 UpdateText(result1);
+                UpdateText2(R_CharacterName1);
             }
             if (currentTextIndex4 >= result1.Length)
             {
                 transparency.SetActive(true);
-                select4.SetActive(true);
                 isWaitingForInput = false;
+                bifurcation15 = 0;
             }
-
         }
-    }
+ }
 
     public void Result2()
     {
@@ -271,15 +220,18 @@ public class TextController : MonoBehaviour
             if (currentTextIndex5 < result2.Length)
             {
                 UpdateText(result2);
+                UpdateText2(R_CharacterName2);
             }
             if (currentTextIndex5 >= result2.Length)
             {
                 transparency.SetActive(true);
-                select4.SetActive(true);
                 isWaitingForInput = false;
+                bifurcation15 = 1;
             }
         }
     }
+
+
     IEnumerator FadeOut()
     {
         float targetAlpha = 0f;
@@ -306,7 +258,7 @@ public class TextController : MonoBehaviour
             yield return null;
         }
 
-        // íˆ¬ëª…ë„ê°€ 1 ì´ìƒìœ¼ë¡œ ì˜¬ë¼ê°”ì„ ë•Œì˜ ì²˜ë¦¬
+        // Åõ¸íµµ°¡ 1 ÀÌ»óÀ¸·Î ¿Ã¶ó°¬À» ¶§ÀÇ Ã³¸®
         Debug.Log("Image faded in completely.");
     }
 }

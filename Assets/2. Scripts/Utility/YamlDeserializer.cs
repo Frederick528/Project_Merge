@@ -1,3 +1,4 @@
+#define UNITY_EDITOR
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,7 +17,8 @@ public class YamlDeserializer
 
         if (File.Exists(path))
         {
-            stream = File.OpenWrite(path);
+            File.Delete(path);
+            stream = File.Create(path);
         }
         else
         {
@@ -39,11 +41,35 @@ public class YamlDeserializer
 
         if (File.Exists(path))
         {
+#if UNITY_EDITOR
+       
+            File.Delete(path);
+            if(saveData.dict != null)
+            {
+                saveData.dict.Clear();
+            }
+            else
+            {
+                saveData.dict = new Dictionary<int, bool>(
+                    from key in CardDataDeserializer.Keys
+                    select new KeyValuePair<int, bool>(key, false)
+                );
+            }
+            var v =
+                from key in CardDataDeserializer.Keys
+                select new KeyValuePair<int, bool>(key, false);
+            
+            foreach (var keyValuePair in v)
+            {
+                saveData.dict.Add(keyValuePair.Key, keyValuePair.Value);
+            }
+            Serialize(path , saveData);
+#endif
+            
             stream = File.OpenRead(path);
         }
         else if (saveData.dict == null)
         {
-            Debug.Log(true);
             saveData.dict = new Dictionary<int, bool>(
                 from key in CardDataDeserializer.Keys
                 select new KeyValuePair<int, bool>(key, false)

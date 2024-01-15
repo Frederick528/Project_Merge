@@ -114,7 +114,7 @@ public class MouseRightClick : MonoBehaviour
             canvas.SetActive(true);
         }
     }
-
+    
     //IEnumerator EatCard()
     //{
 

@@ -5,8 +5,10 @@ using UnityEngine.UI;
 
 public class ArtifactGroup : MonoBehaviour
 {
-
-    public GameObject artifactCanvas;
+    [SerializeField]
+    private GameObject getArtifactWindow;
+    [SerializeField]
+    private GameObject artifactWindow;
 
     public List<GameObject> artifactGroupPos;
 
@@ -32,18 +34,18 @@ public class ArtifactGroup : MonoBehaviour
         //    }
         //}
         
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.A))
         {
             GetArtifact.artifactID = 9000;  //change value
-            artifactCanvas.SetActive(!artifactCanvas.activeSelf);
+            getArtifactWindow.SetActive(!getArtifactWindow.activeSelf);
+        }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            artifactWindow.SetActive(!artifactWindow.activeSelf);
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
             GetArtifact.artifactID++;
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            GetArtifact.artifactID--;
         }
     }
 

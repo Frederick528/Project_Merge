@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
 public class Artifact : MonoBehaviour
 {
     private ArtifactData data;
@@ -10,7 +12,13 @@ public class Artifact : MonoBehaviour
 
     public int ID;
 
-        // Update is called once per frame
+    private Image[] image;
+
+    private void Start()
+    {
+        image = GetComponentsInChildren<Image>(true);
+    }
+    // Update is called once per frame
     void Update()
     {
 
@@ -46,12 +54,27 @@ public class Artifact : MonoBehaviour
         {
             if (EventSystem.current.IsPointerOverGameObject() == false && ReadSpreadSheet.TryGetData(ID, out ArtifactData data))
             {
-                print(data.Name);
+                image[1].gameObject.SetActive(true);
             }
         }
-        catch (Exception ex)
+        catch
         {
-            print("없습니다.");
+            
+        }
+    }
+
+    private void OnMouseExit()
+    {
+        try
+        {
+            if (ReadSpreadSheet.TryGetData(ID, out ArtifactData data))
+            {
+                image[1].gameObject.SetActive(false);
+            }
+        }
+        catch
+        {
+
         }
     }
 }

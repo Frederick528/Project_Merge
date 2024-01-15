@@ -17,8 +17,7 @@ public class YamlDeserializer
 
         if (File.Exists(path))
         {
-            File.Delete(path);
-            stream = File.Create(path);
+            stream = File.OpenWrite(path);
         }
         else
         {

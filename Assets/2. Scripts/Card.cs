@@ -177,7 +177,6 @@ public class Card : Entity
                         Debug.Log(_card.ID + " " + this.ID);
                         if (_card.ID == this.ID)
                         {
-                            Debug.Log(true);
                             OnMergeEnter(this.gameObject, _card.gameObject);
                             return;
                         }
@@ -361,7 +360,9 @@ public class Card : Entity
                         for (int idx = 0; idx < IDList.Count(); idx++)
                         {
                             var _id = IDList.ElementAt(idx);
-                            var row = g1.Cards.Where(x => x.ID == _id).Select(x => x).ToList();
+                            var row = g1.Cards
+                                .Where(x => x.ID == _id && YamlDeserializer.saveData.GetValueFromLimit(x.ID % 10))
+                                .Select(x => x).ToList();
                             if (row.Count() % 2 == 1)
                             {
                                 g1.RemoveCard(row[^1]);
@@ -394,18 +395,21 @@ public class Card : Entity
                     {
                         if ((destroyTarget[0].ID == destroyTarget[1].ID) && destroyTarget[0].ID < 3000)
                         {
+                            if(YamlDeserializer.saveData.GetValueFromLimit(ID % 10))
+                            {
+                                var cardInstance = CardManager.CreateCard(level + 1, (int)cardType, true);
+                                Destroy(cardInstance.GetComponent<Animator>());
+                                CardManager.DestroyCard(destroyTarget);
 
-                            var cardInstance = CardManager.CreateCard(level + 1, (int)cardType, true);
-                            Destroy(cardInstance.GetComponent<Animator>());
-                            CardManager.DestroyCard(destroyTarget);
+                                //cardInstance.transform.localScale = Vector3.one;
+                                cardInstance.transform.position =
+                                    CardManager.Areas[1].transform.position + Vector3.up * 2f;
 
-                            //cardInstance.transform.localScale = Vector3.one;
-                            cardInstance.transform.position = CardManager.Areas[1].transform.position + Vector3.up * 2f;
-                        
-                            Debug.Log("Merge Successed");
-                            CardManager.Instance.sortBtn.interactable = true;
+                                Debug.Log("Merge Successed");
+                                CardManager.Instance.sortBtn.interactable = true;
 
-                            EffectManager.instance.MergeEffect();
+                                EffectManager.instance.MergeEffect();
+                            }
                             return;
                         }
                     }
@@ -416,18 +420,20 @@ public class Card : Entity
                 {
                     if ((destroyTarget[0].ID == destroyTarget[1].ID) && destroyTarget[0].ID < 3000)
                     {
+                        if(YamlDeserializer.saveData.GetValueFromLimit(ID % 10))
+                        {
+                            var cardInstance = CardManager.CreateCard(level + 1, (int)cardType, true);
+                            Destroy(cardInstance.GetComponent<Animator>());
+                            CardManager.DestroyCard(destroyTarget);
 
-                        var cardInstance = CardManager.CreateCard(level + 1, (int)cardType, true);
-                        Destroy(cardInstance.GetComponent<Animator>());
-                        CardManager.DestroyCard(destroyTarget);
+                            //cardInstance.transform.localScale = Vector3.one;
+                            cardInstance.transform.position = CardManager.Areas[1].transform.position + Vector3.up * 2f;
 
-                        //cardInstance.transform.localScale = Vector3.one;
-                        cardInstance.transform.position = CardManager.Areas[1].transform.position + Vector3.up * 2f;
-                        
-                        Debug.Log("Merge Successed");
-                        CardManager.Instance.sortBtn.interactable = true;
+                            Debug.Log("Merge Successed");
+                            CardManager.Instance.sortBtn.interactable = true;
 
-                        EffectManager.instance.MergeEffect();
+                            EffectManager.instance.MergeEffect();
+                        }
                         return;
                     }
                 }

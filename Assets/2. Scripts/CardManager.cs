@@ -42,11 +42,12 @@ public class CardManager : MonoBehaviour
     
     public static Card CreateCard(bool isOnMerge)
     {
+        Card cardInstance;
         if(!isOnMerge)
         {
             _ogCard ??= Resources.Load<GameObject>("Prefabs/RedCard");
 
-            var cardInstance = Instantiate(_ogCard, Instance.transform).GetComponent<Card>();
+            cardInstance = Instantiate(_ogCard, Instance.transform).GetComponent<Card>();
             cardInstance.cardType = (Card.CardType)Random.Range(0, Enum.GetValues(typeof(Card.CardType)).Length - 1);
             cardInstance.Init(0);
             _cards.Add(cardInstance);
@@ -57,20 +58,30 @@ public class CardManager : MonoBehaviour
                 y = Camera.main.transform.position.y,
                 z = 80
             }, 50);
-
-            return cardInstance;
         }
         else
         {
             _ogCard ??= Resources.Load<GameObject>("Prefabs/RedCard");
 
-            var cardInstance = Instantiate(_ogCard, Instance.transform).GetComponent<Card>();
+            cardInstance = Instantiate(_ogCard, Instance.transform).GetComponent<Card>();
             cardInstance.cardType = (Card.CardType)Random.Range(0, Enum.GetValues(typeof(Card.CardType)).Length - 1);
             cardInstance.Init(0);
             _cards.Add(cardInstance);
 
-            return cardInstance;
         }
+
+        var v = from card in _cards
+            where card.ID % 10 == cardInstance.ID % 10
+            select card;
+        
+        if (v.Count() >= 8 && !YamlDeserializer.saveData.GetValueFromLimit(cardInstance.ID % 10))
+        {
+            Debug.Log(true);
+            YamlDeserializer.saveData.ModifyLimit(cardInstance.ID % 10, true);
+            YamlDeserializer.Serialize(PictorialData.defaultFilePath, YamlDeserializer.saveData);
+        }
+        
+        return cardInstance;
     }
     public static Card CreateCard(int level, int type )
     {

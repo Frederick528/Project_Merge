@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("데이터 테이블을 불러오는 과정에서 문제가 발생했습니다.");
         }
         
+        YamlDeserializer.saveData.Init();
     }
     
     private void Start()

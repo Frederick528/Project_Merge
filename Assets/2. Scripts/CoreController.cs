@@ -59,7 +59,6 @@ public class CoreController : MonoBehaviour
         }
 
         //세이브 파일이 없을 경우 새로 딕셔너리를 만들어 거기서 생성
-        YamlDeserializer.saveData.Init();
         
         Difficulty.Subscribe(x =>
         {

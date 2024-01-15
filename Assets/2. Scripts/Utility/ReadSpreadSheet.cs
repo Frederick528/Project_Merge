@@ -7,11 +7,11 @@ using UnityEngine.Networking;
 public class ReadSpreadSheet : MonoBehaviour
 {
     private static string dataGS;
-    private static Dictionary<int, ArtifactData> dtct = null;
+    private static Dictionary<int, ArtifactData> dataDtct = null;
 
     private void Awake()
     {
-        StartCoroutine(LoadData("https://docs.google.com/spreadsheets/d/1CqNR2Rh_OIVe8n0CG8vC7YVpbNUn_-0rXeBab72gXvs", "A3:E6", 0));
+        StartCoroutine(LoadData("https://docs.google.com/spreadsheets/d/1CqNR2Rh_OIVe8n0CG8vC7YVpbNUn_-0rXeBab72gXvs", "A3:E8", 0));
     }
     public static IEnumerator LoadData(string address, string range, ulong sheetID)
     {
@@ -21,10 +21,10 @@ public class ReadSpreadSheet : MonoBehaviour
             dataGS = www.downloadHandler.text;
 
 
-            if (www.isDone)
-            {
-                CreateDB();
-            }
+            //if (www.isDone)
+            //{
+            //    CreateDB();
+            //}
         }
     }
     private static Dictionary<int, ArtifactData> CreateDB()
@@ -39,15 +39,16 @@ public class ReadSpreadSheet : MonoBehaviour
             data.Description = cells[2];
             data.Type = Int32.Parse(cells[3].ToString());
             data.Possession = Boolean.Parse(cells[4]);
+
             artifactDB.Add(Convert.ToInt32(cells[0].ToString()), data);
         }
         return artifactDB;
     }
     public static bool TryGetData(int key, out ArtifactData data)
     {
-        dtct ??= CreateDB();
+        dataDtct ??= CreateDB();
         var result = true;
-        data = dtct[key];
+        data = dataDtct[key];
         return result;
     }
 

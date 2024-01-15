@@ -5,6 +5,7 @@ using UnityEngine;
 public class SelectBtn : MonoBehaviour
 {
     public TextController textController; // TextController 스크립트 참조
+    public P_Incounter2 p_Incounter2;
     public R_Incounter1 incounter1;
     public R_Incounter2 incounter2;
     public R_Incounter3 incounter3;
@@ -29,13 +30,6 @@ public class SelectBtn : MonoBehaviour
         selectBtn.SetActive(false);
     }
 
-    public void Select3()
-    {
-        textController.transparency.SetActive(false);
-        textController.Select3();
-        textController.isWaitingForInput = true;
-        selectBtn.SetActive(false);
-    }
 
     public void Result1()
     {
@@ -53,6 +47,40 @@ public class SelectBtn : MonoBehaviour
         textController.isWaitingForInput = true;
         textController.bifurcation = 1;
         selectBtn.SetActive(false); ;
+    }
+
+    public void P_Select1() 
+    {
+        p_Incounter2.transparency.SetActive(false);
+        p_Incounter2.Incounter1(); // TextController의 Select1 메서드 호출
+        p_Incounter2.isWaitingForInput = true;
+        selectBtn.SetActive(false);
+    }
+
+    public void P_Select2()
+    {
+        p_Incounter2.transparency.SetActive(false);
+        p_Incounter2.Select1(); // TextController의 Select1 메서드 호출
+        p_Incounter2.isWaitingForInput = true;
+        selectBtn.SetActive(false);
+    }
+
+
+    public void P_Result1()
+    {
+        p_Incounter2.transparency.SetActive(false); 
+        p_Incounter2.Result1();
+        p_Incounter2.isWaitingForInput = true;
+        p_Incounter2.bifurcation = 0;
+        selectBtn.SetActive(false);
+    }
+    public void P_Result2()
+    {
+        p_Incounter2.transparency.SetActive(false);
+        p_Incounter2.Result2();
+        p_Incounter2.isWaitingForInput = true;
+        p_Incounter2.bifurcation = 1;
+        selectBtn.SetActive(false);
     }
 
     public void R1_Result1()

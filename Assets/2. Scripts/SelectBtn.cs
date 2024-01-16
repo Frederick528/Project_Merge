@@ -8,6 +8,7 @@ public class SelectBtn : MonoBehaviour
     public P_Incounter2 p_Incounter2;
     public P_Incounter3 p_Incounter3;
     public P_Incounter4 p_Incounter4;
+    public P_Incounter5 p_Incounter5;
     public R_Incounter1 incounter1;
     public R_Incounter2 incounter2;
     public R_Incounter3 incounter3;
@@ -171,6 +172,56 @@ public class SelectBtn : MonoBehaviour
         p_Incounter4.bifurcation = 1;
         selectBtn.SetActive(false);
     }
+    public void P_Select4_1()
+    {
+        p_Incounter5.transparency.SetActive(false);
+        p_Incounter5.Incounter1(); // TextController의 Select1 메서드 호출
+        p_Incounter5.isWaitingForInput = true;
+        selectBtn.SetActive(false);
+    }
+
+    public void P_Select4_2()
+    {
+        p_Incounter5.transparency.SetActive(false);
+        p_Incounter5.Select1(); // TextController의 Select1 메서드 호출
+        p_Incounter5.isWaitingForInput = true;
+        selectBtn.SetActive(false);
+    }
+    public void P_Select4_3()
+    {
+        p_Incounter5.transparency.SetActive(false);
+        p_Incounter5.Select2(); // TextController의 Select1 메서드 호출
+        p_Incounter5.isWaitingForInput = true;
+        selectBtn.SetActive(false);
+    }
+    public void P_Select4_4()
+    {
+        p_Incounter5.transparency.SetActive(false);
+        p_Incounter5.Select3(); // TextController의 Select1 메서드 호출
+        p_Incounter5.isWaitingForInput = true;
+        selectBtn.SetActive(false);
+    }
+    public void P_Select4_5()
+    {
+        p_Incounter5.transparency.SetActive(false);
+        p_Incounter5.Select4(); // TextController의 Select1 메서드 호출
+        p_Incounter5.isWaitingForInput = true;
+        selectBtn.SetActive(false);
+    }
+    public void P_Select4_6()
+    {
+        p_Incounter5.transparency.SetActive(false);
+        p_Incounter5.Select5(); // TextController의 Select1 메서드 호출
+        p_Incounter5.isWaitingForInput = true;
+        selectBtn.SetActive(false);
+    }
+    /*public void P_Select4_7()
+    {
+        p_Incounter5.transparency.SetActive(false);
+        p_Incounter5.Select6(); // TextController의 Select1 메서드 호출
+        p_Incounter5.isWaitingForInput = true;
+        selectBtn.SetActive(false);
+    }*/
     public void R1_Result2_2()
     {
         incounter1.transparency.SetActive(false);

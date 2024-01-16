@@ -29,7 +29,9 @@ public class CoreController : MonoBehaviour
     public TMP_Text Turn;
 
     #region ReactiveProperty
-    public static readonly ReactiveProperty<float> Difficulty = new ();
+    //public static readonly ReactiveProperty<float> Difficulty = new ();
+    public static readonly ReactiveProperty<float> HungerDifficulty = new ();
+    public static readonly ReactiveProperty<float> ThirstDifficulty = new ();
     
     private static readonly ReactiveProperty<int> _hunger = new ();
     private static readonly ReactiveProperty<int> _thirst = new ();
@@ -61,13 +63,17 @@ public class CoreController : MonoBehaviour
         //세이브 파일이 없을 경우 새로 딕셔너리를 만들어 거기서 생성
         YamlDeserializer.saveData.Init();
         
-        Difficulty.Subscribe(x =>
+        HungerDifficulty.Subscribe(x =>
         {
             if (x == 0) return;
                 StatUICanvas.gameObject.SetActive(true);
-            _core.Difficulty = (ushort)x;
-            StatUICanvas.statUI.Hunger[1].fillAmount += x/ _core.Status.maxHunger;
-            StatUICanvas.statUI.Thirst[1].fillAmount += x/ _core.Status.maxThirst;
+            StatUICanvas.statUI.Hunger[1].fillAmount = x / _core.Status.maxHunger;
+        });
+        ThirstDifficulty.Subscribe(x =>
+        {
+            if (x == 0) return;
+            StatUICanvas.gameObject.SetActive(true);
+            StatUICanvas.statUI.Thirst[1].fillAmount = x / _core.Status.maxThirst;
         });
         _hunger.Subscribe(x =>
         {
@@ -157,16 +163,22 @@ public class CoreController : MonoBehaviour
         
         if (_core.IsDawn)
         {
-            Difficulty.Value = (Mathf.Log10(Date + 2) * 10 + 10);
-            
-            
+            _core.HungerDifficulty += (int)(Mathf.Log10(Date + 2) * 10 + 10);
+            _core.ThirstDifficulty += (int)(Mathf.Log10(Date + 2) * 10 + 10);
+            HungerDifficulty.Value += _core.HungerDifficulty;
+            ThirstDifficulty.Value += _core.ThirstDifficulty;
+
+
+
             lightAnim.SetTrigger("Dawn");
             //EncounterManager.Occur();
         }
         else if (_core.IsMorning)
         {
-            _core.Difficulty = 0;
-            Difficulty.Value = _core.Difficulty;
+            _core.HungerDifficulty = 0;
+            _core.ThirstDifficulty = 0;
+            //HungerDifficulty.Value = _core.HungerDifficulty;
+            //ThirstDifficulty.Value = _core.ThirstDifficulty;
             CardManager.ExpirationDateCheck();
             
             lightAnim.SetTrigger("Morning");
@@ -231,6 +243,14 @@ public class CoreController : MonoBehaviour
             Debug.Log(_thirst.Value);
             return result;
         }
+        public static void ModifyDifficulty(float hungerValue, float thirstValue)
+        {
+
+                HungerDifficulty.Value = ((HungerDifficulty.Value - hungerValue) < _core.HungerDifficulty) ? _core.HungerDifficulty : (HungerDifficulty.Value - hungerValue);
+                print(HungerDifficulty.Value);
+                ThirstDifficulty.Value = ((ThirstDifficulty.Value - thirstValue) < _core.ThirstDifficulty) ? _core.ThirstDifficulty : (ThirstDifficulty.Value - thirstValue);
+                print(ThirstDifficulty.Value);
+        }
     #endregion
 
     public void CreateCard()
@@ -243,6 +263,6 @@ public class CoreController : MonoBehaviour
 
     public void SetDifficulty(ushort value)
     {
-        _core.Difficulty = value;
+        //_core.Difficulty = value;
     }
 }

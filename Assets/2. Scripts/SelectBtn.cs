@@ -9,6 +9,7 @@ public class SelectBtn : MonoBehaviour
     public P_Incounter3 p_Incounter3;
     public P_Incounter4 p_Incounter4;
     public P_Incounter5 p_Incounter5;
+    public P_Incounter6 p_Incounter6;
     public R_Incounter1 incounter1;
     public R_Incounter2 incounter2;
     public R_Incounter3 incounter3;
@@ -215,13 +216,28 @@ public class SelectBtn : MonoBehaviour
         p_Incounter5.isWaitingForInput = true;
         selectBtn.SetActive(false);
     }
-    /*public void P_Select4_7()
+    public void P_Select5_1()
     {
-        p_Incounter5.transparency.SetActive(false);
-        p_Incounter5.Select6(); // TextController의 Select1 메서드 호출
-        p_Incounter5.isWaitingForInput = true;
+        p_Incounter6.Incounter1(); // TextController의 Select1 메서드 호출
+        p_Incounter6.isWaitingForInput = true;
         selectBtn.SetActive(false);
-    }*/
+
+    }
+
+    public void P_Result5_1()
+    {
+        p_Incounter6.Result1();
+        p_Incounter6.isWaitingForInput = true;
+        p_Incounter6.bifurcation = 0;
+        selectBtn.SetActive(false);
+    }
+    public void P_Result5_2()
+    {
+        p_Incounter6.Result2();
+        p_Incounter6.isWaitingForInput = true;
+        p_Incounter6.bifurcation = 1;
+        selectBtn.SetActive(false);
+    }
     public void R1_Result2_2()
     {
         incounter1.transparency.SetActive(false);

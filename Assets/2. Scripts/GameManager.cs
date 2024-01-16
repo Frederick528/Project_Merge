@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public static bool CardCanvasOn = false;
+    public static bool IsTutorial = false;
 
     void Awake()
     {

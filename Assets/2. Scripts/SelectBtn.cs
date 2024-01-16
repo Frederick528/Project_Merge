@@ -14,6 +14,7 @@ public class SelectBtn : MonoBehaviour
     public R_Incounter4 incounter4; 
     public R_Incounter5 incounter5;
     public R_Incounter6 incounter6;
+    public R_Incounter7 incounter7;
     public GameObject selectBtn;
     public Quest quest;
 
@@ -302,6 +303,40 @@ public class SelectBtn : MonoBehaviour
         incounter6.bifurcation = 1;
         selectBtn.SetActive(false);
     }
+
+    public void R7_Select1()
+    {
+        incounter7.transparency.SetActive(false);
+        incounter7.Incounter1(); // TextController의 Select1 메서드 호출
+        incounter7.isWaitingForInput = true;
+        selectBtn.SetActive(false);
+    }
+
+    public void R7_Select2()
+    {
+        incounter7.transparency.SetActive(false);
+        incounter7.Select1(); // TextController의 Select1 메서드 호출
+        incounter7.isWaitingForInput = true;
+        selectBtn.SetActive(false);
+    }
+    public void R7_Result1()
+    {
+        incounter7.transparency.SetActive(false);
+        incounter7.Result1();
+        incounter7.isWaitingForInput = true;
+        incounter7.bifurcation = 0;
+        selectBtn.SetActive(false);
+    }
+    public void R7_Result2()
+    {
+        incounter7.transparency.SetActive(false);
+        incounter7.Result2();
+        incounter7.isWaitingForInput = true;
+        incounter7.bifurcation = 1;
+        selectBtn.SetActive(false);
+    }
+
+
     public void Guied1()
     {
         quest.Click1();

@@ -95,14 +95,14 @@ public class GameCore
     {
         var result = _status.curHunger + amount > 0;
         if (result)
-            _status.curHunger += amount;
+            _status.curHunger = ((_status.curHunger + amount) > _status.maxHunger) ? _status.maxHunger : _status.curHunger + amount;
         return result;
     }
     public bool ModifyThirst(int amount)
     {
         var result = _status.curThirst + amount > 0;
         if (result)
-            _status.curThirst += amount;
+            _status.curThirst = ((_status.curThirst + amount) > _status.maxThirst) ? _status.maxThirst : _status.curThirst + amount;
         return result;
     }
 }

@@ -82,7 +82,7 @@ public class CoreController : MonoBehaviour
             if (x != 0)
                 StatUICanvas.gameObject.SetActive(true);
             StatUICanvas.statUI.Thirst[0].fillAmount =
-               (_core.Status.maxHunger - x) / _core.Status.maxHunger;
+               (_core.Status.maxThirst - x) / _core.Status.maxThirst;
             StatUICanvas.statUI.Texts[1].text = _core.Status.curThirst + "";
         });
         _ap.Subscribe(x =>

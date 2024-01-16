@@ -12,6 +12,8 @@ public class SelectBtn : MonoBehaviour
     public R_Incounter2 incounter2;
     public R_Incounter3 incounter3;
     public R_Incounter4 incounter4; 
+    public R_Incounter5 incounter5;
+    public R_Incounter6 incounter6;
     public GameObject selectBtn;
     public Quest quest;
 
@@ -201,14 +203,14 @@ public class SelectBtn : MonoBehaviour
 
     public void R2_Select1()
     {
-        incounter2.Select2(); // TextController의 Select1 메서드 호출
+        incounter2.Select2(); 
         incounter2.isWaitingForInput = true;
         selectBtn.SetActive(false);
     }
 
     public void R2_Select2()
     {
-        incounter2.Select3(); // TextController의 Select1 메서드 호출
+        incounter2.Select3();
         incounter2.isWaitingForInput = true;
         selectBtn.SetActive(false);
     }
@@ -238,7 +240,7 @@ public class SelectBtn : MonoBehaviour
 
     public void R4_Select()
     {
-        incounter4.Incounter2(); // TextController의 Select1 메서드 호출
+        incounter4.Incounter2(); 
         incounter4.isWaitingForInput = true;
         selectBtn.SetActive(false);
     }
@@ -252,11 +254,54 @@ public class SelectBtn : MonoBehaviour
 
     public void R4_Result2()
     {
-        incounter4.Result2(); // TextController의 Select1 메서드 호출
+        incounter4.Result2(); 
         incounter4.isWaitingForInput = true;
+        incounter4.bifurcation = 1;
+        selectBtn.SetActive(false);
+    }
+    public void R5_Select()
+    {
+        incounter5.Incounter2(); 
+        incounter5.isWaitingForInput = true;
+        selectBtn.SetActive(false);
+    }
+    public void R5_Result1()
+    {
+        incounter5.Result1();
+        incounter5.isWaitingForInput = true;
+        incounter5.bifurcation = 0;
         selectBtn.SetActive(false);
     }
 
+    public void R5_Result2()
+    {
+        incounter5.Result2(); 
+        incounter5.isWaitingForInput = true;
+        incounter5.bifurcation = 1;
+        selectBtn.SetActive(false);
+    }
+
+    public void R6_Select()
+    {
+        incounter6.Incounter2(); 
+        incounter6.isWaitingForInput = true;
+        selectBtn.SetActive(false);
+    }
+    public void R6_Result1()
+    {
+        incounter6.Result1();
+        incounter6.isWaitingForInput = true;
+        incounter6.bifurcation = 0;
+        selectBtn.SetActive(false);
+    }
+
+    public void R6_Result2()
+    {
+        incounter6.Result2(); 
+        incounter6.isWaitingForInput = true;
+        incounter6.bifurcation = 1;
+        selectBtn.SetActive(false);
+    }
     public void Guied1()
     {
         quest.Click1();

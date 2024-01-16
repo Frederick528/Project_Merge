@@ -11,7 +11,8 @@ public class P_Incounter3 : MonoBehaviour
     public GameObject incounter, transparency, Character, select1, select2;
     public Image canvasImage;
     public float fadeSpeed = 0.5f; // 투명도가 줄어드는 속도
-    public int bifurcation15 = 0;
+
+    public SelectBtn selectbtn;
 
     [SerializeField]
     Button nextBtn;
@@ -205,10 +206,10 @@ public class P_Incounter3 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
-                bifurcation15 = 0;
+                selectbtn.bifurcation15 = true;
             }
         }
- }
+    }
 
     public void Result2()
     {
@@ -226,7 +227,7 @@ public class P_Incounter3 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
-                bifurcation15 = 1;
+                selectbtn.bifurcation15 = false;
             }
         }
     }

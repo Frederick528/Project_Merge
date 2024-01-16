@@ -52,8 +52,7 @@ public class CoreController : MonoBehaviour
     {
         _core.InitGame();
         _ap.Value = _core.Status.curAp;
-        Turn.text = _core.TurnCnt + "";
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 2 && !GameManager.Instance.isTutorial; i++)
         {
             CardManager.CreateCard();
         }
@@ -63,33 +62,33 @@ public class CoreController : MonoBehaviour
         Difficulty.Subscribe(x =>
         {
             if (x == 0) return;
-                StatUICanvas.gameObject.SetActive(true);
+                _instance.StatUICanvas.gameObject.SetActive(true);
             _core.Difficulty = (ushort)x;
-            StatUICanvas.statUI.Hunger[1].fillAmount += x/ _core.Status.maxHunger;
-            StatUICanvas.statUI.Thirst[1].fillAmount += x/ _core.Status.maxThirst;
+            _instance.StatUICanvas.statUI.Hunger[1].fillAmount += x/ _core.Status.maxHunger;
+            _instance.StatUICanvas.statUI.Thirst[1].fillAmount += x/ _core.Status.maxThirst;
         });
         _hunger.Subscribe(x =>
         {
             if (x != 0)
-                StatUICanvas.gameObject.SetActive(true);
+                _instance.StatUICanvas.gameObject.SetActive(true);
             var v = (_core.Status.maxHunger - x) / _core.Status.maxHunger;
-            StatUICanvas.statUI.Hunger[0].fillAmount = v;
-            StatUICanvas.statUI.Texts[0].text = _core.Status.curHunger + "";
+            _instance.StatUICanvas.statUI.Hunger[0].fillAmount = v;
+            _instance.StatUICanvas.statUI.Texts[0].text = _core.Status.curHunger + "";
         });
         _thirst.Subscribe(x =>
         {
             if (x != 0)
-                StatUICanvas.gameObject.SetActive(true);
-            StatUICanvas.statUI.Thirst[0].fillAmount =
+                _instance.StatUICanvas.gameObject.SetActive(true);
+            _instance.StatUICanvas.statUI.Thirst[0].fillAmount =
                (_core.Status.maxHunger - x) / _core.Status.maxHunger;
-            StatUICanvas.statUI.Texts[1].text = _core.Status.curThirst + "";
+            _instance.StatUICanvas.statUI.Texts[1].text = _core.Status.curThirst + "";
         });
         _ap.Subscribe(x =>
         {
             // if (x != 0)
             //     StatUICanvas.gameObject.SetActive(true);
             //
-            StatUICanvas.statUI.Texts[2].text = 
+            _instance.StatUICanvas.statUI.Texts[2].text = 
                 $"[  {x} / {_core.Status.maxAp}  ]";
         });
     }
@@ -243,5 +242,11 @@ public class CoreController : MonoBehaviour
     public void SetDifficulty(ushort value)
     {
         _core.Difficulty = value;
+    }
+
+    internal static void ResetGame()
+    {
+        _core.EndGame();
+        _core.InitGame();
     }
 }

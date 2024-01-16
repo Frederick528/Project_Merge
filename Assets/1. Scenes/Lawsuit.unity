@@ -15643,7 +15643,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 759
   m_RenderingLayerMask: 1
   m_Lightmapping: 1
   m_LightShadowCasterMode: 0
@@ -22049,6 +22049,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e73d104ebaccb2408bd47df07f0c868, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTutorial: 0
 --- !u!4 &1918549692
 Transform:
   m_ObjectHideFlags: 0

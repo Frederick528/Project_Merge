@@ -22,6 +22,7 @@ public class UnityChanController : Draggable
     public Transform lookPos;
     public AnimationCurve curve;
     public AnimationCurve curveStanding;
+    public static bool IsMoving;
 
     private void Awake()
     {
@@ -34,19 +35,29 @@ public class UnityChanController : Draggable
         _iKController.lookAtObj = lookPos;
         _rigid.interpolation = RigidbodyInterpolation.Interpolate;
     }
+    
+    private void Start()
+    {
+    }
 
     private void Update()
     {
+        if (!_mainCam.gameObject.activeSelf)
+            return;
+        
         var target = _mainCam.transform.position;
         var targetPos = new Vector3(
             target.x,transform.position.y, target.z);
         var v = (_mainCam.fieldOfView / 30);
+        
         transform.LookAt(Vector3.Lerp(new Vector3()
         {
             x = lookPos.position.x,
             y = targetPos.y,
             z = lookPos.position.z,
         }, targetPos, 0.4f));
+        
+        targetPos += Vector3.left * (5 * v);
         
         if (_isMouseDown)
         {
@@ -87,6 +98,8 @@ public class UnityChanController : Draggable
             if (Vector3.Distance(_iKController.lookAtObj.transform.position, eyeLine.position) > 0.01f)
                 _iKController.lookAtObj.transform.position =
                     Vector3.Lerp(_iKController.lookAtObj.transform.position, eyeLine.position, f * 0.4f);
+
+            IsMoving = true;
         }
         else
         {
@@ -102,6 +115,9 @@ public class UnityChanController : Draggable
             
             _iKController.lookAtObj.transform.position =
                 Vector3.Lerp(_iKController.lookAtObj.transform.position, target, 0.1f * curveStanding.Evaluate(curTime[0]));
+
+            if (distance > 0.001f)
+                IsMoving = false;
         }
     }
     
@@ -109,6 +125,7 @@ public class UnityChanController : Draggable
     {
         base.OnMouseDown();
         _isMouseDown = true;
+        IsMoving = false;
         _rigid.isKinematic = true;
         if (_rigid.velocity.magnitude > 0.001f) return;
         this.transform.position += Vector3.up * 5;

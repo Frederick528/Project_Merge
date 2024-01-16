@@ -16,7 +16,9 @@ public class Clock : MonoBehaviour
     {
         GetComponentInChildren<TMP_Text>().text = CoreController.Time ;
         anim ??= GetComponent<Animator>();
-        BearManager._turnSkip.interactable = false;
+        
+        if(!GameManager.Instance.isTutorial)
+            BearManager._turnSkip.interactable = false;
         
         if (CoreController.IsDawn)
         {
@@ -43,6 +45,11 @@ public class Clock : MonoBehaviour
 
     IEnumerator Delay()
     {
+        if (GameManager.Instance.isTutorial)
+        {
+            
+            yield break;
+        }
         yield return new WaitForSecondsRealtime(0.5f);
         
         this.gameObject.SetActive(false);

@@ -1,12 +1,8 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class Card : Entity
@@ -80,8 +76,9 @@ public class Card : Entity
                       $"\n카드 ID : {ID}");
 
         this.GetComponentInChildren<TMP_Text>().text = _data.KR;
-
-       InitCheck();
+        
+        if (!GameManager.Instance.isTutorial )
+            InitCheck();
 
     }
     public void Init(int ID, out bool temp)
@@ -130,7 +127,8 @@ public class Card : Entity
 
         this.GetComponentInChildren<TMP_Text>().text = _data.KR;
         
-        InitCheck();    
+        if (!GameManager.Instance.isTutorial )
+            InitCheck();    
     }
 
     private void InitCheck()
@@ -149,7 +147,7 @@ public class Card : Entity
             select card;
         
         //Debug.Log(ID);
-        if (v.Count() >= 8 && !YamlDeserializer.saveData.GetValueFromLimit(this.ID % 10))
+        if (v.Count() >= 8 && (!YamlDeserializer.saveData.GetValueFromLimit(ID % 10) || !GameManager.Instance.isTutorial))
         {
             Debug.Log(true);
             YamlDeserializer.saveData.ModifyLimit(this.ID % 10, true);
@@ -173,7 +171,7 @@ public class Card : Entity
         //리스트 복사
         for (int i = 0; i < result.Length; i++)
         {
-            if (result[i].gameObject.Equals(this.gameObject))
+            if (result[i].gameObject.Equals(this.gameObject) || result[i] == null)
                 continue;
             
             if (result[i].transform.parent.TryGetComponent(out CardGroup group))
@@ -324,6 +322,12 @@ public class Card : Entity
         //t1 => 잡고 있던 카드 || t2 => 바닥에 있던 카드
         CardManager.Instance.sortBtn.interactable = true;
         CardManager.Areas ??= GameObject.FindGameObjectsWithTag("Merge");
+        if (CardManager.Areas.Length == 0)
+        {
+            CardManager.Areas = GameObject.FindGameObjectsWithTag("Merge");
+            if (CardManager.Areas.Length == 0) return;
+        }
+        
         var destroyTarget = new[] { t2.GetComponent<Card>(), t1.GetComponent<Card>() };
         var cardGroup = new CardGroup[2];
         var flag1 =  t1.transform.parent.TryGetComponent(out cardGroup[0]);
@@ -358,6 +362,7 @@ public class Card : Entity
                 if (t1.transform.parent.Equals(t2.transform.parent))
                 //병합 분기
                 {
+                    Debug.Log(true);
                     if (t1.transform.parent.TryGetComponent(out CardGroup g1))
                     {
                         if (g1.IndexOf(this) != 0) return;
@@ -368,7 +373,8 @@ public class Card : Entity
                         {
                             var _id = IDList.ElementAt(idx);
                             var row = g1.Cards
-                                .Where(x => x.ID == _id && YamlDeserializer.saveData.GetValueFromLimit(x.ID % 10))
+                                .Where(x => x.ID == _id &&
+                                            (YamlDeserializer.saveData.GetValueFromLimit(x.ID % 10)))
                                 .Select(x => x).ToList();
 
                             //홀수 일 경우 짝수로 
@@ -405,17 +411,16 @@ public class Card : Entity
 
                         return;
                     }
-                }
-                else
-                {
+                    
                     // 빈 카드 끼리 결합
                     var emptyParent = createParent();
                     emptyParent.AddCardRange(destroyTarget);
                 }
                 
+                
                 if ((destroyTarget[0].ID == destroyTarget[1].ID) && destroyTarget[0].ID < 3000)
                 {
-                    if(YamlDeserializer.saveData.GetValueFromLimit(ID % 10))
+                    if(GameManager.Instance.isTutorial || YamlDeserializer.saveData.GetValueFromLimit(ID % 10))
                     {
                         var cardInstance = CardManager.CreateCard(level + 1, (int)cardType, true);
                         Destroy(cardInstance.GetComponent<Animator>());
@@ -503,7 +508,11 @@ public class Card : Entity
             // 빈 카드를 카드 그룹으로
             cardGroup[1].AddCard(this);
         }
-
+        else
+        {
+            var emptyParent = createParent();
+            emptyParent.AddCardRange(destroyTarget);
+        }
     }
 
     public bool Lapse()

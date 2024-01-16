@@ -26,7 +26,9 @@ public class CardManager : MonoBehaviour
     private void Awake()
     {
         Instance ??= this;
-        sortBtn = GameObject.Find("Sort").GetComponent<Button>();
+        var v = GameObject.Find("Sort");
+        if (v != null)
+            v.TryGetComponent<Button>(out sortBtn);
     }
 
     void Start()
@@ -94,8 +96,6 @@ public class CardManager : MonoBehaviour
         result.ID = ID;
         return result;
     }
-
-
 
     public static bool DestroyCard(Card target)
     {
@@ -231,7 +231,6 @@ public class CardManager : MonoBehaviour
             }
             else
             {
-                
                 Card.MoveToLerp(v.ElementAt(0).gameObject, tPos);
             }
 

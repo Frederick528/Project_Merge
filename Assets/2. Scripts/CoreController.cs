@@ -245,11 +245,8 @@ public class CoreController : MonoBehaviour
         }
         public static void ModifyDifficulty(float hungerValue, float thirstValue)
         {
-
                 HungerDifficulty.Value = ((HungerDifficulty.Value - hungerValue) < _core.HungerDifficulty) ? _core.HungerDifficulty : (HungerDifficulty.Value - hungerValue);
-                print(HungerDifficulty.Value);
                 ThirstDifficulty.Value = ((ThirstDifficulty.Value - thirstValue) < _core.ThirstDifficulty) ? _core.ThirstDifficulty : (ThirstDifficulty.Value - thirstValue);
-                print(ThirstDifficulty.Value);
         }
     #endregion
 

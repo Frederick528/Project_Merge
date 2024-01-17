@@ -64,7 +64,7 @@ public class TutorialManager : MonoBehaviour
         if (GameManager.Instance.isTutorial)
         {
             EncounterManager.Occur(new []{
-                    "튜토리얼을 진행하시겠습니까?",
+                    "숲속에서 30일 튜토리얼을 시작합니다. 원하지 않을 경우, [스킵] 버튼을 눌러주세요.",
                     "진행",
                     "스킵"},
                 new []
@@ -119,14 +119,15 @@ public class TutorialManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        _tutorialProcessingTask.SuppressCancellationThrow();
-        _cts.Cancel();
-        _cts.Dispose();
-
         foreach (var observer in _observers)
         {
             observer.Dispose();
         }
+        
+        _tutorialProcessingTask.SuppressCancellationThrow();
+        _cts.Cancel();
+        _cts.Dispose();
+
     }
 
     private void OpenMsg(string content)
@@ -183,6 +184,12 @@ public class TutorialManager : MonoBehaviour
             var v = script[_currentIdx];
             if (v != NextSequence)
             {
+                if (v == EndSequence)
+                {
+                    SceneManager.LoadSceneAsync("Lawsuit");
+                    OnDestroy();
+                    return;
+                }
                 var t = OpenMsg(_currentIdx);
                 //objects.kohaku.transform.rotation = Quaternion.Euler(Vector3.down * 180);
                 
@@ -419,6 +426,7 @@ public class TutorialManager : MonoBehaviour
         if (objects.statUI.gameObject is { activeSelf: true, activeInHierarchy: false })
         {
             objects.statUI = Instantiate(objects.statUI);
+            objects.statUI.statUI.Texts[2].text = "[ 0 / 2 ]";
         }
 
         await PrintText();
@@ -428,7 +436,6 @@ public class TutorialManager : MonoBehaviour
             objects.statUI.statUI.Thirst[0].fillAmount = 0f;
             objects.statUI.statUI.Hunger[1].fillAmount = 0f;
             objects.statUI.statUI.Thirst[1].fillAmount = 0f;
-            objects.statUI.statUI.Texts[2].text = "[ 0 / 2 ]";
             for (int i = 0; i < 20; i++)
             {
                 objects.statUI.statUI.Hunger[0].fillAmount += 0.01f;
@@ -463,6 +470,7 @@ public class TutorialManager : MonoBehaviour
 
         #region Using Card
         
+        objects.statUI.Exit();
         MouseRightClick.Instance.cardEatBtn.interactable = true;
         MouseRightClick.Instance.cardEatBtn.onClick.AddListener(() =>
         {
@@ -497,14 +505,12 @@ public class TutorialManager : MonoBehaviour
         });
 
         await PrintText();
-        objects.statUI.Exit();
         await WaitForButtonCallBack();
         
         MouseRightClick.Instance.cardDecompositionBtn.interactable = true;
         Thread.MemoryBarrier();
         MouseRightClick.Instance.cardDecompositionBtn.onClick.AddListener(() =>
         {
-            Debug.Log(true);
             MouseRightClick.CurrentRef.OnDecomposition(out Card[] cards);
             CardManager.DestroyCard(MouseRightClick.CurrentRef);
             //if (cardContents.transform.parent.TryGetComponent(out CardGroup cardGroup))
@@ -543,9 +549,7 @@ public class TutorialManager : MonoBehaviour
         objects.statUI.statUI.Texts[2].text = "[ 2 / 2 ]";
         
         Thread.MemoryBarrier();
-        Debug.Log(objects.buttons[1].interactable);
         objects.buttons[1].interactable = true;
-        Debug.Log(objects.buttons[1].interactable);
         Thread.MemoryBarrier();
         
         await WaitForButtonCallBack();
@@ -553,9 +557,6 @@ public class TutorialManager : MonoBehaviour
         objects.statUI.Enter();
         await PrintText();
         objects.buttons[0].interactable = true;
-        
-        
-        await PrintText();
         
         SceneManager.LoadScene("Lawsuit");
         

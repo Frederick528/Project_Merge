@@ -14,19 +14,40 @@ public class StatUI : EffectBase
     // public Slider changeThirstSlider;
 
     public StatUIGroup statUI;
+    public Canvas statCanvas;
 
     private Animator _anim;
-    private bool _status = true; // true 표시 / false 비표시
+    private bool _status = true;
+    public bool status => _status;// true 표시 / false 비표시
 
     private bool _isClickable = true;
     // Start is called before the first frame update
 
     private void OnEnable()
     {
+        statCanvas.worldCamera = GameObject.Find("UI_Camera").GetComponent<Camera>();
         if (!statUI.Background.TryGetComponent(out Button btn))
         {
             btn = statUI.Background.gameObject.AddComponent<Button>();
             btn.onClick.AddListener(() =>
+            {
+                Debug.Log(_status);
+                if (!_isClickable) return;
+                if (_status)
+                {
+                    Exit();
+                }
+                else
+                {
+                    Enter();
+                }
+                //btn.onClick.RemoveAllListeners();
+            });
+        }
+        if (!statUI.showImage.TryGetComponent(out Button showBtn))
+        {
+            showBtn = statUI.showImage.gameObject.AddComponent<Button>();
+            showBtn.onClick.AddListener(() =>
             {
                 if (!_isClickable) return;
                 if (_status)
@@ -40,8 +61,8 @@ public class StatUI : EffectBase
                 //btn.onClick.RemoveAllListeners();
             });
         }
-        
-        
+
+
     }
 
     // Update is called once per frame
@@ -105,7 +126,10 @@ public class StatUI : EffectBase
         // back - 감소 대기(보여주는 값)
         // front - 실제 감소(실제 스테이터스 값)
         // value = 잃은 값, 1- (max - crnt / max) (값이 1이 되면 꽉참.)
+
+        // 0 == main / 1 == expected / 2 == fluctuation
         public Image[] Thirst;
         public Image Background;
+        public Image showImage;
     }
 }

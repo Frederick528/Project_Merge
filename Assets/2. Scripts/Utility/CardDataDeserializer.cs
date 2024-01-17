@@ -19,7 +19,7 @@ public class CardDataDeserializer
 
     private static Dictionary<int, CardData> CreateDictionary()
     {
-        string fileName = "/0.8.xlsx";
+        string fileName = "/1.0.xlsx";
         string filePath = Application.dataPath + fileName;
 
         Dictionary<int, CardData> cardDictionary = new Dictionary<int, CardData>();

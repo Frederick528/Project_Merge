@@ -25,6 +25,8 @@ public class MouseRightClick : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI eatInfoText;
 
+    CardData cardData;
+
     void Update()
     {
         if (Input.GetMouseButtonDown(1))
@@ -55,7 +57,7 @@ public class MouseRightClick : MonoBehaviour
                 Debug.Log("카드 컴포넌트가 없습니다.");
                 return;
             }
-            CardData cardData = cardContents.Data;
+            cardData = cardContents.Data;
 
             //string cardID = $"{cardContents.cardType}_{cardContents.level}";
             if (Resources.Load<Sprite>($"Images/{cardContents.cardType}/{cardContents.ID}") != null)    // 나중에 if문은 빼야 함.

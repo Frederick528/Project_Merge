@@ -77,29 +77,27 @@ public class CoreController : MonoBehaviour
         HungerDifficulty.Subscribe(x =>
         {
             //StatUICanvas.gameObject.SetActive(true);
-            StatUICanvas.statUI.Hunger[1].fillAmount = x / _core.Status.maxHunger;
-            HungerFluctuation.Value = x;
+            StatUICanvas.statUI.Hunger[1].fillAmount = 1 - (x / _core.Status.maxHunger);
         });
         ThirstDifficulty.Subscribe(x =>
         {
             //StatUICanvas.gameObject.SetActive(true);
-            StatUICanvas.statUI.Thirst[1].fillAmount = x / _core.Status.maxThirst;
-            ThirstFluctuation.Value = x;
+            StatUICanvas.statUI.Thirst[1].fillAmount = 1 - (x / _core.Status.maxThirst);
         });
         HungerFluctuation.Subscribe(x =>
         {
             //StatUICanvas.gameObject.SetActive(true);
-            StatUICanvas.statUI.Hunger[2].fillAmount = x / _core.Status.maxHunger;
+            StatUICanvas.statUI.Hunger[2].fillAmount = 1 - (x / _core.Status.maxHunger);
         });
         ThirstFluctuation.Subscribe(x =>
         {
             //StatUICanvas.gameObject.SetActive(true);
-            StatUICanvas.statUI.Thirst[2].fillAmount = x / _core.Status.maxThirst;
+            StatUICanvas.statUI.Thirst[2].fillAmount = 1 - (x / _core.Status.maxThirst);
         });
         _hunger.Subscribe(x =>
         {
             //StatUICanvas.gameObject.SetActive(true);
-            var v = (_core.Status.maxHunger - x) / _core.Status.maxHunger;
+            var v = 1 - ((_core.Status.maxHunger - x) / _core.Status.maxHunger);
             StatUICanvas.statUI.Hunger[0].fillAmount = v;
             StatUICanvas.statUI.Texts[0].text = _core.Status.curHunger + "";
         });
@@ -107,7 +105,7 @@ public class CoreController : MonoBehaviour
         {
             //StatUICanvas.gameObject.SetActive(true);
             StatUICanvas.statUI.Thirst[0].fillAmount =
-               (_core.Status.maxThirst - x) / _core.Status.maxThirst;
+               1 - ((_core.Status.maxThirst - x) / _core.Status.maxThirst);
             StatUICanvas.statUI.Texts[1].text = _core.Status.curThirst + "";
         });
         _ap.Subscribe(x =>
@@ -125,7 +123,7 @@ public class CoreController : MonoBehaviour
     }
     public static void TurnChange()
     {
-        if (_instance.StatUICanvas.gameObject.activeSelf)
+        if (_instance.StatUICanvas.status)
         {
             _instance.StatUICanvas.Exit();
         }
@@ -185,7 +183,9 @@ public class CoreController : MonoBehaviour
             _core.HungerDifficulty += (int)(Mathf.Log10(Date + 2) * 10 + 10);
             _core.ThirstDifficulty += (int)(Mathf.Log10(Date + 2) * 10 + 10);
             HungerDifficulty.Value += _core.HungerDifficulty;
+            HungerFluctuation.Value = HungerDifficulty.Value;
             ThirstDifficulty.Value += _core.ThirstDifficulty;
+            ThirstFluctuation.Value = ThirstDifficulty.Value;
 
 
 
@@ -269,20 +269,20 @@ public class CoreController : MonoBehaviour
         }
         public static void ModifyFluctuation(float hungerFluctuation, float thirstFluctuation)
         {
-            HungerFluctuation.Value -= hungerFluctuation;
-            ThirstFluctuation.Value -= thirstFluctuation;
-            TempHungerFluctuation.Value = -hungerFluctuation;
-            TempThirstFluctuation.Value = -thirstFluctuation;
+            TempHungerFluctuation.Value = HungerFluctuation.Value;
+            TempThirstFluctuation.Value = ThirstFluctuation.Value;
+            HungerFluctuation.Value = (HungerFluctuation.Value - hungerFluctuation < _core.HungerDifficulty) ? _core.HungerDifficulty : (HungerFluctuation.Value - hungerFluctuation);
+            ThirstFluctuation.Value = (ThirstFluctuation.Value - thirstFluctuation < _core.ThirstDifficulty) ? _core.ThirstDifficulty : (ThirstFluctuation.Value - thirstFluctuation);
         }
         public static void ModifyFluctuation(bool boolean)  // 증감 수치 돌려놓기 (true) 먹기 버튼 제외 다 true
         {
             if (boolean)
             {
-                HungerFluctuation.Value -= TempHungerFluctuation.Value;
-                ThirstFluctuation.Value -= TempThirstFluctuation.Value;
-                TempHungerFluctuation.Value = 0;
-                TempThirstFluctuation.Value = 0;
+                HungerFluctuation.Value = TempHungerFluctuation.Value;
+                ThirstFluctuation.Value = TempThirstFluctuation.Value;
             }
+            TempHungerFluctuation.Value = HungerDifficulty.Value;
+            TempThirstFluctuation.Value = ThirstDifficulty.Value;
         }
 
     #endregion

@@ -4668,7 +4668,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be5e9c740fad4fe4e9e7db29b0a60e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatUICanvas: {fileID: 1138920814816187962, guid: 78260b429a517074782ea813953577b4, type: 3}
+  StatUICanvas: {fileID: 4533981860018010259, guid: e748dad8d9511b24d92744257d180ccd, type: 3}
   Clock: {fileID: 446868046}
   Light: {fileID: 1421811051}
   Notice: {fileID: 6290000357460944020, guid: aa6c5515d83a9ac48872aefd807e9b9b, type: 3}
@@ -26142,7 +26142,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_TargetDisplay: 0
 --- !u!1 &1869605985
 GameObject:

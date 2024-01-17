@@ -50,7 +50,8 @@ public class TutorialManager : MonoBehaviour
     private const string EndSequence = "^END^";
 
     private UniTask _tutorialProcessingTask;
-    private CancellationTokenSource cts;
+    private CancellationTokenSource _cts;
+    private List<IDisposable> _observers = new ();
 
     private void Awake()
     {
@@ -58,7 +59,7 @@ public class TutorialManager : MonoBehaviour
 
     private async void Start()
     {
-        cts = new CancellationTokenSource();
+        _cts = new CancellationTokenSource();
         
         if (GameManager.Instance.isTutorial)
         {
@@ -70,9 +71,6 @@ public class TutorialManager : MonoBehaviour
                 {
                     (Action)(async () =>
                     {
-                        Debug.Log("accept");
-                        
-        
                         _tutorialProcessingTask = TutorialProcess();
                         await _tutorialProcessingTask;
                     }),
@@ -93,7 +91,7 @@ public class TutorialManager : MonoBehaviour
         }
 
 
-        Observable.EveryUpdate()
+        _observers.Add(Observable.EveryUpdate()
             .Where( x => Camera.main.fieldOfView != _fov)
             .Subscribe(x =>
             {
@@ -101,9 +99,9 @@ public class TutorialManager : MonoBehaviour
 
                 objects.root.transform.localScale
                     = (Vector3.one * 0.8f) * _fov / 60;
-            });
+            }));
         
-        Observable.EveryUpdate()
+        _observers.Add(Observable.EveryUpdate()
             .Where( x => UnityChanController.IsMoving)
             .Subscribe(x =>
             {
@@ -114,7 +112,7 @@ public class TutorialManager : MonoBehaviour
                     //CloseMsg();
                     //GameManager.CardCanvasOn = false;
                 }
-            });
+            }));
         
         objects.buttons[1].gameObject.SetActive(false);
     }
@@ -122,8 +120,13 @@ public class TutorialManager : MonoBehaviour
     private void OnDestroy()
     {
         _tutorialProcessingTask.SuppressCancellationThrow();
-        cts.Cancel();
-        cts.Dispose();
+        _cts.Cancel();
+        _cts.Dispose();
+
+        foreach (var observer in _observers)
+        {
+            observer.Dispose();
+        }
     }
 
     private void OpenMsg(string content)
@@ -229,13 +232,13 @@ public class TutorialManager : MonoBehaviour
     {
         // 움직임이 멈출 때 까지 홀드
         await UniTask.WaitUntil(() => !UnityChanController.IsMoving,
-            cancellationToken : cts.Token);
+            cancellationToken : _cts.Token);
     }
     async UniTask WaitForLeave()
     {
         // 움직임이 시작될 때 까지 홀드
         await UniTask.WaitUntil(() => UnityChanController.IsMoving,
-            cancellationToken : cts.Token);
+            cancellationToken : _cts.Token);
         GameManager.CardCanvasOn = false;
         CloseMsg();
     }
@@ -244,7 +247,7 @@ public class TutorialManager : MonoBehaviour
         // 움직임이 시작될 때 까지 홀드
         await UniTask.WaitUntil(() =>
                 (Input.GetMouseButtonDown(0) && !GameManager.CardCanvasOn),
-            cancellationToken : cts.Token);
+            cancellationToken : _cts.Token);
     }
 
     async UniTask WaitForMouseInput(bool isCheckUI)
@@ -255,20 +258,20 @@ public class TutorialManager : MonoBehaviour
         else
         {
             await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0),
-                cancellationToken : cts.Token);
+                cancellationToken : _cts.Token);
         }
         Debug.Log(true);
     }
     async UniTask WaitForCanvasClose()
     {
         await UniTask.WaitUntil(() => !GameManager.CardCanvasOn,
-            cancellationToken : cts.Token);
+            cancellationToken : _cts.Token);
     }
     async UniTask WaitForButtonCallBack()
     {
         WaitButtonCallBack = false;
         await UniTask.WaitUntil(() => WaitButtonCallBack,
-            cancellationToken : cts.Token);
+            cancellationToken : _cts.Token);
         WaitButtonCallBack = false;
     }
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading;
 using UniRx;
 using Cysharp.Threading.Tasks;
@@ -7,6 +8,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 [Serializable]
@@ -19,6 +21,7 @@ public struct TutorialObjects
     public Animator textFieldAnimator;
     [Space(10)]
     public GameObject[] mergingArea;
+    public StatUI statUI;
     public GameObject kohaku;
 }
 
@@ -34,15 +37,19 @@ public class TutorialManager : MonoBehaviour
 {
     public TutorialObjects objects;
     public TextFieldAnimationParams animParams;
+    public Camera mainCamera;
     public Camera subCamera;
     public string[] script;
+    
+    public static bool WaitButtonCallBack = false;
+    
 
     private float _fov = 0;
-    private bool _waitButtonCallBack = false;
     private ushort _currentIdx = 0;
     private const string NextSequence = "^NEXT^";
     private const string EndSequence = "^END^";
-    
+
+    private UniTask _tutorialProcessingTask;
     private CancellationTokenSource cts;
 
     private void Awake()
@@ -61,9 +68,13 @@ public class TutorialManager : MonoBehaviour
                     "스킵"},
                 new []
                 {
-                    (Action)(() =>
+                    (Action)(async () =>
                     {
                         Debug.Log("accept");
+                        
+        
+                        _tutorialProcessingTask = TutorialProcess();
+                        await _tutorialProcessingTask;
                     }),
                     (Action)(() =>
                     {
@@ -105,9 +116,16 @@ public class TutorialManager : MonoBehaviour
                 }
             });
         
-        await TutorialProcess();
+        objects.buttons[1].gameObject.SetActive(false);
     }
-    
+
+    private void OnDestroy()
+    {
+        _tutorialProcessingTask.SuppressCancellationThrow();
+        cts.Cancel();
+        cts.Dispose();
+    }
+
     private void OpenMsg(string content)
     {
         if(objects.root.activeSelf)
@@ -118,14 +136,32 @@ public class TutorialManager : MonoBehaviour
         objects.textField.text = content;
     }
     
-    private void OpenMsg(ref ushort idx)
+    private async UniTask OpenMsg(ushort idx)
     {
         if(objects.root.activeSelf)
             objects.root.SetActive(false);
         objects.root.transform.position =
-            objects.kohaku.transform.position + (Vector3.up * 0.5f + Vector3.forward * 15f * (_fov / 60));
+            objects.kohaku.transform.position + (Vector3.up * 15f + Vector3.forward * 15f * (_fov / 60));
         objects.root.SetActive(true);
-        objects.textField.text = script[idx++ % script.Length ];
+
+        //var v = WaitForButtonCallBack();
+        
+        var str = script[idx % script.Length];
+        
+        objects.textField.text = str;
+        // objects.textField.text = "";
+        // foreach (var chr in str)
+        // {
+        //     Debug.Log(v.Status);
+        //     if (v.Status == UniTaskStatus.Succeeded || _waitButtonCallBack)
+        //     {
+        //         return;
+        //     }
+        //     objects.textField.text += chr;
+        //     await UniTask.Delay(100);
+        //     //값을 리턴 받았을 경우 ==> 모종의 이유로 UniTask List에서 완료된 Task가 나온 경우
+        //     // 진행하던 작업을 중단
+        // }
     }
     private void CloseMsg()
     {
@@ -134,6 +170,7 @@ public class TutorialManager : MonoBehaviour
 
     async UniTask PrintText()
     {
+        var task = HighLight(objects.kohaku.transform, 45, false);
         await WaitForCanvasClose();
         Thread.MemoryBarrier();
         //await WaitForLeave();
@@ -143,28 +180,38 @@ public class TutorialManager : MonoBehaviour
             var v = script[_currentIdx];
             if (v != NextSequence)
             {
-                OpenMsg(ref _currentIdx);
-                Thread.MemoryBarrier();
-                var t1 = WaitForMouseInput();
-                var t2 = WaitForLeave();
-                var t3 = UniTask.Delay((int)animParams.duration * 1000);
+                var t = OpenMsg(_currentIdx);
+                //objects.kohaku.transform.rotation = Quaternion.Euler(Vector3.down * 180);
                 
-                //화면 탈출이나 마우스 클릭이 발생할 때 까지 대기
-                var i = await UniTask.WhenAny(t1, t2, t3);
-                if (i == 0)
+                List<UniTask> list = new();
+                Thread.MemoryBarrier();
+                
+                list.Add(WaitForMouseInput());
+                list.Add(WaitForLeave());
+                list.Add(UniTask.Delay((int)animParams.duration * 1000));
+                
+                using (null)
                 {
-                    t2.SuppressCancellationThrow();
-                    t3.SuppressCancellationThrow();
-                }
-                else if (i == 1)
-                {
-                    t1.SuppressCancellationThrow();
-                    t3.SuppressCancellationThrow();
-                }
-                else if (i == 2)
-                {
-                    t1.SuppressCancellationThrow();
-                    t2.SuppressCancellationThrow();
+                    Thread.MemoryBarrier();
+                    await UniTask.Delay(500);
+
+                    //화면 탈출이나 마우스 클릭이 발생할 때 까지 대기
+
+                    var id = await UniTask.WhenAny(list);
+                    if (t.Status == UniTaskStatus.Pending)
+                    {
+                        WaitButtonCallBack = true;
+                        t.SuppressCancellationThrow();
+                    }
+
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        if (id != i)
+                            list[i].SuppressCancellationThrow();
+                    }
+
+                    await UniTask.Delay(500);
+                    Thread.MemoryBarrier();
                 }
             }
             else
@@ -173,7 +220,10 @@ public class TutorialManager : MonoBehaviour
                 _currentIdx++;
                 break;
             }
+            _currentIdx++;
         }
+        await task;
+        subCamera.depth = mainCamera.depth - 1;
     }
     async UniTask WaitForArrive()
     {
@@ -216,14 +266,60 @@ public class TutorialManager : MonoBehaviour
     }
     async UniTask WaitForButtonCallBack()
     {
-        await UniTask.WaitUntil(() =>_waitButtonCallBack,
+        WaitButtonCallBack = false;
+        await UniTask.WaitUntil(() => WaitButtonCallBack,
             cancellationToken : cts.Token);
-        _waitButtonCallBack = false;
+        WaitButtonCallBack = false;
+    }
+
+    async UniTask HighLight(Transform targetPos)
+    {
+        await HighLight(targetPos, 60, true);
+    }
+    
+    async UniTask HighLight(Transform target, int fov)
+    {
+        subCamera.fieldOfView = fov;
+        mainCamera.fieldOfView = fov;
+        
+        subCamera.transform.position = mainCamera.transform.position;
+        subCamera.depth = mainCamera.depth + 1;
+        
+        byte b = 0;
+        while (true)
+        {
+            var distanceCheck = UniTask.Delay(20);
+            var targetPos = new Vector3(target.position.x, 80, target.position.z);
+            subCamera.transform.position =
+                Vector3.Lerp(subCamera.transform.position, targetPos, 0.2f);
+
+            if (Vector3.Distance(subCamera.transform.position, targetPos) < 0.1f || b >= 100)
+                break;
+            await distanceCheck;
+
+            b += 1;
+        }
+            
+        await UniTask.Delay(2000);
+    }
+    
+    async UniTask HighLight(Transform targetPos, int fov, bool isBackMainCam)
+    {
+        await HighLight(targetPos, fov);
+        if (isBackMainCam)
+        {
+            subCamera.depth = mainCamera.depth - 1;
+        }
+        else
+        {
+            mainCamera.transform.position = subCamera.transform.position;
+        }
     }
 
     async UniTask TutorialProcess()
     {
         await PrintText();
+        
         //===================== 카드 생성 튜토리얼 ============================================
 
         #region CreateCard
@@ -271,8 +367,9 @@ public class TutorialManager : MonoBehaviour
             objects.buttons[0].onClick.AddListener(() =>
             {
                 CardManager.CreateCard(1020);
-                _waitButtonCallBack = true;
+                WaitButtonCallBack = true;
                 CloseMsg();
+                objects.buttons[0].interactable = false;
                 objects.buttons[0].onClick.RemoveAllListeners();
                 objects.buttons[0].onClick.AddListener(() =>
                 {
@@ -287,39 +384,178 @@ public class TutorialManager : MonoBehaviour
         
         //===================== 카드 병합 튜토리얼 ============================================
 
+        #region 카드 병합 튜토리얼
+        GameManager.CardCanvasOn = true;
         await UniTask.Delay(2000);
         foreach (var area in objects.mergingArea)
         {
             area.SetActive(true);
         }
-        var mainCam = Camera.main;
-        mainCam.gameObject.SetActive(false);
         
-        var targetPos = (objects.mergingArea[0].transform.position
-                                        + objects.mergingArea[1].transform.position) / 2 + Vector3.up * 80;
+        await HighLight(objects.mergingArea[0].transform, 60, true);
 
-        await UniTask.Create(async () =>
+        GameManager.CardCanvasOn = false;
+        await PrintText();
+        //카드가 합쳐질 때 까지 대기
+        await WaitForButtonCallBack();
+        await UniTask.Delay(1000);
+        
+        //가장 최근에 생성된 카드의 좌표를 가져옴
+        await HighLight(CardManager.Cards[^1].transform, 60, true);
+        
+        MouseRightClick.Instance.cardEatBtn.interactable = false;
+        MouseRightClick.Instance.cardDecompositionBtn.interactable = false;
+        
+        await PrintText();
+        await WaitForButtonCallBack();
+        #endregion
+        
+        //===================== 스테이터스 튜토리얼 ============================================
+
+        #region 스테이터스 튜토리얼
+        if (objects.statUI.gameObject is { activeSelf: true, activeInHierarchy: false })
         {
-            byte b = 0;
-            while (true)
-            {
-                subCamera.transform.position =
-                    Vector3.Lerp(subCamera.transform.position, targetPos, 0.2f);
-                var distanceCheck = UniTask.Delay(20);
-
-                if (Vector3.Distance(subCamera.transform.position, targetPos) < 0.1f || b >= 100)
-                    break;
-                await distanceCheck;
-
-                b += 1;
-            }
-        });
-        
-        await UniTask.Delay(2000);
-        subCamera.gameObject.SetActive(false);
-        mainCam.gameObject.SetActive(true);
+            objects.statUI = Instantiate(objects.statUI);
+        }
 
         await PrintText();
+        var t = UniTask.Create(async () =>
+        {
+            objects.statUI.statUI.Hunger[0].fillAmount = 0f;
+            objects.statUI.statUI.Thirst[0].fillAmount = 0f;
+            objects.statUI.statUI.Hunger[1].fillAmount = 0f;
+            objects.statUI.statUI.Thirst[1].fillAmount = 0f;
+            objects.statUI.statUI.Texts[2].text = "[ 0 / 2 ]";
+            for (int i = 0; i < 20; i++)
+            {
+                objects.statUI.statUI.Hunger[0].fillAmount += 0.01f;
+                objects.statUI.statUI.Thirst[0].fillAmount += 0.01f;
+                
+                for (int j = 0; j < 2; j++)
+                {
+                    objects.statUI.statUI.Texts[j].text = (100 - (i + 1)) + "";
+                }
 
+                await UniTask.Delay(100);
+            }
+        });
+        await PrintText();
+        await t;
+        t = WaitForButtonCallBack();
+
+        if (!objects.statUI.statUI.Background.TryGetComponent(out Button button))
+        {
+            button = objects.statUI.statUI.Background.gameObject.AddComponent<Button>();
+        }
+       
+        button.onClick.AddListener(() =>
+        {
+            WaitButtonCallBack = true;
+        });
+        
+        await t;
+        #endregion
+        
+        //===================== 카드 사용 / 분해 튜토리얼 ============================================
+
+        #region Using Card
+        
+        MouseRightClick.Instance.cardEatBtn.interactable = true;
+        MouseRightClick.Instance.cardEatBtn.onClick.AddListener(() =>
+        {
+            if (Resources.Load<Sprite>($"Images/{MouseRightClick.CurrentRef.cardType}/{MouseRightClick.CurrentRef.ID}") != null)    // 나중에 if문은 빼야 함.
+            {
+                MouseRightClick.Instance.cardImage.sprite = Resources.Load<Sprite>($"Images/{MouseRightClick.CurrentRef.cardType}/{MouseRightClick.CurrentRef.ID}");
+            }
+
+            var Data = MouseRightClick.CurrentRef.Data;
+            
+            objects.statUI.statUI.Texts[0].text = (int.Parse(objects.statUI.statUI.Texts[0].text) + Data.Hunger)+ "" ;
+            objects.statUI.statUI.Texts[1].text = (int.Parse(objects.statUI.statUI.Texts[1].text) + Data.Thirst)+ "" ;
+            
+            objects.statUI.statUI.Hunger[0].fillAmount += 0.01f * Data.Hunger;
+            objects.statUI.statUI.Thirst[0].fillAmount += 0.01f * Data.Hunger;
+            
+            if (MouseRightClick.CurrentRef.transform.parent.TryGetComponent(out CardGroup cardGroup))
+                CardManager.DestroyCard(cardGroup.RemoveCard(MouseRightClick.CurrentRef));
+            else
+                CardManager.DestroyCard(MouseRightClick.CurrentRef);
+            //Destroy(hit.collider.gameObject);
+            MouseRightClick.Instance.CanvasClose();
+            EffectManager.instance.eatCardImg = MouseRightClick.Instance.cardImage.sprite;
+            EffectManager.instance.cardContents = MouseRightClick.CurrentRef;
+            GameObject eatCard = Instantiate(EffectManager.instance.eatEffect, MouseRightClick.Instance.effectUICanvas);
+            
+            objects.statUI.Enter();
+            Thread.MemoryBarrier();
+            MouseRightClick.Instance.cardEatBtn.interactable = false;
+
+            WaitButtonCallBack = true;
+        });
+
+        await PrintText();
+        objects.statUI.Exit();
+        await WaitForButtonCallBack();
+        
+        MouseRightClick.Instance.cardDecompositionBtn.interactable = true;
+        Thread.MemoryBarrier();
+        MouseRightClick.Instance.cardDecompositionBtn.onClick.AddListener(() =>
+        {
+            Debug.Log(true);
+            MouseRightClick.CurrentRef.OnDecomposition(out Card[] cards);
+            CardManager.DestroyCard(MouseRightClick.CurrentRef);
+            //if (cardContents.transform.parent.TryGetComponent(out CardGroup cardGroup))
+            //    CardManager.DestroyCard(cardGroup.RemoveCard(cardContents));
+            //else
+            //    CardManager.DestroyCard(cardContents);
+            MouseRightClick.Instance.CanvasClose();
+            MouseRightClick.Instance.cardDecompositionBtn.interactable = false;
+            Thread.MemoryBarrier();
+            WaitButtonCallBack = true;
+        });
+        
+        await PrintText();
+
+        GameManager.CardCanvasOn = true;
+        var c = CardManager.CreateCard(2021);
+        MouseRightClick.Instance.cardDecompositionBtn.interactable = true;
+        await HighLight(c.transform);
+        Thread.MemoryBarrier();
+        GameManager.CardCanvasOn = false;
+        
+        
+        await PrintText();
+        await WaitForButtonCallBack();
+
+        #endregion
+        
+        //===================== 턴 튜토리얼 ============================================
+
+
+        objects.buttons[1].gameObject.SetActive(true);
+        objects.buttons[1].interactable = false;
+        objects.statUI.Exit();
+        await PrintText();
+        
+        objects.statUI.statUI.Texts[2].text = "[ 2 / 2 ]";
+        
+        Thread.MemoryBarrier();
+        Debug.Log(objects.buttons[1].interactable);
+        objects.buttons[1].interactable = true;
+        Debug.Log(objects.buttons[1].interactable);
+        Thread.MemoryBarrier();
+        
+        await WaitForButtonCallBack();
+        
+        objects.statUI.Enter();
+        await PrintText();
+        objects.buttons[0].interactable = true;
+        
+        
+        await PrintText();
+        
+        SceneManager.LoadScene("Lawsuit");
+        
+        
     }
 }

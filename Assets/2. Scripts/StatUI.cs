@@ -14,6 +14,7 @@ public class StatUI : EffectBase
     // public Slider changeThirstSlider;
 
     public StatUIGroup statUI;
+    public bool Status => _status;
 
     private Animator _anim;
     private bool _status = true; // true 표시 / false 비표시
@@ -40,8 +41,9 @@ public class StatUI : EffectBase
                 //btn.onClick.RemoveAllListeners();
             });
         }
-        
-        
+
+        Enter();
+
     }
 
     // Update is called once per frame

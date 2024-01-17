@@ -102,6 +102,21 @@ public class CoreController : MonoBehaviour
         {
             _instance.StatUICanvas.Exit();
         }
+
+        if (GameManager.Instance.isTutorial)
+        {
+            var lAinm = _instance.Light.GetComponent<Animator>();
+            foreach (var param in lAinm.parameters)
+            {
+                if(param.type == AnimatorControllerParameterType.Trigger)
+                    lAinm.ResetTrigger(param.name);
+            }
+            
+            lAinm.SetTrigger("Dawn");
+            TutorialManager.WaitButtonCallBack = true;
+            return;
+        }
+        
         if(BearManager.Count > 0 )
         {
             Debug.Log("곰들이 아직 남아있습니다.");

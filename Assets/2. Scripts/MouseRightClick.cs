@@ -11,16 +11,17 @@ public class MouseRightClick : MonoBehaviour
     //public Vector3 targetPosition;
     public static bool onRightClick;
     public static MouseRightClick Instance;
+    public static Card CurrentRef;
     public GameObject canvas;
     public Image cardImage;
     public TextMeshProUGUI cardName;
     public TextMeshProUGUI cardText;
     public Button cardEatBtn;
     [SerializeField]
-    Button cardDecompositionBtn;
+    public Button cardDecompositionBtn;
 
     [SerializeField]
-    Transform effectUICanvas;
+    public Transform effectUICanvas;
 
     [SerializeField]
     GameObject cardEatInfo;
@@ -50,6 +51,7 @@ public class MouseRightClick : MonoBehaviour
     {
         GameManager.CardCanvasOn = false;
         canvas.SetActive(false);
+        TutorialManager.WaitButtonCallBack = true;
     }
     
     private void RayCastEvt(RaycastHit hit)
@@ -57,12 +59,21 @@ public class MouseRightClick : MonoBehaviour
         if (GameManager.CardCanvasOn) return;
         if(hit.collider.TryGetComponent(out Card cardContents))
         {
-            ShowCardInfo(cardContents);
+            if (GameManager.Instance.isTutorial)
+            {
+                ShowCardInfo(cardContents.ID);
+            }
+            else
+            {
+                ShowCardInfo(cardContents);
+            }
+
+            CurrentRef = cardContents;
         }
     }
 
     public void ShowCardInfo(Card cardContents)
-    {
+    {   
         CardData cardData = cardContents.Data;
 
         //string cardID = $"{cardContents.cardType}_{cardContents.level}";
@@ -129,7 +140,6 @@ public class MouseRightClick : MonoBehaviour
     {
         if (!CardDataDeserializer.TryGetData(ID, out CardData cardData))
             return;
-
         var cardType = ID < 1020 ? Card.CardType.Food :
             ID < 2010 ? Card.CardType.Water :
             ID < 2020 ? Card.CardType.Wood :
@@ -144,8 +154,12 @@ public class MouseRightClick : MonoBehaviour
         cardText.text = cardData.Info;
         
         cardEatInfo.SetActive(false);
-        cardEatBtn.interactable= false;
-        cardDecompositionBtn.interactable = false;
+
+        if (!GameManager.Instance.isTutorial)
+        {
+            cardEatBtn.interactable = false;
+            cardDecompositionBtn.interactable = false;
+        }
         
         //GameManager.CardCanvasOn = true;
         canvas.SetActive(true);

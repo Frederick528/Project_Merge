@@ -28,7 +28,8 @@ public class Card : Entity
     private void OnEnable()
     {
         var a = this.GetComponent<Animator>();
-        CardManager.Instance.sortBtn.interactable = false;
+        if(CardManager.Instance.sortBtn != null)
+            CardManager.Instance.sortBtn.interactable = false;
         //Destroy(a);
     }
 
@@ -174,11 +175,11 @@ public class Card : Entity
             if (result[i].gameObject.Equals(this.gameObject) || result[i] == null)
                 continue;
             
-            if (result[i].transform.parent.TryGetComponent(out CardGroup group))
+            if (result[i].transform.parent.TryGetComponent(out CardGroup g1) && this.transform.parent.TryGetComponent(out CardGroup g2))
             {
                 using (null)
                 {
-                    foreach (var _card in group.Cards)
+                    foreach (var _card in g1.Cards)
                     {
                         Debug.Log(_card.ID + " " + this.ID);
                         if (_card.ID == this.ID)
@@ -362,7 +363,6 @@ public class Card : Entity
                 if (t1.transform.parent.Equals(t2.transform.parent))
                 //병합 분기
                 {
-                    Debug.Log(true);
                     if (t1.transform.parent.TryGetComponent(out CardGroup g1))
                     {
                         if (g1.IndexOf(this) != 0) return;
@@ -374,7 +374,7 @@ public class Card : Entity
                             var _id = IDList.ElementAt(idx);
                             var row = g1.Cards
                                 .Where(x => x.ID == _id &&
-                                            (YamlDeserializer.saveData.GetValueFromLimit(x.ID % 10)))
+                                            (YamlDeserializer.saveData.GetValueFromLimit(x.ID % 10)) || GameManager.Instance.isTutorial)
                                 .Select(x => x).ToList();
 
                             //홀수 일 경우 짝수로 
@@ -407,6 +407,11 @@ public class Card : Entity
                             }
                         }
 
+                        if (GameManager.Instance.isTutorial)
+                        {
+                            TutorialManager.WaitButtonCallBack = true;
+                        }
+
                         CardManager.Instance.sortBtn.interactable = true;
 
                         return;
@@ -429,8 +434,12 @@ public class Card : Entity
                         //cardInstance.transform.localScale = Vector3.one;
                         cardInstance.transform.position = CardManager.Areas[1].transform.position + Vector3.up * 2f;
 
-                        Debug.Log("Merge Successed");
+                        Debug.Log("Merge Succeed");
                         CardManager.Instance.sortBtn.interactable = true;
+                        if (GameManager.Instance.isTutorial)
+                        {
+                            TutorialManager.WaitButtonCallBack = true;
+                        }
 
                         EffectManager.instance.MergeEffect();
                     }

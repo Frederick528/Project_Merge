@@ -1,9 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Threading.Tasks;
+using Unity.Mathematics;
 using UnityChan;
 using UnityEngine;
+using Quaternion = UnityEngine.Quaternion;
+using Vector3 = UnityEngine.Vector3;
 
 public class UnityChanController : Draggable
 {
@@ -30,7 +34,7 @@ public class UnityChanController : Draggable
         _iKController = GetComponent<IKLookAt>();
         _rigid = GetComponent<Rigidbody>();
         _anim = GetComponent<Animator>();
-        _mainCam = Camera.main;
+        _mainCam = GameObject.Find("Main Camera").GetComponent<Camera>();
 
         _iKController.lookAtObj = lookPos;
         _rigid.interpolation = RigidbodyInterpolation.Interpolate;
@@ -49,6 +53,8 @@ public class UnityChanController : Draggable
         var targetPos = new Vector3(
             target.x,transform.position.y, target.z);
         var v = (_mainCam.fieldOfView / 30);
+        var distance = Vector3.Distance(this.transform.position, targetPos);
+        
         
         transform.LookAt(Vector3.Lerp(new Vector3()
         {
@@ -57,7 +63,15 @@ public class UnityChanController : Draggable
             z = lookPos.position.z,
         }, targetPos, 0.4f));
         
-        targetPos += Vector3.left * (5 * v);
+        // if (distance > 4f * Mathf.Log(v * 2.8f, 2))
+        // {
+        // }
+        // else
+        // {
+        //     this.transform.rotation = quaternion.Euler(Vector3.down * 180);
+        // }
+
+        //targetPos += Vector3.forward * (7 * v);
         
         if (_isMouseDown)
         {
@@ -73,7 +87,6 @@ public class UnityChanController : Draggable
         }
         
         // 2.8 은 약  2^(3/2)
-        var distance = Vector3.Distance(this.transform.position, targetPos);
         if ( distance > 4f * Mathf.Log(v * 2.8f, 2))
         {
             var p = Vector3.zero;
@@ -114,7 +127,8 @@ public class UnityChanController : Draggable
                     Mathf.Lerp(f, 0 , 0.2f));
             
             _iKController.lookAtObj.transform.position =
-                Vector3.Lerp(_iKController.lookAtObj.transform.position, target, 0.1f * curveStanding.Evaluate(curTime[0]));
+                Vector3.Lerp(_iKController.lookAtObj.transform.position, 
+                    Vector3.Lerp(eyeLine.position, target, 0.8f), 0.1f * curveStanding.Evaluate(curTime[0]));
 
             if (distance > 0.001f)
                 IsMoving = false;

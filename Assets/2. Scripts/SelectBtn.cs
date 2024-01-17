@@ -18,6 +18,8 @@ public class SelectBtn : MonoBehaviour
     public R_Incounter5 incounter5;
     public R_Incounter6 incounter6;
     public R_Incounter7 incounter7;
+    public R_Incounter8 incounter8;
+    public R_Incounter9 incounter9;
     public GameObject selectBtn;
     public Quest quest;
 
@@ -27,7 +29,6 @@ public class SelectBtn : MonoBehaviour
     public void Select1()
     {
         textController.transparency.SetActive(false);
-        textController.Select1(); // TextController의 Select1 메서드 호출
         textController.isWaitingForInput = true;
         selectBtn.SetActive(false);
     }
@@ -35,16 +36,20 @@ public class SelectBtn : MonoBehaviour
     public void Select2()
     {
         textController.transparency.SetActive(false);
-        textController.Select2();
         textController.isWaitingForInput = true;
         selectBtn.SetActive(false);
     }
 
+    public void Select3()
+    {
+        textController.transparency.SetActive(false);
+        textController.isWaitingForInput = true;
+        selectBtn.SetActive(false);
+    }
 
     public void Result1()
     {
         textController.transparency.SetActive(false);
-        textController.Result1();
         textController.isWaitingForInput = true;
         textController.bifurcation = 0;
         selectBtn.SetActive(false);
@@ -53,10 +58,9 @@ public class SelectBtn : MonoBehaviour
     public void Result2()
     {
         textController.transparency.SetActive(false);
-        textController.Result2();
         textController.isWaitingForInput = true;
         textController.bifurcation = 1;
-        selectBtn.SetActive(false); ;
+        selectBtn.SetActive(false);
     }
 
     public void P_Select1() 
@@ -479,6 +483,36 @@ public class SelectBtn : MonoBehaviour
         incounter7.bifurcation = 1;
         selectBtn.SetActive(false);
     }
+    public void R8_Result1()
+    {
+        incounter8.transparency.SetActive(false);
+        incounter8.isWaitingForInput = true;
+        incounter8.bifurcation = 0;
+        selectBtn.SetActive(false);
+    }
+    public void R8_Result2()
+    {
+        incounter8.transparency.SetActive(false);
+        incounter8.isWaitingForInput = true;
+        incounter8.bifurcation = 1;
+        selectBtn.SetActive(false);
+    }
+
+      public void R9_Result1()
+    {
+        incounter9.transparency.SetActive(false);
+        incounter9.isWaitingForInput = true;
+        incounter9.bifurcation = 0;
+        selectBtn.SetActive(false);
+    }
+    public void R9_Result2()
+    {
+        incounter9.transparency.SetActive(false);
+        incounter9.isWaitingForInput = true;
+        incounter9.bifurcation = 1;
+        selectBtn.SetActive(false);
+    }
+    
 
 
     public void Guied1()

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -43,7 +44,7 @@ public class TextController : MonoBehaviour
 
 
 
-    private string[] CharacterName1 = { "", "", "", "" };
+    //private string[] CharacterName1 = { "", "", "", "" };
     private string[] CharacterName2 = { "", "", "", "???", "마녀" };
     private string[] CharacterName3 = { "", "마녀", "마녀" };
     private string[] CharacterName4 = { "", "마녀", "마녀", "", "", "", "" };
@@ -55,7 +56,7 @@ public class TextController : MonoBehaviour
     void Start()
     {
         myText.text = textArray1[0];
-        mytext2.text = CharacterName1[0];
+        //mytext2.text = CharacterName1[0];
         nextBtn.interactable = false;
         //closeBtn.SetActive(true);
         if (canvasImage == null)
@@ -75,21 +76,23 @@ public class TextController : MonoBehaviour
         {
             Incounter1();
         }
-        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 < textArray2.Length)
+        else if  (currentTextIndex1 < textArray2.Length)
         {
             Select1();
         }
-        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 >= textArray2.Length && currentTextIndex2 < textArray3.Length)
+        else if (currentTextIndex2 < textArray3.Length)
         {
             Select2();
         }
-        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 >= textArray2.Length && currentTextIndex2 >= textArray3.Length
-                 && currentTextIndex3 >= textArray4.Length && currentTextIndex4 < result1.Length && bifurcation == 0)
+        else if (currentTextIndex3 < textArray4.Length)
+        {
+            Select3();
+        }
+        else if (currentTextIndex4 < result1.Length && bifurcation == 0)
         {
             Result1();
         }
-        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 >= textArray2.Length && currentTextIndex2 >= textArray3.Length
-                 && currentTextIndex3 >= textArray4.Length && currentTextIndex5 < result2.Length && bifurcation == 1)
+        else if (currentTextIndex5 < result2.Length && bifurcation == 1)
         {
             Result2();
         }
@@ -98,7 +101,6 @@ public class TextController : MonoBehaviour
             incounter.SetActive(false);
             nextBtn.interactable = true;
             blockUI.SetActive(false);
-            //closeBtn.SetActive(false);
             GameManager.CardCanvasOn = false;
         }
     }
@@ -139,11 +141,11 @@ public class TextController : MonoBehaviour
     void UpdateText2(string[] textArray)
     {
         // 배열 길이 확인 후 업데이트
-        if (currentTextIndex < CharacterName1.Length && isWaitingForInput)
+       /* if (currentTextIndex < CharacterName1.Length && isWaitingForInput)
         {
             mytext2.text = CharacterName1[currentTextIndex];
         }
-        else if (currentTextIndex1 < CharacterName2.Length && isWaitingForInput)
+        else*/ if (currentTextIndex1 < CharacterName2.Length && isWaitingForInput)
         {
             mytext2.text = CharacterName2[currentTextIndex1];
             if (mytext2.text == "마녀" || mytext2.text == "???")
@@ -193,7 +195,7 @@ public class TextController : MonoBehaviour
             if (currentTextIndex < textArray1.Length)
             {
                 UpdateText(textArray1);
-                UpdateText2(CharacterName1);
+                //UpdateText2(CharacterName1);
             }
             if (currentTextIndex >= textArray1.Length)
             {
@@ -242,6 +244,25 @@ public class TextController : MonoBehaviour
         }
     }
 
+    public void Select3()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput == true)
+        {
+            currentTextIndex3++;
+            if (currentTextIndex3 < textArray4.Length)
+            {
+                UpdateText(textArray4);
+                UpdateText2(CharacterName4);
+            }
+            if (currentTextIndex3 >= textArray4.Length)
+            {
+                transparency.SetActive(true);
+                select4.SetActive(true);
+                isWaitingForInput = false;
+            }
+        }
+    }
+
     public void Result1()
     {
         if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput == true && bifurcation == 0)
@@ -254,10 +275,8 @@ public class TextController : MonoBehaviour
             if (currentTextIndex4 >= result1.Length)
             {
                 transparency.SetActive(true);
-                select4.SetActive(true);
                 isWaitingForInput = false;
             }
-
         }
     }
 
@@ -275,11 +294,11 @@ public class TextController : MonoBehaviour
             if (currentTextIndex5 >= result2.Length)
             {
                 transparency.SetActive(true);
-                select4.SetActive(true);
                 isWaitingForInput = false;
             }
         }
     }
+
     IEnumerator FadeOut()
     {
         float targetAlpha = 0f;

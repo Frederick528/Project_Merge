@@ -39,10 +39,11 @@ public class MouseRightClick : MonoBehaviour
         }
     }
 
-    public void CanvasClose()
+    public void CanvasClose(bool boolean)
     {
-        GameManager.CardCanvasOn = false;
         canvas.SetActive(false);
+        CoreController.ModifyFluctuation(boolean);
+        GameManager.CardCanvasOn = false;
     }
     
     private void RayCastEvt(RaycastHit hit)
@@ -66,6 +67,7 @@ public class MouseRightClick : MonoBehaviour
 
             if (cardContents.cardType == Card.CardType.Food || cardContents.cardType == Card.CardType.Water || cardContents.ID == 3000 || cardContents.ID == 3001)
             {
+                CoreController.ModifyFluctuation(cardData.Hunger, cardData.Thirst);
                 eatInfoText.text = $"<#AB6F40>음식 섭취량:<b></color> <#000000>{cardData.Hunger}</color></b>\n<#009BFF>수분 섭취량:</color> <b><#000000>{cardData.Thirst}</color></b>";
                 cardEatInfo.SetActive(true);
                 cardEatBtn.interactable = true;
@@ -77,7 +79,7 @@ public class MouseRightClick : MonoBehaviour
                     else
                         CardManager.DestroyCard(cardContents);
                     //Destroy(hit.collider.gameObject);
-                    CanvasClose();
+                    CanvasClose(false);
                     EffectManager.instance.eatCardImg = cardImage.sprite;
                     EffectManager.instance.cardContents = cardContents;
                     GameObject eatCard = Instantiate(EffectManager.instance.eatEffect, effectUICanvas);
@@ -105,7 +107,7 @@ public class MouseRightClick : MonoBehaviour
                     //    CardManager.DestroyCard(cardGroup.RemoveCard(cardContents));
                     //else
                     //    CardManager.DestroyCard(cardContents);
-                    CanvasClose();
+                    CanvasClose(true);
                 });
             }
 
@@ -114,11 +116,6 @@ public class MouseRightClick : MonoBehaviour
             canvas.SetActive(true);
         }
     }
-
-    //IEnumerator EatCard()
-    //{
-
-    //}
 
     //if (input.getmousebuttondown(1))
     //{

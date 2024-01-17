@@ -102,8 +102,8 @@ public class StatUI : EffectBase
         public TMP_Text[] Texts;
         public Image[] Hunger;
         // 0 == front / 1 == back
-        // back - 감소 대기
-        // front - 실제 감소
+        // back - 감소 대기(보여주는 값)
+        // front - 실제 감소(실제 스테이터스 값)
         // value = 잃은 값, 1- (max - crnt / max) (값이 1이 되면 꽉참.)
         public Image[] Thirst;
         public Image Background;

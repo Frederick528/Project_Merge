@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UniRx;
+using Unity.VisualScripting;
+using UnityEditor.Experimental;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEditor.Progress;
@@ -8,40 +11,50 @@ using static UnityEditor.Progress;
 public class GetArtifact : MonoBehaviour
 {
     public static List<GameObject> Artifacts = new();
-    public static int artifactID;
+    public static ReactiveProperty<int> artifactID = new();
+
+    [SerializeField]
+    private GameObject getArtifactWindow;
     [SerializeField]
     private Button getArtifactBtn;
     [SerializeField]
     private Image getArtifactImg;
-
-    [SerializeField]
-    private ArtifactGroup artifactGroup;
     // Start is called before the first frame update
 
-    private void OnEnable()
+    private void Start()
     {
-        getArtifactImg.sprite = Resources.Load<Sprite>($"Images/Artifact/{artifactID}");
+        artifactID.Subscribe(x =>
+            getArtifactImg.sprite = Resources.Load<Sprite>($"Images/Artifact/{artifactID}")
+            );
+        getArtifactBtn.onClick.AddListener(() =>
+        {
+            AddArtifact();
+            getArtifactWindow.SetActive(false);
+        });
     }
     // Update is called once per frame
     void Update()
     {
-        getArtifactBtn.onClick.RemoveAllListeners();
-        getArtifactBtn.onClick.AddListener(() =>
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            AddArtifact();
-            this.gameObject.SetActive(false);
-        });
+            artifactID.Value = 9000;  //change value
+            getArtifactWindow.SetActive(!getArtifactWindow.activeSelf);
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            artifactID.Value++;
+        }
     }
     private void AddArtifact()
     {
-        if (!ReadSpreadSheet.TryGetData(artifactID, out ArtifactData data))
+        if (!ReadSpreadSheet.TryGetData(artifactID.Value, out ArtifactData data))
             return;
         //print(data.Name);
-        foreach (var item in artifactGroup.artifactGroupPos)
+        foreach (var item in ArtifactGroup.artifactGroupPos)
         {
             if (item.GetComponent<Image>().sprite.name == "UIMask")
             {
-                item.GetComponent<Artifact>().ID = artifactID;
+                item.GetComponent<Artifact>().ID = artifactID.Value;
                 Artifacts.Add(item);
                 //print(Artifacts.Count);
                 break;

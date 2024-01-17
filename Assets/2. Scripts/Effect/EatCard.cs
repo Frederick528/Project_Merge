@@ -57,8 +57,8 @@ public class EatCard : MonoBehaviour
 
         //stat.curHunger = ((stat.curHunger + cardData.Hunger) > stat.maxHunger) ? stat.maxHunger : stat.curHunger + cardData.Hunger;
         //stat.curThirst = ((stat.curThirst + cardData.Thirst) > stat.maxThirst) ? stat.maxThirst : stat.curThirst + cardData.Thirst;
-        CoreController.ModifyHunger(cardData.Hunger);
-        CoreController.ModifyThirst(cardData.Thirst);
+        //CoreController.ModifyHunger(cardData.Hunger);
+        //CoreController.ModifyThirst(cardData.Thirst);
         CoreController.ModifyDifficulty(cardData.Hunger, cardData.Thirst);
         Destroy(this.gameObject);
     }

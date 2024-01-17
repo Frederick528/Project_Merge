@@ -52,7 +52,7 @@ public class Artifact : MonoBehaviour
     {
         try
         {
-            if (EventSystem.current.IsPointerOverGameObject() == false && ReadSpreadSheet.TryGetData(ID, out ArtifactData data))
+            if (/*EventSystem.current.IsPointerOverGameObject() == false && */ReadSpreadSheet.TryGetData(ID, out ArtifactData data))
             {
                 image[1].gameObject.SetActive(true);
             }

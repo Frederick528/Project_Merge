@@ -8,11 +8,6 @@ public class ReadSpreadSheet : MonoBehaviour
 {
     private static string dataGS;
     private static Dictionary<int, ArtifactData> dataDtct = null;
-
-    private void Awake()
-    {
-        StartCoroutine(LoadData("https://docs.google.com/spreadsheets/d/1CqNR2Rh_OIVe8n0CG8vC7YVpbNUn_-0rXeBab72gXvs", "A3:E8", 0));
-    }
     public static IEnumerator LoadData(string address, string range, ulong sheetID)
     {
         using (UnityWebRequest www = UnityWebRequest.Get($"{address}/export?format=csv&range={range}&gid={sheetID}"))

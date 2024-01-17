@@ -31,14 +31,14 @@ public class CoreController : MonoBehaviour
 
     #region ReactiveProperty
     //public static readonly ReactiveProperty<float> Difficulty = new ();
-    public static readonly ReactiveProperty<float> HungerDifficulty = new ();
-    public static readonly ReactiveProperty<float> ThirstDifficulty = new ();
+    public static readonly ReactiveProperty<int> HungerDifficulty = new ();
+    public static readonly ReactiveProperty<int> ThirstDifficulty = new ();
     
-    public static readonly ReactiveProperty<float> HungerFluctuation = new ();
-    public static readonly ReactiveProperty<float> ThirstFluctuation = new ();
+    public static readonly ReactiveProperty<int> HungerFluctuation = new ();
+    public static readonly ReactiveProperty<int> ThirstFluctuation = new ();
 
-    public static readonly ReactiveProperty<float> TempHungerFluctuation = new ();
-    public static readonly ReactiveProperty<float> TempThirstFluctuation = new ();
+    public static readonly ReactiveProperty<int> TempHungerFluctuation = new ();
+    public static readonly ReactiveProperty<int> TempThirstFluctuation = new ();
 
     private static readonly ReactiveProperty<int> _hunger = new ();
     private static readonly ReactiveProperty<int> _thirst = new ();
@@ -85,15 +85,11 @@ public class CoreController : MonoBehaviour
             StatUICanvas.statUI.Thirst[1].fillAmount = 1 - (x / _core.Status.maxThirst);
         });
         HungerFluctuation.Subscribe(x =>
-        {
-            //StatUICanvas.gameObject.SetActive(true);
-            StatUICanvas.statUI.Hunger[2].fillAmount = 1 - (x / _core.Status.maxHunger);
-        });
+            StatUICanvas.statUI.Hunger[2].fillAmount = 1 - (x / _core.Status.maxHunger)
+            );
         ThirstFluctuation.Subscribe(x =>
-        {
-            //StatUICanvas.gameObject.SetActive(true);
-            StatUICanvas.statUI.Thirst[2].fillAmount = 1 - (x / _core.Status.maxThirst);
-        });
+            StatUICanvas.statUI.Thirst[2].fillAmount = 1 - (x / _core.Status.maxThirst)
+            );
         _hunger.Subscribe(x =>
         {
             //StatUICanvas.gameObject.SetActive(true);
@@ -183,9 +179,9 @@ public class CoreController : MonoBehaviour
             _core.HungerDifficulty += (int)(Mathf.Log10(Date + 2) * 10 + 10);
             _core.ThirstDifficulty += (int)(Mathf.Log10(Date + 2) * 10 + 10);
             HungerDifficulty.Value += _core.HungerDifficulty;
-            HungerFluctuation.Value = HungerDifficulty.Value;
+            HungerFluctuation.Value += _core.HungerDifficulty;
             ThirstDifficulty.Value += _core.ThirstDifficulty;
-            ThirstFluctuation.Value = ThirstDifficulty.Value;
+            ThirstFluctuation.Value += _core.ThirstDifficulty;
 
 
 
@@ -246,7 +242,7 @@ public class CoreController : MonoBehaviour
         {
             var result = _core.ModifyHunger(amount);
             if (result)
-                _hunger.Value += ((_hunger.Value + amount) > _core.Status.maxHunger) ? (int)_core.Status.maxHunger - _hunger.Value : amount;
+                _hunger.Value += /*((_hunger.Value + amount) > _core.Status.maxHunger) ? (int)_core.Status.maxHunger - _hunger.Value : */amount;
             Debug.Log(_hunger.Value);
             return result;
         }
@@ -258,28 +254,34 @@ public class CoreController : MonoBehaviour
         {
             var result = _core.ModifyThirst(amount);
             if (result)
-                _thirst.Value += ((_thirst.Value + amount) > _core.Status.maxThirst) ? (int)_core.Status.maxThirst - _thirst.Value : amount;
+                _thirst.Value += /*((_thirst.Value + amount) > _core.Status.maxThirst) ? (int)_core.Status.maxThirst - _thirst.Value : */amount;
             Debug.Log(_thirst.Value);
             return result;
         }
-        public static void ModifyDifficulty(float hungerValue, float thirstValue)
+        public static void ModifyDifficulty(int hungerValue, int thirstValue)
         {
             HungerDifficulty.Value = ((HungerDifficulty.Value - hungerValue) < _core.HungerDifficulty) ? _core.HungerDifficulty : (HungerDifficulty.Value - hungerValue);
             ThirstDifficulty.Value = ((ThirstDifficulty.Value - thirstValue) < _core.ThirstDifficulty) ? _core.ThirstDifficulty : (ThirstDifficulty.Value - thirstValue);
         }
-        public static void ModifyFluctuation(float hungerFluctuation, float thirstFluctuation)
+        public static void ModifyFluctuation(int hungerFluctuation, int thirstFluctuation)
         {
-            TempHungerFluctuation.Value = HungerFluctuation.Value;
-            TempThirstFluctuation.Value = ThirstFluctuation.Value;
+            //TempHungerFluctuation.Value = HungerFluctuation.Value;
+            //TempThirstFluctuation.Value = ThirstFluctuation.Value;
+            TempHungerFluctuation.Value = (HungerFluctuation.Value - hungerFluctuation < _core.HungerDifficulty) ? (_core.HungerDifficulty - HungerFluctuation.Value) : - hungerFluctuation;
+            TempThirstFluctuation.Value = (ThirstFluctuation.Value - thirstFluctuation < _core.ThirstDifficulty) ? (_core.ThirstDifficulty - ThirstFluctuation.Value) : - thirstFluctuation;
             HungerFluctuation.Value = (HungerFluctuation.Value - hungerFluctuation < _core.HungerDifficulty) ? _core.HungerDifficulty : (HungerFluctuation.Value - hungerFluctuation);
             ThirstFluctuation.Value = (ThirstFluctuation.Value - thirstFluctuation < _core.ThirstDifficulty) ? _core.ThirstDifficulty : (ThirstFluctuation.Value - thirstFluctuation);
+            ModifyHunger(-TempHungerFluctuation.Value);
+            ModifyThirst(-TempThirstFluctuation.Value);
         }
-        public static void ModifyFluctuation(bool boolean)  // 증감 수치 돌려놓기 (true) 먹기 버튼 제외 다 true
+        public static void ModifyFluctuation(bool boolean)  // 증감 수치 돌려놓기 / 먹기 버튼만 false
         {
             if (boolean)
             {
-                HungerFluctuation.Value = TempHungerFluctuation.Value;
-                ThirstFluctuation.Value = TempThirstFluctuation.Value;
+                HungerFluctuation.Value -= TempHungerFluctuation.Value;
+                ThirstFluctuation.Value -= TempThirstFluctuation.Value;
+                ModifyHunger(TempHungerFluctuation.Value);
+                ModifyThirst(TempThirstFluctuation.Value);
             }
             TempHungerFluctuation.Value = HungerDifficulty.Value;
             TempThirstFluctuation.Value = ThirstDifficulty.Value;

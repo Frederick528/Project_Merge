@@ -66,10 +66,10 @@ public class MouseRightClick : MonoBehaviour
             }
             cardName.text = cardData.KR;
             cardText.text = cardData.Info;
+            CoreController.ModifyFluctuation(cardData.Hunger, cardData.Thirst);
 
             if (cardContents.cardType == Card.CardType.Food || cardContents.cardType == Card.CardType.Water || cardContents.ID == 3000 || cardContents.ID == 3001)
             {
-                CoreController.ModifyFluctuation(cardData.Hunger, cardData.Thirst);
                 eatInfoText.text = $"<#AB6F40>음식 섭취량:<b></color> <#000000>{cardData.Hunger}</color></b>\n<#009BFF>수분 섭취량:</color> <b><#000000>{cardData.Thirst}</color></b>";
                 cardEatInfo.SetActive(true);
                 cardEatBtn.interactable = true;

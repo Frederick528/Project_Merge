@@ -10,6 +10,7 @@ public class SelectBtn : MonoBehaviour
     public P_Incounter4 p_Incounter4;
     public P_Incounter5 p_Incounter5;
     public P_Incounter6 p_Incounter6;
+    public P_Incounter7 p_Incounter7;
     public R_Incounter1 incounter1;
     public R_Incounter2 incounter2;
     public R_Incounter3 incounter3;
@@ -238,6 +239,82 @@ public class SelectBtn : MonoBehaviour
         p_Incounter6.bifurcation = 1;
         selectBtn.SetActive(false);
     }
+
+    public void P_Select6_1()
+    {
+        p_Incounter7.transparency.SetActive(false);
+        p_Incounter7.Select1(); // TextController의 Select1 메서드 호출
+        p_Incounter7.isWaitingForInput = true;
+        selectBtn.SetActive(false);
+    }
+
+    public void P_Select6_2()
+    {
+        p_Incounter7.transparency.SetActive(false);
+        p_Incounter7.Select2(); // TextController의 Select1 메서드 호출
+        p_Incounter7.isWaitingForInput = true;
+        selectBtn.SetActive(false);
+    }
+
+    public void P_Result6_1()
+    {
+        p_Incounter7.transparency.SetActive(false);
+        //p_Incounter7.Result1();
+        p_Incounter7.isWaitingForInput = true;
+        p_Incounter7.bifurcation = 0;
+        selectBtn.SetActive(false);
+    }
+
+    public void P_Result6_2_1()
+    {
+        p_Incounter7.transparency.SetActive(false);
+       // p_Incounter7.Result2_1();
+        p_Incounter7.isWaitingForInput = true;
+        p_Incounter7.bifurcation = 1;
+        selectBtn.SetActive(false);
+    }
+    public void P_Result6_2_2()
+    {
+         selectBtn.SetActive(false);
+         //p_Incounter7.isWaitingForInput = false;
+    }
+    public void P_Result6_2_2_1()
+    {
+        p_Incounter7.transparency.SetActive(false);
+        p_Incounter7.isWaitingForInput = true;
+        p_Incounter7.bifurcation = 1;
+        selectBtn.SetActive(false);
+    }
+    public void P_Result6_2_3()
+    {
+        selectBtn.SetActive(false);
+    }
+
+    public void P_Result6_2_3_1()
+    {
+        p_Incounter7.transparency.SetActive(false);
+        p_Incounter7.isWaitingForInput = true;
+        p_Incounter7.bifurcation = 1;
+        selectBtn.SetActive(false);
+    }
+
+    public void P_Result6_4()
+    {
+        p_Incounter7.transparency.SetActive(false);
+        p_Incounter7.isWaitingForInput = true;
+        p_Incounter7.bifurcation = 1;
+        selectBtn.SetActive(false);
+    }
+
+    /*public void P_Result6_5()
+    {
+        p_Incounter7.transparency.SetActive(false);
+        p_Incounter7.Result2_5();
+        p_Incounter7.isWaitingForInput = true;
+        p_Incounter7.bifurcation = 0;
+        selectBtn.SetActive(false);
+    } */
+
     public void R1_Result2_2()
     {
         incounter1.transparency.SetActive(false);

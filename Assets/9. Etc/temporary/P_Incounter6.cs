@@ -70,7 +70,7 @@ public class P_Incounter6 : MonoBehaviour
     {
         myText.text = textArray1[0];
         nextBtn.interactable = false;
-        //closeBtn.SetActive(true);        
+        closeBtn.SetActive(true);        
     }
 
     void Update()
@@ -100,7 +100,7 @@ public class P_Incounter6 : MonoBehaviour
             incounter.SetActive(false);
             nextBtn.interactable = true;
             blockUI.SetActive(false);
-            //closeBtn.SetActive(false);
+            closeBtn.SetActive(false);
             GameManager.CardCanvasOn = false;
         }
     }
@@ -200,6 +200,7 @@ public class P_Incounter6 : MonoBehaviour
             if (currentTextIndex6 >= result1_2.Length)
             {
                 isWaitingForInput = false;
+                closeBtn.SetActive(false);
             }
 
         }
@@ -219,6 +220,7 @@ public class P_Incounter6 : MonoBehaviour
             if (currentTextIndex5 >= result2.Length)
             {
                 isWaitingForInput = false;
+                closeBtn.SetActive(false);
             }
         }
     }

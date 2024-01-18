@@ -64,7 +64,7 @@ public class P_Incounter5 : MonoBehaviour
         myText.text = textArray1[0];
       //  mytext2.text = CharacterName1[0];
         nextBtn.interactable = false;
-        //closeBtn.SetActive(true);
+        closeBtn.SetActive(true);
         if (canvasImage == null)
         {
             canvasImage = GetComponent<Image>();
@@ -109,7 +109,7 @@ public class P_Incounter5 : MonoBehaviour
             incounter.SetActive(false);
             nextBtn.interactable = true;
             blockUI.SetActive(false);
-            //closeBtn.SetActive(false);
+            closeBtn.SetActive(false);
             GameManager.CardCanvasOn = false;
         }
     }

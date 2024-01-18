@@ -7,7 +7,8 @@ public class RandomEvent : MonoBehaviour
     [SerializeField]
     GameObject incounter1, incounter2, incounter3, incounter4, incounter5,
                incounter6, incounter7, incounter8, incounter9, incounter10,
-               incounter11, incounter12, incounter13, incounter14, incounter15;
+               incounter11, incounter12, incounter13, incounter14, incounter15, 
+               incounter16;
     static int Random_event;
 
     static List<GameObject> IncounterList = new();
@@ -29,6 +30,7 @@ public class RandomEvent : MonoBehaviour
         IncounterList.Add(incounter13);
         IncounterList.Add(incounter14);
         IncounterList.Add(incounter15);
+        IncounterList.Add(incounter16);
     }
 
     public static void SpawnPlay()

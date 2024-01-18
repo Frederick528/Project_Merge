@@ -41,6 +41,7 @@ public class R_Incounter11 : MonoBehaviour
 
     void Start()
     {
+        closeBtn.SetActive(true);
         myText.text = textArray1[0];
         nextBtn.interactable = false;
     }

@@ -63,7 +63,7 @@ public class R_Incounter7 : MonoBehaviour
         myText.text = textArray1[0];
         mytext2.text = CharacterName1[0];
         nextBtn.interactable = false;
-        //closeBtn.SetActive(true);
+        closeBtn.SetActive(true);
         if (canvasImage == null)
         {
             canvasImage = GetComponent<Image>();
@@ -104,6 +104,7 @@ public class R_Incounter7 : MonoBehaviour
             else
             {
                 incounter.SetActive(false);
+                closeBtn.SetActive(false);
                 nextBtn.interactable = true;
                 blockUI.SetActive(false);
                 GameManager.CardCanvasOn = false;

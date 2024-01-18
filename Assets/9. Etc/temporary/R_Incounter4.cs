@@ -57,7 +57,7 @@ public class R_Incounter4 : MonoBehaviour
             incounter.SetActive(false);
             nextBtn.interactable = true;
             blockUI.SetActive(false);
-            //closeBtn.SetActive(false);
+            closeBtn.SetActive(false);
             GameManager.CardCanvasOn = false;
         }
     }

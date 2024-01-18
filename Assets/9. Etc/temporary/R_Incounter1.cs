@@ -34,7 +34,7 @@
         {
             myText.text = textArray1[0];
             mytext2.text = CharacterName1[0];
-
+            closeBtn.SetActive(true);
             nextBtn.interactable = false;
             if (canvasImage == null)
                 {

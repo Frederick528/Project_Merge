@@ -36,7 +36,7 @@
         void Start()
         {
             myText.text = textArray1[0];
-
+            closeBtn.SetActive(true);
             nextBtn.interactable = false;
             if (canvasImage == null)
                 {

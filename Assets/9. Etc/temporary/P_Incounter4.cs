@@ -58,7 +58,7 @@ public class P_Incounter4 : MonoBehaviour
             mytext2.text = CharacterName2_1[0];
         }
         nextBtn.interactable = false;
-        //closeBtn.SetActive(true);
+        closeBtn.SetActive(true);
         if (canvasImage == null)
         {
             canvasImage = GetComponent<Image>();
@@ -110,7 +110,7 @@ public class P_Incounter4 : MonoBehaviour
             incounter.SetActive(false);
             nextBtn.interactable = true;
             blockUI.SetActive(false);
-            //closeBtn.SetActive(false);
+            closeBtn.SetActive(false);
             GameManager.CardCanvasOn = false;
         }
     }

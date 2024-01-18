@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -15,8 +16,6 @@ public class Card : Entity
         Stone,
         Combination
     }
-
-    private static CardGroup _tempGroup;
     private CardData _data;
     private Animator _anim;
     
@@ -148,11 +147,17 @@ public class Card : Entity
             select card;
         
         //Debug.Log(ID);
-        if (v.Count() >= 8 && (!YamlDeserializer.saveData.GetValueFromLimit(ID % 10) || !GameManager.Instance.isTutorial))
+        if (v.Count() >= 8 && (!YamlDeserializer.saveData.GetValueFromLimit(ID % 10) && !GameManager.Instance.isTutorial))
         {
-            Debug.Log(true);
-            YamlDeserializer.saveData.ModifyLimit(this.ID % 10, true);
+            if (!YamlDeserializer.saveData.ModifyLimit(this.ID % 10, true))
+            {
+                Debug.Log("failed to serialize");
+            }
             YamlDeserializer.Serialize(PictorialData.defaultFilePath, YamlDeserializer.saveData);
+        }
+        else
+        {
+           // Debug.Log(v.Count());
         }
         
     }
@@ -162,89 +167,171 @@ public class Card : Entity
         base.Update();
     }
 
+    
+    private CardGroup CreateParent(Transform targetPos)
+    {
+        var emptyParent = new GameObject("CardGroup");
+        emptyParent.transform.SetParent(CardManager.Instance.transform);
+        emptyParent.transform.localPosition = targetPos.transform.localPosition;
+        var temp = emptyParent.AddComponent<CardGroup>();
+  
+        return temp;
+    }
+    
+    private bool CheckRulesForGroup(CardGroup tg)
+    {
+        var IDList = tg.Cards.Select(x => x.ID)/*.Distinct()*/;
+        var result = false;
+        for (int idx = 0; idx < IDList.Count(); idx++)
+        {
+            var id = IDList.ElementAt(idx);
+            var row = tg.Cards
+                .Where(x =>(x.ID == id && x.ID < 3000) &&
+                           (YamlDeserializer.saveData.GetValueFromLimit((x.ID) % 10)) ||
+                           GameManager.Instance.isTutorial)
+                .Select(x => x).ToList();
+
+            //홀수 일 경우 짝수로 
+            if (row.Count() % 2 == 1)
+            {
+                tg.RemoveCard(row[^1]);
+                row.Remove(row[^1]);
+            }
+            
+            for (int i = 0; i < row.Count;)
+            {
+                //0번 삭제
+                var v = tg.RemoveCard(row[0]);
+                var cardInstance = CardManager.CreateCard(v.level + 1, (int)v.cardType, true);
+
+                //생성 하자마자 animator 삭제
+                if (cardInstance.TryGetComponent(out Animator anim))
+                    Destroy(anim);
+
+                cardInstance.transform.position =
+                    CardManager.Areas[1].transform.position + Vector3.up * 2;
+
+                CardManager.DestroyCard(v);
+                CardManager.DestroyCard(tg.RemoveCard(row[1]));
+
+                row.Remove(row[0]);
+                //1번 -> 0번 
+                //다시 0번 삭제
+                row.Remove(row[0]);
+                result = true;
+            }
+        }
+
+        if (GameManager.Instance.isTutorial)
+        {
+            TutorialManager.WaitButtonCallBack = true;
+        }
+        return result;
+    }
+
 
     public override void OnMouseUp()
     {
-        _tempGroup = null;
-        if (GameManager.CardCanvasOn) return;
-        
-        var result = Physics.OverlapSphere(transform.position, 7f);
-        //리스트 복사
-        for (int i = 0; i < result.Length; i++)
+        _rigid.isKinematic = false;
+        if (this.transform.parent.TryGetComponent(out CardGroup hg))
         {
-            if (result[i].gameObject.Equals(this.gameObject) || result[i] == null)
-                continue;
-            
-            if (result[i].transform.parent.TryGetComponent(out CardGroup g1) && this.transform.parent.TryGetComponent(out CardGroup g2))
+            if (hg.IndexOf(this).Equals(hg.Count - 1))
             {
-                using (null)
-                {
-                    foreach (var _card in g1.Cards)
-                    {
-                        Debug.Log(_card.ID + " " + this.ID);
-                        if (_card.ID == this.ID && _card.ID < 3000)
-                        {
-                            OnMergeEnter(this.gameObject, _card.gameObject);
-                            return;
-                        }
-                        foreach (var rule in CardDataDeserializer.CraftRules)
-                        {
-                            if (rule.Contains(this.ID) && rule.Contains(_card.ID))
-                            {
-                                Debug.Log(rule[^1]);
-                                var cardInstance = CardManager.CreateCard(rule[^1]);
-                                CardManager.DestroyCard(new[] { this, _card });
-
-                                //cardInstance.transform.localScale = Vector3.one;
-                                cardInstance.transform.position =
-                                    CardManager.Areas[1].transform.position + Vector3.up * 2f;
-                                return;
-                            }
-                        }
-                    }
-                }
-                //return;
-            }
-            
-            if (result[i].TryGetComponent(out Card card))
-            {
-                
-                if (card.ID == this.ID)
-                {
-                    OnMergeEnter(this.gameObject, result[i].gameObject);
-                    return;
-                }
-                foreach (var rule in CardDataDeserializer.CraftRules)
-                {
-                    if (rule.Contains(this.ID) && rule.Contains(card.ID))
-                    {
-                        //Debug.Log(rule[^1]);
-                        var cardInstance = CardManager.CreateCard(rule[^1]);
-                        CardManager.DestroyCard(new[] { this, card });
-
-                        //cardInstance.transform.localScale = Vector3.one;
-                        cardInstance.transform.position =
-                            CardManager.Areas[1].transform.position + Vector3.up * 2f;
-                    }
-                }
-                OnMergeEnter(this.gameObject, result[i].gameObject);
+                hg.RemoveCard(this);
                 return;
             }
         }
         
-        if (transform.parent.TryGetComponent(out CardGroup cardGroup))
-        {
-            if (cardGroup.IsLastElement(this))
-            {
-                cardGroup.RemoveCard(this);
-            }
-            else
-            {
-                cardGroup.Sort();
-            }
-        }
+        var results = Physics.OverlapSphere(transform.position, 7f);
+        CardManager.Instance.sortBtn.interactable = false;
+
+        var bears = from v in results
+            where v.TryGetComponent(out Bear b)
+            select v.GetComponent<Bear>();
+
         
-        this._rigid.isKinematic = false;
+        // if (bears.Count() != 0)
+        // {
+        //     var destroyTarget = this;
+        //     if (hg != null)
+        //     {
+        //         // var oEm = from c in hg.Cards
+        //         //     where c.ID is >= 2000 and < 3000
+        //         //     orderby c.ID
+        //         //     select c;
+        //         // var v = new List<Card>(oEm);
+        //         //카드 그룹이 있는데, 카드 그룹의 마지막 인덱스가 아닐 경우 리턴
+        //         if (hg.IndexOf(this) != hg.Count - 1)
+        //             return;
+        //         Debug.Log(true);
+        //         destroyTarget = hg.RemoveCard(this);
+        //     }
+        //
+        //     if (destroyTarget.ID is >= 2000 and < 3000)
+        //     {
+        //         bears.ElementAt(0).hitPoint -= destroyTarget.ID % 10 + 1;
+        //         if (bears.ElementAt(0).IsDead)
+        //         {
+        //             bears.ElementAt(0).OnDead();
+        //         }
+        //         CardManager.DestroyCard(destroyTarget);
+        //     }
+        //     
+        //     return;
+        // }
+        for (int i = 1; i < results.Length; i++)
+        {
+            var target = results[i].gameObject;
+            if (target.transform.parent == null) continue;
+            if (target.Equals(this.gameObject)) continue;
+            if (!target.transform.TryGetComponent(out Card c)) continue;
+
+            if (hg != null)
+            {
+                if (!target.transform.parent.TryGetComponent(out CardGroup tg)) //카드 그룹 + 카드 
+                {
+                    OnMerge(this.gameObject, target.gameObject);
+                    return;
+                }
+                if (tg.Equals(hg))// 같은 카드 그룹 내, 밑에서 처리
+                {
+                    Debug.Log("예측 성공");
+                    //nothing todo
+                }
+            }
+            if (target.transform.parent.TryGetComponent(out CardGroup g))
+            {
+                //카드 그룹 째로 내려놓았을 때
+                
+                if (g.Equals(hg))
+                {
+                    if(g.IndexOf(c) == 1)
+                        OnMerge(this.gameObject, g.gameObject);
+                    continue;
+                }
+                OnMerge(this.gameObject, g.gameObject);
+                return;
+            }
+            
+            if (this.ID == c.ID && this.ID < 3000)
+            {
+                OnMerge(this.gameObject, target);
+                return;
+            }
+            foreach (var rule in CardDataDeserializer.CraftRules)
+            {
+                if (rule.Contains(this.ID) && rule.Contains(c.ID))
+                {
+                    Debug.Log(true);
+                    OnMerge(this.gameObject, c.gameObject, true);
+                    return;
+                }
+            }
+            //
+            var emptyParent = CreateParent(target.transform);
+            emptyParent.AddCardRange(new [] {c, this});
+        }
+        CardManager.Instance.sortBtn.interactable = true;
     }
     protected override void OnMouseDrag()
     {
@@ -255,36 +342,36 @@ public class Card : Entity
         var crntPos = new Vector3()
         {
             x = _temp.x,
-            y = 6,
+            y = 7,
             z = _temp.z 
         };
-        
+
         if (this.transform.parent.TryGetComponent(out CardGroup cardGroup))
         {
-            if(cardGroup.IndexOf(this) == 0)
+            if (cardGroup.IndexOf(this) == 0)
             {
                 cardGroup.transform.position = crntPos;
             }
-            
+
             else if (cardGroup.IndexOf(this) == cardGroup.Count - 1)
                 this.transform.position = crntPos;
 
-            else
-            {
-                
-                if (_tempGroup == null)
-                {
-                    var temp = new GameObject("CardGroup");
-                    temp.transform.SetParent(CardManager.Instance.transform, true);
-                    _tempGroup = temp.AddComponent<CardGroup>();
-                    for (int i = cardGroup.IndexOf(this); i < cardGroup.Count;)
-                    {
-                        var c = cardGroup.RemoveCard(i);
-                        _tempGroup.AddCard(c);
-                    }
-                    cardGroup.Sort();
-                }
-            }
+            //     else
+            //     {
+            //         if (_tempGroup == null)
+            //         {
+            //             var temp = new GameObject("CardGroup");
+            //             temp.transform.SetParent(CardManager.Instance.transform, true);
+            //             _tempGroup = temp.AddComponent<CardGroup>();
+            //             for (int i = cardGroup.IndexOf(this); i < cardGroup.Count;)
+            //             {
+            //                 var c = cardGroup.RemoveCard(i);
+            //                 _tempGroup.AddCard(c);
+            //             }
+            //             cardGroup.Sort();
+            //         }
+            //     }
+            // }
         }
         else
         {
@@ -295,34 +382,66 @@ public class Card : Entity
     {
         if (GameManager.CardCanvasOn) return;
 
-        if (transform.parent.TryGetComponent(out CardGroup cardGroup))
+        if (transform.parent.TryGetComponent(out CardGroup g))
         {
-            cardGroup.transform.position = new Vector3()
+            var idx = g.IndexOf(this);
+            if (idx != 0)
             {
-                x = cardGroup.transform.position.x,
-                y = 3,
-                z = cardGroup.transform.position.z,
-            };
-        }
-        else
-        {
-            this.transform.position = new Vector3()
-            {
-                x = transform.position.x,
-                y = 3,
-                z = transform.position.z,
+                if (idx != g.Count - 1 )
+                {
+                    List<Card> targets = new();
+                    CardGroup temp = CreateParent(this.transform);
+                    for (int i = g.IndexOf(this); i < g.Count;)
+                    {
+                        var v = g.RemoveCard(i);
+                        temp.AddCard(v);
+                    }
 
-            };
+                    temp.Sort();
+                }
+                else
+                {
+                    g.RemoveCard(this);
+                }
+            }
         }
+
+        // if (transform.parent.TryGetComponent(out CardGroup cardGroup))
+        // {
+        //     cardGroup.transform.position = new Vector3()
+        //     {
+        //         x = cardGroup.transform.position.x,
+        //         y = 5,
+        //         z = cardGroup.transform.position.z,
+        //     };
+        // }
+        // else
+        // {
+        //     this.transform.position = new Vector3()
+        //     {
+        //         x = transform.position.x,
+        //         y = 5,
+        //         z = transform.position.z,
+        //
+        //     };
+        // }
         base.OnMouseDown();
     }
 
     protected override void OnMerge(GameObject t1, GameObject t2)
     {
-        #region InitLocal
+        OnMerge(t1, t2, false);
+    }
 
-        //t1 => 잡고 있던 카드 || t2 => 바닥에 있던 카드
-        CardManager.Instance.sortBtn.interactable = true;
+    private void OnMerge(GameObject t1, GameObject t2, bool ignoreLimit)
+    {
+        OnMergeEnter();
+        
+        if (!t1.TryGetComponent(out Card handled) && !t2.TryGetComponent(out Card field))
+            return;
+        if( handled.ID % 10 > 6)
+            return;
+
         CardManager.Areas ??= GameObject.FindGameObjectsWithTag("Merge");
         if (CardManager.Areas.Length == 0)
         {
@@ -330,204 +449,119 @@ public class Card : Entity
             if (CardManager.Areas.Length == 0) return;
         }
         
-        var destroyTarget = new[] { t2.GetComponent<Card>(), t1.GetComponent<Card>() };
-        var cardGroup = new CardGroup[2];
-        var flag1 =  t1.transform.parent.TryGetComponent(out cardGroup[0]);
-        var flag2 =  t2.transform.parent.TryGetComponent(out cardGroup[1]);
-        
-        // t1 부모 확인 -> 부모가 CardGroup 인 경우, 즉 t2가 이미 다른 카드와 합쳐져 있던 경우 -> t1의 부모를 t2의 부모로 설정
-        //                -> 아닌 경우 -> 새로 CardGroup을 생성해 t1과 t2의 부모로 설정 
-        
-        var createParent = new Func<CardGroup>(() =>
-        {
-            var emptyParent = new GameObject("CardGroup");
-            emptyParent.transform.SetParent(CardManager.Instance.transform);
-            emptyParent.transform.localPosition = t2.transform.localPosition;
-            var temp = emptyParent.AddComponent<CardGroup>();
-  
-            return temp;
-        });
-
-        
         float refXMin = CardManager.Areas[0].transform.position.x - CardManager.Areas[0].transform.lossyScale.x / 1.8f;
         float refXMax = CardManager.Areas[0].transform.position.x + CardManager.Areas[0].transform.lossyScale.x / 1.8f;
         float refZMin = CardManager.Areas[0].transform.position.z - CardManager.Areas[0].transform.lossyScale.z / 1.8f;
         float refZMax = CardManager.Areas[0].transform.position.z + CardManager.Areas[0].transform.lossyScale.z / 1.8f;
 
-        #endregion
-
-        if (t2.transform.position.x > refXMin && t2.transform.position.x < refXMax)
-        {    
-            if (t2.transform.position.z > refZMin && t2.transform.position.z < refZMax)
+        var flag = new[]
+        {
+            (t2.transform.position.x > refXMin && t2.transform.position.x < refXMax),
+            (t2.transform.position.z > refZMin && t2.transform.position.z < refZMax)
+        };
+        
+        //target
+        if (t2.transform.TryGetComponent(out CardGroup tg)) // a + card group
+        {
+            if (flag[0] && flag[1]) //put card group onto merging area
             {
-                if (destroyTarget[0].cardType == CardType.Combination)
-                    return;
-                // 카드 + 카드 or 카드 그룹만 내려 놓았을 경우 
-                if (t1.transform.parent.Equals(t2.transform.parent))
-                //병합 분기
+                if ( !CheckRulesForGroup(tg))
+                    Debug.Log("규칙 오류 or Merge 조건 미달성");
+            } 
+            else if (t1.transform.parent.TryGetComponent(out CardGroup hg)) // 카드 그룹 + 카드 그룹 || 그룹 + 카드
+            {
+                // 해당 카드 그룹의 하위 카드들에서 중복 호출 방지
+                if (hg.IndexOf(handled) == 0)
                 {
-                    if (t1.transform.parent.TryGetComponent(out CardGroup g1))
+                    //서로 다른 카드 그룹
+                    if (!tg.Equals(hg))
                     {
-                        if (g1.IndexOf(this) != 0) return;
-
-                        var IDList = g1.Cards.Select(x => x.ID);
-
-                        for (int idx = 0; idx < IDList.Count(); idx++)
+                        for (int i = 0; i < hg.Cards.Count;)
                         {
-                            var _id = IDList.ElementAt(idx);
-                            var row = g1.Cards
-                                .Where(x => x.ID == _id &&
-                                            ((YamlDeserializer.saveData.GetValueFromLimit(x.ID % 10)) && ID < 3000) || GameManager.Instance.isTutorial)
-                                .Select(x => x).ToList();
-
-                            //홀수 일 경우 짝수로 
-                            if (row.Count() % 2 == 1)
-                            {
-                                g1.RemoveCard(row[^1]);
-                                row.Remove(row[^1]);
-                            }
-
-                            for (int i = 0; i < row.Count();)
-                            {
-                                //0번 삭제
-                                var v = g1.RemoveCard(row[0]);
-                                var cardInstance = CardManager.CreateCard(v.level + 1, (int)v.cardType, true);
-
-                                //생성 하자마자 animator 삭제
-                                cardInstance.TryGetComponent(out Animator anim);
-                                Destroy(anim);
-
-                                cardInstance.transform.position =
-                                    CardManager.Areas[1].transform.position + Vector3.up * 2;
-
-                                CardManager.DestroyCard(v);
-                                CardManager.DestroyCard(g1.RemoveCard(row[1]));
-
-                                row.Remove(row[0]);
-                                //1번 -> 0번 
-                                //다시 0번 삭제
-                                row.Remove(row[0]);
-                            }
+                            tg.AddCard(hg.RemoveCard(hg.Cards[i]));
                         }
-
-                        if (GameManager.Instance.isTutorial)
-                        {
-                            TutorialManager.WaitButtonCallBack = true;
-                        }
-
-                        CardManager.Instance.sortBtn.interactable = true;
-
-                        return;
-                    }
-                    
-                    // 빈 카드 끼리 결합
-                    var emptyParent = createParent();
-                    emptyParent.AddCardRange(destroyTarget);
-                }
-                
-                
-                if ((destroyTarget[0].ID == destroyTarget[1].ID) && destroyTarget[0].ID < 3000)
-                {
-                    if(GameManager.Instance.isTutorial || YamlDeserializer.saveData.GetValueFromLimit(ID % 10))
-                    {
-                        var cardInstance = CardManager.CreateCard(level + 1, (int)cardType, true);
-                        Destroy(cardInstance.GetComponent<Animator>());
-                        CardManager.DestroyCard(destroyTarget);
-
-                        //cardInstance.transform.localScale = Vector3.one;
-                        cardInstance.transform.position = CardManager.Areas[1].transform.position + Vector3.up * 2f;
-
-                        Debug.Log("Merge Succeed");
-                        CardManager.Instance.sortBtn.interactable = true;
-                        if (GameManager.Instance.isTutorial)
-                        {
-                            TutorialManager.WaitButtonCallBack = true;
-                        }
-
-                        EffectManager.instance.MergeEffect();
                     }
                     else
                     {
-                        Debug.Log(true);
-                        _rigid.isKinematic = false;
-                        if (this.transform.parent.TryGetComponent(out CardGroup group))
-                            group.RemoveCard(this);
+                        // 머지 영역 밖에서 카드 그룹을 내려 놓았을 때 -- cardGroup onto card - 카드 그룹 끼리 병합
+                        print("뭔가 잘못됨");
                     }
-                    return;
                 }
-                
+            }
+            // else if (tg.Cards.IndexOf(handled) != 0) //어차피 0만 들어옴
+            //     tg.RemoveCard(handled);
+            else if (handled != null) //put card onto card group
+            {
+                //어차피 t1은 이 메소드를 호출하는 객체 일테니 이게 false가 될 일은 없음 .
+                tg.AddCard(handled);
             }
         }
-        
-        
-        if (flag1 && flag2)
+        else if (t2.TryGetComponent(out Card card)) // a + card 
         {
-            //한 CardGroup에서 다른 곳으로 이동.
-            if(!cardGroup[0].Equals(cardGroup[1]))
+            if (flag[0] && flag[1]) // Merge
             {
-                if (cardGroup[0].IndexOf(destroyTarget[1]) == 0)
+                if (t1.transform.parent.TryGetComponent(out CardGroup hg)) // put card group onto card;
                 {
-                    //카드 그룹 전체를 이동
-                    var removeTarget =
-                        (from card in cardGroup[0].Cards
-                            select card).ToArray();
-                    foreach (var card in removeTarget)
+                    hg.InsertCard(card);
+                    
+                    if ( !CheckRulesForGroup(hg))
+                        Debug.Log("규칙 오류 or Merge 조건 미달성");
+                }
+                else if (handled != null) //put card onto card
+                {
+                    if (GameManager.Instance.isTutorial)
                     {
-                        cardGroup[0].RemoveCard(card, false);
-                        cardGroup[1].AddCard(card);
+                        TutorialManager.WaitButtonCallBack = true;
                     }
-                    Destroy(cardGroup[0].gameObject);
-                }
-                else
-                {
-                    //한 장만 이동
-                    cardGroup[0].RemoveCard(this);
-                    cardGroup[1].AddCard(this);
-                }
-            }
-            else
-            {
-                cardGroup[0].Sort();
-            }
-            
-        }
-        else if (flag1)
-        {
-            var targetParent = createParent();
-            
-            if (cardGroup[0].IndexOf(this) == 0 && destroyTarget[1] != null)
-            {
-                //빈 카드와 CardGroup을 결합
-                cardGroup[0].InsertCard(destroyTarget[0]);
-            }
-            else if (!cardGroup[0].IsLastElement(this))
-            {
-                // CardGroup에 들어있는걸 빼서 다른 빈 카드와 결합
-                cardGroup[0].RemoveCard(this);
-                targetParent.AddCardRange(destroyTarget);
-            }
-            else
-            {
-                cardGroup[0].RemoveCard(this);
-                cardGroup[0].gameObject.name = "";
-                var emptyParent = createParent();
-                emptyParent.AddCardRange(destroyTarget);
-            }
-            
-        }
-        else if (flag2)
-        {
-            // 빈 카드를 카드 그룹으로
-            cardGroup[1].AddCard(this);
-        }
-        else
-        {
-            Debug.Log(true);
-            var emptyParent = createParent();
-            emptyParent.AddCardRange(destroyTarget);
-        }
-    }
+                    Debug.Log(true);
+                    if (YamlDeserializer.saveData.GetValueFromLimit(handled.ID % 10) || ignoreLimit)
+                    {
+                        if ( handled.cardType != CardType.Combination)
+                        {
+                            if (handled.ID == card.ID)
+                            {
+                                var c = CardManager.CreateCard(this.level + 1, (int)this.cardType, true);
+                                c.transform.position = CardManager.Areas[1].transform.position + Vector3.up * 2;
+                                CardManager.DestroyCard(new[] { card, handled });
+                                
+                                
+                            }
+                            else if (card.cardType != CardType.Combination)
+                            {
+                                foreach (var rule in CardDataDeserializer.CraftRules)
+                                {
+                                    if (rule.Contains(handled.ID) && rule.Contains(card.ID))
+                                    {
+                                        var c = CardManager.CreateCard(rule[^1], true);
+                                        var tPos = CardManager.Areas[1].transform.localPosition + Vector3.up * 2;
+                                        c.transform.localPosition = tPos;
+                                        CardManager.DestroyCard(new[] { card, handled });
+                                    }
+                                }
 
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("failed " + ignoreLimit );
+                    }
+                }
+            }
+            else if (t1.transform.parent.TryGetComponent(out CardGroup hg)) // put card group onto card -- 작동;
+            {
+                hg.InsertCard(card);
+            }
+            else if (handled != null) //put card onto card -- 작동 안함 OnMouseUp에서 직접 처리.
+            {
+                var emptyParent = CreateParent(card.transform);
+                emptyParent.AddCardRange(new [] {card, handled});
+            }
+        }
+        
+        CardManager.Instance.sortBtn.interactable = true;
+        return; 
+    }
     public bool Lapse()
     {
         var result = true;

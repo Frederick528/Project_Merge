@@ -51,6 +51,7 @@ public class TutorialManager : MonoBehaviour
 
     private UniTask _tutorialProcessingTask;
     private CancellationTokenSource _cts;
+    private CancellationTokenSource _printToken;
     private List<IDisposable> _observers = new ();
 
     private void Awake()
@@ -60,6 +61,7 @@ public class TutorialManager : MonoBehaviour
     private async void Start()
     {
         _cts = new CancellationTokenSource();
+        _printToken = new CancellationTokenSource();
         
         if (GameManager.Instance.isTutorial)
         {
@@ -124,8 +126,9 @@ public class TutorialManager : MonoBehaviour
             observer.Dispose();
         }
         
-        _tutorialProcessingTask.SuppressCancellationThrow();
+        _printToken.Cancel();
         _cts.Cancel();
+        _printToken.Dispose();
         _cts.Dispose();
 
     }
@@ -152,20 +155,17 @@ public class TutorialManager : MonoBehaviour
         
         var str = script[idx % script.Length];
         
-        objects.textField.text = str;
-        // objects.textField.text = "";
-        // foreach (var chr in str)
-        // {
-        //     Debug.Log(v.Status);
-        //     if (v.Status == UniTaskStatus.Succeeded || _waitButtonCallBack)
-        //     {
-        //         return;
-        //     }
-        //     objects.textField.text += chr;
-        //     await UniTask.Delay(100);
-        //     //값을 리턴 받았을 경우 ==> 모종의 이유로 UniTask List에서 완료된 Task가 나온 경우
-        //     // 진행하던 작업을 중단
-        // }
+        objects.textField.text = "";
+        //Debug.Log(_printToken.IsCancellationRequested);
+        foreach (var chr in str)
+        {
+            if (_printToken.Token.IsCancellationRequested)
+                break;
+            objects.textField.text += chr;
+            await UniTask.Delay(50,cancellationToken: _printToken.Token);
+            //값을 리턴 받았을 경우 ==> 모종의 이유로 UniTask List에서 완료된 Task가 나온 경우
+            // 진행하던 작업을 중단
+        }
     }
     private void CloseMsg()
     {
@@ -174,7 +174,7 @@ public class TutorialManager : MonoBehaviour
 
     async UniTask PrintText()
     {
-        var task = HighLight(objects.kohaku.transform, 45, false);
+        var task = HighLight(objects.kohaku.transform, 45, false, _cts.Token);
         await WaitForCanvasClose();
         Thread.MemoryBarrier();
         //await WaitForLeave();
@@ -196,32 +196,40 @@ public class TutorialManager : MonoBehaviour
                 
                 List<UniTask> list = new();
                 Thread.MemoryBarrier();
+                var temp = new CancellationTokenSource();
+                Thread.MemoryBarrier();
                 
-                list.Add(WaitForMouseInput());
-                list.Add(WaitForLeave());
-                list.Add(UniTask.Delay((int)animParams.duration * 1000));
+                list.Add(WaitForMouseInput(temp.Token));
+                list.Add(WaitForLeave(temp.Token));
+                list.Add(UniTask.Delay((int)animParams.duration * 1000, cancellationToken: temp.Token));
                 
                 using (null)
                 {
                     Thread.MemoryBarrier();
-                    await UniTask.Delay(500);
+                    await UniTask.Delay(1500, cancellationToken: temp.Token);
 
                     //화면 탈출이나 마우스 클릭이 발생할 때 까지 대기
-
+                    Thread.MemoryBarrier();
                     var id = await UniTask.WhenAny(list);
                     if (t.Status == UniTaskStatus.Pending)
                     {
-                        WaitButtonCallBack = true;
                         t.SuppressCancellationThrow();
                     }
 
-                    for (int i = 0; i < list.Count; i++)
-                    {
-                        if (id != i)
-                            list[i].SuppressCancellationThrow();
-                    }
-
-                    await UniTask.Delay(500);
+                    if (id == 1)
+                        _currentIdx -= (ushort)(_currentIdx == 0 ? 0 : 1);
+                    
+                    temp.Cancel();
+                    _printToken.Cancel();
+                    
+                    Thread.MemoryBarrier();
+                    //이전 토큰이 가지고 있던 내용 초기화
+                    _printToken.Dispose();
+                    temp.Dispose();
+                    
+                    Thread.MemoryBarrier();
+                    //리셋
+                    _printToken = new CancellationTokenSource();
                     Thread.MemoryBarrier();
                 }
             }
@@ -242,31 +250,31 @@ public class TutorialManager : MonoBehaviour
         await UniTask.WaitUntil(() => !UnityChanController.IsMoving,
             cancellationToken : _cts.Token);
     }
-    async UniTask WaitForLeave()
+    async UniTask WaitForLeave(CancellationToken token)
     {
         // 움직임이 시작될 때 까지 홀드
         await UniTask.WaitUntil(() => UnityChanController.IsMoving,
-            cancellationToken : _cts.Token);
+            cancellationToken : token);
         GameManager.CardCanvasOn = false;
         CloseMsg();
     }
-    async UniTask WaitForMouseInput()
+    async UniTask WaitForMouseInput(CancellationToken token)
     {
         // 움직임이 시작될 때 까지 홀드
         await UniTask.WaitUntil(() =>
                 (Input.GetMouseButtonDown(0) && !GameManager.CardCanvasOn),
-            cancellationToken : _cts.Token);
+            cancellationToken : token);
     }
 
-    async UniTask WaitForMouseInput(bool isCheckUI)
+    async UniTask WaitForMouseInput(bool isCheckUI, CancellationToken token)
     {
         // 움직임이 시작될 때 까지 홀드
         if (isCheckUI)
-            await WaitForMouseInput();
+            await WaitForMouseInput(token: token);
         else
         {
             await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0),
-                cancellationToken : _cts.Token);
+                cancellationToken : token);
         }
         Debug.Log(true);
     }
@@ -277,18 +285,20 @@ public class TutorialManager : MonoBehaviour
     }
     async UniTask WaitForButtonCallBack()
     {
+        Thread.MemoryBarrier();
         WaitButtonCallBack = false;
         await UniTask.WaitUntil(() => WaitButtonCallBack,
             cancellationToken : _cts.Token);
         WaitButtonCallBack = false;
+        Thread.MemoryBarrier();
     }
 
-    async UniTask HighLight(Transform targetPos)
+    async UniTask HighLight(Transform targetPos, CancellationToken token)
     {
-        await HighLight(targetPos, 60, true);
+        await HighLight(targetPos, 60, true, _cts.Token);
     }
     
-    async UniTask HighLight(Transform target, int fov)
+    async UniTask HighLight(Transform target, int fov, CancellationToken token)
     {
         subCamera.fieldOfView = fov;
         mainCamera.fieldOfView = fov;
@@ -299,7 +309,8 @@ public class TutorialManager : MonoBehaviour
         byte b = 0;
         while (true)
         {
-            var distanceCheck = UniTask.Delay(20);
+            if (token.IsCancellationRequested) break;
+            var distanceCheck = UniTask.Delay(20, cancellationToken: token);
             var targetPos = new Vector3(target.position.x, 80, target.position.z);
             subCamera.transform.position =
                 Vector3.Lerp(subCamera.transform.position, targetPos, 0.2f);
@@ -311,12 +322,12 @@ public class TutorialManager : MonoBehaviour
             b += 1;
         }
             
-        await UniTask.Delay(2000);
+        await UniTask.Delay(2000, cancellationToken: token);
     }
     
-    async UniTask HighLight(Transform targetPos, int fov, bool isBackMainCam)
+    async UniTask HighLight(Transform targetPos, int fov, bool isBackMainCam, CancellationToken token)
     {
-        await HighLight(targetPos, fov);
+        await HighLight(targetPos, fov, _cts.Token);
         if (isBackMainCam)
         {
             subCamera.depth = mainCamera.depth - 1;
@@ -345,29 +356,21 @@ public class TutorialManager : MonoBehaviour
             objects.buttons[0].interactable = false;
 
             await WaitForArrive();
+            Thread.MemoryBarrier();
+            
+            var temp = new CancellationTokenSource();
+            Thread.MemoryBarrier();
             
             #region 클릭 || 화면 이탈 까지 대기 
-            var t1 = WaitForMouseInput();
-            var t2 = WaitForLeave();
-            var t3 = UniTask.Delay(1000);
-                
+            var t1 = WaitForMouseInput(temp.Token);
+            var t2 = WaitForLeave(temp.Token);
+            var t3 = UniTask.Delay(1000, cancellationToken: temp.Token);
+
+            Thread.MemoryBarrier();
             //화면 탈출이나 마우스 클릭이 발생할 때 까지 대기
-            var i = await UniTask.WhenAny(t1, t2, t3);
-            if (i == 0)
-            {
-                t2.SuppressCancellationThrow();
-                t3.SuppressCancellationThrow();
-            }
-            else if (i == 1)
-            {
-                t1.SuppressCancellationThrow();
-                t3.SuppressCancellationThrow();
-            }
-            else if (i == 2)
-            {
-                t1.SuppressCancellationThrow();
-                t2.SuppressCancellationThrow();
-            }
+            await UniTask.WhenAny(t1, t2, t3);
+            Thread.MemoryBarrier();
+            temp.Cancel();
             #endregion
 
             await PrintText();
@@ -389,6 +392,8 @@ public class TutorialManager : MonoBehaviour
             });
         });
 
+        await UniTask.Delay(200, cancellationToken: _cts.Token);
+
         await WaitForButtonCallBack();
         
         #endregion
@@ -396,14 +401,15 @@ public class TutorialManager : MonoBehaviour
         //===================== 카드 병합 튜토리얼 ============================================
 
         #region 카드 병합 튜토리얼
-        GameManager.CardCanvasOn = true;
+        Thread.MemoryBarrier();
         await UniTask.Delay(2000);
         foreach (var area in objects.mergingArea)
         {
             area.SetActive(true);
         }
         
-        await HighLight(objects.mergingArea[0].transform, 60, true);
+        GameManager.CardCanvasOn = true;
+        await HighLight(objects.mergingArea[0].transform, 60, true, _cts.Token);
 
         GameManager.CardCanvasOn = false;
         await PrintText();
@@ -412,7 +418,7 @@ public class TutorialManager : MonoBehaviour
         await UniTask.Delay(1000);
         
         //가장 최근에 생성된 카드의 좌표를 가져옴
-        await HighLight(CardManager.Cards[^1].transform, 60, true);
+        await HighLight(CardManager.Cards[^1].transform, 60, true, _cts.Token);
         
         MouseRightClick.Instance.cardEatBtn.interactable = false;
         MouseRightClick.Instance.cardDecompositionBtn.interactable = false;
@@ -424,11 +430,15 @@ public class TutorialManager : MonoBehaviour
         //===================== 스테이터스 튜토리얼 ============================================
 
         #region 스테이터스 튜토리얼
-        if (objects.statUI.gameObject is { activeSelf: true, activeInHierarchy: false })
-        {
-            objects.statUI = Instantiate(objects.statUI);
-            objects.statUI.statUI.Texts[2].text = "[ 0 / 2 ]";
-        }
+        
+        objects.statUI = Instantiate(objects.statUI);
+        objects.statUI.statUI.Texts[2].text = "[ 0 / 2 ]";
+        objects.statUI.gameObject.SetActive(true);
+        
+        // objects.statUI = CoreController.Instance.StatUICanvas;
+        // objects.statUI.statUI.Texts[2].text = "[ 0 / 2 ]";
+        
+        objects.statUI.Enter();
 
         await PrintText();
         var t = UniTask.Create(async () =>
@@ -485,8 +495,8 @@ public class TutorialManager : MonoBehaviour
             objects.statUI.statUI.Texts[0].text = (int.Parse(objects.statUI.statUI.Texts[0].text) + Data.Hunger)+ "" ;
             objects.statUI.statUI.Texts[1].text = (int.Parse(objects.statUI.statUI.Texts[1].text) + Data.Thirst)+ "" ;
             
-            objects.statUI.statUI.Hunger[0].fillAmount += 0.01f * Data.Hunger;
-            objects.statUI.statUI.Thirst[0].fillAmount += 0.01f * Data.Hunger;
+            objects.statUI.statUI.Hunger[1].fillAmount += 0.01f * Data.Hunger;
+            objects.statUI.statUI.Thirst[1].fillAmount += 0.01f * Data.Hunger;
             
             if (MouseRightClick.CurrentRef.transform.parent.TryGetComponent(out CardGroup cardGroup))
                 CardManager.DestroyCard(cardGroup.RemoveCard(MouseRightClick.CurrentRef));
@@ -529,7 +539,7 @@ public class TutorialManager : MonoBehaviour
         GameManager.CardCanvasOn = true;
         var c = CardManager.CreateCard(2021);
         MouseRightClick.Instance.cardDecompositionBtn.interactable = true;
-        await HighLight(c.transform);
+        await HighLight(c.transform, _cts.Token);
         Thread.MemoryBarrier();
         GameManager.CardCanvasOn = false;
         

@@ -61,7 +61,7 @@ namespace UnityChan
 					ichecked++;
 				} else {
 					//str指定が間違っている時にはデフォルトで
-					str = "default@unitychan";
+					str = "default@sd_hmd";
 					ChangeFace (str);
 				}
 			} 

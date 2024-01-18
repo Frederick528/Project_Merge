@@ -32,7 +32,6 @@ public class StatUI : EffectBase
             btn = statUI.Background.gameObject.AddComponent<Button>();
             btn.onClick.AddListener(() =>
             {
-                Debug.Log(_status);
                 if (!_isClickable) return;
                 if (_status)
                 {
@@ -62,8 +61,10 @@ public class StatUI : EffectBase
                 //btn.onClick.RemoveAllListeners();
             });
         }
-
-        Enter();
+        else
+        {
+            Enter();
+        }
 
     }
 

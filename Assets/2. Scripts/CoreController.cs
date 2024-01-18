@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UniRx;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 
 //relay between GameCore and UnityAPI
 public class CoreController : MonoBehaviour
@@ -22,6 +24,7 @@ public class CoreController : MonoBehaviour
     public static bool IsNightTime => _core.IsNightTime;
 
     public static string Time => $"{_core.Date + 1} 일차 " + (IsDawn ? "새벽" : IsDayTime ? "점심" : IsMorning ? "아침" : "저녁") ;
+    public static CoreController Instance => _instance;
 
     public StatUI StatUICanvas;
     public Image Clock;
@@ -50,10 +53,13 @@ public class CoreController : MonoBehaviour
         _core ??= new GameCore();
         _instance ??= this;
 
-        if (StatUICanvas.gameObject is { activeSelf: true, activeInHierarchy: false })
+        if (SceneManager.GetActiveScene().name != "Tutorial")
         {
-            StatUICanvas = Instantiate(StatUICanvas);
-            StatUICanvas.gameObject.SetActive(false);
+            if (StatUICanvas.gameObject is { activeSelf: true, activeInHierarchy: false })
+            {
+                StatUICanvas = Instantiate(StatUICanvas);
+                StatUICanvas.gameObject.SetActive(false);
+            }
         }
     }
 
@@ -63,73 +69,77 @@ public class CoreController : MonoBehaviour
         _ap.Value = _core.Status.curAp;
         _hunger.Value = (int)_core.Status.curHunger;
         _thirst.Value = (int)_core.Status.curThirst;
-        StatUICanvas.gameObject.SetActive(true);
+        if (!GameManager.Instance.isTutorial)
+            StatUICanvas.gameObject.SetActive(true);
 
-        Turn.text = _core.TurnCnt + "";
+        if (!GameManager.Instance.isTutorial)
+            Turn.text = _core.TurnCnt + "";
         for (int i = 0; i < 2 && !GameManager.Instance.isTutorial; i++)
         {
             CardManager.CreateCard();
         }
 
         //세이브 파일이 없을 경우 새로 딕셔너리를 만들어 거기서 생성
-        
-        HungerDifficulty.Subscribe(x =>
+        if (!GameManager.Instance.isTutorial)
         {
-            //StatUICanvas.gameObject.SetActive(true);
-            StatUICanvas.statUI.Hunger[1].fillAmount = 1 - (x / _core.Status.maxHunger);
+            HungerDifficulty.Subscribe(x =>
+            {
+                //StatUICanvas.gameObject.SetActive(true);
+                StatUICanvas.statUI.Hunger[1].fillAmount = 1 - (x / _core.Status.maxHunger);
 
-            // if (x == 0) return;
-            //     _instance.StatUICanvas.gameObject.SetActive(true);
-            // _core.Difficulty = (ushort)x;
-            // _instance.StatUICanvas.statUI.Hunger[1].fillAmount += x/ _core.Status.maxHunger;
-            // _instance.StatUICanvas.statUI.Thirst[1].fillAmount += x/ _core.Status.maxThirst;
-        });
-        ThirstDifficulty.Subscribe(x =>
-        {
-            //StatUICanvas.gameObject.SetActive(true);
-            StatUICanvas.statUI.Thirst[1].fillAmount = 1 - (x / _core.Status.maxThirst);
-        });
-        HungerFluctuation.Subscribe(x =>
-            StatUICanvas.statUI.Hunger[2].fillAmount = 1 - (x / _core.Status.maxHunger)
+                // if (x == 0) return;
+                //     _instance.StatUICanvas.gameObject.SetActive(true);
+                // _core.Difficulty = (ushort)x;
+                // _instance.StatUICanvas.statUI.Hunger[1].fillAmount += x/ _core.Status.maxHunger;
+                // _instance.StatUICanvas.statUI.Thirst[1].fillAmount += x/ _core.Status.maxThirst;
+            });
+            ThirstDifficulty.Subscribe(x =>
+            {
+                //StatUICanvas.gameObject.SetActive(true);
+                StatUICanvas.statUI.Thirst[1].fillAmount = 1 - (x / _core.Status.maxThirst);
+            });
+            HungerFluctuation.Subscribe(x =>
+                StatUICanvas.statUI.Hunger[2].fillAmount = 1 - (x / _core.Status.maxHunger)
             );
-        ThirstFluctuation.Subscribe(x =>
-            StatUICanvas.statUI.Thirst[2].fillAmount = 1 - (x / _core.Status.maxThirst)
+            ThirstFluctuation.Subscribe(x =>
+                StatUICanvas.statUI.Thirst[2].fillAmount = 1 - (x / _core.Status.maxThirst)
             );
-        _hunger.Subscribe(x =>
-        {
-            //StatUICanvas.gameObject.SetActive(true);
-            var v = 1 - ((_core.Status.maxHunger - x) / _core.Status.maxHunger);
-            StatUICanvas.statUI.Hunger[0].fillAmount = v;
-            StatUICanvas.statUI.Texts[0].text = _core.Status.curHunger + "";
-        });
-        _thirst.Subscribe(x =>
-        {
-            //StatUICanvas.gameObject.SetActive(true);
-            StatUICanvas.statUI.Thirst[0].fillAmount =
-               1 - ((_core.Status.maxThirst - x) / _core.Status.maxThirst);
-            StatUICanvas.statUI.Texts[1].text = _core.Status.curThirst + "";
-        //     if (x != 0)
-        //         _instance.StatUICanvas.gameObject.SetActive(true);
-        //     var v = (_core.Status.maxHunger - x) / _core.Status.maxHunger;
-        //     _instance.StatUICanvas.statUI.Hunger[0].fillAmount = v;
-        //     _instance.StatUICanvas.statUI.Texts[0].text = _core.Status.curHunger + "";
-        // });
-        // _thirst.Subscribe(x =>
-        // {
-        //     if (x != 0)
-        //         _instance.StatUICanvas.gameObject.SetActive(true);
-        //     _instance.StatUICanvas.statUI.Thirst[0].fillAmount =
-        //        (_core.Status.maxHunger - x) / _core.Status.maxHunger;
-        //     _instance.StatUICanvas.statUI.Texts[1].text = _core.Status.curThirst + "";
-        });
-        _ap.Subscribe(x =>
-        {
-            // if (x != 0)
-            //     StatUICanvas.gameObject.SetActive(true);
-            //
-            _instance.StatUICanvas.statUI.Texts[2].text = 
-                $"[  {x} / {_core.Status.maxAp}  ]";
-        });
+            _hunger.Subscribe(x =>
+            {
+                //StatUICanvas.gameObject.SetActive(true);
+                var v = 1 - ((_core.Status.maxHunger - x) / _core.Status.maxHunger);
+                StatUICanvas.statUI.Hunger[0].fillAmount = v;
+                StatUICanvas.statUI.Texts[0].text = _core.Status.curHunger + "";
+            });
+            _thirst.Subscribe(x =>
+            {
+                //StatUICanvas.gameObject.SetActive(true);
+                StatUICanvas.statUI.Thirst[0].fillAmount =
+                    1 - ((_core.Status.maxThirst - x) / _core.Status.maxThirst);
+                StatUICanvas.statUI.Texts[1].text = _core.Status.curThirst + "";
+                //     if (x != 0)
+                //         _instance.StatUICanvas.gameObject.SetActive(true);
+                //     var v = (_core.Status.maxHunger - x) / _core.Status.maxHunger;
+                //     _instance.StatUICanvas.statUI.Hunger[0].fillAmount = v;
+                //     _instance.StatUICanvas.statUI.Texts[0].text = _core.Status.curHunger + "";
+                // });
+                // _thirst.Subscribe(x =>
+                // {
+                //     if (x != 0)
+                //         _instance.StatUICanvas.gameObject.SetActive(true);
+                //     _instance.StatUICanvas.statUI.Thirst[0].fillAmount =
+                //        (_core.Status.maxHunger - x) / _core.Status.maxHunger;
+                //     _instance.StatUICanvas.statUI.Texts[1].text = _core.Status.curThirst + "";
+            });
+            _ap.Subscribe(x =>
+            {
+                // if (x != 0)
+                //     StatUICanvas.gameObject.SetActive(true);
+                //
+                _instance.StatUICanvas.statUI.Texts[2].text =
+                    $"[  {x} / {_core.Status.maxAp}  ]";
+            });
+        }
     }
 
     private void Update()
@@ -139,7 +149,8 @@ public class CoreController : MonoBehaviour
     {
         if (_instance.StatUICanvas.status)
         {
-            _instance.StatUICanvas.Exit();
+            if (!GameManager.Instance.isTutorial)
+                _instance.StatUICanvas.Exit();
         }
 
         if (GameManager.Instance.isTutorial)
@@ -276,7 +287,7 @@ public class CoreController : MonoBehaviour
             var result = _core.ModifyHunger(amount);
             if (result)
                 _hunger.Value += /*((_hunger.Value + amount) > _core.Status.maxHunger) ? (int)_core.Status.maxHunger - _hunger.Value : */amount;
-            Debug.Log(_hunger.Value);
+            //Debug.Log(_hunger.Value);
             return result;
         }
         public static bool ModifyThirst()

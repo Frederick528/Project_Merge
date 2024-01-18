@@ -269,7 +269,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 855
+    m_Bits: 887
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -341,7 +341,7 @@ Camera:
   field of view: 60
   orthographic: 0
   orthographic size: 5
-  m_Depth: 0
+  m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 32
@@ -429,7 +429,7 @@ MonoBehaviour:
     statUI: {fileID: 124782843772793081, guid: 1020cdf7c8f777b45904834ba615ab9e, type: 3}
     kohaku: {fileID: 1628080039}
   animParams:
-    duration: 3
+    duration: 4.5
   mainCamera: {fileID: 134275319}
   subCamera: {fileID: 975478453}
   script:
@@ -439,10 +439,11 @@ MonoBehaviour:
   - "\uC624\uB978\uCABD \uD558\uB2E8\uC5D0 \uBC84\uD2BC\uC774 \uBCF4\uC77C\uAEBC\uC57C.
     \uBC84\uD2BC\uC744 \uD074\uB9AD\uD574 \uCE74\uB4DC\uB97C \uBF51\uC544\uBCF4\uC790."
   - ^NEXT^
-  - "\uBE57\uBC29\uC6B8 \uCE74\uB4DC\uAC00 \uB098\uC654\uC5B4. \uC774 \uCE74\uB4DC\uB97C
-    \uC67C\uCABD \uB9C8\uC6B0\uC2A4\uB85C \uAFB9 \uB20C\uB7EC \uB4E4\uACE0 \uC6C0\uC9C1\uC77C
-    \uC218 \uC788\uC5B4."
-  - " \uD55C\uBC88 \uB354 \uD074\uB9AD\uD574\uBCFC\uAE4C?"
+  - "\uBE57\uBC29\uC6B8 \uCE74\uB4DC\uAC00 \uB098\uC654\uC5B4. "
+  - "\uC774 \uCE74\uB4DC\uB97C \uC67C\uCABD \uB9C8\uC6B0\uC2A4\uB85C \uAFB9 \uB204\uB974\uBA74
+    \uC6C0\uC9C1\uC77C \uC218 \uC788\uC5B4."
+  - "\uCE74\uB4DC \uC18C\uD658 \uBC84\uD2BC\uC744 \uD55C \uBC88 \uB354 \uD074\uB9AD
+    \uD574\uBCF4\uC790"
   - ^NEXT^
   - "\uC800 \uC624\uB978\uCABD\uC5D0\uC11C \uCE74\uB4DC\uB97C \uD569\uC131\uD560
     \uC218 \uC788\uC744\uAEBC\uC57C. "
@@ -457,7 +458,7 @@ MonoBehaviour:
     \uCE74\uB4DC\uB97C \uBCFC \uC218 \uC788\uACA0\uC9C0?"
   - "\uC77C\uB2E8 \uC774 \uCE74\uB4DC\uAC00 \uBB34\uC2A8\uC77C\uC744 \uD558\uB294\uC9C0
     \uD55C\uBC88\uBD10\uC57C\uD560 \uAC83 \uAC19\uC544."
-  - "\uD55C\uBC88 \uCE74\uB4DC\uB97C \uC6B0\uD074\uB9AD\uD574\uBCFC\uAE4C?"
+  - "\uD55C\uBC88 \uCE74\uB4DC\uB97C \uC6B0\uD074\uB9AD \uD574\uBCFC\uAE4C?"
   - ^NEXT^
   - "\uBC29\uAE08\uBD24\uC5B4? \uCE74\uB4DC\uC758 \uD6A8\uACFC\uAC00 \uC801\uD600\uC788\uC5C8\uC5B4."
   - "\uC774\uAC74 \uBC14\uB85C \uC774\uC81C\uBD80\uD130 \uBCF4\uC5EC\uC904 \uC0C1\uD0DC\uCC3D\uACFC
@@ -505,7 +506,6 @@ MonoBehaviour:
   - "\uB9C8\uCE68, \uC6B0\uB9AC\uAC00\uD560 \uC218 \uC788\uB294 \uC77C\uC740 \uB2E4
     \uD588\uC73C\uB2C8, \uB2E4\uC74C\uB0A0\uB85C \uB118\uACA8\uBCFC\uAE4C?"
   - "\uD134\uC774 \uB118\uC5B4\uAC00\uBA74.."
-  - "\uB9CC\uB4E4\uC5C8\uC73C\uB2C8"
   - "\uD589\uB3D9\uB825\uC774 \uD68C\uBCF5\uB418\uC11C "
   - "\uCE74\uB4DC\uB97C \uB2E4\uC2DC \uBF51\uC744 \uC218 \uC788\uC5B4!"
   - "\uC774\uAC78 \uBC18\uBCF5\uD558\uBA74 \uB420\uAEBC\uC57C!"
@@ -2452,7 +2452,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400264, guid: a903b4c6fa8dbe740abf8cd6ea9d7bb4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 41.47
+      value: 46.88
       objectReference: {fileID: 0}
     - target: {fileID: 400264, guid: a903b4c6fa8dbe740abf8cd6ea9d7bb4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2482,6 +2482,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1120785835, guid: a903b4c6fa8dbe740abf8cd6ea9d7bb4, type: 3}
+      propertyPath: talker.root
+      value: 
+      objectReference: {fileID: 1799619554232933209, guid: 5ebebaa6dfb07c9449f401c58fbe0379, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a903b4c6fa8dbe740abf8cd6ea9d7bb4, type: 3}
 --- !u!1 &1349066056

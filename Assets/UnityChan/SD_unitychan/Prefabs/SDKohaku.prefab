@@ -5808,6 +5808,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  talkSystem:
+    root: {fileID: 1799619554232933209, guid: 5ebebaa6dfb07c9449f401c58fbe0379, type: 3}
+    freq: 4
+    rate: 80
 --- !u!54 &1120785844
 Rigidbody:
   m_ObjectHideFlags: 0

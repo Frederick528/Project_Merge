@@ -238,11 +238,11 @@ public class SelectBtn : MonoBehaviour
 
     public void P_Result5_1()
     {
-        p_Incounter6.Result1();
         p_Incounter6.isWaitingForInput = true;
         p_Incounter6.bifurcation = 0;
         selectBtn.SetActive(false);
     }
+
     public void P_Result5_2()
     {
         p_Incounter6.Result2();

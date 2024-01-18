@@ -8,7 +8,7 @@ public class P_Incounter7 : MonoBehaviour
     public bool isWaitingForInput = true;
     public int bifurcation = 0;
     public Text myText, mytext2;
-    public GameObject incounter, transparency, Character, select1, select2, select3, select2_1, select2_2, select2_3,select2_4;
+    public GameObject incounter, transparency, Character, select1, select2, select3,select4, select2_1, select2_2, select2_3,select2_4;
     public int re2_Select = 0;
     public Image canvasImage;
     public float fadeSpeed = 0.5f; // 투명도가 줄어드는 속도
@@ -18,7 +18,7 @@ public class P_Incounter7 : MonoBehaviour
     [SerializeField]
     GameObject blockUI, closeBtn;
 
-    int currentTextIndex, currentTextIndex1, currentTextIndex2, currentTextIndex3, currentTextIndex4, currentTextIndex5, currentTextIndex6, currentTextIndex7, currentTextIndex8 = 0;
+    int currentTextIndex, currentTextIndex1, currentTextIndex2, currentTextIndex3, currentTextIndex4, currentTextIndex5, currentTextIndex6, currentTextIndex7, currentTextIndex8, currentTextIndex9 = 0;
     private string[] textArray1 = { "\"드디어 30일이네.\"" };
     private string[] textArray2 = { "", "\"준비는 됐어?\"" };
     private string[] textArray3 = { "",
@@ -33,7 +33,26 @@ public class P_Incounter7 : MonoBehaviour
 
 
 
-    private string[] result1 = { "", "배드엔딩 - 시트 작성 예정" };
+    private string[] result1_1 = { "",
+                                 "나는 빠르게 숲을 떠나갔다.",
+                                 "더 이상은 날 막을 수 없을 것이다.",
+                                 "천천히 숲에서 멀리까지 나아가기 시작했다.",
+                                 "하지만…"
+    };
+    private string[] result1_2 = { "",
+                                 "무언가 기억이 돌아온다..",
+                                 "여태 힘들었던 기억",
+                                 "포기하고 싶었던 기억이 날 괴롭혔다.",
+                                 "기억났다.",
+                                 "나는 이곳에서 기억을 잊고 치료받기 위해서 나왔다.",
+                                 "..그래서 마녀가 날 죽이지 않은건가..",
+                                 "나는..",
+                                 "숲에서 벗어났지만…",
+                                 "더 이상 돌아갈 수 없었다.",
+                                 "내 뒤에 있던 숲은 더 이상 보이지 않았고..",
+                                 "그 이후의 미래는 뻔했다.",
+                                 "-BAD ENDING-"
+    };
     private string[] result2_1 = { "", "나는 그녀와 함께 숲에 남기를 청했다.",
                                        "\"그게 무슨말이야?\"",
                                        "\"여기에서 나가고 싶던게 아니었어?\"" };
@@ -101,9 +120,14 @@ public class P_Incounter7 : MonoBehaviour
         {
             Select2();
         }
-        else if (currentTextIndex3 < result1.Length && bifurcation == 0)
+        else if (currentTextIndex3 < result1_1.Length && bifurcation == 0)
         {
-            Result1();
+            Result1_1();   
+        }
+        else if (currentTextIndex9 < result1_2.Length && bifurcation == 0)
+        {
+            StartCoroutine(FadeOut());
+            Result1_2();
         }
         else if (currentTextIndex4 < result2_1.Length && bifurcation == 1)
         {
@@ -150,9 +174,13 @@ public class P_Incounter7 : MonoBehaviour
         {
             myText.text = textArray3[currentTextIndex2];
         }
-        else if (currentTextIndex3 < result1.Length && isWaitingForInput && bifurcation == 0)
+        else if (currentTextIndex3 < result1_1.Length && isWaitingForInput && bifurcation == 0)
         {
-            myText.text = result1[currentTextIndex3];
+            myText.text = result1_1[currentTextIndex3];
+        }
+        else if (currentTextIndex9 < result1_2.Length && isWaitingForInput && bifurcation == 0)
+        {
+            myText.text = result1_2[currentTextIndex9];
         }
         else if (currentTextIndex4 < result2_1.Length && isWaitingForInput && bifurcation == 1)
         {
@@ -285,16 +313,35 @@ public class P_Incounter7 : MonoBehaviour
         }
     }
 
-    public void Result1()
+    public void Result1_1()
     {
         if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput == true && bifurcation == 0)
         {
             currentTextIndex3++;
-            if (currentTextIndex3 < result1.Length)
+            if (currentTextIndex3 < result1_1.Length)
             {
-                UpdateText(result1);
+                UpdateText(result1_1);
             }
-            if (currentTextIndex3 >= result1.Length)
+            if (currentTextIndex3 >= result1_1.Length)
+            {
+                transparency.SetActive(true);
+                isWaitingForInput = false;
+                select4.SetActive(true);
+            }
+
+        }
+    }
+
+    public void Result1_2()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput == true && bifurcation == 0)
+        {
+            currentTextIndex9++;
+            if (currentTextIndex9 < result1_2.Length)
+            {
+                UpdateText(result1_2);
+            }
+            if (currentTextIndex9 >= result1_2.Length)
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;

@@ -8,7 +8,7 @@ public class P_Incounter6 : MonoBehaviour
     public bool isWaitingForInput = true;
     public int bifurcation = 0;
     public Text myText, mytext2;
-    public GameObject incounter,select1, select2;
+    public GameObject incounter,select1, select2, select3;
     public float fadeSpeed = 0.5f; // 투명도가 줄어드는 속도
 
     [SerializeField]
@@ -16,7 +16,7 @@ public class P_Incounter6 : MonoBehaviour
     [SerializeField]
     GameObject blockUI, closeBtn;
 
-    int currentTextIndex, currentTextIndex1, currentTextIndex4, currentTextIndex5 = 0;
+    int currentTextIndex, currentTextIndex1, currentTextIndex4, currentTextIndex5, currentTextIndex6 = 0;
     private string[] textArray1 = { "이곳에서 산지 25일차.",
                                     "역시나 내가 왜 여기있는지 잘 모르겠다.",
                                     "마녀는 무엇이고",
@@ -30,7 +30,28 @@ public class P_Incounter6 : MonoBehaviour
                                     "마녀가 오기전에.." };
 
 
-    private string[] result1 = { "", "배드엔딩 - 시트 작성 예정" };
+    private string[] result1_1 = { "",
+                                 "나는 빠르게 숲을 떠나갔다.",
+                                 "더 이상은 날 막을 수 없을 것이다.",
+                                 "천천히 숲에서 멀리까지 나아가기 시작했다.",
+                                 "하지만…"
+    };
+
+    private string[] result1_2 = { "",
+                                 "무언가 기억이 돌아온다..",
+                                 "여태 힘들었던 기억",
+                                 "포기하고 싶었던 기억이 날 괴롭혔다.",
+                                 "기억났다.",
+                                 "나는 이곳에서 기억을 잊고 치료받기 위해서 나왔다.",
+                                 "..그래서 마녀가 날 죽이지 않은건가..",
+                                 "나는..",
+                                 "숲에서 벗어났지만…",
+                                 "더 이상 돌아갈 수 없었다.",
+                                 "내 뒤에 있던 숲은 더 이상 보이지 않았고..",
+                                 "그 이후의 미래는 뻔했다.",
+                                 "-BAD ENDING-"
+    };
+
     private string[] result2 = { "", "아니다. 조금만 더 생각해보아야할 사항이다.",
                                      "분명 마녀는 나를 몇번 죽일뻔했지만.. 직접적으로 그러진 않았다.",
                                      "마치 내 상태를 보고 저주를 거는.. 그런 느낌이었다.",
@@ -58,17 +79,19 @@ public class P_Incounter6 : MonoBehaviour
         {
             Incounter1();
         }
-        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 < textArray2.Length)
+        else if (currentTextIndex1 < textArray2.Length)
         {
             Select1();
         }
-        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 >= textArray2.Length 
-                 && currentTextIndex4 < result1.Length && bifurcation == 0)
+        else if (currentTextIndex4 < result1_1.Length && bifurcation == 0)
         {
-            Result1();
+            Result1_1();
         }
-        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 >= textArray2.Length 
-                && currentTextIndex5 < result2.Length && bifurcation == 1)
+        else if (currentTextIndex6 < result1_2.Length && bifurcation == 0)
+        {
+            Result1_2();
+        }
+        else if (currentTextIndex5 < result2.Length && bifurcation == 1)
         {
             Result2();
         }
@@ -93,9 +116,13 @@ public class P_Incounter6 : MonoBehaviour
         {
             myText.text = textArray2[currentTextIndex1];
         }
-        else if (currentTextIndex4 < result1.Length && isWaitingForInput && bifurcation == 0)
+        else if (currentTextIndex4 < result1_1.Length && isWaitingForInput && bifurcation == 0)
         {
-            myText.text = result1[currentTextIndex4];
+            myText.text = result1_1[currentTextIndex4];
+        }
+        else if (currentTextIndex6 < result1_2.Length && isWaitingForInput && bifurcation == 0)
+        {
+            myText.text = result1_2[currentTextIndex6];
         }
         else if (currentTextIndex5 < result2.Length && isWaitingForInput && bifurcation == 1)
         {
@@ -144,16 +171,33 @@ public class P_Incounter6 : MonoBehaviour
     }
 
     
-    public void Result1()
+    public void Result1_1()
     {
         if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput == true && bifurcation == 0)
         {
             currentTextIndex4++;
-            if (currentTextIndex4 < result1.Length)
+            if (currentTextIndex4 < result1_1.Length)
             {
-                UpdateText(result1);
+                UpdateText(result1_1);
             }
-            if (currentTextIndex4 >= result1.Length)
+            if (currentTextIndex4 >= result1_1.Length)
+            {
+                isWaitingForInput = false;
+                select3.SetActive(true);
+            }
+
+        }
+    }
+    public void Result1_2()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && isWaitingForInput == true && bifurcation == 0)
+        {
+            currentTextIndex6++;
+            if (currentTextIndex6 < result1_2.Length)
+            {
+                UpdateText(result1_2);
+            }
+            if (currentTextIndex6 >= result1_2.Length)
             {
                 isWaitingForInput = false;
             }

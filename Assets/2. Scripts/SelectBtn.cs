@@ -20,6 +20,9 @@ public class SelectBtn : MonoBehaviour
     public R_Incounter7 incounter7;
     public R_Incounter8 incounter8;
     public R_Incounter9 incounter9;
+    public R_Incounter10 incounter10;
+    public R_Incounter11 incounter11;
+    public R_Incounter12 incounter12;
     public GameObject selectBtn;
     public Quest quest;
 
@@ -512,8 +515,51 @@ public class SelectBtn : MonoBehaviour
         incounter9.bifurcation = 1;
         selectBtn.SetActive(false);
     }
-    
 
+    public void R10_Result1()
+    {
+        incounter10.transparency.SetActive(false);
+        incounter10.isWaitingForInput = true;
+        incounter10.bifurcation = 0;
+        selectBtn.SetActive(false);
+    }
+    public void R10_Result2()
+    {
+        incounter10.transparency.SetActive(false);
+        incounter10.isWaitingForInput = true;
+        incounter10.bifurcation = 1;
+        selectBtn.SetActive(false);
+    }
+
+    public void R11_Result1()
+    {
+        incounter11.transparency.SetActive(false);
+        incounter11.isWaitingForInput = true;
+        incounter11.bifurcation = 0;
+        selectBtn.SetActive(false);
+    }
+    public void R11_Result2()
+    {
+        incounter11.transparency.SetActive(false);
+        incounter11.isWaitingForInput = true;
+        incounter11.bifurcation = 1;
+        selectBtn.SetActive(false);
+    }
+
+    public void R12_Result1()
+    {
+        incounter12.transparency.SetActive(false);
+        incounter12.isWaitingForInput = true;
+        incounter12.bifurcation = 0;
+        selectBtn.SetActive(false);
+    }
+    public void R12_Result2()
+    {
+        incounter12.transparency.SetActive(false);
+        incounter12.isWaitingForInput = true;
+        incounter12.bifurcation = 1;
+        selectBtn.SetActive(false);
+    }
 
     public void Guied1()
     {

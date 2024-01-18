@@ -66,18 +66,23 @@ public class CoreController : MonoBehaviour
         StatUICanvas.gameObject.SetActive(true);
 
         Turn.text = _core.TurnCnt + "";
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 2 && !GameManager.Instance.isTutorial; i++)
         {
             CardManager.CreateCard();
         }
 
         //세이브 파일이 없을 경우 새로 딕셔너리를 만들어 거기서 생성
-        YamlDeserializer.saveData.Init();
         
         HungerDifficulty.Subscribe(x =>
         {
             //StatUICanvas.gameObject.SetActive(true);
             StatUICanvas.statUI.Hunger[1].fillAmount = 1 - (x / _core.Status.maxHunger);
+
+            // if (x == 0) return;
+            //     _instance.StatUICanvas.gameObject.SetActive(true);
+            // _core.Difficulty = (ushort)x;
+            // _instance.StatUICanvas.statUI.Hunger[1].fillAmount += x/ _core.Status.maxHunger;
+            // _instance.StatUICanvas.statUI.Thirst[1].fillAmount += x/ _core.Status.maxThirst;
         });
         ThirstDifficulty.Subscribe(x =>
         {
@@ -103,13 +108,26 @@ public class CoreController : MonoBehaviour
             StatUICanvas.statUI.Thirst[0].fillAmount =
                1 - ((_core.Status.maxThirst - x) / _core.Status.maxThirst);
             StatUICanvas.statUI.Texts[1].text = _core.Status.curThirst + "";
+        //     if (x != 0)
+        //         _instance.StatUICanvas.gameObject.SetActive(true);
+        //     var v = (_core.Status.maxHunger - x) / _core.Status.maxHunger;
+        //     _instance.StatUICanvas.statUI.Hunger[0].fillAmount = v;
+        //     _instance.StatUICanvas.statUI.Texts[0].text = _core.Status.curHunger + "";
+        // });
+        // _thirst.Subscribe(x =>
+        // {
+        //     if (x != 0)
+        //         _instance.StatUICanvas.gameObject.SetActive(true);
+        //     _instance.StatUICanvas.statUI.Thirst[0].fillAmount =
+        //        (_core.Status.maxHunger - x) / _core.Status.maxHunger;
+        //     _instance.StatUICanvas.statUI.Texts[1].text = _core.Status.curThirst + "";
         });
         _ap.Subscribe(x =>
         {
             // if (x != 0)
             //     StatUICanvas.gameObject.SetActive(true);
             //
-            StatUICanvas.statUI.Texts[2].text = 
+            _instance.StatUICanvas.statUI.Texts[2].text = 
                 $"[  {x} / {_core.Status.maxAp}  ]";
         });
     }
@@ -123,6 +141,21 @@ public class CoreController : MonoBehaviour
         {
             _instance.StatUICanvas.Exit();
         }
+
+        if (GameManager.Instance.isTutorial)
+        {
+            var lAinm = _instance.Light.GetComponent<Animator>();
+            foreach (var param in lAinm.parameters)
+            {
+                if(param.type == AnimatorControllerParameterType.Trigger)
+                    lAinm.ResetTrigger(param.name);
+            }
+            
+            lAinm.SetTrigger("Dawn");
+            TutorialManager.WaitButtonCallBack = true;
+            return;
+        }
+        
         if(BearManager.Count > 0 )
         {
             Debug.Log("곰들이 아직 남아있습니다.");
@@ -300,5 +333,11 @@ public class CoreController : MonoBehaviour
     public void SetDifficulty(ushort value)
     {
         //_core.Difficulty = value;
+    }
+
+    internal static void ResetGame()
+    {
+        _core.EndGame();
+        _core.InitGame();
     }
 }

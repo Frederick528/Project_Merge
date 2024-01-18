@@ -18,8 +18,8 @@ public abstract class Draggable : MonoBehaviour
     protected virtual void OnMouseDrag()
     {
         float distance = Camera.main.WorldToScreenPoint(transform.position).z;
-        
-        var mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 77);
+
+        var mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance);
         _crntPos = Camera.main.ScreenToWorldPoint(mousePos);
         this.transform.position = _crntPos;
     }

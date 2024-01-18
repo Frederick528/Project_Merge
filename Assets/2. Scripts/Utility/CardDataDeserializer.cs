@@ -36,7 +36,7 @@ public class CardDataDeserializer
                     {
                         var data = new CardData ();
                         var row = table[i].Rows[j];
-
+                        
                         data.KR = row[1].ToString();
                         data.EN = row[2].ToString();
                         if(Int32.TryParse(row[3].ToString(), out data.Date))

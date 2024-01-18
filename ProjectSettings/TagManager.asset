@@ -17,8 +17,8 @@ TagManager:
   - UI
   - Card
   - Effect
-  - 
-  - 
+  - Kohaku
+  - Floor
   - 
   - 
   - 
@@ -44,4 +44,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: CardCanvas
+    uniqueID: 1462160489
     locked: 0

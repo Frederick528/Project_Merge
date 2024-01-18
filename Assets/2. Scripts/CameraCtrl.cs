@@ -180,7 +180,7 @@ public class CameraCtrl : MonoBehaviour
                 CoroutineInstance = null;
                 break;
             }
-
+            
             yield return new WaitForSeconds(0.02f);
         }
 

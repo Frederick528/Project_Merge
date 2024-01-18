@@ -15,6 +15,7 @@ public class StatUI : EffectBase
 
     public StatUIGroup statUI;
     public Canvas statCanvas;
+    public bool Status => _status;
 
     private Animator _anim;
     private bool _status = true;
@@ -62,6 +63,7 @@ public class StatUI : EffectBase
             });
         }
 
+        Enter();
 
     }
 
@@ -89,23 +91,22 @@ public class StatUI : EffectBase
 
     public void Enter()
     {
-        _isClickable = false;
         if (!_status)
         {
             _anim ??= this.GetComponent<Animator>();
             _anim.SetTrigger("Enter");
+            _isClickable = false;
         }
-        
         _status = true;
     }
     public void Exit()
     {
-        _isClickable = false;
         //비표시 중일 때 애니메이션 재생 x
         if (_status)
         {
             _anim ??= this.GetComponent<Animator>();
             _anim.SetTrigger("Exit");
+            _isClickable = false;
         }
         _status = false;
     }

@@ -230,7 +230,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74265a410f6e7d943ac008d963ff35c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map: {fileID: 1900199477}
 --- !u!81 &134275318
 AudioListener:
   m_ObjectHideFlags: 0
@@ -427,7 +426,7 @@ MonoBehaviour:
     mergingArea:
     - {fileID: 860025386}
     - {fileID: 1784631107}
-    statUI: {fileID: 1138920814816187962, guid: 78260b429a517074782ea813953577b4, type: 3}
+    statUI: {fileID: 124782843772793081, guid: 1020cdf7c8f777b45904834ba615ab9e, type: 3}
     kohaku: {fileID: 1628080039}
   animParams:
     duration: 3
@@ -437,7 +436,6 @@ MonoBehaviour:
   - "\uC232\uC5D0 \uC628\uAC78 \uD658\uC601\uD574. \uC9C0\uAE08\uBD80\uD130 \uAC04\uB2E8\uD55C
     \uD29C\uD1A0\uB9AC\uC5BC\uC744 \uC2DC\uC791\uD560\uAEBC\uC57C."
   - "\uAE08\uBC29 \uB05D\uB098\uB2C8\uAE4C \uAF2D \uC9D1\uC911\uD574\uC918."
-  - ^END^
   - "\uC624\uB978\uCABD \uD558\uB2E8\uC5D0 \uBC84\uD2BC\uC774 \uBCF4\uC77C\uAEBC\uC57C.
     \uBC84\uD2BC\uC744 \uD074\uB9AD\uD574 \uCE74\uB4DC\uB97C \uBF51\uC544\uBCF4\uC790."
   - ^NEXT^
@@ -519,6 +517,7 @@ MonoBehaviour:
   - "\uC815\uC2E0 \uBC14\uC9DD \uCC28\uB9AC\uB77C\uAD6C!!"
   - "\uADF8\uB7FC \uD30C\uC774\uD305!!!"
   - ^NEXT^
+  - ^END^
 --- !u!1 &405083293
 GameObject:
   m_ObjectHideFlags: 0
@@ -715,7 +714,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be5e9c740fad4fe4e9e7db29b0a60e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatUICanvas: {fileID: 1138920814816187962, guid: 78260b429a517074782ea813953577b4, type: 3}
+  StatUICanvas: {fileID: 124782843772793081, guid: 1020cdf7c8f777b45904834ba615ab9e, type: 3}
   Clock: {fileID: 1929150547}
   Light: {fileID: 1421811051}
   Notice: {fileID: 6290000357460944020, guid: aa6c5515d83a9ac48872aefd807e9b9b, type: 3}
@@ -1731,7 +1730,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74265a410f6e7d943ac008d963ff35c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map: {fileID: 1900199477}
 --- !u!20 &975478453
 Camera:
   m_ObjectHideFlags: 0
@@ -3086,14 +3084,14 @@ MonoBehaviour:
       - m_Target: {fileID: 1349066057}
         m_TargetAssemblyTypeName: MouseRightClick, Assembly-CSharp
         m_MethodName: CanvasClose
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &1409817639
 MonoBehaviour:

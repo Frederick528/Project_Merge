@@ -813,7 +813,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!114 &4562818120567291971
 MonoBehaviour:
@@ -873,6 +873,7 @@ MonoBehaviour:
     content: {fileID: 4562818121004825386}
     row: {fileID: 4562818119718171993}
     template: {fileID: 3499489114310194232, guid: f8640c136e321924ab3a38eaf1817514, type: 3}
+  encyclopediaCanvas: {fileID: 0}
 --- !u!1 &4562818120590357327
 GameObject:
   m_ObjectHideFlags: 0

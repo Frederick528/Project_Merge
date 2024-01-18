@@ -182,7 +182,7 @@ public class Card : Entity
                     foreach (var _card in g1.Cards)
                     {
                         Debug.Log(_card.ID + " " + this.ID);
-                        if (_card.ID == this.ID)
+                        if (_card.ID == this.ID && _card.ID < 3000)
                         {
                             OnMergeEnter(this.gameObject, _card.gameObject);
                             return;
@@ -208,6 +208,7 @@ public class Card : Entity
             
             if (result[i].TryGetComponent(out Card card))
             {
+                
                 if (card.ID == this.ID)
                 {
                     OnMergeEnter(this.gameObject, result[i].gameObject);
@@ -352,13 +353,15 @@ public class Card : Entity
         float refXMax = CardManager.Areas[0].transform.position.x + CardManager.Areas[0].transform.lossyScale.x / 1.8f;
         float refZMin = CardManager.Areas[0].transform.position.z - CardManager.Areas[0].transform.lossyScale.z / 1.8f;
         float refZMax = CardManager.Areas[0].transform.position.z + CardManager.Areas[0].transform.lossyScale.z / 1.8f;
-      
+
         #endregion
-        
+
         if (t2.transform.position.x > refXMin && t2.transform.position.x < refXMax)
         {    
             if (t2.transform.position.z > refZMin && t2.transform.position.z < refZMax)
             {
+                if (destroyTarget[0].cardType == CardType.Combination)
+                    return;
                 // 카드 + 카드 or 카드 그룹만 내려 놓았을 경우 
                 if (t1.transform.parent.Equals(t2.transform.parent))
                 //병합 분기
@@ -374,7 +377,7 @@ public class Card : Entity
                             var _id = IDList.ElementAt(idx);
                             var row = g1.Cards
                                 .Where(x => x.ID == _id &&
-                                            (YamlDeserializer.saveData.GetValueFromLimit(x.ID % 10)) || GameManager.Instance.isTutorial)
+                                            ((YamlDeserializer.saveData.GetValueFromLimit(x.ID % 10)) && ID < 3000) || GameManager.Instance.isTutorial)
                                 .Select(x => x).ToList();
 
                             //홀수 일 경우 짝수로 
@@ -519,6 +522,7 @@ public class Card : Entity
         }
         else
         {
+            Debug.Log(true);
             var emptyParent = createParent();
             emptyParent.AddCardRange(destroyTarget);
         }

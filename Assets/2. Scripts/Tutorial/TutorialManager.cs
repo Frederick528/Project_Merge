@@ -78,7 +78,7 @@ public class TutorialManager : MonoBehaviour
                     {
                         Debug.Log("decline");
                         GameManager.Instance.isTutorial = false;
-                        SceneManager.LoadScene("Lawsuit");
+                        SceneManager.LoadScene("7. MergeScene");
                         CoreController.ResetGame();
                     })
                 }
@@ -186,8 +186,9 @@ public class TutorialManager : MonoBehaviour
             {
                 if (v == EndSequence)
                 {
-                    SceneManager.LoadSceneAsync("Lawsuit");
+                    var op = SceneManager.LoadSceneAsync("7. MergeScene");
                     OnDestroy();
+                    await op;
                     return;
                 }
                 var t = OpenMsg(_currentIdx);
@@ -492,7 +493,7 @@ public class TutorialManager : MonoBehaviour
             else
                 CardManager.DestroyCard(MouseRightClick.CurrentRef);
             //Destroy(hit.collider.gameObject);
-            MouseRightClick.Instance.CanvasClose();
+            MouseRightClick.Instance.CanvasClose(false);
             EffectManager.instance.eatCardImg = MouseRightClick.Instance.cardImage.sprite;
             EffectManager.instance.cardContents = MouseRightClick.CurrentRef;
             GameObject eatCard = Instantiate(EffectManager.instance.eatEffect, MouseRightClick.Instance.effectUICanvas);
@@ -517,7 +518,7 @@ public class TutorialManager : MonoBehaviour
             //    CardManager.DestroyCard(cardGroup.RemoveCard(cardContents));
             //else
             //    CardManager.DestroyCard(cardContents);
-            MouseRightClick.Instance.CanvasClose();
+            MouseRightClick.Instance.CanvasClose(true);
             MouseRightClick.Instance.cardDecompositionBtn.interactable = false;
             Thread.MemoryBarrier();
             WaitButtonCallBack = true;
@@ -558,7 +559,7 @@ public class TutorialManager : MonoBehaviour
         await PrintText();
         objects.buttons[0].interactable = true;
         
-        SceneManager.LoadScene("Lawsuit");
+        SceneManager.LoadScene("7. MergeScene");
         
         
     }

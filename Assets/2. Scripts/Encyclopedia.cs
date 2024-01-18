@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,8 +11,11 @@ public class Encyclopedia : MonoBehaviour
     public Button toggle;
     public EncStruct structure;
 
+    public Canvas encyclopediaCanvas;
+
     private void Awake()
     {
+        encyclopediaCanvas.worldCamera = GameObject.Find("UI_Camera").GetComponent<Camera>();
         toggle.onClick.AddListener(() =>
         {
             structure.root.SetActive(!structure.root.activeSelf);
@@ -53,7 +57,7 @@ public class Encyclopedia : MonoBehaviour
                     {
                         var tfm = v.GetComponent<RectTransform>();
                         tfm.SetParent(structure.content.transform, true);
-                        tfm.position = Vector3.zero;
+                        tfm.localPosition = Vector3.zero;
                         tfm.localScale = Vector3.one;
                         v.SetActive(true);
                         v = Instantiate(structure.row);
@@ -65,7 +69,6 @@ public class Encyclopedia : MonoBehaviour
                 tf.localPosition = Vector3.zero;
                 tf.localScale = Vector3.one;
                 v.SetActive(true);
-                v = Instantiate(structure.row);
             }
         });
     }

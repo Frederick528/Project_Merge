@@ -15,13 +15,13 @@ public class EatCard : MonoBehaviour
     [SerializeField]
     SpriteRenderer eatRenderer;
 
-    Stat stat;
-    CardData cardData;
+    //Stat stat;
+    //CardData cardData;
 
     private void Start()
     {
-        stat = StatManager.instance.playerCtrl.stat;
-        cardData = EffectManager.instance.cardContents.Data;
+        //stat = StatManager.instance.playerCtrl.stat;
+        //cardData = EffectManager.instance.cardContents.Data;
         StartCoroutine(EatCardEffect());
     }
     IEnumerator EatCardEffect()
@@ -59,7 +59,7 @@ public class EatCard : MonoBehaviour
         //stat.curThirst = ((stat.curThirst + cardData.Thirst) > stat.maxThirst) ? stat.maxThirst : stat.curThirst + cardData.Thirst;
         //CoreController.ModifyHunger(cardData.Hunger);
         //CoreController.ModifyThirst(cardData.Thirst);
-        CoreController.ModifyDifficulty(cardData.Hunger, cardData.Thirst);
+        CoreController.ModifyDifficulty((int)EffectManager.instance.addHungerValue, (int)EffectManager.instance.addThirstValue);
         Destroy(this.gameObject);
     }
 

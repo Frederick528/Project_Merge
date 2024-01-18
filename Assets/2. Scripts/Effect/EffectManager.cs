@@ -18,6 +18,10 @@ public class EffectManager : MonoBehaviour
     public Sprite eatCardImg;
     [HideInInspector]
     public Card cardContents;
+    [HideInInspector]
+    public float addHungerValue;
+    [HideInInspector]
+    public float addThirstValue;
     public GameObject eatEffect;
 
     [Header("합성")]

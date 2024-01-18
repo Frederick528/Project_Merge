@@ -28,7 +28,6 @@ public class MouseRightClick : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI eatInfoText;
 
-    CardData cardData;
     private void Awake()
     {
         Instance ??= this;
@@ -75,8 +74,9 @@ public class MouseRightClick : MonoBehaviour
     }
 
     public void ShowCardInfo(Card cardContents)
-    {   
-        cardData = cardContents.Data;
+    {
+        CardData cardData = cardContents.Data;
+        Stat stat = StatManager.instance.playerCtrl.stat;
 
         //string cardID = $"{cardContents.cardType}_{cardContents.level}";
         if (Resources.Load<Sprite>($"Images/{cardContents.cardType}/{cardContents.ID}") != null)    // 나중에 if문은 빼야 함.
@@ -85,6 +85,8 @@ public class MouseRightClick : MonoBehaviour
         }
         cardName.text = cardData.KR;
         cardText.text = cardData.Info;
+        float tempStatHunger = stat.curHunger;
+        float tempStatThirst = stat.curThirst;
         CoreController.ModifyFluctuation(cardData.Hunger, cardData.Thirst);
 
         if (cardContents.cardType == Card.CardType.Food || cardContents.cardType == Card.CardType.Water || cardContents.ID == 3000 || cardContents.ID == 3001)
@@ -103,6 +105,8 @@ public class MouseRightClick : MonoBehaviour
                 CanvasClose(false);
                 EffectManager.instance.eatCardImg = cardImage.sprite;
                 EffectManager.instance.cardContents = cardContents;
+                EffectManager.instance.addHungerValue = (tempStatHunger + cardData.Hunger > stat.maxHunger) ? stat.maxHunger - tempStatHunger : cardData.Hunger;
+                EffectManager.instance.addThirstValue = (tempStatThirst + cardData.Thirst > stat.maxThirst) ? stat.maxThirst - tempStatThirst : cardData.Thirst;
                 GameObject eatCard = Instantiate(EffectManager.instance.eatEffect, effectUICanvas);
             });
         }

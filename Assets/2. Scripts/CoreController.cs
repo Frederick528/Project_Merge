@@ -77,6 +77,7 @@ public class CoreController : MonoBehaviour
         {
             //StatUICanvas.gameObject.SetActive(true);
             StatUICanvas.statUI.Hunger[1].fillAmount = 1 - (x / _core.Status.maxHunger);
+            StatUICanvas.statUI.Texts[5].text = (_core.HungerDifficulty != 0) ? (-_core.HungerDifficulty).ToString() : "";
 
             // if (x == 0) return;
             //     _instance.StatUICanvas.gameObject.SetActive(true);
@@ -88,6 +89,7 @@ public class CoreController : MonoBehaviour
         {
             //StatUICanvas.gameObject.SetActive(true);
             StatUICanvas.statUI.Thirst[1].fillAmount = 1 - (x / _core.Status.maxThirst);
+            StatUICanvas.statUI.Texts[6].text = (_core.ThirstDifficulty != 0) ? (-_core.ThirstDifficulty).ToString() : "";
         });
         HungerFluctuation.Subscribe(x =>
             StatUICanvas.statUI.Hunger[2].fillAmount = 1 - (x / _core.Status.maxHunger)
@@ -135,7 +137,7 @@ public class CoreController : MonoBehaviour
     private void Update()
     {
     }
-    public static void TurnChange()
+    public void TurnChange()
     {
         if (_instance.StatUICanvas.status)
         {
@@ -225,8 +227,8 @@ public class CoreController : MonoBehaviour
         {
             _core.HungerDifficulty = 0;
             _core.ThirstDifficulty = 0;
-            //HungerDifficulty.Value = _core.HungerDifficulty;
-            //ThirstDifficulty.Value = _core.ThirstDifficulty;
+            StatUICanvas.statUI.Texts[5].text = "";
+            StatUICanvas.statUI.Texts[6].text = "";
             CardManager.ExpirationDateCheck();
             
             lightAnim.SetTrigger("Morning");
@@ -248,6 +250,9 @@ public class CoreController : MonoBehaviour
         _thirst.Value = (int)_core.Status.curThirst;
         _ap.Value = _core.Status.curAp;
         _instance.Clock.gameObject.SetActive(true);
+
+        StatUICanvas.statUI.Texts[3].text = $"Day : {Date + 1}";
+        StatUICanvas.statUI.Texts[4].text = $"{(IsDawn ? "새벽" : IsDayTime ? "점심" : IsMorning ? "아침" : "저녁")}";
     }
     private void OnDestroy()
     {

@@ -6,6 +6,6 @@ public struct ArtifactData
 {
     public string Name;
     public string Description;
-    public int Type;
-    public bool Possession;
+    public bool Type;
+
 }

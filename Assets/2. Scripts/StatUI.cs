@@ -120,7 +120,7 @@ public class StatUI : EffectBase
     [Serializable]
     public struct StatUIGroup
     {
-        // 0 == Hunger / 1 == Thirst / 2 == AP
+        // 0 == Hunger / 1 == Thirst / 2 == AP / 3 == Day / 4 == slot(timeZone) / 5 == DecreaseHunger / 6 == DecreaseThirst
         public TMP_Text[] Texts;
         public Image[] Hunger;
         // 0 == front / 1 == back

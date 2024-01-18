@@ -11,9 +11,9 @@ public class ArtifactGroup : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 11; i >= 0; i--)
+        for (int i = 0; i < 12; i++)
         {
-            artifactGroupPos.Add(GetComponentsInChildren<Artifact>(true)[i].gameObject);
+            artifactGroupPos.Add(transform.Find($"Artifact{i+1}").gameObject);
         }
     }
 }

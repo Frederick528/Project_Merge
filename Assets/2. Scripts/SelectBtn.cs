@@ -23,6 +23,10 @@ public class SelectBtn : MonoBehaviour
     public R_Incounter10 incounter10;
     public R_Incounter11 incounter11;
     public R_Incounter12 incounter12;
+    public R_Incounter13 incounter13;
+    public R_Incounter14 incounter14;
+    public R_Incounter15 incounter15;
+    public R_Incounter16 incounter16;
     public GameObject selectBtn;
     public Quest quest;
 
@@ -560,6 +564,65 @@ public class SelectBtn : MonoBehaviour
         incounter12.bifurcation = 1;
         selectBtn.SetActive(false);
     }
+    public void R13_Result1()
+    {
+        incounter13.transparency.SetActive(false);
+        incounter13.isWaitingForInput = true;
+        incounter13.bifurcation = 0;
+        selectBtn.SetActive(false);
+    }
+    public void R13_Result2()
+    {
+        incounter13.transparency.SetActive(false);
+        incounter13.isWaitingForInput = true;
+        incounter13.bifurcation = 1;
+        selectBtn.SetActive(false);
+    }
+    public void R14_Result1()
+    {
+        incounter14.transparency.SetActive(false);
+        incounter14.isWaitingForInput = true;
+        incounter14.bifurcation = 0;
+        selectBtn.SetActive(false);
+    }
+    public void R14_Result2()
+    {
+        incounter14.transparency.SetActive(false);
+        incounter14.isWaitingForInput = true;
+        incounter14.bifurcation = 1;
+        selectBtn.SetActive(false);
+    }
+
+    public void R15_Result1()
+    {
+        incounter15.transparency.SetActive(false);
+        incounter15.isWaitingForInput = true;
+        incounter15.bifurcation = 0;
+        selectBtn.SetActive(false);
+    }
+    public void R15_Result2()
+    {
+        incounter15.transparency.SetActive(false);
+        incounter15.isWaitingForInput = true;
+        incounter15.bifurcation = 1;
+        selectBtn.SetActive(false);
+    }
+
+    public void R16_Result1()
+    {
+        incounter16.transparency.SetActive(false);
+        incounter16.isWaitingForInput = true;
+        incounter16.bifurcation = 0;
+        selectBtn.SetActive(false);
+    }
+    public void R16_Result2()
+    {
+        incounter16.transparency.SetActive(false);
+        incounter16.isWaitingForInput = true;
+        incounter16.bifurcation = 1;
+        selectBtn.SetActive(false);
+    }
+
 
     public void Guied1()
     {

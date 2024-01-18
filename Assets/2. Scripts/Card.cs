@@ -27,6 +27,7 @@ public class Card : Entity
     public CardData Data => _data;
     public CardType cardType;
     public int ID;
+
     // Start is called before the first frame update
 
     private void OnEnable()

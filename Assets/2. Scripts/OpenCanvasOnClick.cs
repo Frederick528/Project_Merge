@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class OpenCanvasOnClick : MonoBehaviour
 {
-    public Canvas exchangeCanvas; 
+    public Canvas ExchangeCanvas; 
 
     void Update()
     {
@@ -17,7 +17,7 @@ public class OpenCanvasOnClick : MonoBehaviour
             {
                 if (hit.collider.CompareTag("Card"))
                 {
-                    exchangeCanvas.gameObject.SetActive(true);
+                    ExchangeCanvas.gameObject.SetActive(true);
                 }
             }
         }

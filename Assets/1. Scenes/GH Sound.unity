@@ -3249,7 +3249,6 @@ GameObject:
   - component: {fileID: 267788534}
   - component: {fileID: 267788533}
   - component: {fileID: 267788532}
-  - component: {fileID: 267788535}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -3322,10 +3321,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 620265148}
-        m_TargetAssemblyTypeName: UnityEngine.Object, UnityEngine
-        m_MethodName: 
-        m_Mode: 5
+      - m_Target: {fileID: 620265153}
+        m_TargetAssemblyTypeName: ShopController, Assembly-CSharp
+        m_MethodName: OnButtonClicked
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3372,20 +3371,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 267788530}
   m_CullTransparentMesh: 1
---- !u!114 &267788535
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 267788530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec2c3af2a4a9fde4fb40567de20a9d6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sortBtn: {fileID: 0}
-  newerCardEffect: {fileID: 0}
 --- !u!1 &277779273
 GameObject:
   m_ObjectHideFlags: 0
@@ -7976,6 +7961,7 @@ MonoBehaviour:
   - Water
   - Wood
   - Stone
+  selectCardCount: 0
 --- !u!1 &625387916
 GameObject:
   m_ObjectHideFlags: 0

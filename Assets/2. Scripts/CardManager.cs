@@ -48,7 +48,7 @@ public class CardManager : MonoBehaviour
         _ogCard ??= Resources.Load<GameObject>("Prefabs/RedCard");
 
         cardInstance = Instantiate(_ogCard, Instance.transform).GetComponent<Card>();
-        cardInstance.cardType = (Card.CardType)Random.Range(0, Enum.GetValues(typeof(Card.CardType)).Length - 1);
+        cardInstance.cardType = (Card.CardType)Random.Range(0, Enum.GetValues(typeof(Card.CardType)).Length - 2);
         cardInstance.Init(0);
         _cards.Add(cardInstance);
         
@@ -66,7 +66,7 @@ public class CardManager : MonoBehaviour
         {
             if(cardInstance.TryGetComponent(out Animator anim))
                 Destroy(anim);
-            cardInstance.transform.localPosition = CardManager.Areas[1].transform.localPosition + Vector3.up * 2;
+            cardInstance.transform.localPosition = CardManager.Areas[1].transform.localPosition + Vector3.up * 10;
         }
 
 

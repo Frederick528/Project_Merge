@@ -27,6 +27,10 @@ public class SelectBtn : MonoBehaviour
     public R_Incounter14 incounter14;
     public R_Incounter15 incounter15;
     public R_Incounter16 incounter16;
+    public R_Incounter17 incounter17;
+    public R_Incounter18 incounter18;
+    public R_Incounter19 incounter19;
+    public R_Incounter20 incounter20;
     public GameObject selectBtn;
     public Quest quest;
 
@@ -623,7 +627,70 @@ public class SelectBtn : MonoBehaviour
         selectBtn.SetActive(false);
     }
 
+    public void R17_Result1()
+    {
+        incounter17.transparency.SetActive(false);
+        incounter17.isWaitingForInput = true;
+        incounter17.bifurcation = 0;
+        selectBtn.SetActive(false);
+    }
+    public void R17_Result2()
+    {
+        incounter17.transparency.SetActive(false);
+        incounter17.isWaitingForInput = true;
+        incounter17.bifurcation = 1;
+        selectBtn.SetActive(false);
+    }
 
+    public void R18_Result1()
+    {
+        incounter18.transparency.SetActive(false);
+        incounter18.isWaitingForInput = true;
+        incounter18.bifurcation = 0;
+        selectBtn.SetActive(false);
+    }
+    public void R18_Result2()
+    {
+        incounter18.transparency.SetActive(false);
+        incounter18.isWaitingForInput = true;
+        incounter18.bifurcation = 1;
+        selectBtn.SetActive(false);
+    }
+
+    public void R19_Result1()
+    {
+        incounter19.transparency.SetActive(false);
+        incounter19.isWaitingForInput = true;
+        incounter19.bifurcation = 0;
+        selectBtn.SetActive(false);
+    }
+    public void R19_Result2()
+    {
+        incounter19.transparency.SetActive(false);
+        incounter19.isWaitingForInput = true;
+        incounter19.bifurcation = 1;
+        selectBtn.SetActive(false);
+    }
+    public void R20_Select()
+    {
+        incounter20.transparency.SetActive(false);
+        incounter20.isWaitingForInput = true;
+        selectBtn.SetActive(false);
+    }
+    public void R20_Result1()
+    {
+        incounter20.transparency.SetActive(false);
+        incounter20.isWaitingForInput = true;
+        incounter20.bifurcation = 0;
+        selectBtn.SetActive(false);
+    }
+    public void R20_Result2()
+    {
+        incounter20.transparency.SetActive(false);
+        incounter20.isWaitingForInput = true;
+        incounter20.bifurcation = 1;
+        selectBtn.SetActive(false);
+    }
     public void Guied1()
     {
         quest.Click1();

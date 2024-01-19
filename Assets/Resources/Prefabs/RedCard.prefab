@@ -286,7 +286,7 @@ GameObject:
   - component: {fileID: 3372015111406697291}
   - component: {fileID: 4538471029504486664}
   - component: {fileID: 8201129712195098135}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CardText
   m_TagString: Untagged
   m_Icon: {fileID: 0}

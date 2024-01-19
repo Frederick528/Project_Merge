@@ -32,8 +32,7 @@ public class ReadSpreadSheet : MonoBehaviour
             var data = new ArtifactData();
             data.Name = cells[1];
             data.Description = cells[2];
-            data.Type = Int32.Parse(cells[3].ToString());
-            data.Possession = Boolean.Parse(cells[4]);
+            data.Type = Boolean.TryParse(cells[3], out bool result);    //TryParse = no error / Parse & Convert = error
 
             artifactDB.Add(Convert.ToInt32(cells[0].ToString()), data);
         }

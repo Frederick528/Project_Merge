@@ -230,6 +230,25 @@ public class CardManager : MonoBehaviour
         }
     }
 
+    public static bool TryGetCardsByID(int id, out Card[] cards)
+    {
+        var result = true;
+
+        var arr = Cards.Where(x => x.ID == id).Select(x => x);
+
+        if (arr.Count() < 2)
+        {
+            cards = null;
+            result = false;
+        }
+        else
+        {
+            cards = arr.ToArray();
+        }
+        
+        return result;
+    }
+
    
 
     private void OnDestroy()

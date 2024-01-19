@@ -236,15 +236,7 @@ public class CardManager : MonoBehaviour
 
         var arr = Cards.Where(x => x.ID == id).Select(x => x);
 
-        if (arr.Count() < 2)
-        {
-            cards = null;
-            result = false;
-        }
-        else
-        {
-            cards = arr.ToArray();
-        }
+        cards = arr.ToArray();
         
         return result;
     }

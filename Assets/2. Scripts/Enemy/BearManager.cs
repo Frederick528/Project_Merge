@@ -129,7 +129,6 @@ public class BearManager : MonoBehaviour
         {
             Instance.bearApear =
                 Instantiate(Instance.bearApear).GetComponent<Canvas>();
-            Debug.Log(true);
         }
         else if (!Instance.bearApear.gameObject.activeSelf)
         {

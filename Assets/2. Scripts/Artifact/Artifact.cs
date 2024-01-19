@@ -1,27 +1,80 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Artifact : MonoBehaviour
 {
-    public Dictionary<string, bool> artifactActivate = new Dictionary<string, bool>();
-    // Start is called before the first frame update
-    void Start()
+    private ArtifactData data;
+    public ArtifactData Data { get { return data; } }
+
+    public int ID;
+
+    private Image[] image;
+
+    private void Start()
     {
-        artifactActivate.Add("test1", false);
-        artifactActivate.Add("test2", false);
-        artifactActivate.Add("test3", false);
-
+        image = GetComponentsInChildren<Image>(true);
     }
-
     // Update is called once per frame
     void Update()
     {
-        if (artifactActivate["test1"])
+
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    init();
+        //}
+        //try
+        //{
+        //    if(!ReadSpreadSheet.TryGetData(ID, out ArtifactData data))
+        //    {
+        //    }
+        //    else
+        //    {
+        //    }
+        //}
+
+        //catch (Exception ex)
+        //{
+            
+        //}
+    }
+    //public void init()
+    //{
+    //    if (ReadSpreadSheet.TryGetData(ID, out ArtifactData data))
+    //    {
+    //        artifactGroup.AddArtifact(this);
+    //    }
+    //}
+    private void OnMouseEnter()
+    {
+        try
         {
-            // shop discount
+            if (/*EventSystem.current.IsPointerOverGameObject() == false && */ReadSpreadSheet.TryGetData(ID, out ArtifactData data))
+            {
+                image[1].gameObject.SetActive(true);
+            }
+        }
+        catch
+        {
+            
         }
     }
-    
 
+    private void OnMouseExit()
+    {
+        try
+        {
+            if (ReadSpreadSheet.TryGetData(ID, out ArtifactData data))
+            {
+                image[1].gameObject.SetActive(false);
+            }
+        }
+        catch
+        {
+
+        }
+    }
 }

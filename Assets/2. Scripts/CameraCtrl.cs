@@ -9,8 +9,8 @@ public class CameraCtrl : MonoBehaviour
 
     //float height;
     //float width;
-    [SerializeField]
-    GameObject map;
+    //[SerializeField]
+    //GameObject map;
     //Vector3 mapSize;
 
     float screenUp = Screen.height * 0.92f;
@@ -180,7 +180,7 @@ public class CameraCtrl : MonoBehaviour
                 CoroutineInstance = null;
                 break;
             }
-
+            
             yield return new WaitForSeconds(0.02f);
         }
 

@@ -14,7 +14,7 @@ public class EncounterManager : MonoBehaviour
 
     private void Start()
     {
-        Occur();
+        //Occur();
     }
 
     private static void SetUp()
@@ -49,8 +49,30 @@ public class EncounterManager : MonoBehaviour
         _encounterCanvas.SetText(2, "뭔 헛소리를 하는거야...");
     }
 
+
+    public static void Occur(string [] texts, Action[] onClicks)
+    {
+        GameManager.CardCanvasOn = true;
+        SetUp();
+        
+        _encounterCanvas.Init(() =>
+        {
+            onClicks[0]();
+            Resolve();
+        },() =>
+        {
+            onClicks[1]();
+            Resolve();
+        });
+
+        _encounterCanvas.SetText(0, texts[0]);
+        _encounterCanvas.SetText(1, texts[1]);
+        _encounterCanvas.SetText(2, texts[2]);
+    }
+
     private static void Resolve()
     {
         _encounterCanvas.gameObject.SetActive(false);
+        GameManager.CardCanvasOn = false;
     }
 }

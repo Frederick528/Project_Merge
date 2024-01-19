@@ -26,7 +26,9 @@ public class CardManager : MonoBehaviour
     private void Awake()
     {
         Instance ??= this;
-        sortBtn = GameObject.Find("Sort").GetComponent<Button>();
+        var v = GameObject.Find("Sort");
+        if (v != null)
+            v.TryGetComponent<Button>(out sortBtn);
     }
 
     void Start()
@@ -36,67 +38,55 @@ public class CardManager : MonoBehaviour
     public static Card CreateCard()
     {
         var v = CreateCard(false);
-        CreateQueue.Enqueue(v);
         return v;
     }
     
     public static Card CreateCard(bool isOnMerge)
     {
-        if(!isOnMerge)
+        Card cardInstance;
+        
+        _ogCard ??= Resources.Load<GameObject>("Prefabs/RedCard");
+
+        cardInstance = Instantiate(_ogCard, Instance.transform).GetComponent<Card>();
+        cardInstance.cardType = (Card.CardType)Random.Range(0, Enum.GetValues(typeof(Card.CardType)).Length - 1);
+        cardInstance.Init(0);
+        _cards.Add(cardInstance);
+        
+        if (!isOnMerge)
         {
-            _ogCard ??= Resources.Load<GameObject>("Prefabs/RedCard");
-
-            var cardInstance = Instantiate(_ogCard, Instance.transform).GetComponent<Card>();
-            cardInstance.cardType = (Card.CardType)Random.Range(0, Enum.GetValues(typeof(Card.CardType)).Length - 1);
-            cardInstance.Init(0);
-            _cards.Add(cardInstance);
-
             CameraCtrl.MoveToLerp(new Vector3()
             {
                 x = 0,
                 y = Camera.main.transform.position.y,
                 z = 80
             }, 50);
-
-            return cardInstance;
+            CreateQueue.Enqueue(cardInstance);
         }
         else
         {
-            _ogCard ??= Resources.Load<GameObject>("Prefabs/RedCard");
-
-            var cardInstance = Instantiate(_ogCard, Instance.transform).GetComponent<Card>();
-            cardInstance.cardType = (Card.CardType)Random.Range(0, Enum.GetValues(typeof(Card.CardType)).Length - 1);
-            cardInstance.Init(0);
-            _cards.Add(cardInstance);
-
-            return cardInstance;
+            if(cardInstance.TryGetComponent(out Animator anim))
+                Destroy(anim);
+            cardInstance.transform.localPosition = CardManager.Areas[1].transform.localPosition + Vector3.up * 2;
         }
-    }
-    public static Card CreateCard(int level, int type )
-    {
-        var result = CreateCard();
-        result.cardType = (Card.CardType)type;
-        result.Init(level);
-        return result;
-    }
-    public static Card CreateCard(int level, int type, bool isOnMerge )
-    {
-        if (!isOnMerge) return CreateCard(level, type);
-        var result = CreateCard(true);
-        result.cardType = (Card.CardType)type;
-        result.Init(level);
-        return result;
+
+
+        return cardInstance;
     }
 
-    public static Card CreateCard(int ID)
+    public static Card CreateCard(int level, int type, bool isOnMerge = false)
     {
-        var result = CreateCard();
+        var result = CreateCard(isOnMerge);
+        result.cardType = (Card.CardType)type;
+        result.Init(level);
+        return result;
+    }
+    public static Card CreateCard(int ID, bool isOnMerge = false)
+    {
+        var result = CreateCard(isOnMerge);
         result.Init(ID, out bool res);
         result.ID = ID;
         return result;
     }
-
-
 
     public static bool DestroyCard(Card target)
     {
@@ -133,7 +123,12 @@ public class CardManager : MonoBehaviour
             for (int i = 0; i < v.Count();)
             {
                 var c = v.ElementAt(i);
+                if (c.transform.parent.TryGetComponent(out CardGroup group))
+                {
+                    group.RemoveCard(c);
+                }
                 _cards.Remove(c);
+                
                 Destroy(c.gameObject);
             }
         }
@@ -227,7 +222,6 @@ public class CardManager : MonoBehaviour
             }
             else
             {
-                
                 Card.MoveToLerp(v.ElementAt(0).gameObject, tPos);
             }
 

@@ -466,7 +466,12 @@ public class Card : Entity
             if (flag[0] && flag[1]) //put card group onto merging area
             {
                 if ( !CheckRulesForGroup(tg))
+                {
+                    BearManager.Notice($"상위 티어의 카드를 해금하기 위해선\n" +
+                                       $"같은 티어의 카드를 8장 이상 모아야합니다.\n" +
+                                       $"현재 {level + 1}티어 카드 {CardManager.Cards.Select(x => x).Where(x => x.level == this.level).Count()}장");
                     Debug.Log("규칙 오류 or Merge 조건 미달성");
+                }
             } 
             else if (t1.transform.parent.TryGetComponent(out CardGroup hg)) // 카드 그룹 + 카드 그룹 || 그룹 + 카드
             {
@@ -505,7 +510,13 @@ public class Card : Entity
                     hg.InsertCard(card);
                     
                     if ( !CheckRulesForGroup(hg))
+                    {
                         Debug.Log("규칙 오류 or Merge 조건 미달성");
+                        BearManager.Notice($"상위 티어의 카드를 해금하기 위해선\n" +
+                                           $"같은 티어의 카드를\n" +
+                                           $"8장 이상 모아야합니다.\n" +
+                                           $"현재 {level + 1}티어 카드 {CardManager.Cards.Select(x => x).Where(x => x.level == this.level).Count()}장");
+                    }
                 }
                 else if (handled != null) //put card onto card
                 {
@@ -545,6 +556,10 @@ public class Card : Entity
                     else
                     {
                         Debug.Log("failed " + ignoreLimit );
+                        BearManager.Notice($"상위 티어의 카드를 해금하기 위해선\n" +
+                            $"같은 티어의 카드를\n" +
+                            $"8장 이상 모아야합니다.\n" +
+                            $"현재 {level + 1}티어 카드 {CardManager.Cards.Select(x => x).Count(x => x.level == this.level)}장");
                     }
                 }
             }

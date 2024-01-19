@@ -23,11 +23,9 @@ public abstract class Mergeable : Draggable
     }
     
     // 실제로 합쳤을 때 실행될 메소드
-    protected void OnMergeEnter(GameObject t1, GameObject t2)
+    protected virtual void OnMergeEnter()
     {
-        
         initCheck();
-        OnMerge(t1, t2);
     }
 
     // protected void OnMergeEnter(IEnumerable<Mergeable> mergeable)

@@ -9,8 +9,8 @@ public class CameraCtrl : MonoBehaviour
 
     //float height;
     //float width;
-    [SerializeField]
-    GameObject map;
+    //[SerializeField]
+    //GameObject map;
     //Vector3 mapSize;
 
     float screenUp = Screen.height * 0.92f;
@@ -180,7 +180,7 @@ public class CameraCtrl : MonoBehaviour
                 CoroutineInstance = null;
                 break;
             }
-
+            
             yield return new WaitForSeconds(0.02f);
         }
 
@@ -202,7 +202,8 @@ public class CameraCtrl : MonoBehaviour
                 };
                 Camera.main.transform.position =
                     Vector3.Lerp(Camera.main.transform.position, targetPos, 0.4f);
-                Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, fieldOfView, 0.4f);
+                //Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, fieldOfView, 0.4f);
+                Camera.main.fieldOfView = fieldOfView;
 
                 if (Input.GetMouseButton(1))
                 {

@@ -60,6 +60,7 @@ public class R_Incounter2 : MonoBehaviour
         {
             incounter.SetActive(false);
             nextBtn.interactable = true;
+            //Turn.Instance.nextBtn.interactable = true;
             blockUI.SetActive(false);
             closeBtn.SetActive(false);
             GameManager.CardCanvasOn = false;

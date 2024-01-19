@@ -32,7 +32,7 @@ public class BearManager : MonoBehaviour
 
     private void Awake()
     {
-        _bearPrefab ??= Resources.Load<GameObject>("Prefabs/Enemy/Bear");
+        _bearPrefab ??= Resources.LoadAsync("Prefabs/Enemy/Bear").asset as GameObject;
         _instance ??= this;
         _turnSkip = turnChanger;
 
@@ -129,12 +129,10 @@ public class BearManager : MonoBehaviour
         {
             Instance.bearApear =
                 Instantiate(Instance.bearApear).GetComponent<Canvas>();
-            Debug.Log(true);
         }
         else if (!Instance.bearApear.gameObject.activeSelf)
         {
             Instance.bearApear.gameObject.SetActive(true);
-            Debug.Log(true);
         }
         
         try

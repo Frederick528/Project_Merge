@@ -16,12 +16,11 @@ public class Bear : MonoBehaviour
     private float _spd = 3260f;
     private bool _isMovable = true;
     
-    [SerializeField]
-    private int _hitPoint = 1;
+    public int hitPoint = 1;
     
     public Card Target = null;
-    public int HitPoint => _hitPoint;
-    public bool IsDead => _hitPoint <= 0;
+    public int HitPoint => hitPoint;
+    public bool IsDead => hitPoint <= 0;
     
     // Start is called before the first frame update
     void Awake()
@@ -94,7 +93,7 @@ public class Bear : MonoBehaviour
         StartCoroutine(AnimationController());
 
         //_hitPoint = CoreController.TurnCnt + 1;
-        _hitPoint = 1;
+        hitPoint = 1;
     }
 
     private bool SetTarget(out Card target)
@@ -219,9 +218,16 @@ public class Bear : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent(out Card card) && other.transform.position.y > this.transform.position.y + 0.3f)
         {
+            if (other.transform.TryGetComponent(out CardGroup g))
+                if (g.IndexOf(card) != 0)
+                {
+                    g.RemoveCard(card);
+                    
+                    return;
+                }
             if (card.ID > 2000)
             {
-                this._hitPoint -= card.ID % 10 + 1;
+                this.hitPoint -= card.ID % 10 + 1;
                 if(IsDead)
                 {
                     OnDead();
@@ -236,7 +242,7 @@ public class Bear : MonoBehaviour
         BearManager.RemoveBear(this);
     }
 
-    private void OnDead()
+    public void OnDead()
     {
         _isMovable = false;
         Target = null;

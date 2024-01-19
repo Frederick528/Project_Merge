@@ -19,7 +19,10 @@ public class GameCore
     public bool IsGameStarted => _isGameStarted;
     public Stat Status => _status;
 
-    public ushort Difficulty = 0;
+    //public ushort Difficulty = 0;
+
+    public int HungerDifficulty = 0;
+    public int ThirstDifficulty = 0;
     
     
     //낮인지 밤인지 구분하기 위한 맴버
@@ -63,7 +66,7 @@ public class GameCore
         if (IsMorning)
         {
             #region GameOverTrigger
-                if (!(ModifyHunger(-1 * Difficulty) && ModifyThirst(-1 * Difficulty)))
+                if (!(ModifyHunger(-1 * HungerDifficulty) && ModifyThirst(-1 * ThirstDifficulty)))
                 {
                     EndGame();
                     result = false;
@@ -95,14 +98,14 @@ public class GameCore
     {
         var result = _status.curHunger + amount > 0;
         if (result)
-            _status.curHunger += amount;
+            _status.curHunger = ((_status.curHunger + amount) > _status.maxHunger) ? _status.maxHunger : _status.curHunger + amount;
         return result;
     }
     public bool ModifyThirst(int amount)
     {
         var result = _status.curThirst + amount > 0;
         if (result)
-            _status.curThirst += amount;
+            _status.curThirst = ((_status.curThirst + amount) > _status.maxThirst) ? _status.maxThirst : _status.curThirst + amount;
         return result;
     }
 }

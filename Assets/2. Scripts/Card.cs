@@ -24,6 +24,8 @@ public class Card : Entity
     public CardData Data => _data;
     public CardType cardType;
     public int ID;
+
+    public static CancellationTokenSource RayCastToken = new ();
     // Start is called before the first frame update
 
     private void OnEnable()
@@ -235,8 +237,7 @@ public class Card : Entity
     public override void OnMouseUp()
     {
         _rigid.isKinematic = false;
-        var tokenSource = new CancellationTokenSource();
-        CollisionChecker(tokenSource);
+        CollisionChecker(RayCastToken);
         if (this.transform.parent.TryGetComponent(out CardGroup hg))
         {
             if (hg.IndexOf(this).Equals(hg.Count - 1))
@@ -654,7 +655,7 @@ public class Card : Entity
         {
             if (tokenSource.Token.IsCancellationRequested)
                 break;
-            if (Physics.Raycast(this.transform.position, Vector3.down, 1f))
+            if (Physics.Raycast(this.transform.position, Vector3.down, 1f, LayerMask.NameToLayer("Floor")))
             {
                 //카드를 내려놓았을 때 바닥으로 레이를 쏴서 닿으면 hit
                 Camera.main.transform.position += Vector3.down;
@@ -664,5 +665,9 @@ public class Card : Entity
             }
             await UniTask.Delay(100, cancellationToken: tokenSource.Token);
         }
+        RayCastToken.Cancel();
+        RayCastToken.Dispose();
+
+        RayCastToken = new CancellationTokenSource();
     }
 }

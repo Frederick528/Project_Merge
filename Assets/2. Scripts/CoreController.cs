@@ -345,7 +345,8 @@ public class CoreController : MonoBehaviour
         {
             Debug.Log("AP가 부족합니다.");
             BearManager.Notice("행동력이 부족합니다\n" +
-                               "행동력은 턴의 경과에 따라 자연스럽게 회복됩니다.");
+                               "행동력은 턴의 경과에 따라\n" +
+                               "자연스럽게 회복됩니다.");
         }
     }
 

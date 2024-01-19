@@ -9,10 +9,13 @@ using Image = UnityEngine.UI.Image;
 using Random = UnityEngine.Random;
 using Button = UnityEngine.UI.Button;
 using System.Net.NetworkInformation;
+using Cysharp.Threading.Tasks.CompilerServices;
 
 public class ShopController : MonoBehaviour
 {
     private const int cnt = 4;
+    private const int term = 2;
+
     public GameObject shopCanvas;
     public GameObject exchangeCanvasUI;
     public GameObject buypanel;
@@ -29,11 +32,14 @@ public class ShopController : MonoBehaviour
     public Sprite[] card2Tiers = new Sprite[cnt];
     public Sprite[] card3Tiers = new Sprite[cnt];
 
-    public int[] cardID = new int[] {1010, 1020, 2010, 2020};
+    public int[] cardID = new int[] { 1010, 1020, 2010, 2020 };
+    private bool[] canBuy = new bool[4] { true, true, true, true };
+    private int buyIdx;
     public string[] cardType = new string[] {"Food", "Water", "Wood", "Stone"};
 
     public int selectCardCount;
-
+    public int selectCardID;
+    private List<int> purchasedCardIDs = new List<int>();
 
     private void Start()
     {
@@ -55,7 +61,10 @@ public class ShopController : MonoBehaviour
 
     private void OnEnable()
     {
-
+        for (int i = 0; i < cnt; i++)
+        {
+            canBuy[i] = true;
+        }
     }
 
     public void BuyCancel()
@@ -70,6 +79,7 @@ public class ShopController : MonoBehaviour
         }
         buypanel.SetActive(!buypanel.activeSelf);
         selectCardCount = 0;
+        selectCardID = 0;
     }
     public void ExchangeSence()
     {
@@ -90,13 +100,14 @@ public class ShopController : MonoBehaviour
         }
     }
 
+
     public void IncreaseCount(int idx)
     {
-        if (selectCardCount >= 2)
+        if (selectCardCount >= term)
             return;
-        buyCnt[idx] = Mathf.Clamp(int.Parse(countText[idx].text) + 1, 0, cardCount[idx].Length);
         if (buyCnt[idx] < cardCount[idx].Length)
             selectCardCount++;
+        buyCnt[idx] = Mathf.Clamp(int.Parse(countText[idx].text) + 1, 0, cardCount[idx].Length);
         countText[idx].text = buyCnt[idx].ToString();
         print(selectCardCount);
     }
@@ -116,68 +127,66 @@ public class ShopController : MonoBehaviour
         {
             buyButton[i].onClick.RemoveAllListeners();
             float rand = Random.Range(0, 0.99f);
-            if(rand < 0.5f)
+            if (rand < 0.5f)
             {
-                int shopLevel = 1;
-                buyButton[i].image.sprite = Resources.Load<Sprite>($"Images/{cardType[i]}/{cardID[i] + shopLevel}");
-                //버튼 클릭시 온클릭 이벤트 추가
-                buyButton[i].onClick.AddListener(() =>
-                {
-                    for (int x = 0; x < cnt; x++)
-                    {
-                        print(cardID[x] + shopLevel - 1);
-                        buttons[x].image.sprite = Resources.Load<Sprite>($"Images/{cardType[x]}/{cardID[x] + shopLevel - 1}"); ;
-                        CardManager.TryGetCardsByID(cardID[x] + shopLevel - 1, out Card[] cards);
-                        cardCount[x] = cards;
-                        cardCountText[x].text = cardCount[x].Length.ToString();
-                    }
-                    //CardManager.TryGetCardsByID(1010, out Card[] foodCards);
-                    //cardCount[0] = foodCards;
-                    //CardManager.TryGetCardsByID(1020, out Card[] waterCards);
-                    //cardCount[1] = waterCards;
-                    //CardManager.TryGetCardsByID(2010, out Card[] woodCards);
-                    //cardCount[2] = woodCards;
-                    //CardManager.TryGetCardsByID(2020, out Card[] stoneCards);
-                    //cardCount[3] = stoneCards;
-                });
+                OpenShopSetting(i, 1);
+            }
+            else if (rand < 0.9f)
+            {
+                OpenShopSetting(i, 2);
+            }
+            else if (rand < 0.95f)
+            {
+                OpenShopSetting(i, 3);
             }
             else
             {
-                int shopLevel = 2;
-                buyButton[i].image.sprite = Resources.Load<Sprite>($"Images/{cardType[i]}/{cardID[i] + shopLevel}");
-                //buyButton[i].image.sprite = card3Tiers[i];
-                buyButton[i].onClick.AddListener(() =>
-                {
-                    for (int x = 0; x < cnt; x++)
-                    {
-                        print(cardID[x] + shopLevel - 1);
-                        buttons[x].image.sprite = Resources.Load<Sprite>($"Images/{cardType[x]}/{cardID[x] + shopLevel - 1}"); ;
-                        CardManager.TryGetCardsByID(cardID[x] + shopLevel - 1, out Card[] cards);
-                        cardCount[x] = cards;
-                        cardCountText[x].text = cardCount[x].Length.ToString();
-                    }
-                    //CardManager.TryGetCardsByID(1011, out Card[] foodCards);
-                    //cardCount[0] = foodCards;
-                    //CardManager.TryGetCardsByID(1021, out Card[] waterCards);
-                    //cardCount[1] = waterCards;
-                    //CardManager.TryGetCardsByID(2011, out Card[] woodCards);
-                    //cardCount[2] = woodCards;
-                    //CardManager.TryGetCardsByID(2021, out Card[] stoneCards);
-                    //cardCount[3] = stoneCards;
-                });
+                OpenShopSetting(i, 4);
             }
         }
     }
-    public void OnButtonClicked(int objectId)
+    public void OnButtonClicked()
     {
-        CardManager.DestroyCard(cardCount[objectId][0]);
-        CardManager.DestroyCard(cardCount[objectId][1]);
-        //CardManager.CreateCard();
-        
+        if (selectCardCount < term)
+            return;
+        print(canBuy[buyIdx]);
+        canBuy[buyIdx] = false;
+        print(canBuy[buyIdx]);
+        for (int z = 0;  z < cnt; z++)
+        {
+            for(int y = 0; y < buyCnt[z]; y++)
+            {
+                CardManager.DestroyCard(cardCount[z][^(y+1)]);
+            }
+        }
+        CardManager.CreateCard(selectCardID);
+
+        BuyCancel();
+
     }
 
-    private void DestroyObject()
+    /// <summary>
+    /// 상점 카드 셋팅
+    /// </summary>
+    /// <param name="idx">구매 상품 인덱스</param>
+    /// <param name="shopLevel">구매 상품 레벨</param>
+    public void OpenShopSetting(int idx, int shopLevel)
     {
-        throw new NotImplementedException();
+
+        buyButton[idx].image.sprite = Resources.Load<Sprite>($"Images/{cardType[idx]}/{cardID[idx] + shopLevel}");
+        if (canBuy[idx] == false)
+            return;
+        buyButton[idx].onClick.AddListener(() =>
+        {
+            buyIdx = idx;
+            selectCardID = cardID[idx] + shopLevel;
+            for (int x = 0; x < cnt; x++)
+            {
+                buttons[x].image.sprite = Resources.Load<Sprite>($"Images/{cardType[x]}/{cardID[x] + shopLevel - 1}"); ;
+                CardManager.TryGetCardsByID(cardID[x] + shopLevel - 1, out Card[] cards);
+                cardCount[x] = cards;
+                cardCountText[x].text = cardCount[x].Length.ToString();
+            }
+        });
     }
 }

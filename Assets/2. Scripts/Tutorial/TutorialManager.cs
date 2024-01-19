@@ -191,6 +191,7 @@ public class TutorialManager : MonoBehaviour
                     await op;
                     return;
                 }
+                
                 var t = OpenMsg(_currentIdx);
                 //objects.kohaku.transform.rotation = Quaternion.Euler(Vector3.down * 180);
                 

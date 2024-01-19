@@ -4316,6 +4316,8 @@ MonoBehaviour:
   clickEffect: {fileID: 466255862}
   eatCardImg: {fileID: 0}
   cardContents: {fileID: 0}
+  addHungerValue: 0
+  addThirstValue: 0
   eatEffect: {fileID: 4093443996590237240, guid: 62f83de5a8a2dee45a1bc61df05eedf2, type: 3}
   mergeAnim: {fileID: 1448378022}
   mergeEffect: {fileID: 1448378019}

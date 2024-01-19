@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public static bool CardCanvasOn = false;
+
+    public Dictionary<int, bool> ArtifactDict = new();
     
     [SerializeField]
     public bool isTutorial = false;

@@ -300,11 +300,12 @@ public class UnityChanController : Draggable
                 }
                 if (_faceToken.IsCancellationRequested)
                     break;
-                await UniTask.Delay((int)(talkSystem.freq * 1000), cancellationToken: _faceToken.Token);
             }
 
             idx++;
+            await UniTask.Delay((int)(talkSystem.freq * 1000), cancellationToken: _faceToken.Token);
         }
+        
     }
 
     public void SetAnim(string animName)

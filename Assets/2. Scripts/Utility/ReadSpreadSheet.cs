@@ -16,10 +16,10 @@ public class ReadSpreadSheet : MonoBehaviour
             dataGS = www.downloadHandler.text;
 
 
-            //if (www.isDone)
-            //{
-            //    CreateDB();
-            //}
+            if (www.isDone)
+            {
+                CreateDB();
+            }
         }
     }
     private static Dictionary<int, ArtifactData> CreateDB()
@@ -32,11 +32,13 @@ public class ReadSpreadSheet : MonoBehaviour
             var data = new ArtifactData();
             data.Name = cells[1];
             data.Description = cells[2];
-            data.Type = Boolean.TryParse(cells[3], out bool result);    //TryParse = no error / Parse & Convert = error
+            data.Type = Boolean.Parse(cells[3]);
 
             artifactDB.Add(Convert.ToInt32(cells[0].ToString()), data);
+            GameManager.Instance.ArtifactDict.Add(Convert.ToInt32(cells[0].ToString()), false);
         }
-        return artifactDB;
+        dataDtct = artifactDB;
+        return dataDtct;
     }
     public static bool TryGetData(int key, out ArtifactData data)
     {

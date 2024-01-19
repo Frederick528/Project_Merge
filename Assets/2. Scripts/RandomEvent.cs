@@ -8,7 +8,7 @@ public class RandomEvent : MonoBehaviour
     GameObject incounter1, incounter2, incounter3, incounter4, incounter5,
                incounter6, incounter7, incounter8, incounter9, incounter10,
                incounter11, incounter12, incounter13, incounter14, incounter15, 
-               incounter16;
+               incounter16, incounter17, incounter18, incounter19, incounter20;
     static int Random_event;
 
     static List<GameObject> IncounterList = new();
@@ -31,6 +31,10 @@ public class RandomEvent : MonoBehaviour
         IncounterList.Add(incounter14);
         IncounterList.Add(incounter15);
         IncounterList.Add(incounter16);
+        IncounterList.Add(incounter17);
+        IncounterList.Add(incounter18);
+        IncounterList.Add(incounter19);
+        IncounterList.Add(incounter20);
     }
 
     public static void SpawnPlay()

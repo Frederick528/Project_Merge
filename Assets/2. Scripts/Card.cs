@@ -16,7 +16,8 @@ public class Card : Entity
         Water,
         Wood,
         Stone,
-        Combination
+        Combination,
+        Merchant
     }
     private CardData _data;
     private Animator _anim;
@@ -25,6 +26,7 @@ public class Card : Entity
     public CardType cardType;
     public int ID;
 
+    public static CancellationTokenSource RayCastToken = new ();
     // Start is called before the first frame update
 
     private void OnEnable()
@@ -116,6 +118,12 @@ public class Card : Entity
                 GetComponent<MeshRenderer>().material = 
                     Resources.Load<Material>($"Prefabs/Materials/Combination/{ID}");
                 cardType = CardType.Combination;
+                level = 5;
+                break;
+            case 500:
+                GetComponent<MeshRenderer>().material = 
+                    Resources.Load<Material>($"Prefabs/Materials/Combination/{ID}");
+                cardType = CardType.Merchant;
                 level = 5;
                 break;
             default:
@@ -236,8 +244,15 @@ public class Card : Entity
     public override void OnMouseUp()
     {
         _rigid.isKinematic = false;
-        var tokenSource = new CancellationTokenSource();
-        CollisionChecker(tokenSource);
+
+        if (this.ID / 10 == 500)
+        {
+            MouseRightClick.Instance.ShowCardInfo(this.ID);
+            Debug.Log("Create Merchant");
+            return;
+        }
+        
+        CollisionChecker(RayCastToken);
         if (this.transform.parent.TryGetComponent(out CardGroup hg))
         {
             if (hg.IndexOf(this).Equals(hg.Count - 1))
@@ -253,37 +268,7 @@ public class Card : Entity
         var bears = from v in results
             where v.TryGetComponent(out Bear b)
             select v.GetComponent<Bear>();
-
         
-        // if (bears.Count() != 0)
-        // {
-        //     var destroyTarget = this;
-        //     if (hg != null)
-        //     {
-        //         // var oEm = from c in hg.Cards
-        //         //     where c.ID is >= 2000 and < 3000
-        //         //     orderby c.ID
-        //         //     select c;
-        //         // var v = new List<Card>(oEm);
-        //         //카드 그룹이 있는데, 카드 그룹의 마지막 인덱스가 아닐 경우 리턴
-        //         if (hg.IndexOf(this) != hg.Count - 1)
-        //             return;
-        //         Debug.Log(true);
-        //         destroyTarget = hg.RemoveCard(this);
-        //     }
-        //
-        //     if (destroyTarget.ID is >= 2000 and < 3000)
-        //     {
-        //         bears.ElementAt(0).hitPoint -= destroyTarget.ID % 10 + 1;
-        //         if (bears.ElementAt(0).IsDead)
-        //         {
-        //             bears.ElementAt(0).OnDead();
-        //         }
-        //         CardManager.DestroyCard(destroyTarget);
-        //     }
-        //     
-        //     return;
-        // }
         for (int i = 1; i < results.Length; i++)
         {
             var target = results[i].gameObject;
@@ -436,6 +421,12 @@ public class Card : Entity
     protected override void OnMerge(GameObject t1, GameObject t2)
     {
         OnMerge(t1, t2, false);
+    }
+
+    protected override void OnMergeEnter()
+    {
+        base.OnMergeEnter();
+        RayCastToken.Cancel();
     }
 
     private void OnMerge(GameObject t1, GameObject t2, bool ignoreLimit)
@@ -655,7 +646,9 @@ public class Card : Entity
         {
             if (tokenSource.Token.IsCancellationRequested)
                 break;
-            if (Physics.Raycast(this.transform.position, Vector3.down, 1f))
+            if (this.gameObject == null)
+                break;
+            if (Physics.Raycast(this.transform.position, Vector3.down, 1f, LayerMask.NameToLayer("Floor")))
             {
                 //카드를 내려놓았을 때 바닥으로 레이를 쏴서 닿으면 hit
                 Camera.main.transform.position += Vector3.down;
@@ -665,5 +658,9 @@ public class Card : Entity
             }
             await UniTask.Delay(100, cancellationToken: tokenSource.Token);
         }
+        RayCastToken.Cancel();
+        RayCastToken.Dispose();
+
+        RayCastToken = new CancellationTokenSource();
     }
 }

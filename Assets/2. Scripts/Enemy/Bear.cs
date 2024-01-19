@@ -219,30 +219,12 @@ public class Bear : MonoBehaviour
         if (other.gameObject.TryGetComponent(out Card card) && other.transform.position.y > this.transform.position.y + 0.3f)
         {
             if (other.transform.parent.TryGetComponent(out CardGroup g))
-                if (g.IndexOf(card) == 0)
-                {
-                    Debug.Log(true);
-                    var c = g.RemoveCard(card);
-                    Destroy(c.gameObject);
-
-                    var col = this.GetComponent<Collider>();
-                    col.enabled = false;
-                    
-                    this.hitPoint -= card.ID % 10 + 1;
-                    if(IsDead)
-                    {
-                        OnDead();
-                    }
-                    
+                if (g.IndexOf(card) != 0)
                     return;
-                }
-                else
-                {
-                    return;
-                }
             if (card.ID > 2000)
             {
-                Destroy(card);
+                Card.RayCastToken.Cancel();
+                CardManager.DestroyCard(card);
 
                 var col = this.GetComponent<Collider>();
                 col.enabled = false;

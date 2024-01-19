@@ -64,6 +64,8 @@ public class GameManager : MonoBehaviour
                 Cts = new CancellationTokenSource();
             }
 
+            if (this.gameObject == null) break;
+            
             await UniTask.Delay(100);
         }
     }

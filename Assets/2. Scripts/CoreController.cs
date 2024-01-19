@@ -86,6 +86,7 @@ public class CoreController : MonoBehaviour
             {
                 //StatUICanvas.gameObject.SetActive(true);
                 StatUICanvas.statUI.Hunger[1].fillAmount = 1 - (x / _core.Status.maxHunger);
+                StatUICanvas.statUI.Texts[5].text = (_core.HungerDifficulty != 0) ? (-_core.HungerDifficulty).ToString() : "";
 
                 // if (x == 0) return;
                 //     _instance.StatUICanvas.gameObject.SetActive(true);
@@ -97,6 +98,7 @@ public class CoreController : MonoBehaviour
             {
                 //StatUICanvas.gameObject.SetActive(true);
                 StatUICanvas.statUI.Thirst[1].fillAmount = 1 - (x / _core.Status.maxThirst);
+                StatUICanvas.statUI.Texts[6].text = (_core.ThirstDifficulty != 0) ? (-_core.ThirstDifficulty).ToString() : "";
             });
             HungerFluctuation.Subscribe(x =>
                 StatUICanvas.statUI.Hunger[2].fillAmount = 1 - (x / _core.Status.maxHunger)
@@ -166,6 +168,13 @@ public class CoreController : MonoBehaviour
             TutorialManager.WaitButtonCallBack = true;
             return;
         }
+
+        var merchant = CardManager.Cards.Select(x => x);
+        if (merchant.Count(x => x.ID >= 5000) > 0)
+        {
+            CardManager.DestroyCard(
+                merchant.Select(x => x).Where(x => x.ID > 5000));
+        }
         
         if(BearManager.Count > 0 )
         {
@@ -227,10 +236,10 @@ public class CoreController : MonoBehaviour
             HungerFluctuation.Value += _core.HungerDifficulty;
             ThirstDifficulty.Value += _core.ThirstDifficulty;
             ThirstFluctuation.Value += _core.ThirstDifficulty;
-
-
+            
 
             lightAnim.SetTrigger("Dawn");
+            BearManager.BearLeave();
             //EncounterManager.Occur();
         }
         else if (_core.IsMorning)
@@ -245,14 +254,12 @@ public class CoreController : MonoBehaviour
         }
         if (_core.IsDayTime)
         {
-            bearFlag = Random.Range(0, 10);
             
             lightAnim.SetTrigger("DayTime");
         }
         else if (_core.IsNightTime)
         {
-            BearManager.BearLeave();
-            
+            bearFlag = Random.Range(0, 10);
             lightAnim.SetTrigger("Night");
         }
 
@@ -345,7 +352,8 @@ public class CoreController : MonoBehaviour
         {
             Debug.Log("AP가 부족합니다.");
             BearManager.Notice("행동력이 부족합니다\n" +
-                               "행동력은 턴의 경과에 따라 자연스럽게 회복됩니다.");
+                               "행동력은 턴의 경과에 따라\n" +
+                               "자연스럽게 회복됩니다.");
         }
     }
 

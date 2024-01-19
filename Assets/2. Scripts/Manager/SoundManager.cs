@@ -42,24 +42,23 @@ public class SoundManager : MonoBehaviour
     [Header("Card Drop Sound")]
     public AudioClip ds10;
 
-    [Header("New Card Sound")]
+    [Header("Click Sound")]
     public AudioClip ds11;
 
-    [Header("Click Sound")]
+    [Header("스토리 진행중")]
     public AudioClip ds12;
 
-    [Header("Chat Flip Sound")]
+    [Header("곰 출현중")]
     public AudioClip ds13;
 
-    [Header("Chat Select Sound")]
+    [Header("Bear kill Sound")]
     public AudioClip ds14;
 
-    [Header("Bear kill Sound")]
+    [Header("Card Distroy Sound")]
     public AudioClip ds15;
 
-    [Header("Card Distroy Sound")]
+    [Header("BGM")]
     public AudioClip ds16;
-
     //private void Awake()
     //{
     //    instance = this;

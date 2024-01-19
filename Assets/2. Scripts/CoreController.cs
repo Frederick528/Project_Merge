@@ -185,11 +185,12 @@ public class CoreController : MonoBehaviour
 
                 CardManager.DestroyCard(foods);
                 
-                Debug.Log("곰들이 남은 음식들을 모조리 먹어치웠습니다.");
+                BearManager.Notice("공격 가능한 수단이 없어\n곰들이 음식을 모조리 먹어치웠습니다.");
             }
             else
             {
                 Debug.Log("턴을 종료 할 수 없습니다.");
+                BearManager.Notice("곰들이 아직 남아 있어\n턴을 종료 할 수 없습니다!");
                 return;
             }
             
@@ -370,7 +371,12 @@ public class CoreController : MonoBehaviour
         if (ModifyAP(-1))
             CardManager.CreateCard();
         else
+        {
             Debug.Log("AP가 부족합니다.");
+            BearManager.Notice("행동력이 부족합니다\n" +
+                               "행동력은 턴의 경과에 따라\n" +
+                               "자연스럽게 회복됩니다.");
+        }
     }
 
     public void SetDifficulty(ushort value)

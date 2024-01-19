@@ -109,7 +109,7 @@ public class Bear : MonoBehaviour
             where card.ID < 2000
             orderby Vector3.Distance(this.transform.position, card.transform.position)
             select card;
-
+        
         if (v.Any())
             target = v.ElementAt(0);
         else if (_isMovable)
@@ -218,21 +218,22 @@ public class Bear : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent(out Card card) && other.transform.position.y > this.transform.position.y + 0.3f)
         {
-            if (other.transform.TryGetComponent(out CardGroup g))
+            if (other.transform.parent.TryGetComponent(out CardGroup g))
                 if (g.IndexOf(card) != 0)
-                {
-                    g.RemoveCard(card);
-                    
                     return;
-                }
             if (card.ID > 2000)
             {
+                Card.RayCastToken.Cancel();
+                Destroy(card.gameObject);
+
+                var col = this.GetComponent<Collider>();
+                col.enabled = false;
+                
                 this.hitPoint -= card.ID % 10 + 1;
                 if(IsDead)
                 {
                     OnDead();
                 }
-                CardManager.DestroyCard(card);
             }
         }
     }
@@ -245,6 +246,7 @@ public class Bear : MonoBehaviour
     public void OnDead()
     {
         _isMovable = false;
+        
         Target = null;
         _anim.SetBool("Run Forward", false);
         _anim.SetBool("Idle", false);

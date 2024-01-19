@@ -220,7 +220,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74265a410f6e7d943ac008d963ff35c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map: {fileID: 2069951885}
 --- !u!1001 &223626279
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1075,6 +1074,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e73d104ebaccb2408bd47df07f0c868, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTutorial: 0
 --- !u!4 &1962810658
 Transform:
   m_ObjectHideFlags: 0

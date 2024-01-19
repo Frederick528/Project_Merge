@@ -166,6 +166,13 @@ public class CoreController : MonoBehaviour
             TutorialManager.WaitButtonCallBack = true;
             return;
         }
+
+        var merchant = CardManager.Cards.Select(x => x);
+        if (merchant.Count(x => x.ID >= 5000) > 0)
+        {
+            CardManager.DestroyCard(
+                merchant.Select(x => x).Where(x => x.ID > 5000));
+        }
         
         if(BearManager.Count > 0 )
         {
@@ -255,10 +262,10 @@ public class CoreController : MonoBehaviour
             HungerFluctuation.Value += _core.HungerDifficulty;
             ThirstDifficulty.Value += _core.ThirstDifficulty;
             ThirstFluctuation.Value += _core.ThirstDifficulty;
-
-
+            
 
             lightAnim.SetTrigger("Dawn");
+            BearManager.BearLeave();
             //EncounterManager.Occur();
         }
         else if (_core.IsMorning)
@@ -271,14 +278,12 @@ public class CoreController : MonoBehaviour
         }
         if (_core.IsDayTime)
         {
-            bearFlag = Random.Range(0, 10);
             
             lightAnim.SetTrigger("DayTime");
         }
         else if (_core.IsNightTime)
         {
-            BearManager.BearLeave();
-            
+            bearFlag = Random.Range(0, 10);
             lightAnim.SetTrigger("Night");
         }
 

@@ -47,7 +47,6 @@ public class Clock : MonoBehaviour
     {
         if (GameManager.Instance.isTutorial)
         {
-            
             yield break;
         }
         yield return new WaitForSecondsRealtime(0.5f);
@@ -70,6 +69,10 @@ public class Clock : MonoBehaviour
         }
         if (CoreController.IsDayTime)
         {
+            var v = CardManager.CreateCard(5000);
+        }
+        if (CoreController.IsNightTime)
+        {
             if ( CoreController.bearFlag > 0)
             {
                 BearManager.Dispense();
@@ -78,9 +81,7 @@ public class Clock : MonoBehaviour
             {
                 BearManager.Notice("나잇타임... 데이타임!");
             }
-        }
-        if (CoreController.IsNightTime)
-        {
+            
             BearManager.Notice("황혼이 저뭅니다!");
         }
     }

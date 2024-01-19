@@ -224,7 +224,7 @@ public class Bear : MonoBehaviour
             if (card.ID > 2000)
             {
                 Card.RayCastToken.Cancel();
-                Destroy(card.gameObject);
+                CardManager.DestroyCard(card);
 
                 var col = this.GetComponent<Collider>();
                 col.enabled = false;

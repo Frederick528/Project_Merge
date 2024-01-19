@@ -86,6 +86,7 @@ public class CoreController : MonoBehaviour
             {
                 //StatUICanvas.gameObject.SetActive(true);
                 StatUICanvas.statUI.Hunger[1].fillAmount = 1 - (x / _core.Status.maxHunger);
+                StatUICanvas.statUI.Texts[5].text = (_core.HungerDifficulty != 0) ? (-_core.HungerDifficulty).ToString() : "";
 
                 // if (x == 0) return;
                 //     _instance.StatUICanvas.gameObject.SetActive(true);
@@ -97,6 +98,7 @@ public class CoreController : MonoBehaviour
             {
                 //StatUICanvas.gameObject.SetActive(true);
                 StatUICanvas.statUI.Thirst[1].fillAmount = 1 - (x / _core.Status.maxThirst);
+                StatUICanvas.statUI.Texts[6].text = (_core.ThirstDifficulty != 0) ? (-_core.ThirstDifficulty).ToString() : "";
             });
             HungerFluctuation.Subscribe(x =>
                 StatUICanvas.statUI.Hunger[2].fillAmount = 1 - (x / _core.Status.maxHunger)

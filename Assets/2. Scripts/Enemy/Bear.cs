@@ -109,7 +109,7 @@ public class Bear : MonoBehaviour
             where card.ID < 2000
             orderby Vector3.Distance(this.transform.position, card.transform.position)
             select card;
-
+        
         if (v.Any())
             target = v.ElementAt(0);
         else if (_isMovable)
@@ -232,7 +232,8 @@ public class Bear : MonoBehaviour
                 {
                     OnDead();
                 }
-                CardManager.DestroyCard(card);
+
+                Target = card;
             }
         }
     }

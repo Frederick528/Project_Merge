@@ -185,11 +185,12 @@ public class CoreController : MonoBehaviour
 
                 CardManager.DestroyCard(foods);
                 
-                Debug.Log("곰들이 남은 음식들을 모조리 먹어치웠습니다.");
+                BearManager.Notice("공격 가능한 수단이 없어\n곰들이 음식을 모조리 먹어치웠습니다.");
             }
             else
             {
                 Debug.Log("턴을 종료 할 수 없습니다.");
+                BearManager.Notice("곰들이 아직 남아 있어\n턴을 종료 할 수 없습니다!");
                 return;
             }
             

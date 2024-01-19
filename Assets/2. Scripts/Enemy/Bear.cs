@@ -218,22 +218,40 @@ public class Bear : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent(out Card card) && other.transform.position.y > this.transform.position.y + 0.3f)
         {
-            if (other.transform.TryGetComponent(out CardGroup g))
-                if (g.IndexOf(card) != 0)
+            if (other.transform.parent.TryGetComponent(out CardGroup g))
+                if (g.IndexOf(card) == 0)
                 {
-                    g.RemoveCard(card);
+                    Debug.Log(true);
+                    var c = g.RemoveCard(card);
+                    Destroy(c.gameObject);
+
+                    var col = this.GetComponent<Collider>();
+                    col.enabled = false;
                     
+                    this.hitPoint -= card.ID % 10 + 1;
+                    if(IsDead)
+                    {
+                        OnDead();
+                    }
+                    
+                    return;
+                }
+                else
+                {
                     return;
                 }
             if (card.ID > 2000)
             {
+                Destroy(card);
+
+                var col = this.GetComponent<Collider>();
+                col.enabled = false;
+                
                 this.hitPoint -= card.ID % 10 + 1;
                 if(IsDead)
                 {
                     OnDead();
                 }
-
-                Target = card;
             }
         }
     }
@@ -246,6 +264,7 @@ public class Bear : MonoBehaviour
     public void OnDead()
     {
         _isMovable = false;
+        
         Target = null;
         _anim.SetBool("Run Forward", false);
         _anim.SetBool("Idle", false);

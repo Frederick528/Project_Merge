@@ -28,10 +28,7 @@ public struct TalkSystem
     {
         _printToken = cancellationToken;
 
-        if (root.activeSelf && !root.activeInHierarchy)
-        {
-            root = GameObject.Instantiate(root);
-        }
+        var v = root = GameObject.Instantiate(root);
         
         _tf ??= root.GetComponentInChildren<TMP_Text>();
         _tfImage ??= root.GetComponentInChildren<Image>();
@@ -59,12 +56,15 @@ public struct TalkSystem
         else
             t1.SuppressCancellationThrow();
         
-        CloseMsg();
+        await CloseMsg();
+        
+        GameManager.Destroy(v);
     }
     
-    private void CloseMsg()
+    private async UniTask CloseMsg()
     {
         _anim.SetTrigger("Disappear");
+        await UniTask.Delay(1000, cancellationToken: _printToken);
     }
 
     public async UniTask ModifyTextFieldSize(CancellationToken cancellationToken)

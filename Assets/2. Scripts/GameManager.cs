@@ -1,16 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    public static CancellationTokenSource Cts;
     public static bool CardCanvasOn = false;
     
     [SerializeField]
     public bool isTutorial = false;
 
-    void Awake()
+    async void Awake()
     {
         if (Instance == null)
         {
@@ -36,6 +39,8 @@ public class GameManager : MonoBehaviour
         }
         
         YamlDeserializer.saveData.Init();
+        Cts = new CancellationTokenSource();
+        await TokenRebuilder();
     }
     
     private void Start()
@@ -43,6 +48,23 @@ public class GameManager : MonoBehaviour
         if (isTutorial)
         {
             Rect rect1 = new Rect(Screen.width - 120, Screen.height - 40, 100, 30);
+        }
+    }
+
+    private async UniTask TokenRebuilder()
+    {
+        while (true)
+        {
+            if (Cts.Token.IsCancellationRequested)
+            {
+                Cts.Cancel();
+                Cts.Dispose();
+                Thread.MemoryBarrier();
+
+                Cts = new CancellationTokenSource();
+            }
+
+            await UniTask.Delay(100);
         }
     }
 }

@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -233,6 +235,8 @@ public class Card : Entity
     public override void OnMouseUp()
     {
         _rigid.isKinematic = false;
+        var tokenSource = new CancellationTokenSource();
+        CollisionChecker(tokenSource);
         if (this.transform.parent.TryGetComponent(out CardGroup hg))
         {
             if (hg.IndexOf(this).Equals(hg.Count - 1))
@@ -468,7 +472,8 @@ public class Card : Entity
                 if ( !CheckRulesForGroup(tg))
                 {
                     BearManager.Notice($"상위 티어의 카드를 해금하기 위해선\n" +
-                                       $"같은 티어의 카드를 8장 이상 모아야합니다.\n" +
+                                       $"같은 티어의 카드를\n" +
+                                       $"8장 이상 모아야합니다.\n" +
                                        $"현재 {level + 1}티어 카드 {CardManager.Cards.Select(x => x).Where(x => x.level == this.level).Count()}장");
                     Debug.Log("규칙 오류 or Merge 조건 미달성");
                 }
@@ -641,5 +646,23 @@ public class Card : Entity
             yield return new WaitForSeconds(0.02f);
         }
         yield return null;
+    }
+
+    private async UniTaskVoid CollisionChecker(CancellationTokenSource tokenSource)
+    {
+        while (true)
+        {
+            if (tokenSource.Token.IsCancellationRequested)
+                break;
+            if (Physics.Raycast(this.transform.position, Vector3.down, 1f))
+            {
+                //카드를 내려놓았을 때 바닥으로 레이를 쏴서 닿으면 hit
+                Camera.main.transform.position += Vector3.down;
+                await UniTask.Delay(100, cancellationToken: tokenSource.Token);
+                Camera.main.transform.position += Vector3.up;
+                break;
+            }
+            await UniTask.Delay(100, cancellationToken: tokenSource.Token);
+        }
     }
 }

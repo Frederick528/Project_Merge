@@ -50,10 +50,10 @@ public class Artifact : MonoBehaviour
     //}
     private void OnMouseEnter()
     {
-        if (EventSystem.current.IsPointerOverGameObject() == false /*ReadSpreadSheet.TryGetData(ID, out ArtifactData data)*/)
-        {
+        //if (EventSystem.current.IsPointerOverGameObject() == false ReadSpreadSheet.TryGetData(ID, out ArtifactData data))
+        //{
             image.gameObject.SetActive(true);
-        }
+        //}
 
         //try
         //{

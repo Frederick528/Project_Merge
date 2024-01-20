@@ -241,6 +241,29 @@ public class CoreController : MonoBehaviour
                 lightAnim.ResetTrigger(param.name);
         }
 
+        if (GameManager.Instance.ArtifactDict[9000])
+        {
+            CardManager.CreateCard(1020);
+        }
+        if (GameManager.Instance.ArtifactDict[9001])
+        {
+            float rand = Random.Range(0, 0.99f);
+            if (rand < 0.5f) CardManager.CreateCard(2010);
+            else CardManager.CreateCard(2020);
+        }
+        if (GameManager.Instance.ArtifactDict[9002])
+        {
+            CardManager.CreateCard(1010);
+        }
+        if (GameManager.Instance.ArtifactDict[9011])
+        {
+            float rand = Random.Range(0, 0.99f);
+            if (rand < 0.25f) CardManager.CreateCard(1011);
+            else if (rand < 0.5f) CardManager.CreateCard(1021);
+            else if (rand < 0.75f) CardManager.CreateCard(2011);
+            else CardManager.CreateCard(2021);
+        }
+
         _core.HungerDifficulty = 0;
         _core.ThirstDifficulty = 0;
 
@@ -386,7 +409,6 @@ public class CoreController : MonoBehaviour
         }
         public static void ModifyFluctuation(int hungerFluctuation, int thirstFluctuation)
         {
-        print($"{ThirstFluctuation.Value}{_core.ThirstDifficulty}");
             tempHungerFluctuation = HungerFluctuation.Value;
             tempThirstFluctuation = ThirstFluctuation.Value;
             addTempHungerFluctuation = (HungerFluctuation.Value + ArtifactAddHunger <= _core.HungerDifficulty) ? 0 :
@@ -397,7 +419,6 @@ public class CoreController : MonoBehaviour
             ThirstFluctuation.Value = (ThirstFluctuation.Value + ArtifactAddThirst - thirstFluctuation < _core.ThirstDifficulty) ? _core.ThirstDifficulty - ArtifactAddThirst : (ThirstFluctuation.Value - thirstFluctuation);  // 값
             ModifyHunger(-addTempHungerFluctuation);
             ModifyThirst(-addTempThirstFluctuation);
-        print($"{ThirstFluctuation.Value}{_core.ThirstDifficulty}");
 
             //if (-addTempHungerFluctuation < hungerFluctuation)
             //    overflowHunger = true;
@@ -427,7 +448,15 @@ public class CoreController : MonoBehaviour
     public void CreateCard()
     {
         if (ModifyAP(-1))
+        {
+            if (GameManager.Instance.ArtifactDict[9008])
+            {
+                float rand = Random.Range(0, 0.99f);
+                if (rand < 0.05f) CardManager.CreateCard();
+            }
             CardManager.CreateCard();
+
+        }
         else
         {
             Debug.Log("AP가 부족합니다.");

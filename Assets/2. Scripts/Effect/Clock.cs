@@ -73,13 +73,27 @@ public class Clock : MonoBehaviour
         }
         if (CoreController.IsNightTime)
         {
-            if ( CoreController.bearFlag > 0)
+            if (GameManager.Instance.ArtifactDict[9004])
             {
-                BearManager.Dispense();
+                if (CoreController.bearFlag > 5)
+                {
+                    BearManager.Dispense();
+                }
+                else
+                {
+                    BearManager.Notice("나잇타임... 데이타임!");
+                }
             }
             else
             {
-                BearManager.Notice("나잇타임... 데이타임!");
+                if ( CoreController.bearFlag > 1)
+                {
+                    BearManager.Dispense();
+                }
+                else
+                {
+                    BearManager.Notice("나잇타임... 데이타임!");
+                }
             }
             
             BearManager.Notice("황혼이 저뭅니다!");

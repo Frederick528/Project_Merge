@@ -20,6 +20,8 @@ public class GetArtifact : MonoBehaviour
 
     private int artifactNum;
     public CoreController coreController;
+
+    private int artifactID = 9000;
     // Start is called before the first frame update
 
     private void Start()
@@ -38,20 +40,15 @@ public class GetArtifact : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            SetArtifactWindow(9005);
+            artifactID--;
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
-            SetArtifactWindow(9006);
+            SetArtifactWindow(artifactID);
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
-            SetArtifactWindow(9009);
-        }
-
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            SetArtifactWindow(9010);
+            artifactID++;
         }
     }
     public void AddArtifact(int artifactID)    // 아티팩트창에 아티팩트 추가
@@ -88,21 +85,21 @@ public class GetArtifact : MonoBehaviour
     {
         switch (artifactID)
         {
-            case 9000:
-                break;
-            case 9001:
-                break;
-            case 9002:
-                break;
-            case 9003:
-                break;
-            case 9004:
-                break;
+            //case 9000:
+            //    break;
+            //case 9001:
+            //    break;
+            //case 9002:
+            //    break;
+            //case 9003:
+            //    break;
+            //case 9004:
+            //    break;
             case 9005:
                 if (GameManager.Instance.ArtifactDict[9009])
                 {
                     CoreController.ArtifactSubThirst -= 1;
-                    //CoreController.Core.ThirstDifficulty -= 1;
+                    CoreController.Core.ThirstDifficulty -= 1;
                     CoreController.ThirstFluctuation.Value -= 1;
                     CoreController.ModifyDifficulty(0, +1);
                     coreController.StatUICanvas.statUI.Texts[6].text = (CoreController.Core.ThirstDifficulty + CoreController.ArtifactSubThirst != 0) ? (-CoreController.Core.ThirstDifficulty).ToString() : "";
@@ -117,7 +114,7 @@ public class GetArtifact : MonoBehaviour
                 if (GameManager.Instance.ArtifactDict[9010])
                 {
                     CoreController.ArtifactSubHunger -= 1;
-                    //CoreController.Core.HungerDifficulty -= 1;
+                    CoreController.Core.HungerDifficulty -= 1;
                     CoreController.HungerFluctuation.Value -= 1;
                     CoreController.ModifyDifficulty(+1, 0);
                     coreController.StatUICanvas.statUI.Texts[5].text = (CoreController.Core.HungerDifficulty + CoreController.ArtifactSubHunger != 0) ? (-CoreController.Core.HungerDifficulty).ToString() : "";
@@ -129,9 +126,11 @@ public class GetArtifact : MonoBehaviour
                 }
                 break;
             case 9007:
+                StatManager.instance.playerCtrl.stat.maxAp += 1;
+                CoreController.ModifyAP(1);
                 break;
-            case 9008:
-                break;
+            //case 9008:
+            //    break;
             case 9009:
                 if (GameManager.Instance.ArtifactDict[9005])
                 {
@@ -162,8 +161,8 @@ public class GetArtifact : MonoBehaviour
                     coreController.StatUICanvas.statUI.Texts[5].text = (CoreController.Core.HungerDifficulty + CoreController.ArtifactSubHunger != 0) ? (-CoreController.Core.HungerDifficulty).ToString() : "";
                 }
                 break;
-            case 9011:
-                break;
+            //case 9011:
+            //    break;
         }
     }
 

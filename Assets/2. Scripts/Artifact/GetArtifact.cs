@@ -99,24 +99,66 @@ public class GetArtifact : MonoBehaviour
             case 9004:
                 break;
             case 9005:
-                CoreController.ThirstFluctuation.Value -= (CoreController.ThirstFluctuation.Value == 0) ? 0 : 1;
-                CoreController.ArtifactThirst += 1;
+                if (GameManager.Instance.ArtifactDict[9009])
+                {
+                    CoreController.ArtifactSubThirst -= 1;
+                    //CoreController.Core.ThirstDifficulty -= 1;
+                    CoreController.ThirstFluctuation.Value -= 1;
+                    CoreController.ModifyDifficulty(0, +1);
+                }
+                else
+                {
+                    CoreController.ThirstFluctuation.Value -= (CoreController.ThirstFluctuation.Value == 0) ? 0 : 1;
+                    CoreController.ArtifactAddThirst += 1;
+                }
                 break;
             case 9006:
-                CoreController.HungerFluctuation.Value -= (CoreController.HungerFluctuation.Value == 0) ? 0 : 1;
-                CoreController.ArtifactHunger += 1;
+                if (GameManager.Instance.ArtifactDict[9010])
+                {
+                    CoreController.ArtifactSubHunger -= 1;
+                    //CoreController.Core.HungerDifficulty -= 1;
+                    CoreController.HungerFluctuation.Value -= 1;
+                    CoreController.ModifyDifficulty(+1, 0);
+                }
+                else
+                {
+                    CoreController.HungerFluctuation.Value -= (CoreController.HungerFluctuation.Value == 0) ? 0 : 1;
+                    CoreController.ArtifactAddHunger += 1;
+                }
                 break;
             case 9007:
                 break;
             case 9008:
                 break;
             case 9009:
-                coreController.StatUICanvas.statUI.Thirst[1].fillAmount -= 0.01f;
-                coreController.StatUICanvas.statUI.Thirst[2].fillAmount -= 0.01f;
+                if (GameManager.Instance.ArtifactDict[9005])
+                {
+                    CoreController.ThirstFluctuation.Value += (CoreController.ThirstFluctuation.Value == 0) ? 0 : 1;
+                    CoreController.ArtifactAddThirst -= 1;
+                }
+                else
+                {
+                    CoreController.ArtifactSubThirst += 1;
+                    //CoreController.Core.ThirstDifficulty += 1;
+                    CoreController.ThirstFluctuation.Value += 1;
+                    CoreController.ModifyDifficulty(0, -1);
+                    coreController.StatUICanvas.statUI.Texts[6].text = (CoreController.Core.ThirstDifficulty + CoreController.ArtifactSubThirst != 0) ? (-CoreController.Core.ThirstDifficulty - CoreController.ArtifactSubThirst).ToString() : "";
+                }
                 break;
             case 9010:
-                coreController.StatUICanvas.statUI.Hunger[1].fillAmount -= 0.01f;
-                coreController.StatUICanvas.statUI.Hunger[2].fillAmount -= 0.01f;
+                if (GameManager.Instance.ArtifactDict[9006])
+                {
+                    CoreController.HungerFluctuation.Value += (CoreController.HungerFluctuation.Value == 0) ? 0 : 1;
+                    CoreController.ArtifactAddHunger -= 1;
+                }
+                else
+                {
+                    CoreController.ArtifactSubHunger += 1;
+                    //CoreController.Core.HungerDifficulty += 1;
+                    CoreController.HungerFluctuation.Value += 1;
+                    CoreController.ModifyDifficulty(-1, 0);
+                    coreController.StatUICanvas.statUI.Texts[5].text = (CoreController.Core.HungerDifficulty + CoreController.ArtifactSubHunger != 0) ? (-CoreController.Core.HungerDifficulty - CoreController.ArtifactSubHunger).ToString() : "";
+                }
                 break;
             case 9011:
                 break;

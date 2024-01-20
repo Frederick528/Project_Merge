@@ -14,6 +14,9 @@ public class CoreController : MonoBehaviour
     // Start is called before the first frame update
     private static GameCore _core;
     private static CoreController _instance;
+
+    public static GameCore Core => _core;
+
     public static int TurnCnt => _core.TurnCnt;
     public static int Date => _core.TurnCnt / 4;
     public static int bearFlag = 0;
@@ -26,8 +29,11 @@ public class CoreController : MonoBehaviour
     public static string Time => $"{_core.Date + 1} 일차 " + (IsDawn ? "새벽" : IsDayTime ? "점심" : IsMorning ? "아침" : "저녁") ;
     public static CoreController Instance => _instance;
 
-    public static int ArtifactHunger = 0;
-    public static int ArtifactThirst = 0;
+    public static int ArtifactAddHunger = 0;
+    public static int ArtifactAddThirst = 0;
+
+    public static int ArtifactSubHunger = 0;
+    public static int ArtifactSubThirst = 0;
 
     //private static bool overflowHunger;
     //private static bool overflowThirst;
@@ -238,25 +244,25 @@ public class CoreController : MonoBehaviour
         _core.HungerDifficulty = 0;
         _core.ThirstDifficulty = 0;
 
-        if (GameManager.Instance.ArtifactDict[9009])
+        if (GameManager.Instance.ArtifactDict[9009] && !GameManager.Instance.ArtifactDict[9005])
         {
-            ModifyThirst(-1);
-            _core.ThirstDifficulty += 1;
+            ModifyThirst(-ArtifactSubThirst);
+            _core.ThirstDifficulty += ArtifactSubThirst;
             ThirstDifficulty.Value += _core.ThirstDifficulty;
             ThirstFluctuation.Value += _core.ThirstDifficulty;
         }
-        if (GameManager.Instance.ArtifactDict[9010])
+        if (GameManager.Instance.ArtifactDict[9010] && !GameManager.Instance.ArtifactDict[9006])
         {
-            ModifyHunger(-1);
-            _core.HungerDifficulty += 1;
+            ModifyHunger(-ArtifactSubHunger);
+            _core.HungerDifficulty += ArtifactSubHunger;
             HungerDifficulty.Value += _core.HungerDifficulty;
             HungerFluctuation.Value += _core.HungerDifficulty;
         }
 
         if (_core.IsDawn)
         {
-            _core.HungerDifficulty += (int)(Mathf.Log10(Date + 2) * 10 + 10);
-            _core.ThirstDifficulty += (int)(Mathf.Log10(Date + 2) * 10 + 10);
+            _core.HungerDifficulty += (int)(Mathf.Log10(Date + 2) * 10 + 10) - ArtifactSubHunger;
+            _core.ThirstDifficulty += (int)(Mathf.Log10(Date + 2) * 10 + 10) - ArtifactSubThirst;
             HungerDifficulty.Value += _core.HungerDifficulty;
             HungerFluctuation.Value += _core.HungerDifficulty;
             ThirstDifficulty.Value += _core.ThirstDifficulty;
@@ -286,9 +292,9 @@ public class CoreController : MonoBehaviour
             lightAnim.SetTrigger("Night");
         }
 
-        ModifyFluctuation(ArtifactHunger, ArtifactThirst);
+        ModifyFluctuation(ArtifactAddHunger, ArtifactAddThirst);
 
-        if (GameManager.Instance.ArtifactDict[9005])
+        if (GameManager.Instance.ArtifactDict[9005] && !GameManager.Instance.ArtifactDict[9009])
         {
             //ModifyFluctuation(0, 1);
             if (ThirstDifficulty.Value == ThirstFluctuation.Value && ThirstDifficulty.Value != 0)
@@ -300,7 +306,7 @@ public class CoreController : MonoBehaviour
                 ThirstDifficulty.Value -= (ThirstDifficulty.Value <= _core.ThirstDifficulty) ? 0 : 1;
             }
         }
-        if (GameManager.Instance.ArtifactDict[9006])
+        if (GameManager.Instance.ArtifactDict[9006] && !GameManager.Instance.ArtifactDict[9010])
         {
             //ModifyFluctuation(1, 0);
             if (HungerDifficulty.Value == HungerFluctuation.Value && HungerDifficulty.Value != 0)
@@ -317,8 +323,10 @@ public class CoreController : MonoBehaviour
         _ap.Value = _core.Status.curAp;
         _instance.Clock.gameObject.SetActive(true);
 
-        StatUICanvas.statUI.Texts[5].text = (_core.HungerDifficulty != 0) ? (-_core.HungerDifficulty).ToString() : "";
-        StatUICanvas.statUI.Texts[6].text = (_core.ThirstDifficulty != 0) ? (-_core.ThirstDifficulty).ToString() : "";
+        StatUICanvas.statUI.Texts[5].text = (_core.HungerDifficulty != 0 && _core.IsDawn) ? (-_core.HungerDifficulty - ArtifactSubHunger).ToString() :
+             (_core.HungerDifficulty != 0) ? (-_core.HungerDifficulty).ToString() : "";
+        StatUICanvas.statUI.Texts[6].text = (_core.ThirstDifficulty != 0 && _core.IsDawn) ? (-_core.ThirstDifficulty - ArtifactSubThirst).ToString() :
+             (_core.ThirstDifficulty != 0) ? (-_core.ThirstDifficulty).ToString() : "";
 
         StatUICanvas.statUI.Texts[3].text = $"Day : {Date + 1}";
         StatUICanvas.statUI.Texts[4].text = $"{(IsDawn ? "새벽" : IsDayTime ? "점심" : IsMorning ? "아침" : "저녁")}";
@@ -367,20 +375,19 @@ public class CoreController : MonoBehaviour
         }
         public static void ModifyDifficulty(int hungerValue, int thirstValue)
         {
-            HungerDifficulty.Value = ((HungerDifficulty.Value - hungerValue - ArtifactHunger) < _core.HungerDifficulty) ? _core.HungerDifficulty : (HungerDifficulty.Value - hungerValue);
-            ThirstDifficulty.Value = ((ThirstDifficulty.Value - thirstValue - ArtifactThirst) < _core.ThirstDifficulty) ? _core.ThirstDifficulty : (ThirstDifficulty.Value - thirstValue);
+            HungerDifficulty.Value = ((HungerDifficulty.Value - hungerValue - ArtifactAddHunger) < _core.HungerDifficulty) ? _core.HungerDifficulty : (HungerDifficulty.Value - hungerValue);
+            ThirstDifficulty.Value = ((ThirstDifficulty.Value - thirstValue - ArtifactAddThirst) < _core.ThirstDifficulty) ? _core.ThirstDifficulty : (ThirstDifficulty.Value - thirstValue);
         }
         public static void ModifyFluctuation(int hungerFluctuation, int thirstFluctuation)
         {
             tempHungerFluctuation = HungerFluctuation.Value;
             tempThirstFluctuation = ThirstFluctuation.Value;
-
-            addTempHungerFluctuation = (HungerFluctuation.Value <= _core.HungerDifficulty) ? 0 :
-                (HungerFluctuation.Value + ArtifactHunger - hungerFluctuation < _core.HungerDifficulty) ? (_core.HungerDifficulty - (HungerFluctuation.Value + ArtifactHunger)) : - hungerFluctuation;    // 추가할 값
-            addTempThirstFluctuation = (ThirstFluctuation.Value <= _core.ThirstDifficulty) ? 0 :
-                (ThirstFluctuation.Value + ArtifactThirst - thirstFluctuation < _core.ThirstDifficulty) ? (_core.ThirstDifficulty - (ThirstFluctuation.Value + ArtifactThirst)) : - thirstFluctuation;    // 추가할 값
-            HungerFluctuation.Value = (HungerFluctuation.Value + ArtifactHunger - hungerFluctuation < _core.HungerDifficulty) ? _core.HungerDifficulty - ArtifactHunger : (HungerFluctuation.Value - hungerFluctuation);  // 값
-            ThirstFluctuation.Value = (ThirstFluctuation.Value + ArtifactThirst - thirstFluctuation < _core.ThirstDifficulty) ? _core.ThirstDifficulty - ArtifactThirst : (ThirstFluctuation.Value - thirstFluctuation);  // 값
+            addTempHungerFluctuation = (HungerFluctuation.Value <= _core.HungerDifficulty + ArtifactSubHunger) ? 0 :
+                (HungerFluctuation.Value + ArtifactAddHunger - hungerFluctuation < _core.HungerDifficulty) ? (_core.HungerDifficulty - (HungerFluctuation.Value + ArtifactAddHunger)) : - hungerFluctuation;    // 추가할 값
+            addTempThirstFluctuation = (ThirstFluctuation.Value <= _core.ThirstDifficulty + ArtifactSubThirst) ? 0 :
+                (ThirstFluctuation.Value + ArtifactAddThirst - thirstFluctuation < _core.ThirstDifficulty) ? (_core.ThirstDifficulty - (ThirstFluctuation.Value + ArtifactAddThirst)) : - thirstFluctuation;    // 추가할 값
+            HungerFluctuation.Value = (HungerFluctuation.Value + ArtifactAddHunger - hungerFluctuation < _core.HungerDifficulty + ArtifactSubHunger) ? _core.HungerDifficulty + ArtifactSubHunger - ArtifactAddHunger : (HungerFluctuation.Value - hungerFluctuation);  // 값
+            ThirstFluctuation.Value = (ThirstFluctuation.Value + ArtifactAddThirst - thirstFluctuation < _core.ThirstDifficulty + ArtifactSubThirst) ? _core.ThirstDifficulty + ArtifactSubThirst - ArtifactAddThirst : (ThirstFluctuation.Value - thirstFluctuation);  // 값
             ModifyHunger(-addTempHungerFluctuation);
             ModifyThirst(-addTempThirstFluctuation);
 

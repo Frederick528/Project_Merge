@@ -105,6 +105,7 @@ public class GetArtifact : MonoBehaviour
                     //CoreController.Core.ThirstDifficulty -= 1;
                     CoreController.ThirstFluctuation.Value -= 1;
                     CoreController.ModifyDifficulty(0, +1);
+                    coreController.StatUICanvas.statUI.Texts[6].text = (CoreController.Core.ThirstDifficulty + CoreController.ArtifactSubThirst != 0) ? (-CoreController.Core.ThirstDifficulty).ToString() : "";
                 }
                 else
                 {
@@ -119,6 +120,7 @@ public class GetArtifact : MonoBehaviour
                     //CoreController.Core.HungerDifficulty -= 1;
                     CoreController.HungerFluctuation.Value -= 1;
                     CoreController.ModifyDifficulty(+1, 0);
+                    coreController.StatUICanvas.statUI.Texts[5].text = (CoreController.Core.HungerDifficulty + CoreController.ArtifactSubHunger != 0) ? (-CoreController.Core.HungerDifficulty).ToString() : "";
                 }
                 else
                 {
@@ -139,10 +141,10 @@ public class GetArtifact : MonoBehaviour
                 else
                 {
                     CoreController.ArtifactSubThirst += 1;
-                    //CoreController.Core.ThirstDifficulty += 1;
+                    CoreController.Core.ThirstDifficulty += 1;
                     CoreController.ThirstFluctuation.Value += 1;
                     CoreController.ModifyDifficulty(0, -1);
-                    coreController.StatUICanvas.statUI.Texts[6].text = (CoreController.Core.ThirstDifficulty + CoreController.ArtifactSubThirst != 0) ? (-CoreController.Core.ThirstDifficulty - CoreController.ArtifactSubThirst).ToString() : "";
+                    coreController.StatUICanvas.statUI.Texts[6].text = (CoreController.Core.ThirstDifficulty + CoreController.ArtifactSubThirst != 0) ? (-CoreController.Core.ThirstDifficulty).ToString() : "";
                 }
                 break;
             case 9010:
@@ -154,10 +156,10 @@ public class GetArtifact : MonoBehaviour
                 else
                 {
                     CoreController.ArtifactSubHunger += 1;
-                    //CoreController.Core.HungerDifficulty += 1;
+                    CoreController.Core.HungerDifficulty += 1;
                     CoreController.HungerFluctuation.Value += 1;
                     CoreController.ModifyDifficulty(-1, 0);
-                    coreController.StatUICanvas.statUI.Texts[5].text = (CoreController.Core.HungerDifficulty + CoreController.ArtifactSubHunger != 0) ? (-CoreController.Core.HungerDifficulty - CoreController.ArtifactSubHunger).ToString() : "";
+                    coreController.StatUICanvas.statUI.Texts[5].text = (CoreController.Core.HungerDifficulty + CoreController.ArtifactSubHunger != 0) ? (-CoreController.Core.HungerDifficulty).ToString() : "";
                 }
                 break;
             case 9011:

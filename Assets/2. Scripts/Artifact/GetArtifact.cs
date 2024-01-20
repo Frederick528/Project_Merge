@@ -99,10 +99,12 @@ public class GetArtifact : MonoBehaviour
             case 9004:
                 break;
             case 9005:
-                CoreController.ThirstFluctuation.Value += 1;
+                CoreController.ThirstFluctuation.Value -= (CoreController.ThirstFluctuation.Value == 0) ? 0 : 1;
+                CoreController.ArtifactThirst += 1;
                 break;
             case 9006:
-                CoreController.HungerFluctuation.Value += 1;
+                CoreController.HungerFluctuation.Value -= (CoreController.HungerFluctuation.Value == 0) ? 0 : 1;
+                CoreController.ArtifactHunger += 1;
                 break;
             case 9007:
                 break;

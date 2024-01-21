@@ -281,7 +281,16 @@ public class CardManager : MonoBehaviour
         return result;
     }
 
+    public static bool TryGetCards(out Card[] cards)
+    {
+        var result = true;
 
+        var arr = Cards.Where(x => x.ID < 5000).Select(x => x);
+
+        cards = arr.ToArray();
+
+        return result;
+    }
 
     private void OnDestroy()
     {

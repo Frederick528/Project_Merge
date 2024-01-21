@@ -73,9 +73,9 @@ public class CameraCtrl : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 5; i++)
             {
-                CardManager.TryGetCardsByType(Card.CardType.Food, out Card[] cards);
+                CardManager.TryGetCards(out Card[] cards);
                 if (cards.Length == 0)
                     return;
                 int rand = Random.Range(0, cards.Length);

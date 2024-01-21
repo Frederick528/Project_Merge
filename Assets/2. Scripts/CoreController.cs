@@ -163,7 +163,7 @@ public class CoreController : MonoBehaviour
                 _instance.StatUICanvas.statUI.Texts[2].text =
                     $"[  {x} / {_core.Status.maxAp}  ]";
                 StatManager.instance.text.text = 
-                    $"AP [{x} / {_core.Status.maxAp}]";
+                    $"{x} / {_core.Status.maxAp}";
             });
         }
     }

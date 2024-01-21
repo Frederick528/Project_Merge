@@ -2793,6 +2793,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 138068517}
   m_CullTransparentMesh: 1
+--- !u!1 &143403963
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 143403964}
+  - component: {fileID: 143403965}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &143403964
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143403963}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 858436562}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &143403965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143403963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3652f789c956374e893c9e3cbb07c10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &144823111
 GameObject:
   m_ObjectHideFlags: 0
@@ -16971,6 +17015,7 @@ MonoBehaviour:
   effectUICanvas: {fileID: 710908480}
   cardEatInfo: {fileID: 1272930076}
   eatInfoText: {fileID: 721188654}
+  shopController: {fileID: 0}
 --- !u!4 &763079680
 Transform:
   m_ObjectHideFlags: 0
@@ -19107,6 +19152,7 @@ Transform:
   - {fileID: 1840245834}
   - {fileID: 1764882499}
   - {fileID: 243472235}
+  - {fileID: 143403964}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -22281,7 +22327,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Day: {fileID: 319306495}
   Time: {fileID: 1580413369}
-  closebtn: {fileID: 1207350718}
+  closeBtn: {fileID: 1207350718}
   fixincounter0: {fileID: 1642924873}
   fixincounter1: {fileID: 0}
   fixincounter2: {fileID: 0}
@@ -24787,11 +24833,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdc30dc678ec0ac49852d4003fb422ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shopUI: {fileID: 620265148}
-  goldText: {fileID: 157981119}
-  buyButton: {fileID: 886379090}
-  curseBtn: {fileID: 1287634158}
-  goldAmount: 0
+  shopCanvas: {fileID: 0}
+  buypanel: {fileID: 0}
+  countText:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  cardCountText:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  buyCnt: 00000000000000000000000000000000
+  buyButton:
+  - {fileID: 0}
+  soldOut:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  buttons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  card1Tiers:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  card2Tiers:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  card3Tiers:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  cardID: f2030000fc030000da070000e4070000
+  cardType:
+  - Food
+  - Water
+  - Wood
+  - Stone
+  selectCardCount: 0
+  selectCardID: 0
 --- !u!4 &1119054989
 Transform:
   m_ObjectHideFlags: 0
@@ -42593,6 +42682,7 @@ MonoBehaviour:
   getArtifactWindow: {fileID: 1640692151}
   getArtifactBtn: {fileID: 658262881}
   getArtifactImg: {fileID: 1602731866}
+  coreController: {fileID: 346739153}
 --- !u!1 &1879053596
 GameObject:
   m_ObjectHideFlags: 0

@@ -57,7 +57,7 @@ public class TextController : MonoBehaviour
     {
         myText.text = textArray1[0];
         //mytext2.text = CharacterName1[0];
-        nextBtn.interactable = false;
+        Turn.Instance.nextBtn.interactable = false;
         //closeBtn.SetActive(true);
         if (canvasImage == null)
         {
@@ -99,8 +99,8 @@ public class TextController : MonoBehaviour
         else
         {
             incounter.SetActive(false);
-            nextBtn.interactable = true;
-            blockUI.SetActive(false);
+            Turn.Instance.nextBtn.interactable = true;
+            Turn.Instance.blockUI.SetActive(false);
             GameManager.CardCanvasOn = false;
             SoundManager.instance.Play("Sounds/Bgm/GameBgm", Sound.Bgm, 0.3f);
         }

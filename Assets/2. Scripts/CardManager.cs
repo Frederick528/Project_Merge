@@ -37,6 +37,7 @@ public class CardManager : MonoBehaviour
     }
     public static Card CreateCard()
     {
+        SoundManager.instance.Play("Sounds/Effect/DrawSound");
         var v = CreateCard(false);
         return v;
     }
@@ -47,6 +48,7 @@ public class CardManager : MonoBehaviour
         
         _ogCard ??= Resources.Load<GameObject>("Prefabs/RedCard");
 
+        SoundManager.instance.Play("Sounds/Effect/DrawSound");
         cardInstance = Instantiate(_ogCard, Instance.transform).GetComponent<Card>();
         cardInstance.cardType = (Card.CardType)Random.Range(0, Enum.GetValues(typeof(Card.CardType)).Length - 2);
         cardInstance.Init(0);
@@ -75,6 +77,7 @@ public class CardManager : MonoBehaviour
 
     public static Card CreateCard(int level, int type, bool isOnMerge = false)
     {
+        SoundManager.instance.Play("Sounds/Effect/DrawSound");
         var result = CreateCard(isOnMerge);
         result.cardType = (Card.CardType)type;
         result.Init(level);
@@ -82,6 +85,7 @@ public class CardManager : MonoBehaviour
     }
     public static Card CreateCard(int ID, bool isOnMerge = false)
     {
+        SoundManager.instance.Play("Sounds/Effect/DrawSound");
         var result = CreateCard(isOnMerge);
         result.Init(ID, out bool res);
         result.ID = ID;
@@ -96,12 +100,14 @@ public class CardManager : MonoBehaviour
             if (!target.transform.parent.TryGetComponent(out CardGroup cardGroup))
             {
                 _cards.Remove(target);
+                SoundManager.instance.Play("Sounds/Effect/CardDestroySound");
                 Destroy(target.gameObject);
             }
             else
             {
                 var v = cardGroup.RemoveCard(target);
                 Cards.Remove(v);
+                SoundManager.instance.Play("Sounds/Effect/CardDestroySound");
                 Destroy(v.gameObject);  
             }
         }
@@ -128,7 +134,7 @@ public class CardManager : MonoBehaviour
                     group.RemoveCard(c);
                 }
                 _cards.Remove(c);
-                
+                SoundManager.instance.Play("Sounds/Effect/CardDestroySound");
                 Destroy(c.gameObject);
             }
         }
@@ -236,15 +242,7 @@ public class CardManager : MonoBehaviour
 
         var arr = Cards.Where(x => x.ID == id).Select(x => x);
 
-        if (arr.Count() < 2)
-        {
-            cards = null;
-            result = false;
-        }
-        else
-        {
-            cards = arr.ToArray();
-        }
+        cards = arr.ToArray();
         
         return result;
     }

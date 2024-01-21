@@ -304,6 +304,7 @@ public class UnityChanController : Draggable
             idx++;
             await UniTask.Delay((int)(talkSystem.freq * 1000), cancellationToken: _faceToken.Token);
         }
+        
     }
 
     public void SetAnim(string animName)

@@ -27,6 +27,8 @@ public class MouseRightClick : MonoBehaviour
     GameObject cardEatInfo;
     [SerializeField]
     TextMeshProUGUI eatInfoText;
+    [SerializeField]
+    ShopController shopController;
 
     private void Awake()
     {
@@ -75,6 +77,11 @@ public class MouseRightClick : MonoBehaviour
 
     public void ShowCardInfo(Card cardContents)
     {
+        if (cardContents.ID == 5000)
+        {
+            shopController.shopCanvas.SetActive(true);
+            return;
+        } 
         CardData cardData = cardContents.Data;
         Stat stat = StatManager.instance.playerCtrl.stat;
 
@@ -141,8 +148,13 @@ public class MouseRightClick : MonoBehaviour
         canvas.SetActive(true);
     }
     
-    public void ShowCardInfo(int ID)
+    public void ShowCardInfo(int ID, bool onField = false)
     {
+        if (ID == 5000 && onField == true)
+        {
+            shopController.shopCanvas.SetActive(true);
+            return;
+        }
         if (!CardDataDeserializer.TryGetData(ID, out CardData cardData))
             return;
         var cardType = ID < 1020 ? Card.CardType.Food :
@@ -195,6 +207,3 @@ public class MouseRightClick : MonoBehaviour
         
     //}
 }
-
-
-

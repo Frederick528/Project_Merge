@@ -7,9 +7,11 @@ using UnityEngine;
 public class Clock : MonoBehaviour
 {
     private Animator anim;
+    private ShopController shopController;
     // Start is called before the first frame update
     private void Start()
     {
+        shopController = GameObject.Find("ShopCanvas").GetComponent<ShopController>();
     }
 
     private void OnEnable()
@@ -19,7 +21,8 @@ public class Clock : MonoBehaviour
         
         if(!GameManager.Instance.isTutorial)
             BearManager._turnSkip.interactable = false;
-        
+
+        SoundManager.instance.Play("Sounds/Effect/NextTurnSound");
         if (CoreController.IsDawn)
         {
             anim.SetTrigger("Dawn");
@@ -70,16 +73,33 @@ public class Clock : MonoBehaviour
         if (CoreController.IsDayTime)
         {
             var v = CardManager.CreateCard(5000);
+            shopController.SetRandomButtonImg();
         }
         if (CoreController.IsNightTime)
         {
-            if ( CoreController.bearFlag > 0)
+            if (GameManager.Instance.ArtifactDict[9004])
             {
-                BearManager.Dispense();
+                if (CoreController.bearFlag > 5)
+                {
+                    BearManager.Dispense();
+                    SoundManager.instance.Play("Sounds/Effect/BearAppearSound", Sound.Bear);
+                }
+                else
+                {
+                    BearManager.Notice("나잇타임... 데이타임!");
+                }
             }
             else
             {
-                BearManager.Notice("나잇타임... 데이타임!");
+                if ( CoreController.bearFlag > 1)
+                {
+                    BearManager.Dispense();
+                    SoundManager.instance.Play("Sounds/Effect/BearAppearSound", Sound.Bear);
+                }
+                else
+                {
+                    BearManager.Notice("나잇타임... 데이타임!");
+                }
             }
             
             BearManager.Notice("황혼이 저뭅니다!");

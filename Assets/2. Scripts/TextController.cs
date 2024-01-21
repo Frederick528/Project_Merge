@@ -104,6 +104,7 @@ public class TextController : MonoBehaviour
             blockUI.SetActive(false);
             //closeBtn.SetActive(false);
             GameManager.CardCanvasOn = false;
+            SoundManager.instance.Play("Sounds/Bgm/GameBgm", Sound.Bgm, 0.3f);
         }
     }
 

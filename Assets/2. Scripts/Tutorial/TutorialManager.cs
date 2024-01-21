@@ -80,7 +80,7 @@ public class TutorialManager : MonoBehaviour
                     {
                         Debug.Log("decline");
                         GameManager.Instance.isTutorial = false;
-                        SceneManager.LoadScene("7. MergeScene");
+                        SceneManager.LoadScene("8. MergeScene");
                         CoreController.ResetGame();
                     })
                 }

@@ -14,7 +14,7 @@ public class Turn : MonoBehaviour
     public static int inCounterNum;
 
     private static RandomEvent randomEvent; // static으로 변경
-    public GameObject closebtn;
+    public GameObject closeBtn;
     public GameObject fixincounter0, fixincounter1, fixincounter2, fixincounter3_1, fixincounter3_2;
 
     public GameObject blockUI;
@@ -108,7 +108,7 @@ public class Turn : MonoBehaviour
         GameManager.CardCanvasOn = true;
         blockUI.SetActive(true);
         nextBtn.interactable = false;
-        closebtn.SetActive(true);
+        closeBtn.SetActive(true);
         FixIncounter();
     }
 }

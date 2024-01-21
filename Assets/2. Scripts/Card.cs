@@ -122,7 +122,7 @@ public class Card : Entity
                 break;
             case 500:
                 GetComponent<MeshRenderer>().material = 
-                    Resources.Load<Material>($"Prefabs/Materials/Combination/{ID}");
+                    Resources.Load<Material>($"Prefabs/Materials/NPC/NW");
                 cardType = CardType.Merchant;
                 level = 5;
                 break;

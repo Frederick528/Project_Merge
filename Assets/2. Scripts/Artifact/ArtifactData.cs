@@ -6,6 +6,6 @@ public struct ArtifactData
 {
     public string Name;
     public string Description;
-    public bool Type;
+    public bool CurseType;
 
 }

@@ -570,7 +570,7 @@ public class TutorialManager : MonoBehaviour
         await PrintText();
         objects.buttons[0].interactable = true;
         
-        SceneManager.LoadScene("0121");
+        SceneManager.LoadScene("9. MergeScene");
         
         
     }

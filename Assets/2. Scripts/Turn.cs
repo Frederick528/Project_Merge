@@ -15,7 +15,7 @@ public class Turn : MonoBehaviour
 
     private static RandomEvent randomEvent; // static으로 변경
     public GameObject closeBtn;
-    public GameObject fixincounter0, fixincounter1, fixincounter2, fixincounter3_1, fixincounter3_2;
+    public GameObject fixincounter0, fixincounter1, fixincounter2, fixincounter3, fixincounter4, fixincounter5, fixincounter6;
 
     public GameObject blockUI;
 
@@ -84,16 +84,26 @@ public class Turn : MonoBehaviour
             fixincounter2.SetActive(true);
         }
 
-        else if (CoreController.Date == 14 && Event.Quest == 0)
+        else if (CoreController.Date == 14 )
         {
             inCounterNum = 102;
-            fixincounter3_1.SetActive(true);
+            fixincounter3.SetActive(true);
         }
 
-        else if (CoreController.Date == 14 && Event.Quest == 1)
+        else if (CoreController.Date == 19)
         {
             inCounterNum = 103;
-            fixincounter3_2.SetActive(true);
+            fixincounter4.SetActive(true);
+        }
+        else if (CoreController.Date == 24)
+        {
+            inCounterNum = 104;
+            fixincounter5.SetActive(true);
+        }
+        else if (CoreController.Date == 29)
+        {
+            inCounterNum = 105;
+            fixincounter6.SetActive(true);
         }
         else
         {

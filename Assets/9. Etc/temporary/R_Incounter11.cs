@@ -41,9 +41,10 @@ public class R_Incounter11 : MonoBehaviour
 
     void Start()
     {
-        closeBtn.SetActive(true);
+        SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.2f);
+        Turn.Instance.closeBtn.SetActive(true);
         myText.text = textArray1[0];
-        nextBtn.interactable = false;
+        Turn.Instance.nextBtn.interactable = false;
     }
 
     void Update()
@@ -63,10 +64,11 @@ public class R_Incounter11 : MonoBehaviour
         else
         {
             incounter.SetActive(false);
-            nextBtn.interactable = true;
-            blockUI.SetActive(false);
-            closeBtn.SetActive(false);
+            Turn.Instance.nextBtn.interactable = true;
+            Turn.Instance.blockUI.SetActive(false);
+            Turn.Instance.closeBtn.SetActive(false);
             GameManager.CardCanvasOn = false;
+            SoundManager.instance.Play("Sounds/Bgm/GameBgm", Sound.Bgm, 0.3f);
         }
     }
 
@@ -121,6 +123,7 @@ public class R_Incounter11 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                // 음식카드 2개 무작위로 삭제
             }
         }
     }
@@ -140,6 +143,7 @@ public class R_Incounter11 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                //음식카드 1티어 무작위로 삭제
             }
         }
     }

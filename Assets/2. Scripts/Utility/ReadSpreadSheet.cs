@@ -32,7 +32,7 @@ public class ReadSpreadSheet : MonoBehaviour
             var data = new ArtifactData();
             data.Name = cells[1];
             data.Description = cells[2];
-            data.Type = Boolean.Parse(cells[3]);
+            data.CurseType = Boolean.Parse(cells[3]);
 
             artifactDB.Add(Convert.ToInt32(cells[0].ToString()), data);
             GameManager.Instance.ArtifactDict.Add(Convert.ToInt32(cells[0].ToString()), false);

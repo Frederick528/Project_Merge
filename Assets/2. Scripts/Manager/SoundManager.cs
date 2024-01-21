@@ -28,7 +28,7 @@ public class SoundManager : MonoBehaviour
             root = new GameObject { name = "@Sound" };
             Object.DontDestroyOnLoad(root);
 
-            string[] soundNames = System.Enum.GetNames(typeof(Sound)); // "Bgm", "Card", "Eat", "Bear", "Turn"
+            string[] soundNames = System.Enum.GetNames(typeof(Sound)); // "Bgm", "Bear", "Effect"
             for (int i = 0; i < soundNames.Length - 1; i++)
             {
                 GameObject go = new GameObject { name = soundNames[i] };
@@ -99,19 +99,23 @@ public class SoundManager : MonoBehaviour
             path = $"Sounds/{path}"; // Sound 폴더 안에 저장될 수 있도록
 
         AudioClip audioClip = null;
-
-        if (type == Sound.Bgm)
+        if (_audioClips.TryGetValue(path, out audioClip) == false)
         {
             audioClip = Resources.Load<AudioClip>(path);
+            _audioClips.Add(path, audioClip);
         }
-        else
-        {
-            if (_audioClips.TryGetValue(path, out audioClip) == false)
-            {
-                audioClip = Resources.Load<AudioClip>(path);
-                _audioClips.Add(path, audioClip);
-            }
-        }
+        //if (type == Sound.Bgm)
+        //{
+        //    audioClip = Resources.Load<AudioClip>(path);
+        //}
+        //else
+        //{
+        //    if (_audioClips.TryGetValue(path, out audioClip) == false)
+        //    {
+        //        audioClip = Resources.Load<AudioClip>(path);
+        //        _audioClips.Add(path, audioClip);
+        //    }
+        //}
 
         if (audioClip == null)
             Debug.Log($"AudioClip Missing ! {path}");

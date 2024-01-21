@@ -55,6 +55,7 @@ public class TextController : MonoBehaviour
 
     void Start()
     {
+        //SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.2f);   GameManager에서 실행해줌
         myText.text = textArray1[0];
         //mytext2.text = CharacterName1[0];
         Turn.Instance.nextBtn.interactable = false;

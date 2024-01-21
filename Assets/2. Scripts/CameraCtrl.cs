@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CameraCtrl : MonoBehaviour
 {
+    public int value;
+
     //float moveSpeed = 2000f;
     float zoomSpeed = 50f;
 
@@ -54,6 +57,19 @@ public class CameraCtrl : MonoBehaviour
         if (GameManager.CardCanvasOn)
             return;
         CameraConfine();
+
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            value++;
+        }
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            CoreController.HungerStatChange(value);
+        }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            value--;
+        }
     }
 
     void CameraConfine()

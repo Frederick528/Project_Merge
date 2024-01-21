@@ -28,9 +28,10 @@ public class R_Incounter3 : MonoBehaviour
 
     void Start()
     {
+        SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.2f);
         myText.text = textArray1[0];
-        nextBtn.interactable = false;
-        closeBtn.SetActive(true);    
+        Turn.Instance.nextBtn.interactable = false;
+        Turn.Instance.closeBtn.SetActive(true);    
     }
 
     void Update()
@@ -55,9 +56,10 @@ public class R_Incounter3 : MonoBehaviour
         {
             incounter.SetActive(false);
             Turn.Instance.nextBtn.interactable = true;
-            blockUI.SetActive(false);
-            closeBtn.SetActive(false);
+            Turn.Instance.blockUI.SetActive(false);
+            Turn.Instance.closeBtn.SetActive(false);
             GameManager.CardCanvasOn = false;
+            SoundManager.instance.Play("Sounds/Bgm/GameBgm", Sound.Bgm, 0.3f);
         }
     }
 
@@ -104,6 +106,7 @@ public class R_Incounter3 : MonoBehaviour
             {
                 select2.SetActive(true);
                 isWaitingForInput = false;
+                //배고픔 20 추가, 갈증 20 추가
             }
         }
     }
@@ -122,6 +125,7 @@ public class R_Incounter3 : MonoBehaviour
             if (currentTextIndex3 >= result2.Length)
             {
                 isWaitingForInput = false;
+                //효과없음.
             }
         }
     }

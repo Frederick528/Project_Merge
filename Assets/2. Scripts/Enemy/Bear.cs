@@ -75,7 +75,8 @@ public class Bear : MonoBehaviour
                 Debug.Log("추적할 대상이 없습니다.");
                 Debug.Log("곰들이 한심하다는 듯이 바라보고 있습니다...");
                 BearManager.BearLeave();
-                BearManager._turnSkip.interactable = true;
+                BearManager.Notice("추적할 대상이 없습니다." +
+                                   "곰들이 한심하다는 듯이 바라보고 있습니다...");
             }
             
             if(!_anim.GetBool("Idle") && !IsDead)

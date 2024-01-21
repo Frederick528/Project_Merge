@@ -31,5 +31,6 @@ public class Notice : MonoBehaviour
     {
         BearManager.Instance.bearApear.gameObject.SetActive(false);
         BearManager._turnSkip.interactable = true;
+        GameManager.CardCanvasOn = false;
     }
 }

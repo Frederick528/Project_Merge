@@ -3,7 +3,7 @@
     using UnityEngine;
     using UnityEngine.UI;
 
-    public class R_Incounter1 : MonoBehaviour
+    public class R_Incounter8 : MonoBehaviour
     {
         public bool isWaitingForInput = true;
         public int bifurcation = 0;
@@ -18,22 +18,24 @@
         GameObject blockUI, closeBtn;
 
         int currentTextIndex, currentTextIndex1, currentTextIndex2, currentTextIndex3= 0;
-        private string[] textArray1 = { "평화로우면서도 평화롭지 않은 하루이다..",
-                                       "그러나 갑자기.. 닌자가 나타났다..!.", };
+        private string[] textArray1 = { "부스럭부스럭.",
+                                        "숲속에서 인의적인 부스럭 소리가 난다.",
+                                        "동물일 수도 있다. ",
+                                        "굳이 여기 들어오면 민폐니 돌로 쫓아내는게 좋을 것 같다." };
 
  
-         private string[] CharacterName1 = { "", "닌자", "", ""};
+         private string[] R_CharacterName1 = { "", "", "", "마녀","","",""};
+         private string[] R_CharacterName2 = { "", "", "", "마녀","",""};
 
 
 
-        private string[] result1 = { "", "나를 못봐도 괜찮지만 나를 무시하는건 용서할 수 없다!!!", "닌자는 왼손에서 나온 수리검으로 나를 공격했다!", "스쳤지만.. 많이 따갑다..", "시선을 돌리니, 닌자가 사라졌다.." };
-        private string[] result2 = { "", "고맙다.", "닌자는 자신이 들고있던 음식을 선물로 두고갔다.", "대체 닌자란 무엇일까.." };
+        private string[] result1 = { "", "숲속으로 돌을 가볍게 던졌다.", "조그마한 돌은 포물선을 그리며..", " \"아야!!\"", "마녀가 맞았다." , "결과는 뻔했다… ", "그녀의 저주를 받게 되었다." };
+        private string[] result2 = { "", "나는 숲속으로 걸어갔다..", "나무 뒤에서 빼꼼 쳐다보니 마녀가 있었다.", "엇! 안녕! 오늘은 올껀 아니었는데.. 들켰네..?", "그녀는 찾은김에 보상을 주겠다며 보석 하나를 던져주고 갔다.", "뭔가 좀 특이하게 반짝인다…" };
 
 
         void Start()
         {
             myText.text = textArray1[0];
-            mytext2.text = CharacterName1[0];
             closeBtn.SetActive(true);
             nextBtn.interactable = false;
             if (canvasImage == null)
@@ -65,7 +67,7 @@
             else
             {
                 incounter.SetActive(false);
-                Turn.Instance.nextBtn.interactable = true;
+                nextBtn.interactable = true;
                 blockUI.SetActive(false);
                 closeBtn.SetActive(false);
                 GameManager.CardCanvasOn = false;
@@ -95,23 +97,27 @@
 
         void UpdateText2(string[] textArray)
         {
-            // 배열 길이 확인 후 업데이트
-            if (currentTextIndex3 < CharacterName1.Length && isWaitingForInput)
+        // 배열 길이 확인 후 업데이트
+        if (currentTextIndex2 < R_CharacterName1.Length && isWaitingForInput)
+        {
+            mytext2.text = R_CharacterName1[currentTextIndex2];
+            if (mytext2.text == "마녀")
             {
-                mytext2.text = CharacterName1[currentTextIndex3];
-                if (mytext2.text == "닌자")
-                {
-                    StartCoroutine(FadeIn());
-                }
-                else
-                {
-                    StartCoroutine(FadeOut());
-                }
+                StartCoroutine(FadeIn());
             }
-            else
+        }
+        if (currentTextIndex3 < R_CharacterName2.Length && isWaitingForInput)
+        {
+            mytext2.text = R_CharacterName1[currentTextIndex3];
+            if (mytext2.text == "마녀")
             {
-                Debug.Log("Not Text");
+                StartCoroutine(FadeIn());
             }
+        }
+        else
+        {
+            Debug.Log("Not Text");
+        }
         }
 
         void Incounter1()
@@ -122,7 +128,6 @@
                 if (currentTextIndex < textArray1.Length)
                 {
                     UpdateText(textArray1);
-                    UpdateText2(CharacterName1);
                 }
                 if (currentTextIndex >= textArray1.Length)
                 {
@@ -141,6 +146,7 @@
                 if (currentTextIndex2 < result1.Length)
                 {
                     UpdateText(result1);
+                    UpdateText2(R_CharacterName1);
                 }
                 if (currentTextIndex2 >= result1.Length)
                 {
@@ -161,7 +167,7 @@
                 if (currentTextIndex3 < result2.Length)
                 {
                     UpdateText(result2);
-                    UpdateText2(CharacterName1);
+                    UpdateText2(R_CharacterName2);
                 }
                 if (currentTextIndex3 >= result2.Length)
                 {

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,16 +27,16 @@ public class TextController : MonoBehaviour
     private string[] textArray2 = {"",
                                     "그런 생각이 내 머릿속을 맴돌 때, 내 인기척에 누군가 다가오는게 느껴졌다.",
                                     "이상할 정도로 긴 머리카락에, 이런 숲에서 살고있다고 보기도 힘든 그런 옷을 입고있는 여인이 앞에 있었다.",
-                                    "사람인가? 어떻게 살아있는지 모르겠네. 일단은 반가워.",
-                                    "믿기 힘들겠지만. 나는 마녀야." };
+                                    "\"어 일어났구나? 반가워.\"",
+                                    "\"믿기 힘들겠지만. 나는 마녀야.\"" };
 
     private string[] textArray3 = { "",
                                     "뭐 믿든 말든 상관없어.",
-                                    "나는 이 숲을 지키는 마녀야. 너는 이 숲에 무단으로 들어온 외지인이고." };
+                                    "나는 이 숲을 지키는 마녀야. 너는 외지인이고." };
 
     private string[] textArray4 = { "",
-                                    "별거 아니야. 30일. 딱 30일을 여기서 살아서 살아있다면.",
-                                    "그때는 다른 곳으로 너를 안내해줄게.",
+                                    "\"별거 아니야. 30일. 딱 30일을 생존한다면\"",
+                                    "\"그때는 다른 곳으로 너를 안내해줄게.\"",
                                     "그녀는 그 말과 함께 주머니 뒤에서 황금빛 사과를 내게 건내며 사라졌다.",
                                     "나는 혼란스러운 마음을 안고 사과를 바라보았다.",
                                     "이 숲의 마녀가 나를 돌봐준다니. 이게 무슨일인걸까..",
@@ -43,19 +44,19 @@ public class TextController : MonoBehaviour
 
 
 
-    private string[] CharacterName1 = { "", "", "", "" };
+    //private string[] CharacterName1 = { "", "", "", "" };
     private string[] CharacterName2 = { "", "", "", "???", "마녀" };
     private string[] CharacterName3 = { "", "마녀", "마녀" };
     private string[] CharacterName4 = { "", "마녀", "마녀", "", "", "", "" };
 
     private string[] result1 = { "", "아삭.", "사과를 한입 베어먹었다.", "무언가 몸이.. 건강해진 것 같다..!", "일단은 뭐든.. 30일을 한번 버텨보자.." };
-    private string[] result2 = { "", "그래도 뭔가 먹기가 좀 그렇다.", "일단은 들고는 있자", "일단은 뭐든.. 30일을 한번 버텨보자.." };
+    private string[] result2 = { "", "그래도 뭔가 먹기가 좀 그렇다.", "그냥 버리는게 좋을 것 같다..", "일단은 뭐든.. 30일을 한번 버텨보자.." };
 
 
     void Start()
     {
         myText.text = textArray1[0];
-        mytext2.text = CharacterName1[0];
+        //mytext2.text = CharacterName1[0];
         nextBtn.interactable = false;
         //closeBtn.SetActive(true);
         if (canvasImage == null)
@@ -75,25 +76,23 @@ public class TextController : MonoBehaviour
         {
             Incounter1();
         }
-        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 < textArray2.Length)
+        else if  (currentTextIndex1 < textArray2.Length)
         {
             Select1();
         }
-        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 >= textArray2.Length && currentTextIndex2 < textArray3.Length)
+        else if (currentTextIndex2 < textArray3.Length)
         {
             Select2();
         }
-        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 >= textArray2.Length && currentTextIndex2 >= textArray3.Length && currentTextIndex3 < textArray4.Length)
+        else if (currentTextIndex3 < textArray4.Length)
         {
             Select3();
         }
-        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 >= textArray2.Length && currentTextIndex2 >= textArray3.Length
-                 && currentTextIndex3 >= textArray4.Length && currentTextIndex4 < result1.Length && bifurcation == 0)
+        else if (currentTextIndex4 < result1.Length && bifurcation == 0)
         {
             Result1();
         }
-        else if (currentTextIndex >= textArray1.Length && currentTextIndex1 >= textArray2.Length && currentTextIndex2 >= textArray3.Length
-                 && currentTextIndex3 >= textArray4.Length && currentTextIndex5 < result2.Length && bifurcation == 1)
+        else if (currentTextIndex5 < result2.Length && bifurcation == 1)
         {
             Result2();
         }
@@ -102,7 +101,6 @@ public class TextController : MonoBehaviour
             incounter.SetActive(false);
             nextBtn.interactable = true;
             blockUI.SetActive(false);
-            //closeBtn.SetActive(false);
             GameManager.CardCanvasOn = false;
             SoundManager.instance.Play("Sounds/Bgm/GameBgm", Sound.Bgm, 0.3f);
         }
@@ -144,11 +142,11 @@ public class TextController : MonoBehaviour
     void UpdateText2(string[] textArray)
     {
         // 배열 길이 확인 후 업데이트
-        if (currentTextIndex < CharacterName1.Length && isWaitingForInput)
+       /* if (currentTextIndex < CharacterName1.Length && isWaitingForInput)
         {
             mytext2.text = CharacterName1[currentTextIndex];
         }
-        else if (currentTextIndex1 < CharacterName2.Length && isWaitingForInput)
+        else*/ if (currentTextIndex1 < CharacterName2.Length && isWaitingForInput)
         {
             mytext2.text = CharacterName2[currentTextIndex1];
             if (mytext2.text == "마녀" || mytext2.text == "???")
@@ -198,7 +196,7 @@ public class TextController : MonoBehaviour
             if (currentTextIndex < textArray1.Length)
             {
                 UpdateText(textArray1);
-                UpdateText2(CharacterName1);
+                //UpdateText2(CharacterName1);
             }
             if (currentTextIndex >= textArray1.Length)
             {
@@ -278,10 +276,8 @@ public class TextController : MonoBehaviour
             if (currentTextIndex4 >= result1.Length)
             {
                 transparency.SetActive(true);
-                select4.SetActive(true);
                 isWaitingForInput = false;
             }
-
         }
     }
 
@@ -299,11 +295,11 @@ public class TextController : MonoBehaviour
             if (currentTextIndex5 >= result2.Length)
             {
                 transparency.SetActive(true);
-                select4.SetActive(true);
                 isWaitingForInput = false;
             }
         }
     }
+
     IEnumerator FadeOut()
     {
         float targetAlpha = 0f;

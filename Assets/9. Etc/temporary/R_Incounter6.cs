@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class R_Incounter4 : MonoBehaviour
+public class R_Incounter6 : MonoBehaviour
 {
     public bool isWaitingForInput = true;
     public int bifurcation = 0;
@@ -18,19 +18,20 @@ public class R_Incounter4 : MonoBehaviour
 
     int currentTextIndex, currentTextIndex2, currentTextIndex3, currentTextIndex5 = 0;
 
-    private string[] textArray1 = { "가만히 작업하고 있던 날. 하늘에서 어떤 편지가 내려왔다.",
-                                   "마녀. 라고 적혀있다. 아무것도 안적혀있는 종이에 마법으로 글씨가 보이기 시작했다."};
-    private string[] textArray2 = {"","문제를 하나 낼게 안맞출 수는 없고, 맞추면 상이 있고 틀리면 벌이있을꺼야! 즐겨줘!",
-                                   "덜어내면 덜어낼 수록 점점 커지는 것은?"};
-    private string[] result1 = { "", "나는 편지를 보고 \"구멍\" 이라고 대답했다.", "\"정답이야, 이걸 맞추다니. 재미없네.\"", "\"아무튼 약속한 상이야.\"","배고픔 10 증가", 
-                                 "몸이 든든해지는게 느껴진다.", "저주였으면 어떤 효과였을지 조금 무서워진다…." };
-    private string[] result2 = { "", "나는 편지를 보고 \"사랑\" 이라고 대답했다.", "\"사랑? 사랑이라.. 그것도 나쁘지 않네… 답은 아니지만!\"", 
-                                 "\"하지만 그래도 대답은 마음에 들었으니, 약간의 저주만 줄게!\"","배고픔 10 감소","몸이 약해지는 것 같다..","마음에 들었으면 한번만 봐주지.." };
+    private string[] textArray1 = { "밤이 되고 숲의 어둠 속에서 이상한 그림자들이 지나가는듯한 느낌을 받았다.", 
+                                    "그림자들은 나무 사이를 미끄러지듯 움직이는것 같다. ",
+                                    "어딘가에서 나를 주시하고 있는 듯한 기분을 주며 자취를 감춘다."};
+    private string[] textArray2 = {"","저 그림자를 따라가봐야 하나…"};
+    private string[] result1 = { "", "그림자가 멈춘곳에 다가갔다.", 
+                                     "그곳에 도착하자 빛나는 돌을 발견했다. ",
+                                     "돌에 손을 대자 신비로운 에너지가 전달되었다."};
+    private string[] result2 = { "", "역시 따라가는 것은 위험해보여…",
+                                     "그냥 돌아가는게 좋겠어." };
 
     void Start()
     {
         myText.text = textArray1[0];
-        //nextBtn.interactable = false;
+        nextBtn.interactable = false;
         closeBtn.SetActive(true);    
     }
 
@@ -55,7 +56,7 @@ public class R_Incounter4 : MonoBehaviour
         else
         {
             incounter.SetActive(false);
-            Turn.Instance.nextBtn.interactable = true;
+            nextBtn.interactable = true;
             blockUI.SetActive(false);
             closeBtn.SetActive(false);
             GameManager.CardCanvasOn = false;

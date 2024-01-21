@@ -30,8 +30,8 @@ public class R_Incounter2 : MonoBehaviour
     void Start()
     {
         myText.text = textArray1[0];
-        //nextBtn.interactable = false;
-        //closeBtn.SetActive(true);    
+        nextBtn.interactable = false;
+        closeBtn.SetActive(true);    
     }
 
     void Update()
@@ -59,7 +59,8 @@ public class R_Incounter2 : MonoBehaviour
         else
         {
             incounter.SetActive(false);
-            Turn.Instance.nextBtn.interactable = true;
+            nextBtn.interactable = true;
+            //Turn.Instance.nextBtn.interactable = true;
             blockUI.SetActive(false);
             closeBtn.SetActive(false);
             GameManager.CardCanvasOn = false;

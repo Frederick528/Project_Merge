@@ -124,7 +124,8 @@ public class UnityChanController : Draggable
     private async void Start()
     {
         FaceAI();
-        Talking();
+        if (!GameManager.Instance.isTutorial)
+            Talking();
     }
 
     private void Update()

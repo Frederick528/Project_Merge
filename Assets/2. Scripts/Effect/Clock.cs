@@ -74,6 +74,7 @@ public class Clock : MonoBehaviour
         {
             var v = CardManager.CreateCard(5000);
             shopController.SetRandomButtonImg();
+            BearManager.Notice("상인이 찾아온것 같습니다");
         }
         if (CoreController.IsNightTime)
         {
@@ -102,7 +103,7 @@ public class Clock : MonoBehaviour
                 }
             }
             
-            BearManager.Notice("황혼이 저뭅니다!");
+            BearManager.Notice("곰들이 찾아왔습니다.");
         }
     }
 }

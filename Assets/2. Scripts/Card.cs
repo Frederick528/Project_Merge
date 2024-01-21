@@ -209,8 +209,18 @@ public class Card : Entity
                 row.Remove(row[^1]);
             }
             
-            for (int i = 0; i < row.Count;)
+            for (int i = 1; i < row.Count;)
             {
+                Debug.Log(row.Count);
+                
+                if (row.Count <= 1)
+                {
+                    Debug.Log(row.Count);
+                    if (tg.Count != 0 && row.Count != 0)
+                        CardManager.DestroyCard(
+                            tg.RemoveCard(row[0]));
+                    break;
+                }
                 //0번 삭제
                 var v = tg.RemoveCard(row[0]);
                 var cardInstance = CardManager.CreateCard(v.level + 1, (int)v.cardType, true);
@@ -221,6 +231,20 @@ public class Card : Entity
 
                 cardInstance.transform.position =
                     CardManager.Areas[1].transform.position + Vector3.up * 2;
+                
+                
+                if (GameManager.Instance.ArtifactDict[9003])
+                {
+                    cardInstance = CardManager.CreateCard(v.level + 1, (int)v.cardType, true);
+
+                    //생성 하자마자 animator 삭제
+                    if (cardInstance.TryGetComponent(out anim))
+                        Destroy(anim);
+
+                    cardInstance.transform.position =
+                        CardManager.Areas[1].transform.position + Vector3.up * 2;
+                }
+                
 
                 CardManager.DestroyCard(v);
                 CardManager.DestroyCard(tg.RemoveCard(row[1]));
@@ -230,6 +254,7 @@ public class Card : Entity
                 //다시 0번 삭제
                 row.Remove(row[0]);
                 result = true;
+
             }
         }
 
@@ -268,6 +293,8 @@ public class Card : Entity
         var bears = from v in results
             where v.TryGetComponent(out Bear b)
             select v.GetComponent<Bear>();
+
+        var trig = false;
         
         for (int i = 1; i < results.Length; i++)
         {
@@ -278,16 +305,24 @@ public class Card : Entity
 
             if (hg != null)
             {
+                Debug.Log(true);
                 if (!target.transform.parent.TryGetComponent(out CardGroup tg)) //카드 그룹 + 카드 
                 {
-                    OnMerge(this.gameObject, target.gameObject);
+                    if (!trig)
+                        OnMerge(this.gameObject, target.gameObject);
                     return;
                 }
-                if (tg.Equals(hg))// 같은 카드 그룹 내, 밑에서 처리
+                if (tg.Equals(hg))
                 {
-                    Debug.Log("예측 성공");
-                    //nothing todo
+                    if(tg.IndexOf(c) == 1)
+                    {
+                        OnMerge(this.gameObject, tg.gameObject);
+                        trig = true;
+                    }
+                    continue;
                 }
+                OnMerge(this.gameObject, tg.gameObject);
+                return;
             }
             if (target.transform.parent.TryGetComponent(out CardGroup g))
             {
@@ -431,6 +466,7 @@ public class Card : Entity
 
     private void OnMerge(GameObject t1, GameObject t2, bool ignoreLimit)
     {
+        Debug.Log(true);
         OnMergeEnter();
         
         if (!t1.TryGetComponent(out Card handled) && !t2.TryGetComponent(out Card field))
@@ -456,9 +492,11 @@ public class Card : Entity
             (t2.transform.position.z > refZMin && t2.transform.position.z < refZMax)
         };
         
+        Debug.Log(true);
         //target
         if (t2.transform.TryGetComponent(out CardGroup tg)) // a + card group
         {
+            Debug.Log(true);
             if (flag[0] && flag[1]) //put card group onto merging area
             {
                 if ( !CheckRulesForGroup(tg))
@@ -471,7 +509,7 @@ public class Card : Entity
                 }
             } 
             else if (t1.transform.parent.TryGetComponent(out CardGroup hg)) // 카드 그룹 + 카드 그룹 || 그룹 + 카드
-            {
+            {;
                 // 해당 카드 그룹의 하위 카드들에서 중복 호출 방지
                 if (hg.IndexOf(handled) == 0)
                 {
@@ -496,10 +534,12 @@ public class Card : Entity
             {
                 //어차피 t1은 이 메소드를 호출하는 객체 일테니 이게 false가 될 일은 없음 .
                 tg.AddCard(handled);
+                
             }
         }
         else if (t2.TryGetComponent(out Card card)) // a + card 
         {
+            Debug.Log(true);
             if (flag[0] && flag[1]) // Merge
             {
                 if (t1.transform.parent.TryGetComponent(out CardGroup hg)) // put card group onto card;
@@ -530,9 +570,16 @@ public class Card : Entity
                             {
                                 var c = CardManager.CreateCard(this.level + 1, (int)this.cardType, true);
                                 c.transform.position = CardManager.Areas[1].transform.position + Vector3.up * 2;
+
+                                //9003번 활성화시 한번 더
+                                if (GameManager.Instance.ArtifactDict[9003])
+                                {
+                                    c = CardManager.CreateCard(this.level + 1, (int)this.cardType, true);
+                                    c.transform.position = CardManager.Areas[1].transform.position + Vector3.up * 2;
+                                }
+                                
                                 CardManager.DestroyCard(new[] { card, handled });
-                                
-                                
+
                             }
                             else if (card.cardType != CardType.Combination)
                             {
@@ -543,6 +590,16 @@ public class Card : Entity
                                         var c = CardManager.CreateCard(rule[^1], true);
                                         var tPos = CardManager.Areas[1].transform.localPosition + Vector3.up * 2;
                                         c.transform.localPosition = tPos;
+                                        
+                                        
+                                        //9003번 활성화시 한번 더
+                                        if (GameManager.Instance.ArtifactDict[9003])
+                                        {
+                                            c = CardManager.CreateCard(rule[^1], true);
+                                            tPos = CardManager.Areas[1].transform.localPosition + Vector3.up * 2;
+                                            c.transform.localPosition = tPos;
+                                        }
+                                        
                                         CardManager.DestroyCard(new[] { card, handled });
                                     }
                                 }
@@ -562,10 +619,12 @@ public class Card : Entity
             }
             else if (t1.transform.parent.TryGetComponent(out CardGroup hg)) // put card group onto card -- 작동;
             {
+                Debug.Log(true);
                 hg.InsertCard(card);
             }
             else if (handled != null) //put card onto card -- 작동 안함 OnMouseUp에서 직접 처리.
             {
+                Debug.Log(true);
                 var emptyParent = CreateParent(card.transform);
                 emptyParent.AddCardRange(new [] {card, handled});
             }

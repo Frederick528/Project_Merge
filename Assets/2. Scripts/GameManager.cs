@@ -47,10 +47,14 @@ public class GameManager : MonoBehaviour
     
     private void Start()
     {
-        SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.3f);
+       
         if (isTutorial)
         {
             Rect rect1 = new Rect(Screen.width - 120, Screen.height - 40, 100, 30);
+        }
+        else
+        {
+            SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.3f);
         }
     }
 

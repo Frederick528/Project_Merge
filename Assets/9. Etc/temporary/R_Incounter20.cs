@@ -178,7 +178,9 @@ public class R_Incounter20 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
-                //2티어 원재료 카드 2장 획득
+                CardManager.CreateCard(2011);
+                CardManager.CreateCard(2021);
+                //2티어 원재료 카드 1장씩 획득
             }
         }
     }

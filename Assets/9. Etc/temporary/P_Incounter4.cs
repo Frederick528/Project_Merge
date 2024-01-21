@@ -254,6 +254,15 @@ public class P_Incounter4 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+
+                for (int i = 0; i < 3; i++)
+                {
+                    CardManager.TryGetCards(out Card[] cards);
+                    if (cards.Length == 0)
+                        return;
+                    int rand = Random.Range(0, cards.Length);
+                    CardManager.DestroyCard(cards[rand]);
+                }
                 // 무작위 카드 3장 삭제
             }
         }
@@ -275,7 +284,10 @@ public class P_Incounter4 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
-                //2티어 카드 3장 획득
+                CardManager.CreateCard(1012);
+                CardManager.CreateCard(1021);
+                CardManager.CreateCard(2021);
+                //2티어 음식, 물, 돌 1장씩 획득
             }
         }
     }

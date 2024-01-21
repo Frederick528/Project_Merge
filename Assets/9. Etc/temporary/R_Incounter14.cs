@@ -42,8 +42,8 @@ public class R_Incounter14 : MonoBehaviour
     void Start()
     {
         myText.text = textArray1[0];
-        nextBtn.interactable = false;
-        closeBtn.SetActive(true);
+        Turn.Instance.nextBtn.interactable = false;
+        Turn.Instance.closeBtn.SetActive(true);
     }
 
     void Update()
@@ -63,9 +63,9 @@ public class R_Incounter14 : MonoBehaviour
         else
         {
             incounter.SetActive(false);
-            nextBtn.interactable = true;
-            blockUI.SetActive(false);
-            closeBtn.SetActive(false);
+            Turn.Instance.nextBtn.interactable = true;
+            Turn.Instance.blockUI.SetActive(false);
+            Turn.Instance.closeBtn.SetActive(false);
             GameManager.CardCanvasOn = false;
         }
     }
@@ -121,6 +121,7 @@ public class R_Incounter14 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                //æ∆∆º∆Â∆Æ π´¿€¿ß 1∞≥ »πµÊ
             }
         }
     }
@@ -140,6 +141,7 @@ public class R_Incounter14 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                //«„±‚ 10 ∞®º“
             }
         }
     }

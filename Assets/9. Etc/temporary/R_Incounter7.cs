@@ -62,8 +62,8 @@ public class R_Incounter7 : MonoBehaviour
     {
         myText.text = textArray1[0];
         mytext2.text = CharacterName1[0];
-        nextBtn.interactable = false;
-        closeBtn.SetActive(true);
+        Turn.Instance.nextBtn.interactable = false;
+        Turn.Instance.closeBtn.SetActive(true);
         if (canvasImage == null)
         {
             canvasImage = GetComponent<Image>();
@@ -104,9 +104,9 @@ public class R_Incounter7 : MonoBehaviour
             else
             {
                 incounter.SetActive(false);
-                closeBtn.SetActive(false);
-                nextBtn.interactable = true;
-                blockUI.SetActive(false);
+                Turn.Instance.closeBtn.SetActive(false);
+                Turn.Instance.nextBtn.interactable = true;
+                Turn.Instance.blockUI.SetActive(false);
                 GameManager.CardCanvasOn = false;
             }
         }
@@ -260,6 +260,7 @@ public class R_Incounter7 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                //갈증 10 감소
             }
 
         }
@@ -281,6 +282,7 @@ public class R_Incounter7 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                //갈증 10 증가
             }
         }
     }

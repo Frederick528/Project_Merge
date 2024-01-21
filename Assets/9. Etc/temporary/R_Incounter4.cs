@@ -30,8 +30,8 @@ public class R_Incounter4 : MonoBehaviour
     void Start()
     {
         myText.text = textArray1[0];
-        //nextBtn.interactable = false;
-        closeBtn.SetActive(true);    
+        Turn.Instance.nextBtn.interactable = false;
+        Turn.Instance.closeBtn.SetActive(true);    
     }
 
     void Update()
@@ -56,8 +56,8 @@ public class R_Incounter4 : MonoBehaviour
         {
             incounter.SetActive(false);
             Turn.Instance.nextBtn.interactable = true;
-            blockUI.SetActive(false);
-            closeBtn.SetActive(false);
+            Turn.Instance.blockUI.SetActive(false);
+            Turn.Instance.closeBtn.SetActive(false);
             GameManager.CardCanvasOn = false;
         }
     }
@@ -120,6 +120,7 @@ public class R_Incounter4 : MonoBehaviour
             if (currentTextIndex2 >= result1.Length)
             {
                 isWaitingForInput = false;
+                //배고픔 10 증가.
             }
         }
     }
@@ -138,6 +139,7 @@ public class R_Incounter4 : MonoBehaviour
             if (currentTextIndex3 >= result2.Length)
             {
                 isWaitingForInput = false;
+                //배고픔 10 감소
             }
         }
     }

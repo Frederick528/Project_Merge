@@ -36,8 +36,8 @@
         void Start()
         {
             myText.text = textArray1[0];
-            closeBtn.SetActive(true);
-            nextBtn.interactable = false;
+            Turn.Instance.closeBtn.SetActive(true);
+            Turn.Instance.nextBtn.interactable = false;
             if (canvasImage == null)
                 {
                     canvasImage = GetComponent<Image>();
@@ -67,9 +67,9 @@
             else
             {
                 incounter.SetActive(false);
-                nextBtn.interactable = true;
-                blockUI.SetActive(false);
-                closeBtn.SetActive(false);
+                Turn.Instance.nextBtn.interactable = true;
+                Turn.Instance.blockUI.SetActive(false);
+                Turn.Instance.closeBtn.SetActive(false);
                 GameManager.CardCanvasOn = false;
             }
         }
@@ -152,9 +152,10 @@
                 {
                     transparency.SetActive(true);
                     isWaitingForInput = false;
+                    //1티어 카드 2장 무작위로 삭제
                 }
 
-            }
+        }
         }
 
         public void Result2()
@@ -173,6 +174,7 @@
                 {
                     transparency.SetActive(true);
                     isWaitingForInput = false;
+                    //아티팩트 1개 무작위 획득.
                 }
             }
         }

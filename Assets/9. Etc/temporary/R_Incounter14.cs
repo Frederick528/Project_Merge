@@ -39,12 +39,15 @@ public class R_Incounter14 : MonoBehaviour
         "µû°©´Ù! "
     };
 
-    void Start()
+    void OnEnable()
     {
         SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.2f);
         myText.text = textArray1[0];
         Turn.Instance.nextBtn.interactable = false;
         Turn.Instance.closeBtn.SetActive(true);
+        isWaitingForInput = true;
+        bifurcation = 0;
+        (currentTextIndex, currentTextIndex2, currentTextIndex3) = (0, 0, 0);
     }
 
     void Update()

@@ -30,7 +30,7 @@
         private string[] result2 = { "", "고맙다.", "닌자는 자신이 들고있던 음식을 선물로 두고갔다.", "대체 닌자란 무엇일까.." };
 
 
-        void Start()
+        void OnEnable()
         {
             SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.2f);
             myText.text = textArray1[0];
@@ -38,14 +38,17 @@
             Turn.Instance.closeBtn.SetActive(true);
             Turn.Instance.nextBtn.interactable = false;
             if (canvasImage == null)
+            {
+                canvasImage = GetComponent<Image>();
+                if (canvasImage == null)
                 {
-                    canvasImage = GetComponent<Image>();
-                    if (canvasImage == null)
-                    {
-                        Debug.LogError("Image component not found.");
-                        return;
-                    }
+                    Debug.LogError("Image component not found.");
+                    return;
                 }
+            }
+            isWaitingForInput = true;
+            bifurcation = 0;
+            (currentTextIndex, currentTextIndex1, currentTextIndex2, currentTextIndex3) = (0,0,0,0);
         }
 
         void Update()

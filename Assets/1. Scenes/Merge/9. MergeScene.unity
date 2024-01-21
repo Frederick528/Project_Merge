@@ -24222,6 +24222,7 @@ MonoBehaviour:
   incounter: {fileID: 892646271}
   transparency: {fileID: 1421451868}
   select1: {fileID: 1432824387}
+  getArtifact: {fileID: 1868376397}
   nextBtn: {fileID: 0}
   blockUI: {fileID: 0}
   closeBtn: {fileID: 0}
@@ -36690,6 +36691,7 @@ MonoBehaviour:
   select1: {fileID: 1489599066}
   canvasImage: {fileID: 1010971975}
   fadeSpeed: 0.8
+  getArtifact: {fileID: 1868376397}
   nextBtn: {fileID: 0}
   blockUI: {fileID: 0}
   closeBtn: {fileID: 0}
@@ -47316,6 +47318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e73d104ebaccb2408bd47df07f0c868, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObtainableArtifact: 
   isTutorial: 0
 --- !u!4 &1918549692
 Transform:
@@ -49474,6 +49477,7 @@ MonoBehaviour:
   transparency: {fileID: 542782288}
   select1: {fileID: 1137592113}
   select2: {fileID: 1698954980}
+  getArtifact: {fileID: 1868376397}
   nextBtn: {fileID: 0}
   blockUI: {fileID: 0}
   closeBtn: {fileID: 0}

@@ -39,12 +39,15 @@ public class R_Incounter11 : MonoBehaviour
         "다행히 문제없이 도망칠 수 있었다.."
     };
 
-    void Start()
+    void OnEnable()
     {
         SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.2f);
         Turn.Instance.closeBtn.SetActive(true);
         myText.text = textArray1[0];
         Turn.Instance.nextBtn.interactable = false;
+        isWaitingForInput = true;
+        bifurcation = 0;
+        (currentTextIndex, currentTextIndex2, currentTextIndex3) = (0, 0, 0);
     }
 
     void Update()

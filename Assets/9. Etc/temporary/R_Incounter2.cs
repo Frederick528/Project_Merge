@@ -27,12 +27,15 @@ public class R_Incounter2 : MonoBehaviour
                                 "나는 그걸 조심히 입에 넣었다." };
     private string[] result2_a = { "", "몸에 힘이 도는 것 같다!" };
 
-    void Start()
+    void OnEnable()
     {
         SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.2f);
         myText.text = textArray1[0];
         Turn.Instance.nextBtn.interactable = false;
-        Turn.Instance.closeBtn.SetActive(true);    
+        Turn.Instance.closeBtn.SetActive(true);
+        isWaitingForInput = true;
+        bifurcation = 0;
+        (currentTextIndex, currentTextIndex2, currentTextIndex3, currentTextIndex4, currentTextIndex5) = (0, 0, 0, 0, 0);
     }
 
     void Update()

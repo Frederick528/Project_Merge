@@ -80,7 +80,7 @@ public class TutorialManager : MonoBehaviour
                     {
                         Debug.Log("decline");
                         GameManager.Instance.isTutorial = false;
-                        SceneManager.LoadScene("0121");
+                        SceneManager.LoadScene("9. MergeScene");
                         CoreController.ResetGame();
                     })
                 }
@@ -186,7 +186,7 @@ public class TutorialManager : MonoBehaviour
             {
                 if (v == EndSequence)
                 {
-                    var op = SceneManager.LoadSceneAsync("0121");
+                    var op = SceneManager.LoadSceneAsync("9. MergeScene");
                     OnDestroy();
                     await op;
                     return;

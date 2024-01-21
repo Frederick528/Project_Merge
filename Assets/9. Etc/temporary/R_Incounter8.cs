@@ -11,6 +11,7 @@
         public GameObject incounter, transparency, Character, select1;
         public Image canvasImage;
         public float fadeSpeed = 0.5f; // 투명도가 줄어드는 속도
+        public GetArtifact getArtifact;
 
         [SerializeField]
         Button nextBtn;
@@ -33,21 +34,24 @@
         private string[] result2 = { "", "나는 숲속으로 걸어갔다..", "나무 뒤에서 빼꼼 쳐다보니 마녀가 있었다.", "엇! 안녕! 오늘은 올껀 아니었는데.. 들켰네..?", "그녀는 찾은김에 보상을 주겠다며 보석 하나를 던져주고 갔다.", "뭔가 좀 특이하게 반짝인다…" };
 
 
-        void Start()
+        void OnEnable()
         {
             SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.2f);
             myText.text = textArray1[0];
             Turn.Instance.closeBtn.SetActive(true);
             Turn.Instance.nextBtn.interactable = false;
             if (canvasImage == null)
+            {
+                canvasImage = GetComponent<Image>();
+                if (canvasImage == null)
                 {
-                    canvasImage = GetComponent<Image>();
-                    if (canvasImage == null)
-                    {
-                        Debug.LogError("Image component not found.");
-                        return;
-                    }
+                    Debug.LogError("Image component not found.");
+                    return;
                 }
+            }
+            isWaitingForInput = true;
+            bifurcation = 0;
+            (currentTextIndex, currentTextIndex1, currentTextIndex2, currentTextIndex3) = (0, 0, 0, 0);
         }
 
         void Update()
@@ -182,6 +186,9 @@
                 {
                     transparency.SetActive(true);
                     isWaitingForInput = false;
+                    int rand = Random.Range(0, GameManager.Instance.ObtainableArtifact.Count);
+                    getArtifact.SetArtifactWindow(GameManager.Instance.ObtainableArtifact[rand]);
+                    GameManager.Instance.ObtainableArtifact.RemoveAt(rand);
                     //아티팩트 1개 무작위 획득.
                 }
             }

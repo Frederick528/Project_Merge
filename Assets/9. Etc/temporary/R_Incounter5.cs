@@ -26,11 +26,14 @@ public class R_Incounter5 : MonoBehaviour
     private string[] result2 = { "", "나는 자홍색 열매를 먹었다.", "열매를 먹은 직후 주위의 식물들의 색이 변하는거 같다.",
                                  "정신을 차린 후 더 이상 배고픔이 느껴지지 않았다." };
 
-    void Start()
+    void OnEnable()
     {
         myText.text = textArray1[0];
         Turn.Instance.nextBtn.interactable = false;
-        Turn.Instance.closeBtn.SetActive(true);    
+        Turn.Instance.closeBtn.SetActive(true);
+        isWaitingForInput = true;
+        bifurcation = 0;
+        (currentTextIndex, currentTextIndex2, currentTextIndex3, currentTextIndex5) = (0, 0, 0, 0);
     }
 
     void Update()

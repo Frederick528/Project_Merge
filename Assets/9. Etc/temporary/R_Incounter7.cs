@@ -58,7 +58,7 @@ public class R_Incounter7 : MonoBehaviour
                                      "물의 정령은 나의 행동에 기분이 좋아진 것 같다",};
 
 
-    void Start()
+    void OnEnable()
     {
         SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.2f);
         myText.text = textArray1[0];
@@ -74,6 +74,9 @@ public class R_Incounter7 : MonoBehaviour
                 return;
             }
         }
+        isWaitingForInput = true;
+        bifurcation = 0;
+        (currentTextIndex, currentTextIndex1, currentTextIndex2, currentTextIndex4, currentTextIndex5) = (0, 0, 0, 0, 0);
     }
 
     void Update()

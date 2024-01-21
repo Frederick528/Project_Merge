@@ -28,12 +28,15 @@ public class R_Incounter6 : MonoBehaviour
     private string[] result2 = { "", "역시 따라가는 것은 위험해보여…",
                                      "그냥 돌아가는게 좋겠어." };
 
-    void Start()
+    void OnEnable()
     {
         SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.2f);
         myText.text = textArray1[0];
         Turn.Instance.nextBtn.interactable = false;
-        Turn.Instance.closeBtn.SetActive(true);    
+        Turn.Instance.closeBtn.SetActive(true);
+        isWaitingForInput = true;
+        bifurcation = 0;
+        (currentTextIndex, currentTextIndex2, currentTextIndex3, currentTextIndex5) = (0, 0, 0, 0);
     }
 
     void Update()

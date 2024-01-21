@@ -11,7 +11,8 @@ public class GameManager : MonoBehaviour
     public static bool CardCanvasOn = false;
 
     public Dictionary<int, bool> ArtifactDict = new();
-    
+    public List<int> ObtainableArtifact = new();
+
     [SerializeField]
     public bool isTutorial = false;
 

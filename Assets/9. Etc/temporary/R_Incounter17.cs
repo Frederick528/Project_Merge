@@ -37,12 +37,15 @@ public class R_Incounter17 : MonoBehaviour
         "그냥 다음에 근처에 덫을 만드는걸로 하자.",
     };
 
-    void Start()
+    void OnEnable()
     {
         SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.2f);
         myText.text = textArray1[0];
         Turn.Instance.nextBtn.interactable = false;
         Turn.Instance.closeBtn.SetActive(true);
+        isWaitingForInput = true;
+        bifurcation = 0;
+        (currentTextIndex, currentTextIndex2, currentTextIndex3) = (0, 0, 0);
     }
 
     void Update()

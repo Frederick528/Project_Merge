@@ -27,11 +27,14 @@ public class R_Incounter4 : MonoBehaviour
     private string[] result2 = { "", "나는 편지를 보고 \"사랑\" 이라고 대답했다.", "\"사랑? 사랑이라.. 그것도 나쁘지 않네… 답은 아니지만!\"", 
                                  "\"하지만 그래도 대답은 마음에 들었으니, 약간의 저주만 줄게!\"","배고픔 10 감소","몸이 약해지는 것 같다..","마음에 들었으면 한번만 봐주지.." };
 
-    void Start()
+    void OnEnable()
     {
         myText.text = textArray1[0];
         Turn.Instance.nextBtn.interactable = false;
-        Turn.Instance.closeBtn.SetActive(true);    
+        Turn.Instance.closeBtn.SetActive(true);
+        isWaitingForInput = true;
+        bifurcation = 0;
+        (currentTextIndex, currentTextIndex2, currentTextIndex3, currentTextIndex5) = (0, 0, 0, 0);
     }
 
     void Update()

@@ -36,6 +36,7 @@ public class ReadSpreadSheet : MonoBehaviour
 
             artifactDB.Add(Convert.ToInt32(cells[0].ToString()), data);
             GameManager.Instance.ArtifactDict.Add(Convert.ToInt32(cells[0].ToString()), false);
+            GameManager.Instance.ObtainableArtifact.Add(Convert.ToInt32(cells[0].ToString()));
         }
         dataDtct = artifactDB;
         return dataDtct;

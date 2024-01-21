@@ -34,15 +34,25 @@ public class R_Incounter20 : MonoBehaviour
     private string[] result2 = { "", "\"이게 뭔지 잘 모르겠는데 역시 비싼걸 챙길 줄 알았어\"", "\"한번 잘 써봐!\"", "나중에 또 보자!"};
 
 
-    void Start()
+    //void Start()
+    //{
+    //    SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.2f);
+    //    myText.text = textArray1[0];
+    //    mytext2.text = CharacterName1[0];
+    //    Turn.Instance.nextBtn.interactable = false;
+    //    Turn.Instance.closeBtn.SetActive(true);
+    //}
+    private void OnEnable()
     {
+        isWaitingForInput = true;
+        bifurcation = 0;
+        (currentTextIndex, currentTextIndex1, currentTextIndex4, currentTextIndex5) = (0,0,0,0);
         SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.2f);
         myText.text = textArray1[0];
         mytext2.text = CharacterName1[0];
         Turn.Instance.nextBtn.interactable = false;
         Turn.Instance.closeBtn.SetActive(true);
     }
-
     void Update()
     {
         if (currentTextIndex < textArray1.Length)
@@ -202,7 +212,9 @@ public class R_Incounter20 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
-                getArtifact.SetArtifactWindow(9000);
+                int rand = Random.Range(0, GameManager.Instance.ObtainableArtifact.Count);
+                getArtifact.SetArtifactWindow(GameManager.Instance.ObtainableArtifact[rand]);
+                GameManager.Instance.ObtainableArtifact.RemoveAt(rand);
                 //아티팩트 1개 획득
             }
         }

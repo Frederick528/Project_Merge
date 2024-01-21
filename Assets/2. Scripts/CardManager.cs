@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 using Random = UnityEngine.Random;
 
 public class CardManager : MonoBehaviour
@@ -37,7 +38,6 @@ public class CardManager : MonoBehaviour
     }
     public static Card CreateCard()
     {
-        SoundManager.instance.Play("Sounds/Effect/DrawSound");
         var v = CreateCard(false);
         return v;
     }
@@ -49,6 +49,11 @@ public class CardManager : MonoBehaviour
         _ogCard ??= Resources.Load<GameObject>("Prefabs/RedCard");
 
         SoundManager.instance.Play("Sounds/Effect/DrawSound");
+        if (CoreController.Instance.StatUICanvas.status)
+        {
+            if (!GameManager.Instance.isTutorial)
+                CoreController.Instance.StatUICanvas.Exit();
+        }
         cardInstance = Instantiate(_ogCard, Instance.transform).GetComponent<Card>();
         cardInstance.cardType = (Card.CardType)Random.Range(0, Enum.GetValues(typeof(Card.CardType)).Length - 2);
         cardInstance.Init(0);
@@ -77,7 +82,6 @@ public class CardManager : MonoBehaviour
 
     public static Card CreateCard(int level, int type, bool isOnMerge = false)
     {
-        SoundManager.instance.Play("Sounds/Effect/DrawSound");
         var result = CreateCard(isOnMerge);
         result.cardType = (Card.CardType)type;
         result.Init(level);
@@ -85,7 +89,6 @@ public class CardManager : MonoBehaviour
     }
     public static Card CreateCard(int ID, bool isOnMerge = false)
     {
-        SoundManager.instance.Play("Sounds/Effect/DrawSound");
         var result = CreateCard(isOnMerge);
         result.Init(ID, out bool res);
         result.ID = ID;
@@ -188,6 +191,15 @@ public class CardManager : MonoBehaviour
         
         
         var idList = _cards.Select( x  => x.ID).Distinct().OrderBy(x => x);
+        if (idList.Count() == 0)
+            return;
+        if (CoreController.Instance.StatUICanvas.status)
+        {
+            if (!GameManager.Instance.isTutorial)
+                CoreController.Instance.StatUICanvas.Exit();
+        }
+        SoundManager.instance.Play("Sounds/Effect/MergeSound");
+
         //var defPos = CardManager.Areas[2].transform.localPosition - Areas[2].transform.localScale / 3 ;
         var margin = Vector3.right * 15;
         var row = 0;

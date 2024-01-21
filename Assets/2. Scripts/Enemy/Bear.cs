@@ -236,6 +236,7 @@ public class Bear : MonoBehaviour
                 {
                     SoundManager.instance.Play("Sounds/Effect/BearDeadSound", Sound.Bear);
                     OnDead();
+                    BearManager.BearLeave(this);
                 }
             }
         }

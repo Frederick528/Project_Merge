@@ -35,6 +35,7 @@
 
         void Start()
         {
+            SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.2f);
             myText.text = textArray1[0];
             Turn.Instance.closeBtn.SetActive(true);
             Turn.Instance.nextBtn.interactable = false;
@@ -71,6 +72,7 @@
                 Turn.Instance.blockUI.SetActive(false);
                 Turn.Instance.closeBtn.SetActive(false);
                 GameManager.CardCanvasOn = false;
+                SoundManager.instance.Play("Sounds/Bgm/GameBgm", Sound.Bgm, 0.3f);
             }
         }
 

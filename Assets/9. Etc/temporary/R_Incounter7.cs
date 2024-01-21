@@ -60,6 +60,7 @@ public class R_Incounter7 : MonoBehaviour
 
     void Start()
     {
+        SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.2f);
         myText.text = textArray1[0];
         mytext2.text = CharacterName1[0];
         Turn.Instance.nextBtn.interactable = false;
@@ -108,6 +109,7 @@ public class R_Incounter7 : MonoBehaviour
                 Turn.Instance.nextBtn.interactable = true;
                 Turn.Instance.blockUI.SetActive(false);
                 GameManager.CardCanvasOn = false;
+                SoundManager.instance.Play("Sounds/Bgm/GameBgm", Sound.Bgm, 0.3f);
             }
         }
     }

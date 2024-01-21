@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.3f);
+            SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.2f);
         }
     }
 

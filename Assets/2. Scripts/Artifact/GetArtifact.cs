@@ -63,6 +63,11 @@ public class GetArtifact : MonoBehaviour
         TextMeshProUGUI[] textMeshPro = artifact.GetComponentsInChildren<TextMeshProUGUI>(true);
         artifact.SetActive(true);
         artifact.GetComponent<Image>().sprite = Resources.Load<Sprite>($"Images/Artifact/{artifactID}");
+        if (data.CurseType)
+        {
+            artifact.GetComponent<Image>().color = new Color(255 / 255, 100 / 255, 100 / 255);
+            textMeshPro[0].color = new Color(255 / 255, 100 / 255, 100 / 255);
+        }
         textMeshPro[0].text = data.Name;
         textMeshPro[1].text = data.Description;
         GameManager.Instance.ArtifactDict[artifactID] = true;
@@ -81,7 +86,7 @@ public class GetArtifact : MonoBehaviour
         });
     }
 
-    public void ActiveArtifact(int artifactID)
+    public void ActiveArtifact(int artifactID)  // 얻었을 때 바로 나타나야 하는 효과
     {
         switch (artifactID)
         {

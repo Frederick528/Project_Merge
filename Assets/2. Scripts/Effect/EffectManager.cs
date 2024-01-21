@@ -44,6 +44,7 @@ public class EffectManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            SoundManager.instance.Play("Sounds/Effect/ClickSound", Sound.Effect, 0.5f);
             ClickEffect();
         }
     }

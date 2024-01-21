@@ -46,6 +46,7 @@ public class P_Incounter4 : MonoBehaviour
 
     void Start()
     {
+        SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.2f);
         if (selectbtn.bifurcation15 == true)
         {
             myText.text = textArray1_1[0];
@@ -112,6 +113,7 @@ public class P_Incounter4 : MonoBehaviour
             Turn.Instance.blockUI.SetActive(false);
             Turn.Instance.closeBtn.SetActive(false);
             GameManager.CardCanvasOn = false;
+            SoundManager.instance.Play("Sounds/Bgm/GameBgm", Sound.Bgm, 0.3f);
         }
     }
 

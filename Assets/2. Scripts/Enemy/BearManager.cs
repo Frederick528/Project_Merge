@@ -53,6 +53,7 @@ public class BearManager : MonoBehaviour
         var flag = Notice("곰이 나타났다!\n\n파란 카드를 사용해 막아보자",
             () =>
             {
+                SoundManager.instance.Play("Sounds/Bgm/BearBgm", Sound.Bgm, 0.2f);
                 for (int i = 0; i < count; i++)
                 {
                     var bearInstance = Instantiate(_bearPrefab, Instance.transform).GetComponent<Bear>();
@@ -91,6 +92,7 @@ public class BearManager : MonoBehaviour
             bear.Leave();
         }
         _bears.Clear();
+        SoundManager.instance.Play("Sounds/Bgm/GameBgm", Sound.Bgm, 0.3f);
         Debug.Log("곰들이 떠나갑니다..");
     }
 
@@ -100,6 +102,8 @@ public class BearManager : MonoBehaviour
         {
             bear.Leave();
             _bears.Remove(bear);
+            if (_bears.Count == 0)
+                SoundManager.instance.Play("Sounds/Bgm/GameBgm", Sound.Bgm, 0.3f);
         }
         catch (Exception e)
         {

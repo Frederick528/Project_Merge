@@ -101,6 +101,7 @@ public class CoreController : MonoBehaviour
             {
                 //StatUICanvas.gameObject.SetActive(true);
                 StatUICanvas.statUI.Hunger[1].fillAmount = 1 - (x / _core.Status.maxHunger);
+                StatManager.instance.inGameHunger[1].fillAmount = 1 - (x / _core.Status.maxHunger);
 
                 // if (x == 0) return;
                 //     _instance.StatUICanvas.gameObject.SetActive(true);
@@ -112,25 +113,33 @@ public class CoreController : MonoBehaviour
             {
                 //StatUICanvas.gameObject.SetActive(true);
                 StatUICanvas.statUI.Thirst[1].fillAmount = 1 - (x / _core.Status.maxThirst);
+                StatManager.instance.inGameThirst[1].fillAmount = 1 - (x / _core.Status.maxThirst);
             });
             HungerFluctuation.Subscribe(x =>
-                StatUICanvas.statUI.Hunger[2].fillAmount = 1 - (x / _core.Status.maxHunger)
-            );
+            {
+                StatUICanvas.statUI.Hunger[2].fillAmount = 1 - (x / _core.Status.maxHunger);
+                StatManager.instance.inGameHunger[2].fillAmount = 1 - (x / _core.Status.maxHunger);
+
+            });
             ThirstFluctuation.Subscribe(x =>
-                StatUICanvas.statUI.Thirst[2].fillAmount = 1 - (x / _core.Status.maxThirst)
-            );
+            {
+                StatUICanvas.statUI.Thirst[2].fillAmount = 1 - (x / _core.Status.maxThirst);
+                StatManager.instance.inGameThirst[2].fillAmount = 1 - (x / _core.Status.maxThirst);
+            });
             _hunger.Subscribe(x =>
             {
                 //StatUICanvas.gameObject.SetActive(true);
-                var v = 1 - ((_core.Status.maxHunger - x) / _core.Status.maxHunger);
+                var v = /*1 - ((_core.Status.maxHunger - x) / _core.Status.maxHunger)*/x / _core.Status.maxHunger;
                 StatUICanvas.statUI.Hunger[0].fillAmount = v;
+                StatManager.instance.inGameHunger[0].fillAmount = v;
                 StatUICanvas.statUI.Texts[0].text = _core.Status.curHunger + "";
             });
             _thirst.Subscribe(x =>
             {
                 //StatUICanvas.gameObject.SetActive(true);
                 StatUICanvas.statUI.Thirst[0].fillAmount =
-                    1 - ((_core.Status.maxThirst - x) / _core.Status.maxThirst);
+                    /*1 - ((_core.Status.maxThirst - x) / _core.Status.maxThirst)*/x / _core.Status.maxHunger;
+                StatManager.instance.inGameThirst[0].fillAmount = x / _core.Status.maxThirst;
                 StatUICanvas.statUI.Texts[1].text = _core.Status.curThirst + "";
                 //     if (x != 0)
                 //         _instance.StatUICanvas.gameObject.SetActive(true);
@@ -153,6 +162,8 @@ public class CoreController : MonoBehaviour
                 //
                 _instance.StatUICanvas.statUI.Texts[2].text =
                     $"[  {x} / {_core.Status.maxAp}  ]";
+                StatManager.instance.text.text = 
+                    $"{x} / {_core.Status.maxAp}";
             });
         }
     }
@@ -409,6 +420,7 @@ public class CoreController : MonoBehaviour
         }
         public static void ModifyFluctuation(int hungerFluctuation, int thirstFluctuation)
         {
+        print(HungerFluctuation.Value);
             tempHungerFluctuation = HungerFluctuation.Value;
             tempThirstFluctuation = ThirstFluctuation.Value;
             addTempHungerFluctuation = (HungerFluctuation.Value + ArtifactAddHunger <= _core.HungerDifficulty) ? 0 :
@@ -441,6 +453,26 @@ public class CoreController : MonoBehaviour
             }
             //TempHungerFluctuation.Value = HungerDifficulty.Value;
             //TempThirstFluctuation.Value = ThirstDifficulty.Value;
+        }
+
+        public static void HungerStatChange(int hungerValue)  // 배고픔 수치 변경
+        {
+            if (ModifyHunger(hungerValue))
+            {
+                HungerFluctuation.Value = (HungerFluctuation.Value + ArtifactAddHunger - hungerValue < _core.HungerDifficulty) ? _core.HungerDifficulty - ArtifactAddHunger : (HungerFluctuation.Value - hungerValue);
+                ModifyDifficulty(hungerValue, 0);
+            }
+            else { GameOverNotice(); }
+            
+        }
+        public static void ThirstStatChange(int thirstValue)  // 배고픔 수치 변경
+        {
+            if (ModifyHunger(thirstValue))
+            {
+                ThirstFluctuation.Value = (ThirstFluctuation.Value + ArtifactAddThirst - thirstValue < _core.ThirstDifficulty) ? _core.ThirstDifficulty - ArtifactAddThirst : (ThirstFluctuation.Value - thirstValue);
+                ModifyDifficulty(thirstValue, 0);
+            }
+            else { GameOverNotice(); }
         }
 
     #endregion
@@ -478,5 +510,18 @@ public class CoreController : MonoBehaviour
     {
         _core.EndGame();
         _core.InitGame();
+    }
+
+    public static void GameOverNotice()
+    {
+        _instance.Notice = _instance.Notice.activeInHierarchy ? _instance.Notice : Instantiate(_instance.Notice);
+        _instance.Notice.SetActive(true);
+        var button = _instance.Notice.GetComponentInChildren<Button>();
+        button.onClick.AddListener(
+            () =>
+            {
+                _core.InitGame();
+                _instance.Notice.SetActive(false);
+            });
     }
 }

@@ -224,6 +224,7 @@ public class Card : Entity
                 //0번 삭제
                 var v = tg.RemoveCard(row[0]);
                 var cardInstance = CardManager.CreateCard(v.level + 1, (int)v.cardType, true);
+                EffectManager.instance.MergeEffect();
 
                 //생성 하자마자 animator 삭제
                 if (cardInstance.TryGetComponent(out Animator anim))
@@ -235,14 +236,19 @@ public class Card : Entity
                 
                 if (GameManager.Instance.ArtifactDict[9003])
                 {
-                    cardInstance = CardManager.CreateCard(v.level + 1, (int)v.cardType, true);
+                    float rand = Random.Range(0, 0.99f);
+                    if (rand < 0.05f)
+                    {
+                        cardInstance = CardManager.CreateCard(v.level + 1, (int)v.cardType, true);
+                        EffectManager.instance.MergeEffect();
 
-                    //생성 하자마자 animator 삭제
-                    if (cardInstance.TryGetComponent(out anim))
-                        Destroy(anim);
+                        //생성 하자마자 animator 삭제
+                        if (cardInstance.TryGetComponent(out anim))
+                            Destroy(anim);
 
-                    cardInstance.transform.position =
-                        CardManager.Areas[1].transform.position + Vector3.up * 2;
+                        cardInstance.transform.position =
+                            CardManager.Areas[1].transform.position + Vector3.up * 2;
+                    }
                 }
                 
 
@@ -569,13 +575,19 @@ public class Card : Entity
                             if (handled.ID == card.ID)
                             {
                                 var c = CardManager.CreateCard(this.level + 1, (int)this.cardType, true);
+                                EffectManager.instance.MergeEffect();
                                 c.transform.position = CardManager.Areas[1].transform.position + Vector3.up * 2;
 
                                 //9003번 활성화시 한번 더
                                 if (GameManager.Instance.ArtifactDict[9003])
                                 {
-                                    c = CardManager.CreateCard(this.level + 1, (int)this.cardType, true);
-                                    c.transform.position = CardManager.Areas[1].transform.position + Vector3.up * 2;
+                                    float rand = Random.Range(0, 0.99f);
+                                    if (rand < 0.05f)
+                                    {
+                                        c = CardManager.CreateCard(this.level + 1, (int)this.cardType, true);
+                                        EffectManager.instance.MergeEffect();
+                                        c.transform.position = CardManager.Areas[1].transform.position + Vector3.up * 2;
+                                    }
                                 }
                                 
                                 CardManager.DestroyCard(new[] { card, handled });
@@ -588,6 +600,7 @@ public class Card : Entity
                                     if (rule.Contains(handled.ID) && rule.Contains(card.ID))
                                     {
                                         var c = CardManager.CreateCard(rule[^1], true);
+                                        EffectManager.instance.MergeEffect();
                                         var tPos = CardManager.Areas[1].transform.localPosition + Vector3.up * 2;
                                         c.transform.localPosition = tPos;
                                         
@@ -595,9 +608,14 @@ public class Card : Entity
                                         //9003번 활성화시 한번 더
                                         if (GameManager.Instance.ArtifactDict[9003])
                                         {
-                                            c = CardManager.CreateCard(rule[^1], true);
-                                            tPos = CardManager.Areas[1].transform.localPosition + Vector3.up * 2;
-                                            c.transform.localPosition = tPos;
+                                            float rand = Random.Range(0, 0.99f);
+                                            if (rand < 0.05f)
+                                            {
+                                                c = CardManager.CreateCard(rule[^1], true);
+                                                EffectManager.instance.MergeEffect();
+                                                tPos = CardManager.Areas[1].transform.localPosition + Vector3.up * 2;
+                                                c.transform.localPosition = tPos;
+                                            }
                                         }
                                         
                                         CardManager.DestroyCard(new[] { card, handled });

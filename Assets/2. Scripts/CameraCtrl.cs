@@ -70,6 +70,18 @@ public class CameraCtrl : MonoBehaviour
         {
             value--;
         }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                CardManager.TryGetCardsByType(Card.CardType.Food, out Card[] cards);
+                if (cards.Length == 0)
+                    return;
+                int rand = Random.Range(0, cards.Length);
+                CardManager.DestroyCard(cards[rand]);
+            }
+        }
     }
 
     void CameraConfine()

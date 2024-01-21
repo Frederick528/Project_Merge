@@ -420,7 +420,6 @@ public class CoreController : MonoBehaviour
         }
         public static void ModifyFluctuation(int hungerFluctuation, int thirstFluctuation)
         {
-        print(HungerFluctuation.Value);
             tempHungerFluctuation = HungerFluctuation.Value;
             tempThirstFluctuation = ThirstFluctuation.Value;
             addTempHungerFluctuation = (HungerFluctuation.Value + ArtifactAddHunger <= _core.HungerDifficulty) ? 0 :

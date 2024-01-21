@@ -120,7 +120,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 5.38}
-  m_SizeDelta: {x: 1, y: 1}
+  m_SizeDelta: {x: 3, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &1799619554100575360
 MeshRenderer:
@@ -184,9 +184,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC751\uC560 \uB098 \uC560\uAE30 \uC911\uBD95 \uC9C0\uAE08 \uC624\uC804
-    4\uC2DC 43\uBD84 \uD638\uD154 \uCE98\uB9AC\uD3EC\uB2C8\uC544 \uB4E4\uC73C\uBA74\uC11C
-    \uC791\uC5C5 \uC911"
+  m_text: When stromy weather comes around It was made in heaven
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 39cd5ee4049b249488ed3165a14389f6, type: 2}
   m_sharedMaterial: {fileID: 3231300240299691008, guid: 39cd5ee4049b249488ed3165a14389f6, type: 2}
@@ -285,7 +283,7 @@ Transform:
   m_GameObject: {fileID: 1799619554232933209}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 5, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1799619554100575362}

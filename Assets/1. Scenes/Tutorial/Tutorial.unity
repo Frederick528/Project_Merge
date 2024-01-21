@@ -4887,43 +4887,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1799619553619238509, guid: 5ebebaa6dfb07c9449f401c58fbe0379, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1799619554100575362, guid: 5ebebaa6dfb07c9449f401c58fbe0379, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1799619554100575363, guid: 5ebebaa6dfb07c9449f401c58fbe0379, type: 3}
-      propertyPath: m_text
-      value: When stromy weather comes around It was made in heaven
-      objectReference: {fileID: 0}
-    - target: {fileID: 1799619554100575363, guid: 5ebebaa6dfb07c9449f401c58fbe0379, type: 3}
-      propertyPath: m_fontSize
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1799619554100575363, guid: 5ebebaa6dfb07c9449f401c58fbe0379, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 2.5
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1799619554100575363, guid: 5ebebaa6dfb07c9449f401c58fbe0379, type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 452984832
+      value: 4160749568
       objectReference: {fileID: 0}
     - target: {fileID: 1799619554232933206, guid: 5ebebaa6dfb07c9449f401c58fbe0379, type: 3}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1799619554232933206, guid: 5ebebaa6dfb07c9449f401c58fbe0379, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1799619554232933206, guid: 5ebebaa6dfb07c9449f401c58fbe0379, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1799619554232933206, guid: 5ebebaa6dfb07c9449f401c58fbe0379, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1799619554232933206, guid: 5ebebaa6dfb07c9449f401c58fbe0379, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4968,10 +4940,6 @@ PrefabInstance:
     - target: {fileID: 1799619554232933209, guid: 5ebebaa6dfb07c9449f401c58fbe0379, type: 3}
       propertyPath: m_Name
       value: GameObject
-      objectReference: {fileID: 0}
-    - target: {fileID: 1799619554232933209, guid: 5ebebaa6dfb07c9449f401c58fbe0379, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ebebaa6dfb07c9449f401c58fbe0379, type: 3}

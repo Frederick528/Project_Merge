@@ -2730,6 +2730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74265a410f6e7d943ac008d963ff35c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  value: 0
 --- !u!81 &134275318
 AudioListener:
   m_ObjectHideFlags: 0
@@ -28791,8 +28792,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af6629fc3b4e15241b94deb93d62bcb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  incounter: {fileID: 0}
-  fixincounter: {fileID: 0}
+  incounter: {fileID: 235873158}
+  fixincounter: {fileID: 406981316}
   result1: {fileID: 0}
   result2: {fileID: 0}
   result3: {fileID: 0}
@@ -35683,8 +35684,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af6629fc3b4e15241b94deb93d62bcb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  incounter: {fileID: 0}
-  fixincounter: {fileID: 0}
+  incounter: {fileID: 235873158}
+  fixincounter: {fileID: 406981316}
   result1: {fileID: 0}
   result2: {fileID: 0}
   result3: {fileID: 0}

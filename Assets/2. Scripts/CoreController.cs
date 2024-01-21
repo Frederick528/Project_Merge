@@ -420,6 +420,7 @@ public class CoreController : MonoBehaviour
         }
         public static void ModifyFluctuation(int hungerFluctuation, int thirstFluctuation)
         {
+        print(HungerFluctuation.Value);
             tempHungerFluctuation = HungerFluctuation.Value;
             tempThirstFluctuation = ThirstFluctuation.Value;
             addTempHungerFluctuation = (HungerFluctuation.Value + ArtifactAddHunger <= _core.HungerDifficulty) ? 0 :
@@ -452,6 +453,26 @@ public class CoreController : MonoBehaviour
             }
             //TempHungerFluctuation.Value = HungerDifficulty.Value;
             //TempThirstFluctuation.Value = ThirstDifficulty.Value;
+        }
+
+        public static void HungerStatChange(int hungerValue)  // 배고픔 수치 변경
+        {
+            if (ModifyHunger(hungerValue))
+            {
+                HungerFluctuation.Value = (HungerFluctuation.Value + ArtifactAddHunger - hungerValue < _core.HungerDifficulty) ? _core.HungerDifficulty - ArtifactAddHunger : (HungerFluctuation.Value - hungerValue);
+                ModifyDifficulty(hungerValue, 0);
+            }
+            else { GameOverNotice(); }
+            
+        }
+        public static void ThirstStatChange(int thirstValue)  // 배고픔 수치 변경
+        {
+            if (ModifyHunger(thirstValue))
+            {
+                ThirstFluctuation.Value = (ThirstFluctuation.Value + ArtifactAddThirst - thirstValue < _core.ThirstDifficulty) ? _core.ThirstDifficulty - ArtifactAddThirst : (ThirstFluctuation.Value - thirstValue);
+                ModifyDifficulty(thirstValue, 0);
+            }
+            else { GameOverNotice(); }
         }
 
     #endregion
@@ -489,5 +510,18 @@ public class CoreController : MonoBehaviour
     {
         _core.EndGame();
         _core.InitGame();
+    }
+
+    public static void GameOverNotice()
+    {
+        _instance.Notice = _instance.Notice.activeInHierarchy ? _instance.Notice : Instantiate(_instance.Notice);
+        _instance.Notice.SetActive(true);
+        var button = _instance.Notice.GetComponentInChildren<Button>();
+        button.onClick.AddListener(
+            () =>
+            {
+                _core.InitGame();
+                _instance.Notice.SetActive(false);
+            });
     }
 }

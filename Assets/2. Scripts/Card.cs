@@ -247,7 +247,7 @@ public class Card : Entity
 
         if (this.ID / 10 == 500)
         {
-            MouseRightClick.Instance.ShowCardInfo(this.ID);
+            MouseRightClick.Instance.ShowCardInfo(this.ID, true);
             Debug.Log("Create Merchant");
             return;
         }
@@ -261,7 +261,7 @@ public class Card : Entity
                 return;
             }
         }
-        
+        SoundManager.instance.Play("Sounds/Effect/CardHoldSound");
         var results = Physics.OverlapSphere(transform.position, 7f);
         CardManager.Instance.sortBtn.interactable = false;
 
@@ -371,7 +371,7 @@ public class Card : Entity
     protected override void OnMouseDown()
     {
         if (GameManager.CardCanvasOn) return;
-
+        SoundManager.instance.Play("Sounds/Effect/CardDropSound");
         if (transform.parent.TryGetComponent(out CardGroup g))
         {
             var idx = g.IndexOf(this);

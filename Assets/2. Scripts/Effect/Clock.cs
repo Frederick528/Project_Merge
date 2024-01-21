@@ -7,9 +7,11 @@ using UnityEngine;
 public class Clock : MonoBehaviour
 {
     private Animator anim;
+    private ShopController shopController;
     // Start is called before the first frame update
     private void Start()
     {
+        shopController = GameObject.Find("ShopCanvas").GetComponent<ShopController>();
     }
 
     private void OnEnable()
@@ -19,7 +21,8 @@ public class Clock : MonoBehaviour
         
         if(!GameManager.Instance.isTutorial)
             BearManager._turnSkip.interactable = false;
-        
+
+        SoundManager.instance.Play("Sounds/Effect/NextTurnSound");
         if (CoreController.IsDawn)
         {
             anim.SetTrigger("Dawn");
@@ -70,6 +73,7 @@ public class Clock : MonoBehaviour
         if (CoreController.IsDayTime)
         {
             var v = CardManager.CreateCard(5000);
+            shopController.SetRandomButtonImg();
         }
         if (CoreController.IsNightTime)
         {
@@ -78,6 +82,7 @@ public class Clock : MonoBehaviour
                 if (CoreController.bearFlag > 5)
                 {
                     BearManager.Dispense();
+                    SoundManager.instance.Play("Sounds/Effect/BearAppearSound", Sound.Bear);
                 }
                 else
                 {
@@ -89,6 +94,7 @@ public class Clock : MonoBehaviour
                 if ( CoreController.bearFlag > 1)
                 {
                     BearManager.Dispense();
+                    SoundManager.instance.Play("Sounds/Effect/BearAppearSound", Sound.Bear);
                 }
                 else
                 {

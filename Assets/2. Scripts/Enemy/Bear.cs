@@ -169,6 +169,7 @@ public class Bear : MonoBehaviour
                 _anim.SetBool("Run Forward", false);
                 _anim.SetBool("Idle", false);
                 _anim.SetTrigger("Attack5");
+                SoundManager.instance.Play("Sounds/Effect/BearAttackSound", Sound.Bear);
                 _isMovable = false;
                 while (_anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f) 
                     yield return new WaitForSeconds(0.1f);
@@ -232,6 +233,7 @@ public class Bear : MonoBehaviour
                 this.hitPoint -= card.ID % 10 + 1;
                 if(IsDead)
                 {
+                    SoundManager.instance.Play("Sounds/Effect/BearDeadSound", Sound.Bear);
                     OnDead();
                 }
             }
@@ -246,7 +248,7 @@ public class Bear : MonoBehaviour
     public void OnDead()
     {
         _isMovable = false;
-        
+
         Target = null;
         _anim.SetBool("Run Forward", false);
         _anim.SetBool("Idle", false);

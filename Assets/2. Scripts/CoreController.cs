@@ -452,7 +452,10 @@ public class CoreController : MonoBehaviour
             if (GameManager.Instance.ArtifactDict[9008])
             {
                 float rand = Random.Range(0, 0.99f);
-                if (rand < 0.05f) CardManager.CreateCard();
+                if (rand < 0.05f)
+                {
+                    CardManager.CreateCard();
+                }
             }
             CardManager.CreateCard();
 

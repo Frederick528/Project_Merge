@@ -2,77 +2,167 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Sound
+{
+    Bgm,
+    Bear,
+    Effect,
+    MaxCount
+}
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
-    public AudioSource audioSource;
+    AudioSource[] _audioSources = new AudioSource[(int)Sound.MaxCount];
+    Dictionary<string, AudioClip> _audioClips = new Dictionary<string, AudioClip>();
 
-    public List<AudioClip> soundList;
+    private void Awake()
+    {
+        instance ??= this;
+        Init();
+    }
+    public void Init()
+    {
+        GameObject root = GameObject.Find("@Sound");
+        if (root == null)
+        {
+            root = new GameObject { name = "@Sound" };
+            Object.DontDestroyOnLoad(root);
 
-    [Header("Draw Sound")]
-    public AudioClip ds;
+            string[] soundNames = System.Enum.GetNames(typeof(Sound)); // "Bgm", "Card", "Eat", "Bear", "Turn"
+            for (int i = 0; i < soundNames.Length - 1; i++)
+            {
+                GameObject go = new GameObject { name = soundNames[i] };
+                _audioSources[i] = go.AddComponent<AudioSource>();
+                go.transform.parent = root.transform;
+            }
 
-    [Header("Eat Sound")]
-    public AudioClip ds1;
+            _audioSources[(int)Sound.Bgm].loop = true; // bgm 재생기는 무한 반복 재생
+        }
+    }
 
-    [Header("Next Turn Sound")]
-    public AudioClip ds2;
+    public void Clear()
+    {
+        // 재생기 전부 재생 스탑, 음반 빼기
+        foreach (AudioSource audioSource in _audioSources)
+        {
+            audioSource.clip = null;
+            audioSource.Stop();
+        }
+        // 효과음 Dictionary 비우기
+        _audioClips.Clear();
+    }
 
-    [Header("Decomposition Sound")]
-    public AudioClip ds3;
+    public void Play(AudioClip audioClip, Sound type = Sound.Effect, float volume = 1.0f, float pitch = 1.0f)
+    {
+        if (audioClip == null)
+            return;
 
-    [Header("Drink Sound")]
-    public AudioClip ds4;
+        if (type == Sound.Bgm)
+        {
+            AudioSource audioSource = _audioSources[(int)Sound.Bgm];
+            if (audioSource.isPlaying)
+                audioSource.Stop();
+            audioSource.volume = volume;
+            audioSource.pitch = pitch;
+            audioSource.clip = audioClip;
+            audioSource.Play();
+        }
+        else if (type == Sound.Bear)
+        {
+            AudioSource audioSource = _audioSources[(int)Sound.Bear];
+            if (audioSource.isPlaying)
+                audioSource.Stop();
 
-    [Header("bear appears Sound")]
-    public AudioClip ds5;
+            audioSource.volume = volume;
+            audioSource.pitch = pitch;
+            audioSource.clip = audioClip;
+            audioSource.Play();
+        }
+        else
+        {
+            AudioSource audioSource = _audioSources[(int)Sound.Effect];
+            audioSource.volume = volume;
+            audioSource.pitch = pitch;
+            audioSource.PlayOneShot(audioClip);
+        }
+    }
 
-    [Header("Card Sort Sound")]
-    public AudioClip ds6;
+    public void Play(string path, Sound type = Sound.Effect, float volume = 1.0f, float pitch = 1.0f)
+    {
+        AudioClip audioClip = GetOrAddAudioClip(path, type);
+        Play(audioClip, type, volume, pitch);
+    }
 
-    [Header("clock Roll Sound ")]
-    public AudioClip ds7;
+    AudioClip GetOrAddAudioClip(string path, Sound type = Sound.Effect)
+    {
+        if (path.Contains("Sounds/") == false)
+            path = $"Sounds/{path}"; // Sound 폴더 안에 저장될 수 있도록
 
-    [Header("Merge Sound")]
-    public AudioClip ds8;
+        AudioClip audioClip = null;
 
-    [Header("Card Hold Sound")]
-    public AudioClip ds9;
+        if (type == Sound.Bgm)
+        {
+            audioClip = Resources.Load<AudioClip>(path);
+        }
+        else
+        {
+            if (_audioClips.TryGetValue(path, out audioClip) == false)
+            {
+                audioClip = Resources.Load<AudioClip>(path);
+                _audioClips.Add(path, audioClip);
+            }
+        }
 
-    [Header("Card Drop Sound")]
-    public AudioClip ds10;
+        if (audioClip == null)
+            Debug.Log($"AudioClip Missing ! {path}");
 
-    [Header("Click Sound")]
-    public AudioClip ds11;
+        return audioClip;
+    }
+}
+    //public static SoundManager instance;
+    //public AudioSource audioSource;
 
-    [Header("스토리 진행중")]
-    public AudioClip ds12;
+    //public List<AudioClip> soundList;
 
-    [Header("곰 출현중")]
-    public AudioClip ds13;
+    //[Header("Card")]
+    //public AudioClip draw;
+    //public AudioClip eat;
+    //public AudioClip drink;
+    //public AudioClip decomposition;
+    //public AudioClip sort;
+    //public AudioClip merge;
+    //public AudioClip hold;
+    //public AudioClip drop;
+    //public AudioClip destroy;
 
-    [Header("Bear kill Sound")]
-    public AudioClip ds14;
+    //[Header("Bear")]
+    //public AudioClip appear;
+    //public AudioClip dead;
 
-    [Header("Card Distroy Sound")]
-    public AudioClip ds15;
+    //[Header("Turn")]
+    //public AudioClip next;
+    //public AudioClip clock;
 
-    [Header("BGM")]
-    public AudioClip ds16;
+    //[Header("Click Sound")]
+    //public AudioClip click;
+
+    //[Header("BGM")]
+    //public AudioClip inGameBgm;
+    //public AudioClip bearBattleBgm;
+    //public AudioClip storyBgm;
+
     //private void Awake()
     //{
-    //    instance = this;
+    //    instance ??= this;
     //    Init();
     //}
-
     //void Init()
     //{
     //    GameObject bgmobject = new GameObject("audioSource");
     //    bgmobject.transform.parent = transform;
     //    audioSource = bgmobject.AddComponent<AudioSource>();
     //}
-    public void StartSound(int i)
-    {
-        audioSource.PlayOneShot(soundList[i]);
-    }
-}
+    //public void StartSound(int i)
+    //{
+    //    audioSource.PlayOneShot(soundList[i]);
+    //}

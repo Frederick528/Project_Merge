@@ -25,6 +25,7 @@ public class EatCard : MonoBehaviour
     {
         //stat = StatManager.instance.playerCtrl.stat;
         //cardData = EffectManager.instance.cardContents.Data;
+        SoundManager.instance.Play("Sounds/Effect/EatSound");
         addHunger = (int)EffectManager.instance.addHungerValue;
         addThirst = (int)EffectManager.instance.addThirstValue;
         StartCoroutine(EatCardEffect());

@@ -123,8 +123,9 @@ public class R_Incounter6 : MonoBehaviour
             if (currentTextIndex2 >= result1.Length)
             {
                 isWaitingForInput = false;
-                CoreController.ModifyAP(3);
-                // 행동력 3 증가
+                CoreController.HungerStatChange(5);
+                CoreController.ThirstStatChange(5);
+                // 허기 갈증 5 증가
             }
         }
     }

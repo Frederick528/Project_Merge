@@ -101,6 +101,7 @@ public class CoreController : MonoBehaviour
             {
                 //StatUICanvas.gameObject.SetActive(true);
                 StatUICanvas.statUI.Hunger[1].fillAmount = 1 - (x / _core.Status.maxHunger);
+                StatManager.instance.inGameHunger[1].fillAmount = 1 - (x / _core.Status.maxHunger);
 
                 // if (x == 0) return;
                 //     _instance.StatUICanvas.gameObject.SetActive(true);
@@ -112,25 +113,33 @@ public class CoreController : MonoBehaviour
             {
                 //StatUICanvas.gameObject.SetActive(true);
                 StatUICanvas.statUI.Thirst[1].fillAmount = 1 - (x / _core.Status.maxThirst);
+                StatManager.instance.inGameThirst[1].fillAmount = 1 - (x / _core.Status.maxThirst);
             });
             HungerFluctuation.Subscribe(x =>
-                StatUICanvas.statUI.Hunger[2].fillAmount = 1 - (x / _core.Status.maxHunger)
-            );
+            {
+                StatUICanvas.statUI.Hunger[2].fillAmount = 1 - (x / _core.Status.maxHunger);
+                StatManager.instance.inGameHunger[2].fillAmount = 1 - (x / _core.Status.maxHunger);
+
+            });
             ThirstFluctuation.Subscribe(x =>
-                StatUICanvas.statUI.Thirst[2].fillAmount = 1 - (x / _core.Status.maxThirst)
-            );
+            {
+                StatUICanvas.statUI.Thirst[2].fillAmount = 1 - (x / _core.Status.maxThirst);
+                StatManager.instance.inGameThirst[2].fillAmount = 1 - (x / _core.Status.maxThirst);
+            });
             _hunger.Subscribe(x =>
             {
                 //StatUICanvas.gameObject.SetActive(true);
-                var v = 1 - ((_core.Status.maxHunger - x) / _core.Status.maxHunger);
+                var v = /*1 - ((_core.Status.maxHunger - x) / _core.Status.maxHunger)*/x / _core.Status.maxHunger;
                 StatUICanvas.statUI.Hunger[0].fillAmount = v;
+                StatManager.instance.inGameHunger[0].fillAmount = v;
                 StatUICanvas.statUI.Texts[0].text = _core.Status.curHunger + "";
             });
             _thirst.Subscribe(x =>
             {
                 //StatUICanvas.gameObject.SetActive(true);
                 StatUICanvas.statUI.Thirst[0].fillAmount =
-                    1 - ((_core.Status.maxThirst - x) / _core.Status.maxThirst);
+                    /*1 - ((_core.Status.maxThirst - x) / _core.Status.maxThirst)*/x / _core.Status.maxHunger;
+                StatManager.instance.inGameThirst[0].fillAmount = x / _core.Status.maxThirst;
                 StatUICanvas.statUI.Texts[1].text = _core.Status.curThirst + "";
                 //     if (x != 0)
                 //         _instance.StatUICanvas.gameObject.SetActive(true);
@@ -153,6 +162,8 @@ public class CoreController : MonoBehaviour
                 //
                 _instance.StatUICanvas.statUI.Texts[2].text =
                     $"[  {x} / {_core.Status.maxAp}  ]";
+                StatManager.instance.text.text = 
+                    $"AP [{x} / {_core.Status.maxAp}]";
             });
         }
     }

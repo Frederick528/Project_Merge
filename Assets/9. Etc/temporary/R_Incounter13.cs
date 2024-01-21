@@ -141,7 +141,7 @@ public class R_Incounter13 : MonoBehaviour
                 transparency.SetActive(true);
                 isWaitingForInput = false;
                 CardManager.CreateCard(1010);
-                CardManager.CreateCard(1021);
+                CardManager.CreateCard(1020);
                 //1Æ¼¾î Á¼½Ò, ¹° Ä«µå 1Àå¾¿ È¹µæ
             }
         }

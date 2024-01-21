@@ -29,7 +29,7 @@
 
 
 
-        private string[] result1 = { "", "숲속으로 돌을 가볍게 던졌다.", "조그마한 돌은 포물선을 그리며..", " \"아야!!\"", "마녀가 맞았다." , "결과는 뻔했다… ", "그녀의 저주를 받게 되었다." };
+        private string[] result1 = { "", "숲속으로 돌을 가볍게 던졌다.", "조그마한 돌은 포물선을 그리며..", " \"아야!!\"", "마녀가 맞았다." , "결과는 뻔했다. 아마도 뭔가 사라지지 않을까,,,?", "그녀의 저주를 받게 되었다." };
         private string[] result2 = { "", "나는 숲속으로 걸어갔다..", "나무 뒤에서 빼꼼 쳐다보니 마녀가 있었다.", "엇! 안녕! 오늘은 올껀 아니었는데.. 들켰네..?", "그녀는 찾은김에 보상을 주겠다며 보석 하나를 던져주고 갔다.", "뭔가 좀 특이하게 반짝인다…" };
 
 
@@ -186,19 +186,7 @@
                 }
             }
         }
-        IEnumerator FadeOut()
-        {
-            float targetAlpha = 0f;
 
-            while (canvasImage.color.a >= targetAlpha)
-            {
-                float currentAlpha = canvasImage.color.a;
-                currentAlpha -= fadeSpeed * Time.deltaTime;
-                canvasImage.color = new Color(canvasImage.color.r, canvasImage.color.g, canvasImage.color.b, currentAlpha);
-
-                yield return null;
-            }
-        }
         IEnumerator FadeIn()
         {
             float targetAlpha = 1f;

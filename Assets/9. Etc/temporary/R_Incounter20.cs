@@ -9,6 +9,7 @@ public class R_Incounter20 : MonoBehaviour
     public int bifurcation = 0;
     public Text myText, mytext2;
     public GameObject incounter, transparency, select1, select2;
+    public GetArtifact getArtifact;
 
 
     [SerializeField]
@@ -201,6 +202,7 @@ public class R_Incounter20 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                getArtifact.SetArtifactWindow(9000);
                 //¾ÆÆ¼ÆÑÆ® 1°³ È¹µæ
             }
         }

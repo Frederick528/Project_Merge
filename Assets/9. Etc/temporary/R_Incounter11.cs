@@ -162,7 +162,7 @@ public class R_Incounter11 : MonoBehaviour
 
             }
             //음식카드 1티어 2개 삭제
-        }
+        
         }
     }
 }

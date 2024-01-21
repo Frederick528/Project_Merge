@@ -146,7 +146,8 @@
                 {
                     transparency.SetActive(true);
                     isWaitingForInput = false;
-                }
+                    //행동력 - 2
+            }
 
             }
         }
@@ -167,8 +168,9 @@
                 {
                     transparency.SetActive(true);
                     isWaitingForInput = false;
-                }
+                    //허기 + 10
             }
+        }
         }
         IEnumerator FadeOut()
         {

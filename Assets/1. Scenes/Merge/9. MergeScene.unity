@@ -5663,6 +5663,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2121212250621739231, guid: e2bf4fa83868c5e4c84d1868c3d018ee, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2121212251058748299, guid: e2bf4fa83868c5e4c84d1868c3d018ee, type: 3}
       propertyPath: m_Name
       value: EncyclopediaCanvasChange

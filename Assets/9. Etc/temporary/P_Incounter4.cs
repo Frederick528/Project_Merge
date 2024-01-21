@@ -293,6 +293,7 @@ public class P_Incounter4 : MonoBehaviour
                 transparency.SetActive(true);
                 select2.SetActive(true);
                 isWaitingForInput = false;
+                CoreController.HungerStatChange(-10);
                 //허기 10을 감소
             }
         }

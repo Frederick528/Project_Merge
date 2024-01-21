@@ -137,6 +137,7 @@ public class R_Incounter10 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                CoreController.HungerStatChange(-20);
                 //허기 20 감소
             }
         }

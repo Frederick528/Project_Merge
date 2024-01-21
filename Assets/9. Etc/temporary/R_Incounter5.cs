@@ -119,7 +119,7 @@ public class R_Incounter5 : MonoBehaviour
             if (currentTextIndex2 >= result1.Length)
             {
                 isWaitingForInput = false;
-                //배고픔 10 감소 
+                CoreController.HungerStatChange(-10);
             }
         }
     }
@@ -138,7 +138,7 @@ public class R_Incounter5 : MonoBehaviour
             if (currentTextIndex3 >= result2.Length)
             {
                 isWaitingForInput = false;
-                // 배고픔 10 증가
+                CoreController.HungerStatChange(10);
             }
         }
     }

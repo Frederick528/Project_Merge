@@ -260,6 +260,7 @@ public class R_Incounter7 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                CoreController.ThirstStatChange(-10);
                 //갈증 10 감소
             }
 
@@ -282,6 +283,7 @@ public class R_Incounter7 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                CoreController.ThirstStatChange(10);
                 //갈증 10 증가
             }
         }

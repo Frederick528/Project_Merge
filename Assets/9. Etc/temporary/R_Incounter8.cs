@@ -154,10 +154,16 @@
                 {
                     transparency.SetActive(true);
                     isWaitingForInput = false;
+                    for (int i = 0; i < 2; i++)
+                    {
+                        CardManager.TryGetCardsByLevel(0, out Card[] cards);
+                        int rand = Random.Range(0, cards.Length);
+                        CardManager.DestroyCard(cards[rand]);
+                    }
                     //1티어 카드 2장 무작위로 삭제
                 }
 
-        }
+            }
         }
 
         public void Result2()

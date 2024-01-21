@@ -143,6 +143,14 @@ public class R_Incounter11 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                for (int i = 0; i < 1; i++)
+                {
+                    CardManager.TryGetCardsByType(Card.CardType.Food, out Card[] cards);
+                    if (cards.Length == 0)
+                        return;
+                    int rand = Random.Range(0, cards.Length);
+                    CardManager.DestroyCard(cards[rand]);
+                }
                 //음식카드 1티어 무작위로 삭제
             }
         }

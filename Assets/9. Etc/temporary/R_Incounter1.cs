@@ -149,7 +149,7 @@
                     transparency.SetActive(true);
                     isWaitingForInput = false;
                     CoreController.ModifyAP(-2);
-                    // 행동혁 2 감소
+                    // 행동력 2 감소
                 }
 
             }

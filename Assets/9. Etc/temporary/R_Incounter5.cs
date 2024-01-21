@@ -28,7 +28,6 @@ public class R_Incounter5 : MonoBehaviour
 
     void Start()
     {
-        SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.2f);
         myText.text = textArray1[0];
         Turn.Instance.nextBtn.interactable = false;
         Turn.Instance.closeBtn.SetActive(true);    
@@ -59,7 +58,6 @@ public class R_Incounter5 : MonoBehaviour
             Turn.Instance.blockUI.SetActive(false);
             Turn.Instance.closeBtn.SetActive(false);
             GameManager.CardCanvasOn = false;
-            SoundManager.instance.Play("Sounds/Bgm/GameBgm", Sound.Bgm, 0.3f);
         }
     }
 
@@ -122,6 +120,7 @@ public class R_Incounter5 : MonoBehaviour
             {
                 isWaitingForInput = false;
                 CoreController.HungerStatChange(-10);
+                // ¹è°íÇÄ 10 °¨¼Ò
             }
         }
     }
@@ -141,6 +140,7 @@ public class R_Incounter5 : MonoBehaviour
             {
                 isWaitingForInput = false;
                 CoreController.HungerStatChange(10);
+                // ¹è°íÇÄ 10 Áõ°¡
             }
         }
     }

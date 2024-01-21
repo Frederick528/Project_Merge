@@ -123,6 +123,14 @@ public class R_Incounter11 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                for (int i = 0; i < 2; i++)
+                {
+                    CardManager.TryGetCardsByType(Card.CardType.Food, out Card[] cards);
+                    if (cards.Length == 0)
+                        return;
+                    int rand = Random.Range(0, cards.Length);
+                    CardManager.DestroyCard(cards[rand]);
+                }
                 // 음식카드 2개 무작위로 삭제
             }
         }
@@ -143,8 +151,18 @@ public class R_Incounter11 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
-                //음식카드 1티어 무작위로 삭제
+                for (int i = 0; i < 2; i++)
+                {
+                    CardManager.TryGetCardsByID(1010, out Card[] cards);
+                    if (cards.Length == 0)
+                        return;
+                    int rand = Random.Range(0, cards.Length);
+                    CardManager.DestroyCard(cards[rand]);
+                }
+
             }
+            //음식카드 1티어 2개 삭제
+        
         }
     }
 }

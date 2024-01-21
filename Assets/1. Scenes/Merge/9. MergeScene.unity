@@ -23142,11 +23142,13 @@ MonoBehaviour:
   Day: {fileID: 319306495}
   Time: {fileID: 1580413369}
   closeBtn: {fileID: 1207350718}
-  fixincounter0: {fileID: 0}
-  fixincounter1: {fileID: 0}
-  fixincounter2: {fileID: 0}
-  fixincounter3_1: {fileID: 0}
-  fixincounter3_2: {fileID: 0}
+  fixincounter0: {fileID: 2032033537}
+  fixincounter1: {fileID: 1852200942}
+  fixincounter2: {fileID: 1543681896}
+  fixincounter3: {fileID: 1450724279}
+  fixincounter4: {fileID: 2041123390}
+  fixincounter5: {fileID: 989207864}
+  fixincounter6: {fileID: 504978729}
   blockUI: {fileID: 1022413568}
   nextBtn: {fileID: 971129215}
 --- !u!114 &971129215

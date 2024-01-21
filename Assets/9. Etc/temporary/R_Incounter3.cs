@@ -106,7 +106,9 @@ public class R_Incounter3 : MonoBehaviour
             {
                 select2.SetActive(true);
                 isWaitingForInput = false;
-                //배고픔 20 추가, 갈증 20 추가
+                CoreController.HungerStatChange(20);
+                CoreController.ThirstStatChange(20);
+                // 갈증, 배고픔 20 증가
             }
         }
     }
@@ -125,7 +127,7 @@ public class R_Incounter3 : MonoBehaviour
             if (currentTextIndex3 >= result2.Length)
             {
                 isWaitingForInput = false;
-                //효과없음.
+                //효과 없음
             }
         }
     }

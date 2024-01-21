@@ -112,7 +112,8 @@ public class R_Incounter2 : MonoBehaviour
             {
                 select2.SetActive(true);
                 isWaitingForInput = false;
-                //배고픔 20 감소
+                CoreController.HungerStatChange(-20);
+                // 배고픔 20 감소
             }
         }
     }
@@ -132,7 +133,8 @@ public class R_Incounter2 : MonoBehaviour
             {
                 select3.SetActive(true);
                 isWaitingForInput = false;
-                //배고픔 10 추가
+                CoreController.HungerStatChange(10);
+                // 배고픔 10 증가
             }
         }
     }

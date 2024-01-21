@@ -254,6 +254,7 @@ public class P_Incounter4 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                // 무작위 카드 3장 삭제
             }
         }
  }
@@ -274,6 +275,7 @@ public class P_Incounter4 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                //2티어 카드 3장 획득
             }
         }
     }
@@ -293,6 +295,8 @@ public class P_Incounter4 : MonoBehaviour
                 transparency.SetActive(true);
                 select2.SetActive(true);
                 isWaitingForInput = false;
+                CoreController.HungerStatChange(-10);
+                //허기 10을 감소
             }
         }
     }

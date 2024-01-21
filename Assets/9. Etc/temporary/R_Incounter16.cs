@@ -118,6 +118,8 @@ public class R_Incounter16 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                CoreController.ThirstStatChange(-10);
+                // 갈증 10 감소
             }
         }
     }
@@ -137,6 +139,7 @@ public class R_Incounter16 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                // 효과 없음
             }
         }
     }

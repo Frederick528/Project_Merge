@@ -121,6 +121,7 @@ public class R_Incounter9 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                CoreController.ThirstStatChange(-20);
                 //갈증 20 감소
             }
         }
@@ -141,6 +142,7 @@ public class R_Incounter9 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                CoreController.HungerStatChange(20);
                 //허기 20 증가
             }
         }

@@ -121,6 +121,8 @@ public class R_Incounter19 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                CoreController.HungerStatChange(5);
+                CoreController.ThirstStatChange(5);
                 //갈증 5, 허기 5 증가
             }
         }

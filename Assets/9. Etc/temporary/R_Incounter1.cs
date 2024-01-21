@@ -148,8 +148,9 @@
                 {
                     transparency.SetActive(true);
                     isWaitingForInput = false;
-                    //행동력 - 2
-            }
+                    CoreController.ModifyAP(-2);
+                    // 행동혁 2 감소
+                }
 
             }
         }
@@ -170,9 +171,10 @@
                 {
                     transparency.SetActive(true);
                     isWaitingForInput = false;
-                    //허기 + 10
+                    CoreController.HungerStatChange(10);
+                    // 배고픔 10 증가
+                }
             }
-        }
         }
         IEnumerator FadeOut()
         {

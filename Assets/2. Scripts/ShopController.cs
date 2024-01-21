@@ -17,7 +17,7 @@ public class ShopController : MonoBehaviour
     private const int term = 2;
 
     public GameObject shopCanvas;
-    public GameObject exchangeCanvasUI;
+    //public GameObject exchangeCanvasUI;
     public GameObject buypanel;
 
     public Text[] countText = new Text[cnt];
@@ -27,6 +27,8 @@ public class ShopController : MonoBehaviour
     public int[] buyCnt = new int[cnt];
 
     public Button[] buyButton = new Button[cnt];
+    public GameObject[] soldOut = new GameObject[cnt];
+
     public Button[] buttons = new Button[cnt];
     public Sprite[] card1Tiers = new Sprite[cnt];
     public Sprite[] card2Tiers = new Sprite[cnt];
@@ -39,7 +41,8 @@ public class ShopController : MonoBehaviour
 
     public int selectCardCount;
     public int selectCardID;
-    private List<int> purchasedCardIDs = new List<int>();
+    //private List<int> purchasedCardIDs = new List<int>();
+    private bool[] soldOutBool = new bool[cnt];
 
     //private void Start()
     //{
@@ -72,19 +75,24 @@ public class ShopController : MonoBehaviour
         for (int i = 0; i < cnt; i++)
         {
             buyCnt[i] = 0;
+            soldOut[i].SetActive(soldOutBool[i]);
         }
         foreach (var text in countText)
         {
             text.text = "0";
         }
-        buypanel.SetActive(!buypanel.activeSelf);
+        buypanel.SetActive(false);
         selectCardCount = 0;
         selectCardID = 0;
     }
     public void ExchangeSence()
     {
-        exchangeCanvasUI.SetActive(true);
-                                                        
+        for (int i = 0; i < cnt; i++)
+        {
+            soldOutBool[i] = soldOut[i].activeSelf;
+            soldOut[i].SetActive(false);
+        }
+        buypanel.SetActive(true);
     }
 
     public void ShopUiCancel()
@@ -116,6 +124,7 @@ public class ShopController : MonoBehaviour
     {
         for (int i = 0; i < cnt; i++)
         {
+            soldOut[i].SetActive(false);
             buyButton[i].interactable = true;
             buyButton[i].onClick.RemoveAllListeners();
             float rand = Random.Range(0, 0.99f);
@@ -142,6 +151,8 @@ public class ShopController : MonoBehaviour
         if (selectCardCount < term)
             return;
         buyButton[buyIdx].interactable = false;
+        //soldOut[buyIdx].SetActive(true);
+        soldOutBool[buyIdx] = true;
         for (int z = 0;  z < cnt; z++)
         {
             for(int y = 0; y < buyCnt[z]; y++)

@@ -10,6 +10,8 @@ public class R_Incounter10 : MonoBehaviour
     public Text myText;
     public GameObject incounter, transparency, select1;
 
+    public GetArtifact getArtifact;
+
     [SerializeField]
     Button nextBtn;
     [SerializeField]
@@ -35,12 +37,15 @@ public class R_Incounter10 : MonoBehaviour
         "으.. 조금 아프다..",
     };
 
-    void Start()
+    void OnEnable()
     {
         SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.2f);
         myText.text = textArray1[0];
         Turn.Instance.nextBtn.interactable = false;
         Turn.Instance.closeBtn.SetActive(true);
+        isWaitingForInput = true;
+        bifurcation = 0;
+        (currentTextIndex, currentTextIndex2, currentTextIndex3) = (0, 0, 0);
     }
 
     void Update()
@@ -119,6 +124,9 @@ public class R_Incounter10 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                int rand = Random.Range(0, GameManager.Instance.ObtainableArtifact.Count);
+                getArtifact.SetArtifactWindow(GameManager.Instance.ObtainableArtifact[rand]);
+                GameManager.Instance.ObtainableArtifact.RemoveAt(rand);
                 //아티펙트 1개 무작위 획득
             }
         }
@@ -139,6 +147,7 @@ public class R_Incounter10 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                CoreController.HungerStatChange(-20);
                 //허기 20 감소
             }
         }

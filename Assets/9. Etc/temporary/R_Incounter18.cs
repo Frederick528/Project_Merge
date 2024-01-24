@@ -36,12 +36,15 @@ public class R_Incounter18 : MonoBehaviour
         "≤‹≤© ªÔ≈∞¥œ, ∏ˆø° »˚¿Ã µπæ“¥Ÿ!",
     };
 
-    void Start()
+    void OnEnable()
     {
         SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.2f);
         myText.text = textArray1[0];
         Turn.Instance.nextBtn.interactable = false;
         Turn.Instance.closeBtn.SetActive(true);
+        isWaitingForInput = true;
+        bifurcation = 0;
+        (currentTextIndex, currentTextIndex2, currentTextIndex3) = (0, 0, 0);
     }
 
     void Update()
@@ -120,6 +123,7 @@ public class R_Incounter18 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                CoreController.ThirstStatChange(-10);
                 //∞•¡ı 10 ∞®º“
             }
         }
@@ -140,6 +144,8 @@ public class R_Incounter18 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                CoreController.HungerStatChange(10);
+                CoreController.ThirstStatChange(10);
                 //«„±‚ 10 , ∞•¡ı 10 ¡ı∞°
             }
         }

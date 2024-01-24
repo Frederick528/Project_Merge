@@ -36,12 +36,15 @@ public class R_Incounter13 : MonoBehaviour
         "진짜 인의적인데.. 일단 가져가자!"
     };
 
-    void Start()
+    void OnEnable()
     {
         SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.2f);
         myText.text = textArray1[0];
         Turn.Instance.nextBtn.interactable = false;
         Turn.Instance.closeBtn.SetActive(true);
+        isWaitingForInput = true;
+        bifurcation = 0;
+        (currentTextIndex, currentTextIndex2, currentTextIndex3) = (0, 0, 0);
     }
 
     void Update()
@@ -140,7 +143,9 @@ public class R_Incounter13 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
-                //1티어 음식카드 2장 획득
+                CardManager.CreateCard(1010);
+                CardManager.CreateCard(1020);
+                //1티어 좁쌀, 물 카드 1장씩 획득
             }
         }
     }

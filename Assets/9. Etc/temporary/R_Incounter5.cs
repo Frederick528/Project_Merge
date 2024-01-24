@@ -26,12 +26,14 @@ public class R_Incounter5 : MonoBehaviour
     private string[] result2 = { "", "나는 자홍색 열매를 먹었다.", "열매를 먹은 직후 주위의 식물들의 색이 변하는거 같다.",
                                  "정신을 차린 후 더 이상 배고픔이 느껴지지 않았다." };
 
-    void Start()
+    void OnEnable()
     {
-        SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.2f);
         myText.text = textArray1[0];
         Turn.Instance.nextBtn.interactable = false;
-        Turn.Instance.closeBtn.SetActive(true);    
+        Turn.Instance.closeBtn.SetActive(true);
+        isWaitingForInput = true;
+        bifurcation = 0;
+        (currentTextIndex, currentTextIndex2, currentTextIndex3, currentTextIndex5) = (0, 0, 0, 0);
     }
 
     void Update()
@@ -59,7 +61,6 @@ public class R_Incounter5 : MonoBehaviour
             Turn.Instance.blockUI.SetActive(false);
             Turn.Instance.closeBtn.SetActive(false);
             GameManager.CardCanvasOn = false;
-            SoundManager.instance.Play("Sounds/Bgm/GameBgm", Sound.Bgm, 0.3f);
         }
     }
 
@@ -121,7 +122,8 @@ public class R_Incounter5 : MonoBehaviour
             if (currentTextIndex2 >= result1.Length)
             {
                 isWaitingForInput = false;
-                //배고픔 10 감소 
+                CoreController.HungerStatChange(-10);
+                // 배고픔 10 감소
             }
         }
     }
@@ -140,6 +142,7 @@ public class R_Incounter5 : MonoBehaviour
             if (currentTextIndex3 >= result2.Length)
             {
                 isWaitingForInput = false;
+                CoreController.HungerStatChange(10);
                 // 배고픔 10 증가
             }
         }

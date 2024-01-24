@@ -37,12 +37,15 @@ public class R_Incounter15 : MonoBehaviour
         "마침 저 멀리 사과나무가 보인다! 내려갈때 따가도록 하자!",
     };
 
-    void Start()
+    void OnEnable()
     {
         SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.2f);
         myText.text = textArray1[0];
         Turn.Instance.nextBtn.interactable = false;
         Turn.Instance.closeBtn.SetActive(true);
+        isWaitingForInput = true;
+        bifurcation = 0;
+        (currentTextIndex, currentTextIndex2, currentTextIndex3) = (0, 0, 0);
     }
 
     void Update()
@@ -121,6 +124,8 @@ public class R_Incounter15 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                CoreController.HungerStatChange(-10);
+                CoreController.ThirstStatChange(-10);
                 //허기 10, 갈증 10 감소
             }
         }
@@ -141,6 +146,7 @@ public class R_Incounter15 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                CoreController.HungerStatChange(+20);
                 // 허기 20 증가
             }
         }

@@ -34,12 +34,15 @@ public class R_Incounter16 : MonoBehaviour
         "대충 이곳에서 쉬도록 하자.",
     };
 
-    void Start()
+    void OnEnable()
     {
         SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.2f);
         myText.text = textArray1[0];
         Turn.Instance.nextBtn.interactable = false;
         Turn.Instance.closeBtn.SetActive(true);
+        isWaitingForInput = true;
+        bifurcation = 0;
+        (currentTextIndex, currentTextIndex2, currentTextIndex3) = (0, 0, 0);
     }
 
     void Update()
@@ -118,6 +121,8 @@ public class R_Incounter16 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                CoreController.ThirstStatChange(-10);
+                // 갈증 10 감소
             }
         }
     }
@@ -137,6 +142,7 @@ public class R_Incounter16 : MonoBehaviour
             {
                 transparency.SetActive(true);
                 isWaitingForInput = false;
+                // 효과 없음
             }
         }
     }

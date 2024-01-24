@@ -420,7 +420,6 @@ public class CoreController : MonoBehaviour
         }
         public static void ModifyFluctuation(int hungerFluctuation, int thirstFluctuation)
         {
-        print(HungerFluctuation.Value);
             tempHungerFluctuation = HungerFluctuation.Value;
             tempThirstFluctuation = ThirstFluctuation.Value;
             addTempHungerFluctuation = (HungerFluctuation.Value + ArtifactAddHunger <= _core.HungerDifficulty) ? 0 :
@@ -465,12 +464,12 @@ public class CoreController : MonoBehaviour
             else { GameOverNotice(); }
             
         }
-        public static void ThirstStatChange(int thirstValue)  // 배고픔 수치 변경
+        public static void ThirstStatChange(int thirstValue)  // 갈증 수치 변경
         {
-            if (ModifyHunger(thirstValue))
+            if (ModifyThirst(thirstValue))
             {
                 ThirstFluctuation.Value = (ThirstFluctuation.Value + ArtifactAddThirst - thirstValue < _core.ThirstDifficulty) ? _core.ThirstDifficulty - ArtifactAddThirst : (ThirstFluctuation.Value - thirstValue);
-                ModifyDifficulty(thirstValue, 0);
+                ModifyDifficulty(0, thirstValue);
             }
             else { GameOverNotice(); }
         }

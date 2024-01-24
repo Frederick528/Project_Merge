@@ -26,12 +26,15 @@ public class R_Incounter3 : MonoBehaviour
     private string[] result1_a = {"", "무언가 따뜻한 느낌이 내 몸을 멤돌았다." };
 
 
-    void Start()
+    void OnEnable()
     {
         SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.2f);
         myText.text = textArray1[0];
         Turn.Instance.nextBtn.interactable = false;
-        Turn.Instance.closeBtn.SetActive(true);    
+        Turn.Instance.closeBtn.SetActive(true);
+        isWaitingForInput = true;
+        bifurcation = 0;
+        (currentTextIndex, currentTextIndex2, currentTextIndex3, currentTextIndex4) = (0, 0, 0, 0);
     }
 
     void Update()
@@ -106,7 +109,9 @@ public class R_Incounter3 : MonoBehaviour
             {
                 select2.SetActive(true);
                 isWaitingForInput = false;
-                //배고픔 20 추가, 갈증 20 추가
+                CoreController.HungerStatChange(20);
+                CoreController.ThirstStatChange(20);
+                // 갈증, 배고픔 20 증가
             }
         }
     }
@@ -125,7 +130,7 @@ public class R_Incounter3 : MonoBehaviour
             if (currentTextIndex3 >= result2.Length)
             {
                 isWaitingForInput = false;
-                //효과없음.
+                //효과 없음
             }
         }
     }

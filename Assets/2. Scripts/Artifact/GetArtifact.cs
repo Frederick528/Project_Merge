@@ -57,6 +57,8 @@ public class GetArtifact : MonoBehaviour
             return;
         //print(data.Name);
 
+        if (artifactNum >= 12)
+            return;
         ActiveArtifact(artifactID);
         GameObject artifact = ArtifactGroup.artifactGroupPos[artifactNum];
         artifact.GetComponent<Artifact>().ID = artifactID;

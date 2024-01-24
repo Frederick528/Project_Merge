@@ -39,6 +39,8 @@ public class Encyclopedia : MonoBehaviour
                 var v = Instantiate(structure.row);
                 foreach (var keyValueFair in YamlDeserializer.saveData.dict)
                 {
+                    if (!CardDataDeserializer.TryGetData(keyValueFair.Key, out CardData cardData))
+                        return;
                     var temp = Instantiate(structure.template, v.transform);
 
                     var btn = temp.gameObject.AddComponent<Button>();
@@ -51,7 +53,16 @@ public class Encyclopedia : MonoBehaviour
                     });
 
                     var t = temp.GetComponentInChildren<TMP_Text>();
-                    t.text = keyValueFair.Key + "";
+                    if (keyValueFair.Value)
+                    {
+                        t.text = cardData.KR;
+                        var cardType = keyValueFair.Key < 1020 ? Card.CardType.Food :
+                            keyValueFair.Key < 2010 ? Card.CardType.Water :
+                            keyValueFair.Key < 2020 ? Card.CardType.Wood :
+                            keyValueFair.Key < 3000 ? Card.CardType.Stone : Card.CardType.Combination;
+                        temp.sprite = Resources.Load<Sprite>($"Images/{cardType}/{keyValueFair.Key}");
+                    }
+                    else { t.text = "???"; }
                     
                     if (v.transform.childCount >= 6)
                     {

@@ -259,7 +259,38 @@ public class CardManager : MonoBehaviour
         return result;
     }
 
-   
+    public static bool TryGetCardsByLevel(int level, out Card[] cards)
+    {
+        var result = true;
+
+        var arr = Cards.Where(x => x.level == level).Select(x => x);
+
+        cards = arr.ToArray();
+
+        return result;
+    }
+
+    public static bool TryGetCardsByType(Card.CardType cardType, out Card[] cards)
+    {
+        var result = true;
+
+        var arr = Cards.Where(x => x.cardType == cardType).Select(x => x);
+
+        cards = arr.ToArray();
+
+        return result;
+    }
+
+    public static bool TryGetCards(out Card[] cards)
+    {
+        var result = true;
+
+        var arr = Cards.Where(x => x.ID < 5000).Select(x => x);
+
+        cards = arr.ToArray();
+
+        return result;
+    }
 
     private void OnDestroy()
     {

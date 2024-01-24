@@ -230,6 +230,9 @@ public class P_Incounter3 : MonoBehaviour
                 transparency.SetActive(true);
                 isWaitingForInput = false;
                 selectbtn.bifurcation15 = false;
+                CoreController.ThirstStatChange(-30);
+                CoreController.ThirstStatChange(-30);
+                // 허기 갈증 30 감소
             }
         }
     }

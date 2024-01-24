@@ -70,6 +70,11 @@ public class Card : Entity
                 GetComponent<MeshRenderer>().material = 
                     Resources.Load<Material>($"Prefabs/Materials/Combination/{ID}");
                 break;
+            case CardType.Merchant:
+                ID = 5000;
+                GetComponent<MeshRenderer>().material =
+                    Resources.Load<Material>($"Prefabs/Materials/Merchant/{ID}");
+                break;
             default:
                 GetComponent<MeshRenderer>().material = 
                     Resources.Load<Material>("Prefabs/Materials/Black");
@@ -122,7 +127,7 @@ public class Card : Entity
                 break;
             case 500:
                 GetComponent<MeshRenderer>().material = 
-                    Resources.Load<Material>($"Prefabs/Materials/NPC/NW");
+                    Resources.Load<Material>($"Prefabs/Materials/Merchant/{ID}");
                 cardType = CardType.Merchant;
                 level = 5;
                 break;

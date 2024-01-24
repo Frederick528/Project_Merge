@@ -11,6 +11,7 @@
         public GameObject incounter, transparency, Character, select1;
         public Image canvasImage;
         public float fadeSpeed = 0.5f; // 투명도가 줄어드는 속도
+        public GetArtifact getArtifact;
 
         [SerializeField]
         Button nextBtn;
@@ -29,25 +30,28 @@
 
 
 
-        private string[] result1 = { "", "숲속으로 돌을 가볍게 던졌다.", "조그마한 돌은 포물선을 그리며..", " \"아야!!\"", "마녀가 맞았다." , "결과는 뻔했다… ", "그녀의 저주를 받게 되었다." };
+        private string[] result1 = { "", "숲속으로 돌을 가볍게 던졌다.", "조그마한 돌은 포물선을 그리며..", " \"아야!!\"", "마녀가 맞았다." , "결과는 뻔했다. 아마도 뭔가 사라지지 않을까,,,?", "그녀의 저주를 받게 되었다." };
         private string[] result2 = { "", "나는 숲속으로 걸어갔다..", "나무 뒤에서 빼꼼 쳐다보니 마녀가 있었다.", "엇! 안녕! 오늘은 올껀 아니었는데.. 들켰네..?", "그녀는 찾은김에 보상을 주겠다며 보석 하나를 던져주고 갔다.", "뭔가 좀 특이하게 반짝인다…" };
 
 
-        void Start()
+        void OnEnable()
         {
             SoundManager.instance.Play("Sounds/Bgm/StoryBgm", Sound.Bgm, 0.2f);
             myText.text = textArray1[0];
             Turn.Instance.closeBtn.SetActive(true);
             Turn.Instance.nextBtn.interactable = false;
             if (canvasImage == null)
+            {
+                canvasImage = GetComponent<Image>();
+                if (canvasImage == null)
                 {
-                    canvasImage = GetComponent<Image>();
-                    if (canvasImage == null)
-                    {
-                        Debug.LogError("Image component not found.");
-                        return;
-                    }
+                    Debug.LogError("Image component not found.");
+                    return;
                 }
+            }
+            isWaitingForInput = true;
+            bifurcation = 0;
+            (currentTextIndex, currentTextIndex1, currentTextIndex2, currentTextIndex3) = (0, 0, 0, 0);
         }
 
         void Update()
@@ -154,10 +158,16 @@
                 {
                     transparency.SetActive(true);
                     isWaitingForInput = false;
+                    for (int i = 0; i < 2; i++)
+                    {
+                        CardManager.TryGetCardsByLevel(0, out Card[] cards);
+                        int rand = Random.Range(0, cards.Length);
+                        CardManager.DestroyCard(cards[rand]);
+                    }
                     //1티어 카드 2장 무작위로 삭제
                 }
 
-        }
+            }
         }
 
         public void Result2()
@@ -176,23 +186,14 @@
                 {
                     transparency.SetActive(true);
                     isWaitingForInput = false;
+                    int rand = Random.Range(0, GameManager.Instance.ObtainableArtifact.Count);
+                    getArtifact.SetArtifactWindow(GameManager.Instance.ObtainableArtifact[rand]);
+                    GameManager.Instance.ObtainableArtifact.RemoveAt(rand);
                     //아티팩트 1개 무작위 획득.
                 }
             }
         }
-        IEnumerator FadeOut()
-        {
-            float targetAlpha = 0f;
 
-            while (canvasImage.color.a >= targetAlpha)
-            {
-                float currentAlpha = canvasImage.color.a;
-                currentAlpha -= fadeSpeed * Time.deltaTime;
-                canvasImage.color = new Color(canvasImage.color.r, canvasImage.color.g, canvasImage.color.b, currentAlpha);
-
-                yield return null;
-            }
-        }
         IEnumerator FadeIn()
         {
             float targetAlpha = 1f;

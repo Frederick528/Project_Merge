@@ -466,7 +466,7 @@ public class CoreController : MonoBehaviour
         }
         public static void ThirstStatChange(int thirstValue)  // 갈증 수치 변경
         {
-            if (ModifyHunger(thirstValue))
+            if (ModifyThirst(thirstValue))
             {
                 ThirstFluctuation.Value = (ThirstFluctuation.Value + ArtifactAddThirst - thirstValue < _core.ThirstDifficulty) ? _core.ThirstDifficulty - ArtifactAddThirst : (ThirstFluctuation.Value - thirstValue);
                 ModifyDifficulty(0, thirstValue);

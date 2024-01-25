@@ -10,7 +10,8 @@ public class ReadSpreadSheet : MonoBehaviour
     private static Dictionary<int, ArtifactData> dataDtct = null;
     public static IEnumerator LoadData(string address, string range, ulong sheetID)
     {
-        using (UnityWebRequest www = UnityWebRequest.Get($"{address}/export?format=csv&range={range}&gid={sheetID}"))
+        using (UnityWebRequest www = 
+            UnityWebRequest.Get($"{address}/export?format=csv&range={range}&gid={sheetID}"))
         {
             yield return www.SendWebRequest();
             dataGS = www.downloadHandler.text;

@@ -432,7 +432,6 @@ public class TutorialManager : MonoBehaviour
 
         #region 스테이터스 튜토리얼
         
-        objects.statUI = Instantiate(objects.statUI);
         objects.statUI.statUI.Texts[2].text = "[ 0 / 2 ]";
         objects.statUI.gameObject.SetActive(true);
         
